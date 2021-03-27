@@ -4,6 +4,10 @@
 *.ap_
 *.aab
 
+app/build
+build
+.gradle
+
 # Files for the ART/Dalvik VM
 *.dex
 
