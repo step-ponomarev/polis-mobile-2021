@@ -6,10 +6,6 @@ on:
       - .github/workflows/ktlint.yml
       - 'src/**/*.kt'
       - '**.kts'
-    branches:
-      - 'main'
-      - 'dev'
-
 jobs:
   ktlint:
     runs-on: ubuntu-latest
