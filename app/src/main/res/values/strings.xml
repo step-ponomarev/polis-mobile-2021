@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">mita</string>
+    <string name="login_text">Войти через Google</string>
 </resources>
