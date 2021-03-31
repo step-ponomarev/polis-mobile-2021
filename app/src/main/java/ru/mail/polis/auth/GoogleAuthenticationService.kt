@@ -22,7 +22,8 @@ class GoogleAuthenticationService(private val singInClient: GoogleSignInClient) 
         val signInIntent = singInClient.signInIntent
 
         val activity: LoginActivity = singInClient.applicationContext as LoginActivity
-        activity.startActivityForResult(signInIntent,
+        activity.startActivityForResult(
+            signInIntent,
             AuthenticationService.SUCCESS_RESPONSE_CODE
         )
     }
