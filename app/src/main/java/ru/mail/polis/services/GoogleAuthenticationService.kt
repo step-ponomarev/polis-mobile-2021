@@ -41,7 +41,6 @@ class GoogleAuthenticationService(private val context: Context) : Authentication
         googleSignInClient = GoogleSignIn.getClient(context, gso)
     }
 
-
     fun handleResult(data: Intent?) {
         val task = GoogleSignIn.getSignedInAccountFromIntent(data)
         try {
