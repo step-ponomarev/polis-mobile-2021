@@ -3,6 +3,7 @@ package ru.mail.polis.services
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -13,8 +14,11 @@ import ru.mail.polis.R
 
 class GoogleAuthenticationService(private val context: Context) : AuthenticationService {
 
-    private lateinit var googleSignInClient: GoogleSignInClient
+    companion object {
+        private const val TAG = "Google Firebase auth"
+    }
 
+    private lateinit var googleSignInClient: GoogleSignInClient
     lateinit var firebaseAuth: FirebaseAuth
         private set
 
@@ -47,6 +51,7 @@ class GoogleAuthenticationService(private val context: Context) : Authentication
             val account = task.getResult(ApiException::class.java)!!
             firebaseAuthWithGoogle(account.idToken!!)
         } catch (e: ApiException) {
+            Log.w(TAG, "Google sign in failed", e)
         }
     }
 
@@ -58,6 +63,7 @@ class GoogleAuthenticationService(private val context: Context) : Authentication
                 if (task.isSuccessful) {
                     val user = firebaseAuth.currentUser
                 } else {
+                    Log.w(TAG, "signInWithCredential:failure", task.exception)
                 }
             }
     }
