@@ -1,37 +1,56 @@
-package ru.mail.polis.auth
+package ru.mail.polis.services
 
-import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
-import android.widget.Toast
+import android.content.Intent
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import ru.mail.polis.R
 
-class Authentication {
+class GoogleAuthenticationService(private val context: Context) : AuthenticationService {
 
-    companion object {
-        const val RC_SIGN_IN = 200
-    }
+    private lateinit var googleSignInClient: GoogleSignInClient
 
     lateinit var firebaseAuth: FirebaseAuth
 
-    lateinit var googleSignInClient: GoogleSignInClient
+    override fun signIn() {
+        val signInIntent = googleSignInClient.signInIntent
 
-    fun createRequest(context: Context) {
+        val activity = context as Activity
+        activity.startActivityForResult(signInIntent, AuthenticationService.RC_SIGN_IN)
+    }
+
+    override fun signOut() {
+        firebaseAuth.signOut()
+    }
+
+    fun createRequest() {
         val gso = GoogleSignInOptions
             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(context.getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 
+        firebaseAuth = FirebaseAuth.getInstance()
+
         googleSignInClient = GoogleSignIn.getClient(context, gso)
     }
 
-    @SuppressLint("ShowToast")
-    fun firebaseAuthWithGoogle(idToken: String, context: Context) {
+
+    fun handleResult(data: Intent?) {
+        val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+        try {
+            val account = task.getResult(ApiException::class.java)!!
+            firebaseAuthWithGoogle(account.idToken!!)
+        } catch (e: ApiException) {
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
 
         firebaseAuth.signInWithCredential(credential)
@@ -39,7 +58,6 @@ class Authentication {
                 if (task.isSuccessful) {
                     val user = firebaseAuth.currentUser
                 } else {
-                    Toast.makeText(context, "Failed to sign", Toast.LENGTH_SHORT)
                 }
             }
     }
