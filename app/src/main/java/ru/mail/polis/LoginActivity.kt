@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import ru.mail.polis.auth.AuthenticationService
-import ru.mail.polis.auth.GoogleSingInHelper
+import ru.mail.polis.auth.GoogleSingInUtils
 
 class LoginActivity : AppCompatActivity() {
     private val googleAuthentication: AuthenticationService =
-        GoogleSingInHelper.getGoogleAuthService(applicationContext)
+        GoogleSingInUtils.getGoogleAuthService(applicationContext)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

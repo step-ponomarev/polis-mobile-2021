@@ -5,7 +5,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import ru.mail.polis.R
 
-class GoogleSingInHelper {
+class GoogleSingInUtils {
     companion object {
         fun getGoogleAuthService(applicationContext: Context): GoogleAuthenticationService {
             return GoogleAuthenticationService(
