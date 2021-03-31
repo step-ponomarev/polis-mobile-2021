@@ -1,58 +1,42 @@
 package ru.mail.polis.services
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import ru.mail.polis.R
+import ru.mail.polis.LoginActivity
 
-class GoogleAuthenticationService(private val context: Context) : AuthenticationService {
+class GoogleAuthenticationService(private val singInClient: GoogleSignInClient) : AuthenticationService {
 
     companion object {
         private const val TAG = "Google Firebase auth"
     }
 
-    private lateinit var googleSignInClient: GoogleSignInClient
-    lateinit var firebaseAuth: FirebaseAuth
-        private set
+    val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun signIn() {
-        val signInIntent = googleSignInClient.signInIntent
+        val signInIntent = singInClient.signInIntent
 
-        val activity = context as Activity
-        activity.startActivityForResult(signInIntent, AuthenticationService.RC_SIGN_IN)
+        val activity: LoginActivity = singInClient.applicationContext as LoginActivity
+        activity.startActivityForResult(signInIntent, AuthenticationService.SUCCESS_RESPONSE_CODE)
     }
 
-    override fun signOut() {
-        firebaseAuth.signOut()
-    }
-
-    fun createRequest() {
-        val gso = GoogleSignInOptions
-            .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(context.getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        firebaseAuth = FirebaseAuth.getInstance()
-
-        googleSignInClient = GoogleSignIn.getClient(context, gso)
-    }
-
-    fun handleResult(data: Intent?) {
+    override fun handleResult(data: Intent?) {
         val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+
         try {
             val account = task.getResult(ApiException::class.java)!!
             firebaseAuthWithGoogle(account.idToken!!)
         } catch (e: ApiException) {
             Log.w(TAG, "Google sign in failed", e)
         }
+    }
+
+    override fun signOut() {
+        firebaseAuth.signOut()
     }
 
     private fun firebaseAuthWithGoogle(idToken: String) {
