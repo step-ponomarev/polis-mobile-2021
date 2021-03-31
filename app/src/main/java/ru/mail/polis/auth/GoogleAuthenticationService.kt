@@ -1,4 +1,4 @@
-package ru.mail.polis.services
+package ru.mail.polis.auth
 
 import android.content.Intent
 import android.util.Log
@@ -9,7 +9,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import ru.mail.polis.LoginActivity
 
-class GoogleAuthenticationService(private val singInClient: GoogleSignInClient) : AuthenticationService {
+class GoogleAuthenticationService(private val singInClient: GoogleSignInClient) :
+    AuthenticationService {
 
     companion object {
         private const val TAG = "Google Firebase auth"
@@ -21,7 +22,9 @@ class GoogleAuthenticationService(private val singInClient: GoogleSignInClient) 
         val signInIntent = singInClient.signInIntent
 
         val activity: LoginActivity = singInClient.applicationContext as LoginActivity
-        activity.startActivityForResult(signInIntent, AuthenticationService.SUCCESS_RESPONSE_CODE)
+        activity.startActivityForResult(signInIntent,
+            AuthenticationService.SUCCESS_RESPONSE_CODE
+        )
     }
 
     override fun handleResult(data: Intent?) {

@@ -1,4 +1,4 @@
-package ru.mail.polis.services
+package ru.mail.polis.auth
 
 import android.content.Intent
 

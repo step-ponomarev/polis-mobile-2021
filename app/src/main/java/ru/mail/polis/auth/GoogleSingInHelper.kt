@@ -1,4 +1,4 @@
-package ru.mail.polis.services
+package ru.mail.polis.auth
 
 import android.content.Context
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -11,7 +11,9 @@ class GoogleSingInHelper {
             return GoogleAuthenticationService(
                 GoogleSignIn.getClient(
                     applicationContext,
-                    getSingInOptions(applicationContext.getString(R.string.default_web_client_id))
+                    getSingInOptions(
+                        applicationContext.getString(R.string.default_web_client_id)
+                    )
                 )
             )
         }

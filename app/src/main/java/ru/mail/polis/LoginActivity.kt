@@ -4,8 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import ru.mail.polis.services.AuthenticationService
-import ru.mail.polis.services.GoogleSingInHelper
+import ru.mail.polis.auth.AuthenticationService
+import ru.mail.polis.auth.GoogleSingInHelper
 
 class LoginActivity : AppCompatActivity() {
     private val googleAuthentication: AuthenticationService =
