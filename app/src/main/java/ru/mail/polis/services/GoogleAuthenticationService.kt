@@ -16,6 +16,7 @@ class GoogleAuthenticationService(private val context: Context) : Authentication
     private lateinit var googleSignInClient: GoogleSignInClient
 
     lateinit var firebaseAuth: FirebaseAuth
+        private set
 
     override fun signIn() {
         val signInIntent = googleSignInClient.signInIntent
