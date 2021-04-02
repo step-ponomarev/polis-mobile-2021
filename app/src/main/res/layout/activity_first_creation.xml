@@ -120,19 +120,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.717" />
 
-    <ImageView
-        android:id="@+id/avar_iv"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:foreground="@drawable/rounded_avatar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.154"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.075"
-        tools:srcCompat="@tools:sample/avatars"
-        android:contentDescription="@string/description_for_avatar" />
 
+    <include
+        layout="@layout/avatar_iv"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
