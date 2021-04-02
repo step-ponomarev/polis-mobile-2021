@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">mita</string>
     <string name="login_text">Войти через Google</string>
+    <string name="continue_btn">Продолжить</string>
+
+    <string-array name="genders">
+        <item>Мужчина</item>
+        <item>Женщина</item>
+    </string-array>
 </resources>
