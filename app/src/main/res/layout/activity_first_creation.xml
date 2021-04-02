@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".FirstCreationActivity">
-
 
     <Button
         android:id="@+id/change_btn"
@@ -43,6 +43,7 @@
         android:id="@+id/name_et"
         android:layout_width="291dp"
         android:layout_height="47dp"
+        android:autofillHints="name"
         android:background="@drawable/et_border"
         android:ems="10"
         android:hint="@string/name"
@@ -52,13 +53,13 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.311"
-        android:autofillHints="name" />
+        app:layout_constraintVertical_bias="0.311" />
 
     <EditText
         android:id="@+id/surname_et"
         android:layout_width="291dp"
         android:layout_height="47dp"
+        android:autofillHints="surname"
         android:background="@drawable/et_border"
         android:ems="10"
         android:hint="@string/surname"
@@ -68,13 +69,13 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.418"
-        android:autofillHints="surname" />
+        app:layout_constraintVertical_bias="0.418" />
 
     <EditText
         android:id="@+id/age_et"
         android:layout_width="291dp"
         android:layout_height="47dp"
+        android:autofillHints="age"
         android:background="@drawable/et_border"
         android:ems="10"
         android:hint="@string/age"
@@ -84,15 +85,14 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.617"
-        android:autofillHints="age" />
-
+        app:layout_constraintVertical_bias="0.617" />
 
 
     <EditText
         android:id="@+id/phone_et"
         android:layout_width="291dp"
         android:layout_height="47dp"
+        android:autofillHints="phone"
         android:background="@drawable/et_border"
         android:ems="10"
         android:hint="@string/phone"
@@ -102,17 +102,16 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.518"
-        android:autofillHints="phone" />
+        app:layout_constraintVertical_bias="0.518" />
 
 
     <Spinner
         android:id="@+id/gender_spinner"
         android:layout_width="291dp"
         android:layout_height="47dp"
+        android:background="@drawable/et_border"
         android:ems="10"
         android:entries="@array/genders"
-        android:background="@drawable/et_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
@@ -121,8 +120,6 @@
         app:layout_constraintVertical_bias="0.717" />
 
 
-    <include
-        layout="@layout/avatar_iv"
-        />
+    <include layout="@layout/avatar_iv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
