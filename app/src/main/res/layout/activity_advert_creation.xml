@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreationActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context=".CreationActivity">
 
     <include
         layout="@layout/avatar_iv"
@@ -174,7 +174,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.26" />
 
-<!--    Цена за месяц   -->
+    <!--    Цена за месяц   -->
 
     <TextView
         android:id="@+id/prices"
@@ -353,8 +353,8 @@
         android:layout_height="83dp"
         android:autofillHints="about_me"
         android:background="@drawable/et_border"
-        android:inputType="text"
         android:hint="@string/about_me"
+        android:inputType="text"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -377,4 +377,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976" />
+
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView"-->
+<!--        android:layout_width="21dp"-->
+<!--        android:layout_height="21dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.139"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.26"-->
+<!--        app:srcCompat="@drawable/ic_subway" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
