@@ -2,6 +2,12 @@
     <string name="app_name">mita</string>
     <string name="login_text">Войти через Google</string>
     <string name="continue_btn">Продолжить</string>
+    <string name="age">Возраст</string>
+    <string name="change_photo">Изменить фото</string>
+    <string name="name">Имя</string>
+    <string name="surname">Фамилия</string>
+    <string name="phone">Телефон</string>
+    <string name="description_for_avatar">User avatar</string>
 
     <string-array name="genders">
         <item>Мужчина</item>

@@ -52,8 +52,7 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.311"
-        android:autofillHints="name" />
+        app:layout_constraintVertical_bias="0.311" />
 
     <EditText
         android:id="@+id/surname_et"
@@ -68,8 +67,7 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.418"
-        android:autofillHints="surname" />
+        app:layout_constraintVertical_bias="0.418" />
 
     <EditText
         android:id="@+id/age_et"
@@ -84,8 +82,7 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.617"
-        android:autofillHints="age" />
+        app:layout_constraintVertical_bias="0.617" />
 
 
 
@@ -102,8 +99,7 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.518"
-        android:autofillHints="phone" />
+        app:layout_constraintVertical_bias="0.518" />
 
 
     <Spinner
@@ -131,8 +127,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.075"
-        tools:srcCompat="@tools:sample/avatars"
-        android:contentDescription="@string/description_for_avatar" />
+        tools:srcCompat="@tools:sample/avatars" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
