@@ -19,7 +19,7 @@ class LoginFragment : Fragment() {
 
     private val loginForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), this::handleResult)
 
-    private lateinit var googleAuthentication: AuthenticationService;
+    private lateinit var googleAuthentication: AuthenticationService
     private lateinit var singInButton: View
 
     override fun onAttach(context: Context) {
@@ -28,9 +28,9 @@ class LoginFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
@@ -39,7 +39,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         singInButton = view.findViewById(R.id.gmail_login_button)
-        singInButton.setOnClickListener(this::onClickSingIn);
+        singInButton.setOnClickListener(this::onClickSingIn)
     }
 
     private fun onClickSingIn(view: View) {

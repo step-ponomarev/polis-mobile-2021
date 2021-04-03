@@ -21,7 +21,7 @@ class GoogleAuthenticationService(private val singInClient: GoogleSignInClient) 
         return singInClient.signInIntent
     }
 
-    override fun handleResult(data: Intent?) {
+    override fun handleResult(data: Intent?): Boolean {
         val task = GoogleSignIn.getSignedInAccountFromIntent(data)
 
         try {
@@ -29,7 +29,11 @@ class GoogleAuthenticationService(private val singInClient: GoogleSignInClient) 
             firebaseAuthWithGoogle(account.idToken!!)
         } catch (e: ApiException) {
             Log.w(TAG, "Google sign in failed", e)
+
+            return false
         }
+
+        return true
     }
 
     override fun signOut() {
