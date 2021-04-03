@@ -7,25 +7,18 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import ru.mail.polis.LoginActivity
 
 class GoogleAuthenticationService(private val singInClient: GoogleSignInClient) :
     AuthenticationService {
 
     companion object {
-        private const val TAG = "Google Firebase auth"
+        private const val TAG = "AuthenticationService"
     }
 
-    val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    override fun signIn() {
-        val signInIntent = singInClient.signInIntent
-
-        val activity: LoginActivity = singInClient.applicationContext as LoginActivity
-        activity.startActivityForResult(
-            signInIntent,
-            AuthenticationService.SUCCESS_RESPONSE_CODE
-        )
+    override fun getSignInIntent(): Intent {
+        return singInClient.signInIntent
     }
 
     override fun handleResult(data: Intent?) {
@@ -48,9 +41,7 @@ class GoogleAuthenticationService(private val singInClient: GoogleSignInClient) 
 
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val user = firebaseAuth.currentUser
-                } else {
+                if (!task.isSuccessful) {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                 }
             }

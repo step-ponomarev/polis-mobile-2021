@@ -11,7 +11,7 @@ interface AuthenticationService {
         }
     }
 
-    fun signIn()
+    fun getSignInIntent(): Intent
     fun handleResult(data: Intent?)
     fun signOut()
 }
