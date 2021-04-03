@@ -8,6 +8,11 @@ import androidx.fragment.app.Fragment
 import ru.mail.polis.R
 
 class LoginFragment : Fragment() {
+
+    companion object {
+        val NAME = LoginFragment::class.simpleName
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

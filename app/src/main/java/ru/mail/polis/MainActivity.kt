@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.commit {
             replace<LoginFragment>(R.id.fragment_container_view)
             setReorderingAllowed(true)
-            addToBackStack("Login fragment")
+            addToBackStack(LoginFragment.NAME)
         }
     }
 }
