@@ -3,6 +3,8 @@
     <string name="login_text">Войти через Google</string>
     <string name="add_button_text">Добавить</string>
     <string name="add_apartment_text">Добавить квартиру</string>
-    <string name="choose_metro_text">Укажите метро</string>
+    <string name="choose_metro_text"><u>Укажите метро</u></string>
     <string name="choose_rooms_number_text">Укажите количество комнат</string>
+    <string name="squared_metres_text">кв.м</string>
+    <string name="add_photos_text">Добавить фотографии</string>
 </resources>

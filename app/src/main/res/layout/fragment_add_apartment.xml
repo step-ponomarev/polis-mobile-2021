@@ -25,39 +25,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_add_apartment__add_apartment_tv">
 
-
         <ImageView
+            android:id="@+id/fragment_add_apartment__train_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src=""
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/fragment_add_apartment__choose_metro_tv"
+            android:src="@drawable/ic_train"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintEnd_toStartOf="@id/fragment_add_apartment__choose_metro_tv"/>
 
         <TextView
             android:id="@+id/fragment_add_apartment__choose_metro_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/choose_metro_text"
-            app:drawableRightCompat="@drawable/metro_circle"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="@id/fragment_add_apartment__train_icon"
+            app:layout_constraintEnd_toStartOf="@id/fragment_add_apartment__circle"
+             />
 
         <ImageView
+            android:id="@+id/fragment_add_apartment__circle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/metro_circle"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/fragment_add_apartment__choose_metro_tv" />
+            app:layout_constraintStart_toEndOf="@id/fragment_add_apartment__choose_metro_tv"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_add_apartment__room_cl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,9 +67,10 @@
         app:layout_constraintTop_toBottomOf="@id/fragment_add_apartment__metro_cl">
 
         <ImageView
+            android:id="@+id/fragment_add_apartment__room_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src=""
+            android:src="@drawable/ic_room"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/fragment_add_apartment__choose_rooms_number_tv"
             app:layout_constraintStart_toStartOf="parent"
@@ -78,9 +81,128 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/choose_rooms_number_text"
-            app:drawableRightCompat="@drawable/metro_circle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/fragment_add_apartment__room_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_add_apartment__cost_cl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_add_apartment__room_cl">
+
+        <ImageView
+            android:id="@+id/fragment_add_apartment__wallet_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_wallet"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/fragment_add_apartment__set_cost_tv"/>
+
+        <TextView
+            android:id="@+id/fragment_add_apartment__set_cost_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_metro_text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/fragment_add_apartment__wallet_icon"
+            app:layout_constraintEnd_toStartOf="@id/fragment_add_apartment__set_cost_et"
+            />
+
+        <EditText
+            android:id="@+id/fragment_add_apartment__set_cost_et"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/fragment_add_apartment__set_cost_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_add_apartment__squared_metres_cl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_add_apartment__cost_cl">
+
+        <ImageView
+            android:id="@+id/fragment_add_apartment___squared_metres_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_squared_m"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/fragment_add_apartment__set_squared_metres_tv"/>
+
+        <TextView
+            android:id="@+id/fragment_add_apartment__set_squared_metres_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_metro_text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/fragment_add_apartment___squared_metres_icon"
+            app:layout_constraintEnd_toStartOf="@id/fragment_add_apartment__set_squared_metres_et"
+            />
+
+        <EditText
+            android:id="@+id/fragment_add_apartment__set_squared_metres_et"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/fragment_add_apartment__set_squared_metres_tv"
+            app:layout_constraintEnd_toEndOf="@id/fragment_add_apartment___squared_metres_tv"
+            />
+
+        <TextView
+            android:id="@+id/fragment_add_apartment___squared_metres_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/squared_metres_text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/fragment_add_apartment__set_squared_metres_et"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_add_apartment__img_cl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_add_apartment__squared_metres_cl">
+
+        <ImageView
+            android:id="@+id/fragment_add_apartment__img_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_img"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/fragment_add_apartment__choose_img_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fragment_add_apartment__choose_img_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_photos_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/fragment_add_apartment__img_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
