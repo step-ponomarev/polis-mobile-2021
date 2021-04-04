@@ -2,4 +2,7 @@
     <string name="app_name">mita</string>
     <string name="login_text">Войти через Google</string>
     <string name="add_button_text">Добавить</string>
+    <string name="add_apartment_text">Добавить квартиру</string>
+    <string name="choose_metro_text">Укажите метро</string>
+    <string name="choose_rooms_number_text">Укажите количество комнат</string>
 </resources>
