@@ -7,4 +7,6 @@
     <string name="choose_rooms_number_text">Укажите количество комнат</string>
     <string name="squared_metres_text">кв.м</string>
     <string name="add_photos_text">Добавить фотографии</string>
+    <string name="enter_square_text">Укажите площадь</string>
+    <string name="enter_cost_text">Укажите стоимось</string>
 </resources>
