@@ -22,8 +22,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_add_apartment__metro_cl"
@@ -156,7 +155,6 @@
             android:id="@+id/fragment_add_apartment__set_cost_et"
             android:layout_width="50dp"
             android:layout_height="30dp"
-            android:background="@drawable/bg_edit_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/fragment_add_apartment__set_cost_tv"
@@ -202,7 +200,6 @@
             android:id="@+id/fragment_add_apartment__set_squared_metres_et"
             android:layout_width="50dp"
             android:layout_height="30dp"
-            android:background="@drawable/bg_edit_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/fragment_add_apartment___squared_metres_tv"
             app:layout_constraintStart_toEndOf="@id/fragment_add_apartment__set_squared_metres_tv"
