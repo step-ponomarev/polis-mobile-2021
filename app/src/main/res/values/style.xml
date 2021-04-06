@@ -8,7 +8,7 @@
     </style>
 
     <style name="App.Choose.Yourself.Button" parent="Widget.AppCompat.Button">
-        <item name="backgroundTint">"#18ccd4"</item>
+        <item name="backgroundTint">#18ccd4</item>
         <item name="android:textColor">@color/white</item>
         <item name="fontFamily">sans-serif</item>
         <item name="android:textSize">18sp</item>
