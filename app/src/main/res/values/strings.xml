@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">mita</string>
     <string name="login_text">Войти через Google</string>
-    <string name="choose_next_step_text">Выберите дальнейшее действие?</string>
+    <string name="choose_next_step_text">Выберите дальнейшее действие</string>
     <string name="find_apartment_text">Ищем квартиру</string>
     <string name="rent_apartment_text">Сдаем квартиру</string>
 </resources>

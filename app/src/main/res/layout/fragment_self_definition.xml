@@ -7,8 +7,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/what_to_do_text"
+        android:text="@string/choose_next_step_text"
         android:layout_marginTop="20dp"
+        android:textAlignment="center"
         style="@style/App.Headers.Style"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
