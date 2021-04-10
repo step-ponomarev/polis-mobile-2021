@@ -1,3 +1,4 @@
+
 package ru.mail.polis
 
 import android.content.Intent
@@ -25,5 +26,4 @@ class LoginActivity : AppCompatActivity() {
 
 
 }
-
 
