@@ -63,10 +63,10 @@ class PeopleAdapter(
             for (i in 0..6.coerceAtMost(person.tags.size - 1)) {
                 llIvTags[i].setImageResource(person.tags[i])
             }
-            ivMetro.setImageResource(R.drawable.ic_train_svg_image)
+            ivMetro.setImageResource(R.drawable.ic_train)
             tvMetro.text = person.metro
             // ivBranchColor.setImageResource(person.branchColor)
-            ivMoney.setImageResource(R.drawable.ic_wallet_svg_image)
+            ivMoney.setImageResource(R.drawable.ic_wallet)
             tvMoney.text = "от " + person.money.first + " до " + person.money.second
             for (i in 0..3.coerceAtMost(person.rooms.size - 1)) {
                 cvRooms[i].visibility = View.VISIBLE

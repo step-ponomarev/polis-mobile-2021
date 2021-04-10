@@ -42,10 +42,10 @@ private fun generateTestPeopleList(): List<Person> {
             "22 года",
             R.mipmap.ic_mark_foreground,
             listOf(
-                R.drawable.ic_ciggarete_svg_image,
-                R.drawable.ic_kid_svg_image,
-                R.drawable.ic_paw_svg_image,
-                R.drawable.ic_drum_svg_image
+                R.drawable.ic_ciggarete,
+                R.drawable.ic_kid,
+                R.drawable.ic_paw,
+                R.drawable.ic_drum
             ),
             "Купчино",
             0,
@@ -58,7 +58,7 @@ private fun generateTestPeopleList(): List<Person> {
             "Ника Пеутина",
             "19 лет",
             R.mipmap.ic_mark_foreground,
-            listOf(R.drawable.ic_paw_svg_image),
+            listOf(R.drawable.ic_paw),
             "Девяткино",
             0,
             Pair(10000, 25000),
