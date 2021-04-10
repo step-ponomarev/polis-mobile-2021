@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,7 +32,6 @@ class ListOfPeopleFragment : Fragment() {
         rvList.layoutManager = LinearLayoutManager(this.context)
         rvList.adapter = adapter
     }
-
 }
 
 private fun generateTestPeopleList(): List<Person> {
