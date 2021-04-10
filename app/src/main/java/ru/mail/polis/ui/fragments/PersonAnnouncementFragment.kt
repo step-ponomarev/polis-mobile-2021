@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import ru.mail.polis.R
 import ru.mail.polis.list.of.people.Person
 
-
 class PersonAnnouncementFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,10 +73,8 @@ class PersonAnnouncementFragment : Fragment() {
             tvRooms[i].text = person.rooms[i]
         }
         tvDescription.text = person.description
-
     }
 }
-
 
 private fun generateTestPerson(): Person {
     return Person(

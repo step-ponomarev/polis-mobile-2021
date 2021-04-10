@@ -6,7 +6,6 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import ru.mail.polis.ui.fragments.LoginFragment
 import ru.mail.polis.ui.fragments.PersonAnnouncementFragment
-import ru.mail.polis.ui.fragments.SelfDefinitionFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
