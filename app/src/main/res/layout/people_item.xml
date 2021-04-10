@@ -28,8 +28,7 @@
                 android:layout_margin="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:background="@color/teal_200"
-                android:contentDescription="TODO" />
+                tools:background="@color/teal_200" />
 
             <TextView
                 android:id="@+id/people_item_tv_name"
@@ -206,6 +205,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginVertical="20dp"
+                android:layout_marginStart="10dp"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -215,6 +215,8 @@
                 tools:background="@color/teal_700">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/people_item_ll_cv_rooms1"
+                    android:visibility="invisible"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
                     android:layout_margin="5dp"
@@ -224,6 +226,46 @@
                     >
                     <TextView
                         android:id="@+id/people_item_ll_tv_rooms1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        tools:text = "1 комната"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        />
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/people_item_ll_cv_rooms2"
+                    android:visibility="invisible"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    tools:background="@color/black"
+                    app:cardCornerRadius="6dp"
+                    android:outlineSpotShadowColor="@color/black"
+                    >
+                    <TextView
+                        android:id="@+id/people_item_ll_tv_rooms2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        tools:text = "1 комната"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        />
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/people_item_ll_cv_rooms3"
+                    android:visibility="invisible"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    tools:background="@color/black"
+                    app:cardCornerRadius="6dp"
+                    android:outlineSpotShadowColor="@color/black"
+                    >
+                    <TextView
+                        android:id="@+id/people_item_ll_tv_rooms3"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"

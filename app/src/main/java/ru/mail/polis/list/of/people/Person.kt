@@ -1,4 +1,4 @@
-package ru.mail.polis
+package ru.mail.polis.list.of.people
 
 
 data class Person(

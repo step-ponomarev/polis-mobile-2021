@@ -1,8 +1,5 @@
-package ru.mail.polis
+package ru.mail.polis.list.of.people
 
-import android.app.ActionBar
-import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import kotlin.coroutines.coroutineContext
+import ru.mail.polis.R
 
 class PeopleAdapter(
         private val people: List<Person>
@@ -36,7 +33,6 @@ class PeopleAdapter(
         private val ivPhoto: ImageView = itemView.findViewById(R.id.people_item_iv_photo)
         private val tvName: TextView = itemView.findViewById(R.id.people_item_tv_name)
         private val tvAge: TextView = itemView.findViewById(R.id.people_item_tv_age)
-        private val llRooms: LinearLayout = itemView.findViewById(R.id.people_item_ll_rooms)
         private val llIvTags: List<ImageView> = listOf(
                 itemView.findViewById(R.id.people_item_ll_iv_tag1),
                 itemView.findViewById(R.id.people_item_ll_iv_tag2),
@@ -51,7 +47,16 @@ class PeopleAdapter(
         private val ivBranchColor: ImageView = itemView.findViewById(R.id.people_item_iv_branch_color)
         private val ivMoney: ImageView = itemView.findViewById(R.id.people_item_iv_money)
         private val tvMoney: TextView = itemView.findViewById(R.id.people_item_tv_money)
-        //rooms
+        private val cvRooms: List<CardView> = listOf(
+                itemView.findViewById(R.id.people_item_ll_cv_rooms1),
+                itemView.findViewById(R.id.people_item_ll_cv_rooms2),
+                itemView.findViewById(R.id.people_item_ll_cv_rooms3)
+        )
+        private val tvRooms: List<TextView> = listOf(
+                itemView.findViewById(R.id.people_item_ll_tv_rooms1),
+                itemView.findViewById(R.id.people_item_ll_tv_rooms2),
+                itemView.findViewById(R.id.people_item_ll_tv_rooms3)
+        )
         private val tvDescription: TextView = itemView.findViewById(R.id.people_item_tv_description)
 
         fun bind(person: Person) {
@@ -66,7 +71,10 @@ class PeopleAdapter(
             //ivBranchColor.setImageResource(person.branchColor)
             ivMoney.setImageResource(R.drawable.ic_wallet_svg_image)
             tvMoney.text = "от " + person.money.first + " до " + person.money.second
-            //llRooms
+            for (i in 0..3.coerceAtMost(person.rooms.size - 1)) {
+                cvRooms[i].visibility = View.VISIBLE
+                tvRooms[i].text = person.rooms[i]
+            }
             tvDescription.text = person.description
         }
 

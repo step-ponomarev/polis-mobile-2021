@@ -1,23 +1,39 @@
-package ru.mail.polis
+package ru.mail.polis.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ru.mail.polis.R
+import ru.mail.polis.list.of.people.PeopleAdapter
+import ru.mail.polis.list.of.people.Person
 
+class ListOfPeopleFragment: Fragment() {
+    companion object {
+        const val NAME = "LoginFragment"
+    }
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.list_of_people, container, false)
+    }
 
-class ListOfPeopleActivity : AppCompatActivity() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        //setContentView(R.layout.list_of_people)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.list_of_people)
-
-        val rvList: RecyclerView = findViewById(R.id.list_of_people__rv_list)
+        val rvList: RecyclerView = view.findViewById(R.id.list_of_people__rv_list)
         val adapter = PeopleAdapter(generateTestPeopleList())
-        rvList.layoutManager = LinearLayoutManager(this)
+        rvList.layoutManager = LinearLayoutManager(this.context)
         rvList.adapter = adapter
     }
+
 }
 
 private fun generateTestPeopleList(): List<Person> {
