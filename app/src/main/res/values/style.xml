@@ -40,4 +40,9 @@
     <style name="App.Edit.Text.Settings" parent="Widget.AppCompat.EditText">
 
     </style>
+
+    <style name="userAvatar">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

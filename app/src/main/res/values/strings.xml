@@ -8,4 +8,5 @@
     <string name="edit_button_text">Изменить</string>
     <string name="personal_data_text">Личные данные</string>
     <string name="add_button_text">Добавить</string>
+    <string name="edit_photo_text">Изменить фото</string>
 </resources>

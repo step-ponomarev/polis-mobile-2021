@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/people_item_iv_photo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:background="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/userAvatar"
+        app:strokeColor="@color/teal_200"
+        app:strokeWidth="1dp" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:width="130dp"
+        android:height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_rounded_bg"
+        android:text="@string/edit_photo_text"
+        android:textAllCaps="false"
+        android:textColor="#18ccd4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/people_item_iv_photo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="#18ccd4"
+        android:textAlignment="center"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginStart="50dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
