@@ -4,13 +4,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragment_settings__cl_person_settings"
+    <TextView
+        android:id="@+id/fragment_settings__cl_personal_data_tv"
+        style="@style/App.Headers.Style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/personal_data_text"
+        app:layout_constraintBottom_toTopOf="@id/fragment_settings__cl_person_settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/fragment_settings__dividing_line"
+        layout="@layout/dividing_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/fragment_settings__cl_person_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_settings__cl_personal_data_tv" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_settings__cl_person_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/fragment_settings__cl_external_accounts"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_settings__cl_personal_data_tv">
 
         <EditText
             android:id="@+id/fragment_settings__et_name"
@@ -54,18 +76,18 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="@color/purple_200"
-        app:layout_constraintTop_toBottomOf="@id/fragment_settings__cl_person_settings"
-        app:layout_constraintStart_toStartOf="parent"
+    <include
+        layout="@layout/dividing_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/fragment_settings__cl_external_accounts"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/fragment_settings__cl_external_accounts"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_settings__cl_person_settings" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_settings__cl_external_accounts"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/fragment_settings__button_edit"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,19 +95,50 @@
         app:layout_constraintTop_toBottomOf="@id/fragment_settings__cl_person_settings">
 
         <TextView
+            android:id="@+id/fragment_settings__external_acc_tv"
+            style="@style/App.Text.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:text="@string/external_accounts_text"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/fragment_settings__telegram_button"
+            style="@style/App.Button.External.Accounts.Style"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:drawableStart="@drawable/ic_telegram"
+            android:text="Telegram"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_settings__external_acc_tv" />
+
+        <Button
+            style="@style/App.Button.External.Accounts.Style"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:drawableStart="@drawable/ic_plus"
+            android:text="Добавить"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_settings__telegram_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/fragment_settings__button_edit"
-        android:layout_width="330dp"
-        android:layout_height="65dp"
+        style="@style/App.Buttons.Style"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
         android:text="@string/edit_button_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

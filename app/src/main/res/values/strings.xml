@@ -6,4 +6,6 @@
     <string name="rent_apartment_text">Сдаем квартиру</string>
     <string name="external_accounts_text">Внешние аккаунты</string>
     <string name="edit_button_text">Изменить</string>
+    <string name="personal_data_text">Личные данные</string>
+    <string name="add_button_text">Добавить</string>
 </resources>
