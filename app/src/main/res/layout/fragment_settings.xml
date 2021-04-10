@@ -39,7 +39,7 @@
 
         <include
             android:id="@+id/fragment_settings__avatar_component"
-            layout="@layout/avatar_compomnent"
+            layout="@layout/avatar_component"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/fragment_settings__et_name"
