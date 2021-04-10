@@ -13,7 +13,7 @@ import ru.mail.polis.list.of.people.Person
 
 class ListOfPeopleFragment : Fragment() {
     companion object {
-        const val NAME = "LoginFragment"
+        const val NAME = "ListOfPeopleFragment"
     }
 
     override fun onCreateView(
