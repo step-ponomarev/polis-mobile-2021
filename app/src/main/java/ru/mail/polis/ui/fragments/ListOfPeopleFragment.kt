@@ -12,10 +12,11 @@ import ru.mail.polis.R
 import ru.mail.polis.list.of.people.PeopleAdapter
 import ru.mail.polis.list.of.people.Person
 
-class ListOfPeopleFragment: Fragment() {
+class ListOfPeopleFragment : Fragment() {
     companion object {
         const val NAME = "LoginFragment"
     }
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -26,7 +27,6 @@ class ListOfPeopleFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //setContentView(R.layout.list_of_people)
 
         val rvList: RecyclerView = view.findViewById(R.id.list_of_people__rv_list)
         val adapter = PeopleAdapter(generateTestPeopleList())
