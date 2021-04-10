@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/people_item_iv_photo"
@@ -15,7 +13,7 @@
         android:src="@drawable/avatar_stub"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+        app:shapeAppearanceOverlay="@style/userAvatar"
         app:strokeColor="@color/white"
         app:strokeWidth="1dp" />
 
@@ -32,7 +30,7 @@
         app:layout_constraintStart_toEndOf="@+id/people_item_iv_photo"
         app:layout_constraintTop_toTopOf="@id/people_item_iv_photo"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:text="Илья Сачук" />
+        android:text="Илья Сачук" />
 
     <TextView
         android:id="@+id/people_item_tv_age"
@@ -43,7 +41,7 @@
         app:layout_constraintBottom_toBottomOf="@id/people_item_iv_photo"
         app:layout_constraintStart_toStartOf="@id/people_item_tv_name"
         app:layout_constraintTop_toBottomOf="@id/people_item_tv_name"
-        tools:text="200 лет" />
+        android:text="200 лет" />
 
     <View
         android:layout_width="match_parent"

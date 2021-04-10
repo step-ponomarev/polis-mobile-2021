@@ -13,6 +13,6 @@ class ProposedApartmentsFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_proposed_apartment_list, container, false)
+        return inflater.inflate(R.layout.proposed_apartment_card, container, false)
     }
 }
