@@ -4,4 +4,5 @@
     <string name="choose_next_step_text">Выберите дальнейшее действие</string>
     <string name="find_apartment_text">Ищем квартиру</string>
     <string name="rent_apartment_text">Сдаем квартиру</string>
+    <string name="offer_an_apartment">Предложить квартиру</string>
 </resources>
