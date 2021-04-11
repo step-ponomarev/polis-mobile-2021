@@ -12,4 +12,5 @@
     <string name="add_photos_text">Добавить фотографии</string>
     <string name="enter_square_text">Укажите площадь</string>
     <string name="enter_cost_text">Укажите стоимость</string>
+    <string name="currency_text">руб</string>
 </resources>
