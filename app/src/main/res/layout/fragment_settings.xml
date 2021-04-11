@@ -5,15 +5,15 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/fragment_settings__cl_personal_data_tv"
+        android:id="@+id/fragment_settings__personal_data_tv"
         style="@style/App.Headers.Style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/personal_data_text"
         app:layout_constraintBottom_toTopOf="@id/fragment_settings__top_dividing_line"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
@@ -26,7 +26,7 @@
         app:layout_constraintBottom_toTopOf="@id/fragment_settings__cl_person_settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_settings__cl_personal_data_tv" />
+        app:layout_constraintTop_toBottomOf="@id/fragment_settings__personal_data_tv" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_settings__cl_person_settings"
@@ -53,7 +53,7 @@
             android:layout_width="300dp"
             android:layout_height="65dp"
             android:layout_marginTop="20dp"
-            android:hint="Имя"
+            android:hint="@string/name_text"
             android:inputType="text"
             app:layout_constraintBottom_toTopOf="@id/fragment_settings__et_surname"
             app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +65,7 @@
             android:layout_width="300dp"
             android:layout_height="65dp"
             android:layout_marginTop="20dp"
-            android:hint="Фамилия"
+            android:hint="@string/surname_text"
             android:inputType="text"
             app:layout_constraintBottom_toTopOf="@id/fragment_settings__et_phone"
             app:layout_constraintEnd_toEndOf="parent"
@@ -77,7 +77,7 @@
             android:layout_width="300dp"
             android:layout_height="65dp"
             android:layout_marginTop="20dp"
-            android:hint="Номер телефона"
+            android:hint="@string/phone_number_text"
             android:inputType="phone"
             app:layout_constraintBottom_toTopOf="@id/fragment_settings__et_age"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +89,7 @@
             android:layout_width="300dp"
             android:layout_height="65dp"
             android:layout_marginTop="20dp"
-            android:hint="Возраст"
+            android:hint="@string/age_text"
             android:inputType="number"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -139,7 +139,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:drawableStart="@drawable/ic_telegram"
-            android:text="Telegram"
+            android:text="@string/telegram_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -151,7 +151,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:drawableStart="@drawable/ic_plus"
-            android:text="Добавить"
+            android:text="@string/add_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"

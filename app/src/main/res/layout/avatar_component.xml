@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/people_item_iv_photo"
+        android:id="@+id/avatar_component__people_item_iv_photo"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_margin="10dp"
@@ -18,21 +18,21 @@
 
 
     <com.google.android.material.button.MaterialButton
-        android:width="130dp"
-        android:height="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:width="130dp"
+        android:height="30dp"
         android:background="@drawable/edit_rounded_bg"
         android:text="@string/edit_photo_text"
+        android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="#18ccd4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/people_item_iv_photo"
-        app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="#18ccd4"
-        android:textAlignment="center"
         app:layout_constraintHorizontal_bias="0.0"
-        android:layout_marginStart="50dp"/>
+        app:layout_constraintStart_toEndOf="@id/avatar_component__people_item_iv_photo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="#18ccd4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
