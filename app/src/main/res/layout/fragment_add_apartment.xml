@@ -59,8 +59,8 @@
             android:id="@+id/fragment_add_apartment__circle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/metro_circle"
             android:layout_marginStart="5dp"
+            android:src="@drawable/metro_circle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/fragment_add_apartment_spinner"
@@ -111,6 +111,7 @@
         android:layout_marginTop="10dp"
         app:layout_constraintBottom_toTopOf="@id/fragment_add_apartment__cost_cl"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_add_apartment__room_cl" />
 
@@ -151,8 +152,12 @@
 
         <EditText
             android:id="@+id/fragment_add_apartment__set_cost_et"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxWidth="100dp"
+            android:minWidth="100dp"
+            app:layout_constraintBaseline_toBaselineOf="@id/fragment_add_apartment__set_cost_tv"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/fragment_add_apartment__set_cost_tv"
             app:layout_constraintTop_toTopOf="parent" />
@@ -206,8 +211,12 @@
 
         <EditText
             android:id="@+id/fragment_add_apartment__set_squared_metres_et"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxWidth="100dp"
+            android:minWidth="100dp"
+            app:layout_constraintBaseline_toBaselineOf="@id/fragment_add_apartment__set_squared_metres_tv"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/fragment_add_apartment__set_squared_metres_tv"
             app:layout_constraintTop_toTopOf="parent" />
@@ -259,17 +268,54 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
+            android:id="@+id/fragment_add_apartment___add_image_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:backgroundTint="@color/white"
+            android:layout_marginStart="10dp"
+            android:backgroundTint="#FAFAFA"
             android:src="@drawable/ic_plus"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_add_apartment__choose_img_tv"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/fragment_add_apartment__choose_img_tv"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_add_apartment__img_cl">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/stub_person_avatar" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/stub_person_avatar" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/stub_person_avatar" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/stub_person_avatar" />
+        </LinearLayout>
+
+    </HorizontalScrollView>
 
 
     <include
@@ -279,6 +325,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="10dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
