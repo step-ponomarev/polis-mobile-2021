@@ -17,22 +17,16 @@
         app:strokeWidth="1dp" />
 
 
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
+    <Button
+        style="@style/App.Button.Edit"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:width="130dp"
-        android:height="30dp"
-        android:background="@drawable/edit_rounded_bg"
         android:text="@string/edit_photo_text"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="#18ccd4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/avatar_component__people_item_iv_photo"
-        app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="#18ccd4" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

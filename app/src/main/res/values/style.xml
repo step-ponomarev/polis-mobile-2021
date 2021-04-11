@@ -37,8 +37,13 @@
         <item name="textAllCaps">false</item>
     </style>
 
-    <style name="App.Edit.Text.Settings" parent="Widget.AppCompat.EditText">
-
+    <style name="App.Button.Edit" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/edit_rounded_bg</item>
+        <item name="strokeColor">#18ccd4</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">#18ccd4</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="userAvatar">
