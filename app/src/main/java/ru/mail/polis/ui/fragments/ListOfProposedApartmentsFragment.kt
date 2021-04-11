@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.mail.polis.R
+import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.apartments.ApartmensAdaper
 import ru.mail.polis.list.of.apartments.Apartment
-import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.metro.Metro
-import java.util.*
+import java.util.Collections
 
 class ListOfProposedApartmentsFragment : Fragment() {
     companion object {
