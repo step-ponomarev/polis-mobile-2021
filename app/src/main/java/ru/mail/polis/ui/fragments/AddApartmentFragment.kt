@@ -9,7 +9,6 @@ import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import ru.mail.polis.R
 
-
 class AddApartmentFragment : Fragment() {
 
     private lateinit var spinner: Spinner
