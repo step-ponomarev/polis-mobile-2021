@@ -10,7 +10,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:singleSelection="true">
+        app:singleSelection="true"
+        app:selectionRequired="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/component_rooms__top_chips_line"
@@ -19,27 +20,23 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/component_rooms__studio_chip"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="120dp"
                 android:layout_height="50dp"
-                android:checkable="true"
                 android:text="Студия"
                 android:textAlignment="center"
-                android:theme="@style/Theme.MaterialComponents.Light"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:theme="@style/Theme.MaterialComponents.Light"                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/component_rooms__one_room_chip"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/component_rooms__one_room_chip"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="120dp"
                 android:layout_height="50dp"
-                android:checkable="true"
                 android:text="1 комната"
-                android:textAlignment="center"
                 android:theme="@style/Theme.MaterialComponents.Light"
+                android:textAlignment="center"
+                android:checkable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/component_rooms__two_room_chip"
                 app:layout_constraintStart_toEndOf="@id/component_rooms__studio_chip"
@@ -47,13 +44,13 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/component_rooms__two_room_chip"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="120dp"
                 android:layout_height="50dp"
-                android:checkable="true"
                 android:text="2 комнаты"
-                android:textAlignment="center"
+                android:checkable="true"
+
                 android:theme="@style/Theme.MaterialComponents.Light"
+                android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/component_rooms__one_room_chip"
@@ -69,14 +66,13 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/component_rooms__three_room_chip"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="120dp"
                 android:layout_height="50dp"
-                android:checkable="true"
-                android:checked="true"
                 android:text="3 комнаты"
-                android:textAlignment="center"
+                android:checkable="true"
+
                 android:theme="@style/Theme.MaterialComponents.Light"
+                android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/component_rooms__four_room_chip"
                 app:layout_constraintStart_toStartOf="parent"
@@ -84,13 +80,13 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/component_rooms__four_room_chip"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="120dp"
                 android:layout_height="50dp"
-                android:checkable="true"
                 android:text="4 комнаты"
-                android:textAlignment="center"
+                android:checkable="true"
+
                 android:theme="@style/Theme.MaterialComponents.Light"
+                android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/component_rooms__five_room_chip"
                 app:layout_constraintStart_toEndOf="@id/component_rooms__three_room_chip"
@@ -98,18 +94,17 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/component_rooms__five_room_chip"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="120dp"
                 android:layout_height="50dp"
-                android:checkable="true"
                 android:text="5+ комнат"
-                android:textAlignment="center"
+                android:checkable="true"
+
                 android:theme="@style/Theme.MaterialComponents.Light"
+                android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/component_rooms__four_room_chip"
                 app:layout_constraintTop_toTopOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.chip.ChipGroup>
 

@@ -46,12 +46,10 @@
 
         <Spinner
             android:id="@+id/fragment_add_apartment_spinner"
-            android:layout_width="wrap_content"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/choose_metro_text"
-            android:textSize="18sp"
+            android:spinnerMode="dialog"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/fragment_add_apartment__circle"
             app:layout_constraintStart_toEndOf="@id/fragment_add_apartment__train_icon"
@@ -62,10 +60,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/metro_circle"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/fragment_add_apartment__choose_metro_tv"
+            app:layout_constraintStart_toEndOf="@id/fragment_add_apartment_spinner"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -86,6 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_room"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/fragment_add_apartment__choose_rooms_number_tv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -98,6 +97,7 @@
             android:fontFamily="sans-serif-light"
             android:text="@string/choose_rooms_number_text"
             android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/fragment_add_apartment__room_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
