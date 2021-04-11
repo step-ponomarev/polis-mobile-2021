@@ -10,7 +10,7 @@
         android:layout_height="100dp"
         android:layout_margin="10dp"
         android:background="@color/white"
-        android:src="@drawable/avatar_stub"
+        android:src="@drawable/stub_person_avatar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/userAvatar"
