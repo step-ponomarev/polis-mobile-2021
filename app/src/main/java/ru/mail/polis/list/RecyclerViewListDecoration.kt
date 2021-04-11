@@ -6,7 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 class RecyclerViewListDecoration() : RecyclerView.ItemDecoration() {
     companion object {
-        const val MARGIN: Int = 100;
+        const val VERTICAL_MARGIN: Int = 20;
+        const val HORIZONTAL_MARGIN: Int = 10;
     }
 
     override fun getItemOffsets(
@@ -15,9 +16,13 @@ class RecyclerViewListDecoration() : RecyclerView.ItemDecoration() {
         state: RecyclerView.State
     ) {
         with(outRect) {
-            if (parent.getChildAdapterPosition(view) != 0) {
-                top = MARGIN
+            if (parent.getChildAdapterPosition(view) == 0) {
+                top = VERTICAL_MARGIN
             }
+
+            left = HORIZONTAL_MARGIN
+            right = HORIZONTAL_MARGIN
+            bottom = VERTICAL_MARGIN
         }
     }
 }
