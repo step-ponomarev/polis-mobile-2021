@@ -12,7 +12,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/metro"
+        android:id="@+id/proposed_apartment_item_metro"
         android:padding="5dp"
         android:layout_marginLeft="5dp"
         android:layout_width="wrap_content"
@@ -25,11 +25,11 @@
 
         <ImageView
             style="@style/icon"
-            android:id="@+id/metro__icon"
+            android:id="@+id/proposed_apartment_item_metro__icon"
             android:src="@drawable/ic_train"/>
 
         <TextView
-            android:id="@+id/metro__text"
+            android:id="@+id/proposed_apartment_item_metro__text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -37,17 +37,17 @@
             android:text="Купчино" />
 
         <ImageView
-            android:id="@+id/metro__color_icon"
-            style="@style/metroColoredCircle"
+            android:id="@+id/proposed_apartment_item_metro__branch_color"
+            style="@style/metroCircle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:background="@drawable/metro_circle"
-            android:contentDescription="metro color" />
+            android:contentDescription="branch color"/>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/apartment_cost"
+        android:id="@+id/proposed_apartment_item_cost"
         android:padding="5dp"
         android:layout_marginLeft="5dp"
         android:layout_width="wrap_content"
@@ -55,15 +55,15 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/metro">
+        app:layout_constraintTop_toBottomOf="@id/proposed_apartment_item_metro">
 
         <ImageView
             style="@style/icon"
-            android:id="@+id/apartment_cost__icon"
+            android:id="@+id/proposed_apartment_item_cost__icon"
             android:src="@drawable/ic_wallet"/>
 
         <TextView
-            android:id="@+id/apartment_cost__text"
+            android:id="@+id/proposed_apartment_item_cost__text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
@@ -72,7 +72,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/square"
+        android:id="@+id/proposed_apartment_item_square"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
@@ -80,17 +80,17 @@
         android:orientation="horizontal"
         android:padding="5dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/apartment_cost">
+        app:layout_constraintTop_toBottomOf="@id/proposed_apartment_item_cost">
 
         <ImageView
-            android:id="@+id/square__icon"
+            android:id="@+id/proposed_apartment_item_square__icon"
             style="@style/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_squared_m" />
 
         <TextView
-            android:id="@+id/square__text"
+            android:id="@+id/proposed_apartment_item_square__text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -99,7 +99,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/photos"
+        android:id="@+id/proposed_apartment_item_photos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
@@ -108,17 +108,17 @@
         android:padding="5dp"
         android:layout_marginTop="50dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/square">
+        app:layout_constraintTop_toBottomOf="@id/proposed_apartment_item_square">
 
         <ImageView
-            android:id="@+id/photos__icon"
+            android:id="@+id/proposed_apartment_item_photos__icon"
             style="@style/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_img" />
 
         <TextView
-            android:id="@+id/photos__text"
+            android:id="@+id/proposed_apartment_item_photos__text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -129,7 +129,7 @@
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/apartment_photos"
+        android:id="@+id/proposed_apartment_item_photos__photos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -137,7 +137,7 @@
         android:padding="5dp"
         android:layout_marginTop="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/photos">
+        app:layout_constraintTop_toBottomOf="@id/proposed_apartment_item_photos">
 
         <ImageView
             android:id="@+id/photo1"
@@ -176,7 +176,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.chip.Chip
-        app:layout_constraintLeft_toRightOf="@id/metro"
+        app:layout_constraintLeft_toRightOf="@id/proposed_apartment_item_metro"
         app:layout_constraintTop_toBottomOf="@id/userHeader"
         android:layout_marginStart="40dp"
         android:layout_marginTop="20dp"
@@ -186,6 +186,4 @@
         android:layout_height="44dp"
         android:text="2 комнаты"
         style="@style/Widget.MaterialComponents.Chip.Choice" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

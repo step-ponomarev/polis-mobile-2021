@@ -3,10 +3,10 @@ package ru.mail.polis.list.of.apartments
 import ru.mail.polis.metro.Metro
 
 data class Apartment(
-    val photo: Int,
+    val ownerAvatar: Int?,
     val ownerName: String,
-    val ownerAge: String,
+    val ownerAge: Int,
     val metro: Metro,
     val apartmentSquare: Int,
-    val apartmentPhotos: List<String>
+    val apartmentPhotos: List<Int>
 )
