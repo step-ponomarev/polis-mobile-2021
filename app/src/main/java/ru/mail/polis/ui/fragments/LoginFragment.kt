@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import ru.mail.polis.R
 import ru.mail.polis.auth.AuthenticationService
 import ru.mail.polis.auth.GoogleSingInUtils
@@ -17,7 +18,10 @@ class LoginFragment : Fragment() {
         const val NAME = "LoginFragment"
     }
 
-    private val loginForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), this::handleResult)
+    private val loginForResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+        this::handleResult
+    )
 
     private lateinit var googleAuthentication: AuthenticationService
     private lateinit var singInButton: View
@@ -47,6 +51,10 @@ class LoginFragment : Fragment() {
     }
 
     private fun handleResult(result: ActivityResult) {
-        googleAuthentication.handleResult(result.data)
+        val success = googleAuthentication.handleResult(result.data)
+
+        if (success) {
+            findNavController().navigate(R.id.selfDefinitionFragment)
+        }
     }
 }
