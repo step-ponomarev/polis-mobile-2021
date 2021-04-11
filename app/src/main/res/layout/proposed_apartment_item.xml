@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/userHeader"
-        layout="@layout/person_header"
+        layout="@layout/component_person_header"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

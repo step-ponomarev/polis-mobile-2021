@@ -28,9 +28,9 @@ class ApartmensAdaper(
     }
 
     class PeopleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val userAvatar: ImageView = itemView.findViewById(R.id.person_header__avatar)
-        private val apartmentOwnerName: TextView = itemView.findViewById(R.id.person_header__name)
-        private val apartmentOwnerAge: TextView = itemView.findViewById(R.id.person_header__age)
+        private val userAvatar: ImageView = itemView.findViewById(R.id.component_person_header__avatar)
+        private val apartmentOwnerName: TextView = itemView.findViewById(R.id.component_person_header__name)
+        private val apartmentOwnerAge: TextView = itemView.findViewById(R.id.component_person_header__age)
         private val metroText: TextView =
             itemView.findViewById(R.id.proposed_apartment_item_metro__text)
 
