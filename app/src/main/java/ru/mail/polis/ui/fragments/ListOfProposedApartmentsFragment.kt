@@ -44,7 +44,8 @@ class ListOfProposedApartmentsFragment : Fragment() {
                 "Степан Пономарев",
                 20,
                 Metro.DEVYATKINO,
-                20,
+                8,
+                11999,
                 Collections.emptyList()
             ),
             Apartment(
@@ -52,7 +53,8 @@ class ListOfProposedApartmentsFragment : Fragment() {
                 "Илья Сачук",
                 12,
                 Metro.PARNAS,
-                20,
+                287,
+                30000,
                 Collections.emptyList()
             )
         )

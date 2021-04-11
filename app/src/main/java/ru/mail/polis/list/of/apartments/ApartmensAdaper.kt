@@ -40,6 +40,8 @@ class ApartmensAdaper(
             itemView.findViewById(R.id.proposed_apartment_item_metro__branch_color)
         private val apartmentSquare: TextView =
             itemView.findViewById(R.id.proposed_apartment_item_square__text)
+        private val apartmentCost: TextView =
+            itemView.findViewById(R.id.proposed_apartment_item_cost__text)
 
         // шота придумать, как добавлять фоточки?
 //        private val apartmentPhotoContainer: ConstraintLayout =
@@ -51,6 +53,7 @@ class ApartmensAdaper(
             apartmentOwnerAge.text = "${apartments.ownerAge} лет"
             metroText.text = apartments.metro.stationName
             apartmentSquare.text = "${apartments.apartmentSquare} м. кв."
+            apartmentCost.text = "${apartments.apartmentCosts} Р"
 
             // пока не трогаем
 //            val photos: List<ImageView> = apartments.apartmentPhotos.map<Int, ImageView> { id ->

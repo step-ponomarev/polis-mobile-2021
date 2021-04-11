@@ -8,5 +8,6 @@ data class Apartment(
     val ownerAge: Int,
     val metro: Metro,
     val apartmentSquare: Int,
+    val apartmentCosts: Int,
     val apartmentPhotos: List<Int>
 )
