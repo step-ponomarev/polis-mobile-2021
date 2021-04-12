@@ -23,9 +23,7 @@ class ApartmensAdaper(
         return PeopleViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return apartments.size
-    }
+    override fun getItemCount(): Int = apartments.size
 
     override fun onBindViewHolder(holder: PeopleViewHolder, position: Int) {
         holder.bind(apartments[position])
