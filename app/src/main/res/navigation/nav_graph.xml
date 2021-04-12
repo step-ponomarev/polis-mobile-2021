@@ -35,4 +35,10 @@
         android:name="ru.mail.polis.ui.fragments.ListOfPeopleFragment"
         android:label="nav_graph__list_of_people" />
 
+    <fragment
+        android:id="@+id/nav_graph__proposed_apartments_fragment"
+        android:name="ru.mail.polis.ui.fragments.ListOfProposedApartmentsFragment"
+        android:label="Proposed apartments">
+    </fragment>
+
 </navigation>
