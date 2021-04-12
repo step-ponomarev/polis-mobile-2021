@@ -4,5 +4,91 @@
     <string name="choose_next_step_text">Выберите дальнейшее действие</string>
     <string name="find_apartment_text">Ищем квартиру</string>
     <string name="rent_apartment_text">Сдаем квартиру</string>
+    <string name="add_button_text">Добавить</string>
+    <string name="add_apartment_text">Добавить квартиру</string>
+    <string name="choose_metro_text"><u>Укажите метро</u></string>
+    <string name="choose_rooms_number_text">Укажите количество комнат</string>
+    <string name="squared_metres_text">кв.м</string>
+    <string name="add_photos_text">Добавить фотографии</string>
+    <string name="enter_square_text">Укажите площадь</string>
+    <string name="enter_cost_text">Укажите стоимость</string>
     <string name="offer_an_apartment">Предложить квартиру</string>
+    <string name="currency_text">руб</string>
+    <string name="studio_text">Студия</string>
+    <string name="one_room_text">1 комната</string>
+    <string name="two_room_text">2 комнаты</string>
+    <string name="three_room_text">3 комнаты</string>
+    <string name="four_room_text">4 комнаты</string>
+    <string name="five_plus_room_text">5+ комнат</string>
+
+    <string-array name="subways">
+        <item>Автово</item>
+        <item>Адмиралтейская</item>
+        <item>Академическая</item>
+        <item>Балтийская</item>
+        <item>Бухарестская</item>
+        <item>Василеостровская</item>
+        <item>Владимирская</item>
+        <item>Волковская</item>
+        <item>Выборгская</item>
+        <item>Горьковская</item>
+        <item>Гостиный двор</item>
+        <item>Гражданский проспект</item>
+        <item>Девяткино</item>
+        <item>Достоевская</item>
+        <item>Елизаровская</item>
+        <item>Звёздная</item>
+        <item>Звенигородская</item>
+        <item>Кировский завод</item>
+        <item>Комендантский проспект</item>
+        <item>Крестовский остров</item>
+        <item>Купчино</item>
+        <item>Ладожская</item>
+        <item>Ленинский проспект</item>
+        <item>Лесная</item>
+        <item>Лиговский проспект</item>
+        <item>Ломоносовская</item>
+        <item>Маяковская</item>
+        <item>Международная</item>
+        <item>Московская</item>
+        <item>Московские ворота</item>
+        <item>Нарвская</item>
+        <item>Невский проспект</item>
+        <item>Новочеркасская</item>
+        <item>Обводный канал</item>
+        <item>Обухово</item>
+        <item>Озерки</item>
+        <item>Парк Победы</item>
+        <item>Парнас</item>
+        <item>Петроградская</item>
+        <item>Пионерская</item>
+        <item>Площадь Александра Невского I</item>
+        <item>Площадь Восстания</item>
+        <item>Площадь Ленина</item>
+        <item>Площадь Мужества</item>
+        <item>Площадь Невского</item>
+        <item>Политехническая</item>
+        <item>Приморская</item>
+        <item>Пролетарская</item>
+        <item>Проспект Большевиков</item>
+        <item>Проспект Ветеранов</item>
+        <item>Проспект Просвещения</item>
+        <item>Пушкинская</item>
+        <item>Рыбацкое</item>
+        <item>Садовая</item>
+        <item>Сенная площадь</item>
+        <item>Спасская</item>
+        <item>Спортивная</item>
+        <item>Старая Деревня</item>
+        <item>Технологический институт I</item>
+        <item>Технологический институт II</item>
+        <item>Удельная</item>
+        <item>Улица Дыбенко</item>
+        <item>Фрунзенская</item>
+        <item>Чёрная речка</item>
+        <item>Чернышевская</item>
+        <item>Чкаловская</item>
+        <item>Электросила</item>
+    </string-array>
+
 </resources>

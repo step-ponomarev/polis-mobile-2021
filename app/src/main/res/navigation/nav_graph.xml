@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@+id/nav_graph__login_fragment">
+
+    <fragment
+        android:id="@+id/nav_graph__login_fragment"
+        android:name="ru.mail.polis.ui.fragments.LoginFragment"
+        android:label="Login Fragment">
+        <action
+            android:id="@+id/action_login_fragment_to_self_definition_fragment"
+            app:destination="@id/nav_graph__self_definition_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_graph__self_definition_fragment"
+        android:name="ru.mail.polis.ui.fragments.SelfDefinitionFragment"
+        android:label="Self Definition Fragment">
+        <action
+            android:id="@+id/action_self_definition_fragment_to_add_apartment_fragment"
+            app:destination="@+id/nav_graph__add_apartment_fragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_graph__add_apartment_fragment"
+        android:name="ru.mail.polis.ui.fragments.AddApartmentFragment"
+        android:label="Add Apartment Fragment">
+    </fragment>
+
+</navigation>
