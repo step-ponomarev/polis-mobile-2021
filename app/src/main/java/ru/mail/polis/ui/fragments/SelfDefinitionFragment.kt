@@ -26,7 +26,6 @@ class SelfDefinitionFragment : Fragment() {
 
         addApartmentButton = view.findViewById(R.id.fragment_self_definition__button_rent_apartment)
         addApartmentButton.setOnClickListener(this::onClickAddApartment)
-
     }
 
     private fun onClickAddApartment(view: View) {

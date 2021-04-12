@@ -41,7 +41,6 @@ class AddApartmentFragment : Fragment() {
 
         addApartmentButton = view.findViewById(R.id.add_button)
         addApartmentButton.setOnClickListener(this::onClickAddApartment)
-
     }
 
     private fun onClickAddApartment(view: View) {
