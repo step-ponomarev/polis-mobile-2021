@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.mail.polis.R
 import ru.mail.polis.list.RecyclerViewListDecoration
-import ru.mail.polis.list.of.apartments.ApartmensAdaper
+import ru.mail.polis.list.of.apartments.ApartmentsAdapter
 import ru.mail.polis.list.of.apartments.Apartment
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
@@ -30,7 +30,7 @@ class ListOfProposedApartmentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = ApartmensAdaper(mockAparts())
+        val adapter = ApartmentsAdapter(mockAparts())
         val rvList: RecyclerView = view.findViewById(R.id.fragment_proposed_apartments__list)
 
         rvList.addItemDecoration(RecyclerViewListDecoration())

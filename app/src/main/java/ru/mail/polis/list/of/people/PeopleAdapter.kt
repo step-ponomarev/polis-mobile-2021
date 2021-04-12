@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.mail.polis.R
@@ -34,9 +35,8 @@ class PeopleAdapter(
         private val tvName: TextView = itemView.findViewById(R.id.component_person_header__name)
         private val tvAge: TextView = itemView.findViewById(R.id.component_person_header__age)
         private val llIvTags: LinearLayout = itemView.findViewById(R.id.people_item_ll_tags)
-        private val ivMetro: ImageView = itemView.findViewById(R.id.people_item_iv_metro)
-        private val tvMetro: TextView = itemView.findViewById(R.id.people_item_tv_metro)
-        private val ivBranchColor: ImageView = itemView.findViewById(R.id.people_item_iv_branch_color)
+        private val tvMetro: TextView = itemView.findViewById(R.id.people_item__metro_text)
+        private val ivBranchColor: ImageView = itemView.findViewById(R.id.people_item__metro_branch_color)
         private val ivMoney: ImageView = itemView.findViewById(R.id.people_item_iv_money)
         private val tvMoney: TextView = itemView.findViewById(R.id.people_item_tv_money)
         private val cvRooms: List<CardView> = listOf(
@@ -61,10 +61,14 @@ class PeopleAdapter(
                 urlToImageView(itemView.context, url)
             }
             tags.forEach(llIvTags::addView)
-            ivMetro.setImageResource(R.drawable.ic_train)
+
             tvMetro.text = person.metro.stationName
-            // ivBranchColor.setImageResource(person.branchColor)
-            ivMoney.setImageResource(R.drawable.ic_wallet)
+            ivBranchColor.background.setTint(
+                ContextCompat.getColor(
+                    itemView.context,
+                    person.metro.branchColor
+                )
+            )
             tvMoney.text = "от " + person.money.first + " до " + person.money.second
             for (i in 0..3.coerceAtMost(person.rooms.size - 1)) {
                 cvRooms[i].visibility = View.VISIBLE

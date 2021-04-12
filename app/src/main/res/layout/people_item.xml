@@ -13,25 +13,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="1dp"
+        android:layout_margin="10dp"
 
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-        <include
-            layout="@layout/component_person_header"
-            android:id="@+id/include"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <include
+                android:id="@+id/include"
+                layout="@layout/component_person_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-             <View
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@drawable/shape_line"
@@ -80,60 +81,77 @@
                 app:layout_constraintTop_toBottomOf="@id/people_item_hsv_tags"
                 />
 
-            <TextView
-                android:id="@+id/people_item_tv_metro"
+            <LinearLayout
+                android:id="@+id/people_item__ll_metro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:padding="10dp"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@id/people_item_iv_metro"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@id/people_item_iv_metro"
-                app:layout_constraintTop_toTopOf="@id/people_item_iv_metro"
-                />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/people_item_hsv_tags">
 
-            <ImageView
-                android:id="@+id/people_item_iv_branch_color"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_marginVertical="20dp"
-                app:layout_constraintBottom_toBottomOf="@id/people_item_tv_metro"
-                app:layout_constraintStart_toEndOf="@id/people_item_tv_metro"
-                app:layout_constraintTop_toTopOf="@id/people_item_tv_metro"
-                />
+                <ImageView
+                    android:id="@+id/people_item__metro_icon"
+                    style="@style/icon"
+                    android:src="@drawable/ic_train" />
 
-            <ImageView
-                android:id="@+id/people_item_iv_money"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_margin="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/people_item_iv_metro"
-                />
+                <TextView
+                    android:id="@+id/people_item__metro_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:textAlignment="center" />
 
-            <TextView
-                android:id="@+id/people_item_tv_money"
+                <ImageView
+                    android:id="@+id/people_item__metro_branch_color"
+                    style="@style/metroCircle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/shape_metro_circle"
+                    android:contentDescription="branch color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/people_item__ll_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:padding="10dp"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@id/people_item_iv_money"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@id/people_item_iv_money"
-                app:layout_constraintTop_toTopOf="@id/people_item_iv_money"
-                />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/people_item__ll_metro">
+
+                <ImageView
+                    android:id="@+id/people_item_iv_money"
+                    style="@style/icon"
+                    android:src="@drawable/ic_wallet"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/people_item_tv_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/people_item_ll_rooms"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginVertical="20dp"
+                android:layout_marginVertical="10dp"
                 android:layout_marginStart="10dp"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/people_item_iv_money"
+                app:layout_constraintTop_toBottomOf="@id/people_item__ll_money"
                 app:layout_constraintVertical_chainStyle="packed"
                 >
 
