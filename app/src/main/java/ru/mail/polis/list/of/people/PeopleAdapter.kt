@@ -64,7 +64,7 @@ class PeopleAdapter(
                 llIvTags[i].setImageResource(person.tags[i])
             }
             ivMetro.setImageResource(R.drawable.ic_train)
-            tvMetro.text = person.metro
+            tvMetro.text = person.metro.stationName
             // ivBranchColor.setImageResource(person.branchColor)
             ivMoney.setImageResource(R.drawable.ic_wallet)
             tvMoney.text = "от " + person.money.first + " до " + person.money.second
