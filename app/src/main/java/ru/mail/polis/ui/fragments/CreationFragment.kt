@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import ru.mail.polis.R
 
 class CreationFragment : Fragment() {
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
