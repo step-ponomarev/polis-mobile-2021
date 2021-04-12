@@ -28,4 +28,10 @@
         android:label="Add Apartment Fragment">
     </fragment>
 
+    <fragment
+        android:id="@+id/nav_graph__proposed_apartments_fragment"
+        android:name="ru.mail.polis.ui.fragments.ListOfProposedApartmentsFragment"
+        android:label="Proposed apartments">
+    </fragment>
+
 </navigation>

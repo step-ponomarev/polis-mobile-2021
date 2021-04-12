@@ -7,4 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="metro_red">#fc4e03</color>
+    <color name="metro_blue">#0398fc</color>
+    <color name="metro_green">#03fc80</color>
+    <color name="metro_orange">#fcba03</color>
+    <color name="metro_purple">#6b03fc</color>
 </resources>
