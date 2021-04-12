@@ -31,56 +31,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:background="@color/purple_700">
+        >
 
         <ImageView
             android:id="@+id/fragment_person_announcement__ll_iv_tag1"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginEnd="5dp"
-            tools:background="@color/black" />
+            android:layout_marginEnd="5dp" />
 
         <ImageView
             android:id="@+id/fragment_person_announcement__ll_iv_tag2"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginEnd="5dp"
-            tools:background="@color/black" />
+            android:layout_marginEnd="5dp" />
 
         <ImageView
             android:id="@+id/fragment_person_announcement__ll_iv_tag3"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginEnd="5dp"
-            tools:background="@color/black" />
+            android:layout_marginEnd="5dp" />
 
         <ImageView
             android:id="@+id/fragment_person_announcement__ll_iv_tag4"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginEnd="5dp"
-            tools:background="@color/black" />
+            android:layout_marginEnd="5dp" />
 
         <ImageView
             android:id="@+id/fragment_person_announcement__ll_iv_tag5"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginEnd="5dp"
-            tools:background="@color/black" />
+            android:layout_marginEnd="5dp" />
 
         <ImageView
             android:id="@+id/fragment_person_announcement__ll_iv_tag6"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginEnd="5dp"
-            tools:background="@color/black" />
+            android:layout_marginEnd="5dp" />
 
         <ImageView
             android:id="@+id/fragment_person_announcement__ll_iv_tag7"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginEnd="5dp"
-            tools:background="@color/black" />
+            android:layout_marginEnd="5dp" />
 
 
     </LinearLayout>
@@ -93,7 +86,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_person_announcement__ll_tags"
-
         />
 
     <ImageView
@@ -102,8 +94,7 @@
         android:layout_height="20dp"
         android:layout_margin="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_person_announcement__ll_tags"
-        tools:background="#FF9800" />
+        app:layout_constraintTop_toBottomOf="@id/fragment_person_announcement__ll_tags"  />
 
     <TextView
         android:id="@+id/fragment_person_announcement__tv_metro"
@@ -115,7 +106,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/fragment_person_announcement__iv_metro"
         app:layout_constraintTop_toTopOf="@id/fragment_person_announcement__iv_metro"
-        tools:text="Метро" />
+        />
 
     <ImageView
         android:id="@+id/fragment_person_announcement__iv_branch_color"
@@ -125,7 +116,7 @@
         app:layout_constraintBottom_toBottomOf="@id/fragment_person_announcement__tv_metro"
         app:layout_constraintStart_toEndOf="@id/fragment_person_announcement__tv_metro"
         app:layout_constraintTop_toTopOf="@id/fragment_person_announcement__tv_metro"
-        tools:background="@color/black" />
+        />
 
     <ImageView
         android:id="@+id/fragment_person_announcement__iv_money"
@@ -134,7 +125,7 @@
         android:layout_margin="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_person_announcement__iv_metro"
-        tools:background="@color/black" />
+        />
 
     <TextView
         android:id="@+id/fragment_person_announcement__tv_money"
@@ -146,7 +137,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/fragment_person_announcement__iv_money"
         app:layout_constraintTop_toTopOf="@id/fragment_person_announcement__iv_money"
-        tools:text="от N до M" />
+        />
 
     <LinearLayout
         android:id="@+id/fragment_person_announcement__ll_rooms"
@@ -161,7 +152,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_person_announcement__iv_money"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:background="@color/teal_700">
+        >
 
         <androidx.cardview.widget.CardView
             android:id="@+id/fragment_person_announcement__ll_cv_rooms1"
@@ -171,7 +162,7 @@
             android:outlineSpotShadowColor="@color/black"
             android:visibility="invisible"
             app:cardCornerRadius="6dp"
-            tools:background="@color/black">
+            >
 
             <TextView
                 android:id="@+id/fragment_person_announcement__ll_tv_rooms1"
@@ -179,8 +170,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:textSize="15sp"
-                tools:text="1 комната" />
+                android:textSize="15sp" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -190,8 +180,7 @@
             android:layout_margin="5dp"
             android:outlineSpotShadowColor="@color/black"
             android:visibility="invisible"
-            app:cardCornerRadius="6dp"
-            tools:background="@color/black">
+            app:cardCornerRadius="6dp">
 
             <TextView
                 android:id="@+id/fragment_person_announcement__ll_tv_rooms2"
@@ -200,7 +189,7 @@
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:textSize="15sp"
-                tools:text="1 комната" />
+                 />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -210,8 +199,7 @@
             android:layout_margin="5dp"
             android:outlineSpotShadowColor="@color/black"
             android:visibility="invisible"
-            app:cardCornerRadius="6dp"
-            tools:background="@color/black">
+            app:cardCornerRadius="6dp">
 
             <TextView
                 android:id="@+id/fragment_person_announcement__ll_tv_rooms3"
@@ -219,8 +207,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:textSize="15sp"
-                tools:text="1 комната" />
+                android:textSize="15sp"/>
         </androidx.cardview.widget.CardView>
 
 
@@ -238,7 +225,7 @@
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_person_announcement__ll_rooms"
-        tools:text="Здесь будет описание................................................." />
+        />
 
     <Button
         android:id="@+id/fragment_person_announcement__button_show_number"
