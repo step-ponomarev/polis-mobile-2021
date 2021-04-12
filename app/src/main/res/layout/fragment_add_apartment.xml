@@ -46,7 +46,8 @@
 
         <Spinner
             android:id="@+id/fragment_add_apartment_spinner"
-            android:layout_width="340dp"
+            android:layout_width="250dp"
+            android:maxWidth="250dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:spinnerMode="dialog"
