@@ -107,7 +107,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.049" />
+        app:layout_constraintVertical_bias="0.021" />
 
     <TextView
         android:id="@+id/surname_text"
@@ -122,7 +122,7 @@
         app:layout_constraintHorizontal_bias="0.576"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.091" />
+        app:layout_constraintVertical_bias="0.06" />
 
     <TextView
         android:id="@+id/gender_text"
@@ -137,7 +137,9 @@
         app:layout_constraintHorizontal_bias="0.469"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.139" />
+        app:layout_constraintVertical_bias="0.109" />
+
+    <!--    Цена за месяц   -->
 
     <TextView
         android:id="@+id/age_text"
@@ -152,9 +154,7 @@
         app:layout_constraintHorizontal_bias="0.446"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.161" />
-
-    <!--    Цена за месяц   -->
+        app:layout_constraintVertical_bias="0.13" />
 
     <Spinner
         android:id="@+id/select_subway_text"
@@ -372,15 +372,39 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.941" />
 
-    <!--    <ImageView-->
-    <!--        android:id="@+id/imageView"-->
-    <!--        android:layout_width="21dp"-->
-    <!--        android:layout_height="21dp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.139"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        app:layout_constraintVertical_bias="0.26"-->
-    <!--        app:srcCompat="@drawable/ic_subway" />-->
+    <ImageView
+        android:id="@+id/choose_subway_ic"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.126"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.214"
+        app:srcCompat="@drawable/ic_train" />
+
+    <ImageView
+        android:id="@+id/price_per_month_ic"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.126"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.464"
+        app:srcCompat="@drawable/ic_wallet" />
+
+    <ImageView
+        android:id="@+id/square_m_ic"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.126"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.581"
+        app:srcCompat="@drawable/ic_squared_m" />
 </androidx.constraintlayout.widget.ConstraintLayout>
