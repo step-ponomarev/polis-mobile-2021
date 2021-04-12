@@ -8,7 +8,7 @@
     <include layout="@layout/component_person_header" />
 
     <Button
-        android:id="@+id/more_rooms_btn"
+        android:id="@+id/fragment_advert_creation_more_rooms_btn"
         android:layout_width="101dp"
         android:layout_height="42dp"
         android:background="@drawable/et_border"
@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.383" />
 
     <Button
-        android:id="@+id/four_rooms_btn"
+        android:id="@+id/fragment_advert_creation_four_rooms_btn"
         android:layout_width="101dp"
         android:layout_height="42dp"
         android:background="@drawable/et_border"
@@ -37,7 +37,7 @@
         app:layout_constraintVertical_bias="0.384" />
 
     <Button
-        android:id="@+id/three_rooms_btn"
+        android:id="@+id/fragment_advert_creation_three_rooms_btn"
         android:layout_width="101dp"
         android:layout_height="42dp"
         android:background="@drawable/et_border"
@@ -52,7 +52,7 @@
         app:layout_constraintVertical_bias="0.383" />
 
     <Button
-        android:id="@+id/two_rooms_btn"
+        android:id="@+id/fragment_advert_creation_two_rooms_btn"
         android:layout_width="101dp"
         android:layout_height="42dp"
         android:background="@drawable/et_border"
@@ -67,7 +67,7 @@
         app:layout_constraintVertical_bias="0.29" />
 
     <Button
-        android:id="@+id/one_room_btn"
+        android:id="@+id/fragment_advert_creation_one_room_btn"
         android:layout_width="101dp"
         android:layout_height="42dp"
         android:background="@drawable/et_border"
@@ -81,7 +81,7 @@
         app:layout_constraintVertical_bias="0.29" />
 
     <Button
-        android:id="@+id/studio_btn"
+        android:id="@+id/fragment_advert_creation_studio_btn"
         android:layout_width="101dp"
         android:layout_height="42dp"
         android:background="@drawable/et_border"
@@ -96,7 +96,7 @@
         app:layout_constraintVertical_bias="0.29" />
 
     <TextView
-        android:id="@+id/name_text"
+        android:id="@+id/fragment_advert_creation_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
@@ -110,7 +110,7 @@
         app:layout_constraintVertical_bias="0.021" />
 
     <TextView
-        android:id="@+id/surname_text"
+        android:id="@+id/fragment_advert_creation_surname_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
@@ -125,7 +125,7 @@
         app:layout_constraintVertical_bias="0.06" />
 
     <TextView
-        android:id="@+id/gender_text"
+        android:id="@+id/fragment_advert_creation_gender_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
@@ -142,7 +142,7 @@
     <!--    Цена за месяц   -->
 
     <TextView
-        android:id="@+id/age_text"
+        android:id="@+id/fragment_advert_creation_age_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
@@ -157,7 +157,7 @@
         app:layout_constraintVertical_bias="0.13" />
 
     <Spinner
-        android:id="@+id/select_subway_text"
+        android:id="@+id/fragment_advert_creation_select_subway_text"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:entries="@array/subways"
@@ -171,7 +171,7 @@
         app:layout_constraintVertical_bias="0.212" />
 
     <TextView
-        android:id="@+id/prices"
+        android:id="@+id/fragment_advert_creation_prices"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
@@ -188,7 +188,7 @@
     <!--    Площадь     -->
 
     <EditText
-        android:id="@+id/from_price_et"
+        android:id="@+id/fragment_advert_creation_from_price_et"
         android:layout_width="80dp"
         android:layout_height="30dp"
         android:autofillHints="surname"
@@ -203,7 +203,7 @@
         app:layout_constraintVertical_bias="0.516" />
 
     <TextView
-        android:id="@+id/from_price_text"
+        android:id="@+id/fragment_advert_creation_from_price_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
@@ -218,7 +218,7 @@
         app:layout_constraintVertical_bias="0.522" />
 
     <TextView
-        android:id="@+id/to_price_text"
+        android:id="@+id/fragment_advert_creation_to_price_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
@@ -233,7 +233,7 @@
         app:layout_constraintVertical_bias="0.521" />
 
     <EditText
-        android:id="@+id/to_price_et"
+        android:id="@+id/fragment_advert_creation_to_price_et"
         android:layout_width="80dp"
         android:layout_height="30dp"
         android:autofillHints="surname"
@@ -248,7 +248,7 @@
         app:layout_constraintVertical_bias="0.516" />
 
     <TextView
-        android:id="@+id/square"
+        android:id="@+id/fragment_advert_creation_square"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
@@ -265,7 +265,7 @@
     <!--    Особенности     -->
 
     <EditText
-        android:id="@+id/from_square_et"
+        android:id="@+id/fragment_advert_creation_from_square_et"
         android:layout_width="80dp"
         android:layout_height="30dp"
         android:autofillHints="surname"
@@ -281,7 +281,7 @@
         tools:ignore="LabelFor" />
 
     <TextView
-        android:id="@+id/from_square_text"
+        android:id="@+id/fragment_advert_creation_from_square_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
@@ -296,7 +296,7 @@
         app:layout_constraintVertical_bias="0.639" />
 
     <TextView
-        android:id="@+id/to_square_text"
+        android:id="@+id/fragment_advert_creation_to_square_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
@@ -311,7 +311,7 @@
         app:layout_constraintVertical_bias="0.639" />
 
     <EditText
-        android:id="@+id/to_square_et"
+        android:id="@+id/fragment_advert_creation_to_square_et"
         android:layout_width="80dp"
         android:layout_height="30dp"
         android:autofillHints="surname"
@@ -327,7 +327,7 @@
         tools:ignore="LabelFor" />
 
     <TextView
-        android:id="@+id/features"
+        android:id="@+id/fragment_advert_creation_features"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
@@ -342,7 +342,7 @@
         app:layout_constraintVertical_bias="0.701" />
 
     <EditText
-        android:id="@+id/about_me_et"
+        android:id="@+id/fragment_advert_creation_about_me_et"
         android:layout_width="298dp"
         android:layout_height="83dp"
         android:autofillHints="about_me"
@@ -358,7 +358,7 @@
         app:layout_constraintVertical_bias="0.837" />
 
     <Button
-        android:id="@+id/continue_btn"
+        android:id="@+id/fragment_advert_creation_continue_btn"
         android:layout_width="225dp"
         android:layout_height="46dp"
         android:background="@color/main"
@@ -373,7 +373,7 @@
         app:layout_constraintVertical_bias="0.941" />
 
     <ImageView
-        android:id="@+id/choose_subway_ic"
+        android:id="@+id/fragment_advert_creation_choose_subway_ic"
         android:layout_width="21dp"
         android:layout_height="21dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -385,7 +385,7 @@
         app:srcCompat="@drawable/ic_train" />
 
     <ImageView
-        android:id="@+id/price_per_month_ic"
+        android:id="@+id/fragment_advert_creation_price_per_month_ic"
         android:layout_width="21dp"
         android:layout_height="21dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -397,7 +397,7 @@
         app:srcCompat="@drawable/ic_wallet" />
 
     <ImageView
-        android:id="@+id/square_m_ic"
+        android:id="@+id/fragment_advert_creation_square_m_ic"
         android:layout_width="21dp"
         android:layout_height="21dp"
         app:layout_constraintBottom_toBottomOf="parent"
