@@ -13,6 +13,12 @@
     <string name="enter_square_text">Укажите площадь</string>
     <string name="enter_cost_text">Укажите стоимость</string>
     <string name="currency_text">руб</string>
+    <string name="studio_text">Студия</string>
+    <string name="one_room_text">1 комната</string>
+    <string name="two_room_text">2 комнаты</string>
+    <string name="three_room_text">3 комнаты</string>
+    <string name="four_room_text">4 комнаты</string>
+    <string name="five_plus_room_text">5+ комнат</string>
 
     <string-array name="subways">
         <item>Автово</item>

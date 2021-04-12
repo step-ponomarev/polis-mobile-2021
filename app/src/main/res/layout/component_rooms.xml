@@ -18,7 +18,7 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="120dp"
             android:layout_height="50dp"
-            android:text="Студия"
+            android:text="@string/studio_text"
             android:textAlignment="center"
             android:theme="@style/Theme.MaterialComponents.Light" />
 
@@ -28,7 +28,7 @@
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:checkable="true"
-            android:text="1 комната"
+            android:text="@string/one_room_text"
             android:textAlignment="center"
             android:theme="@style/Theme.MaterialComponents.Light" />
 
@@ -38,7 +38,7 @@
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:checkable="true"
-            android:text="2 комнаты"
+            android:text="@string/two_room_text"
             android:textAlignment="center"
             android:theme="@style/Theme.MaterialComponents.Light" />
 
@@ -48,7 +48,7 @@
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:checkable="true"
-            android:text="3 комнаты"
+            android:text="@string/three_room_text"
             android:textAlignment="center"
             android:theme="@style/Theme.MaterialComponents.Light" />
 
@@ -58,7 +58,7 @@
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:checkable="true"
-            android:text="4 комнаты"
+            android:text="@string/four_room_text"
             android:textAlignment="center"
             android:theme="@style/Theme.MaterialComponents.Light" />
 
@@ -68,7 +68,7 @@
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:checkable="true"
-            android:text="5+ комнат"
+            android:text="@string/five_plus_room_text"
             android:textAlignment="center"
             android:theme="@style/Theme.MaterialComponents.Light" />
     </com.google.android.material.chip.ChipGroup>
