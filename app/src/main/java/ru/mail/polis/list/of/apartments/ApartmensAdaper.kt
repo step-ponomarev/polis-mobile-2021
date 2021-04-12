@@ -37,17 +37,17 @@ class ApartmensAdaper(
         private val apartmentOwnerAge: TextView =
             itemView.findViewById(R.id.component_person_header__age)
         private val metroText: TextView =
-            itemView.findViewById(R.id.component_proposed_apartment_item_metro__text)
+            itemView.findViewById(R.id.component_proposed_apartment_item__metro_text)
         private val roomCount: Chip =
             itemView.findViewById(R.id.component_proposed_apartment_item__room_count_chip)
         private val metroBranchColor: ImageView =
-            itemView.findViewById(R.id.component_proposed_apartment_item_metro__branch_color)
+            itemView.findViewById(R.id.component_proposed_apartment_item__metro_branch_color)
         private val apartmentSquare: TextView =
-            itemView.findViewById(R.id.component_proposed_apartment_item_square__text)
+            itemView.findViewById(R.id.component_proposed_apartment_item__square_text)
         private val apartmentCost: TextView =
-            itemView.findViewById(R.id.component_proposed_apartment_item_cost__text)
+            itemView.findViewById(R.id.component_proposed_apartment_item__cost_text)
         private val photoContainer: LinearLayout =
-            itemView.findViewById(R.id.component_proposed_apartment_item_photos__container)
+            itemView.findViewById(R.id.component_proposed_apartment_item__photos_container)
 
         fun bind(apartments: Apartment) {
             if (apartments.ownerAvatar != null) {
@@ -56,7 +56,12 @@ class ApartmensAdaper(
                 userAvatar.setImageResource(R.drawable.stub_person_avatar)
             }
 
-            metroBranchColor.background.setTint(ContextCompat.getColor(itemView.context, apartments.metro.branchColor))
+            metroBranchColor.background.setTint(
+                ContextCompat.getColor(
+                    itemView.context,
+                    apartments.metro.branchColor
+                )
+            )
             apartmentOwnerName.text = apartments.ownerName
             apartmentOwnerAge.text = "${apartments.ownerAge} лет"
             metroText.text = apartments.metro.stationName
