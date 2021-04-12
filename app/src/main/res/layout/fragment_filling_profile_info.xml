@@ -11,7 +11,7 @@
 
 
     <Button
-        android:id="@+id/fragment_first_creation_edit_btn"
+        android:id="@+id/fragment_filling_profile_info_edit_btn"
         android:layout_width="154dp"
         android:layout_height="44dp"
         android:background="@drawable/btn_border"
@@ -28,7 +28,7 @@
 
 
     <Button
-        android:id="@+id/fragment_first_creation_continue_btn"
+        android:id="@+id/fragment_filling_profile_info_continue_btn"
         android:layout_width="225dp"
         android:layout_height="46dp"
         android:background="@color/main"
@@ -44,7 +44,7 @@
 
 
     <EditText
-        android:id="@+id/fragment_first_creation_name_et"
+        android:id="@+id/fragment_filling_profile_info_name_et"
         android:layout_width="291dp"
         android:layout_height="47dp"
         android:autofillHints="name"
@@ -59,7 +59,7 @@
         app:layout_constraintVertical_bias="0.3" />
 
     <EditText
-        android:id="@+id/fragment_first_creation_surname_et"
+        android:id="@+id/fragment_filling_profile_info_surname_et"
         android:layout_width="291dp"
         android:layout_height="47dp"
         android:autofillHints="surname"
@@ -74,7 +74,7 @@
         app:layout_constraintVertical_bias="0.379" />
 
     <EditText
-        android:id="@+id/fragment_first_creation_age_et"
+        android:id="@+id/fragment_filling_profile_info_age_et"
         android:layout_width="291dp"
         android:layout_height="47dp"
         android:autofillHints="age"
@@ -89,7 +89,7 @@
         app:layout_constraintVertical_bias="0.548" />
 
     <EditText
-        android:id="@+id/fragment_first_creation_phone_et"
+        android:id="@+id/fragment_filling_profile_info_phone_et"
         android:layout_width="291dp"
         android:layout_height="47dp"
         android:autofillHints="phone"
@@ -104,7 +104,7 @@
         app:layout_constraintVertical_bias="0.462" />
 
     <Spinner
-        android:id="@+id/fragment_first_creation_gender_sp"
+        android:id="@+id/fragment_filling_profile_info_gender_sp"
         android:layout_width="291dp"
         android:layout_height="47dp"
         android:background="@drawable/et_border"

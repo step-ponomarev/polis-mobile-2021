@@ -27,6 +27,7 @@ class SelfDefinitionFragment : Fragment() {
 
         addApartmentButton = view.findViewById(R.id.fragment_self_definition__button_rent_apartment)
         addApartmentButton.setOnClickListener(this::onClickAddApartment)
+
         findApartmentButton = view.findViewById(R.id.fragment_self_definition__button_find_apartment)
         findApartmentButton.setOnClickListener(this::onClickFindApartment)
     }
@@ -36,6 +37,6 @@ class SelfDefinitionFragment : Fragment() {
     }
 
     private fun onClickFindApartment(view: View) {
-        findNavController().navigate(R.id.nav_graph__first_creation_fragment)
+        findNavController().navigate(R.id.nav_graph__filling_profile_info)
     }
 }
