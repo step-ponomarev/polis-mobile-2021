@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.mail.polis.R
 import ru.mail.polis.list.RecyclerViewListDecoration
-import ru.mail.polis.list.of.apartments.ApartmentsAdapter
 import ru.mail.polis.list.of.apartments.Apartment
+import ru.mail.polis.list.of.apartments.ApartmentsAdapter
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
 
