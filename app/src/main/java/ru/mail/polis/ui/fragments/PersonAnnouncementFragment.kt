@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import ru.mail.polis.R
 import ru.mail.polis.list.of.people.Person
+import ru.mail.polis.metro.Metro
 
 class PersonAnnouncementFragment : Fragment() {
     override fun onCreateView(
@@ -64,7 +65,7 @@ class PersonAnnouncementFragment : Fragment() {
             llIvTags[i].setImageResource(person.tags[i])
         }
         ivMetro.setImageResource(R.drawable.ic_train)
-        tvMetro.text = person.metro
+        tvMetro.text = person.metro.stationName
         // ivBranchColor.setImageResource(person.branchColor)
         ivMoney.setImageResource(R.drawable.ic_wallet)
         tvMoney.text = "от " + person.money.first + " до " + person.money.second
@@ -88,7 +89,7 @@ private fun generateTestPerson(): Person {
             R.drawable.ic_paw,
             R.drawable.ic_drum
         ),
-        "Купчино",
+        Metro.KUPCHINO,
         0,
         Pair(20000, 35000),
         listOf("1 комната", "2 комнаты"),
