@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:background="@drawable/metro_circle"
+            android:background="@drawable/shape_metro_circle"
             android:contentDescription="branch color"/>
     </LinearLayout>
 
