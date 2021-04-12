@@ -54,7 +54,7 @@ class LoginFragment : Fragment() {
         val success = googleAuthentication.handleResult(result.data)
 
         if (success) {
-            findNavController().navigate(R.id.nav_graph__self_definition_fragment)
+            findNavController().navigate(R.id.nav_graph__proposed_apartments_fragment)
         }
     }
 }

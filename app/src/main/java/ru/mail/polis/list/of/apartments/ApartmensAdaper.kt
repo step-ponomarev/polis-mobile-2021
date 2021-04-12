@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import ru.mail.polis.R
 
 class ApartmensAdaper(
@@ -15,7 +18,7 @@ class ApartmensAdaper(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeopleViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.proposed_apartment_item, parent, false)
+            .inflate(R.layout.component_proposed_apartment_item, parent, false)
         return PeopleViewHolder(view)
     }
 
@@ -28,46 +31,56 @@ class ApartmensAdaper(
     }
 
     class PeopleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val userAvatar: ImageView = itemView.findViewById(R.id.component_person_header__avatar)
-        private val apartmentOwnerName: TextView = itemView.findViewById(R.id.component_person_header__name)
-        private val apartmentOwnerAge: TextView = itemView.findViewById(R.id.component_person_header__age)
+        private val userAvatar: ImageView =
+            itemView.findViewById(R.id.component_person_header__avatar)
+        private val apartmentOwnerName: TextView =
+            itemView.findViewById(R.id.component_person_header__name)
+        private val apartmentOwnerAge: TextView =
+            itemView.findViewById(R.id.component_person_header__age)
         private val metroText: TextView =
-            itemView.findViewById(R.id.proposed_apartment_item_metro__text)
-
-        // как изменить цвет?
+            itemView.findViewById(R.id.component_proposed_apartment_item_metro__text)
         private val metroBranchColor: ImageView =
-            itemView.findViewById(R.id.proposed_apartment_item_metro__branch_color)
+            itemView.findViewById(R.id.component_proposed_apartment_item_metro__branch_color)
         private val apartmentSquare: TextView =
-            itemView.findViewById(R.id.proposed_apartment_item_square__text)
+            itemView.findViewById(R.id.component_proposed_apartment_item_square__text)
         private val apartmentCost: TextView =
-            itemView.findViewById(R.id.proposed_apartment_item_cost__text)
-
-        // шота придумать, как добавлять фоточки?
-//        private val apartmentPhotoContainer: ConstraintLayout =
-//            itemView.findViewById(R.id.proposed_apartment_item_photos)
+            itemView.findViewById(R.id.component_proposed_apartment_item_cost__text)
+        private val photoContainer: LinearLayout =
+            itemView.findViewById(R.id.component_proposed_apartment_item_photos__container)
 
         fun bind(apartments: Apartment) {
-            userAvatar.setImageResource(apartments.ownerAvatar ?: R.drawable.stub_person_avatar)
+            if (apartments.ownerAvatar != null) {
+                Glide.with(itemView).load(apartments.ownerAvatar).into(userAvatar)
+            } else {
+                userAvatar.setImageResource(R.drawable.stub_person_avatar)
+            }
+
+            metroBranchColor.background.setTint(ContextCompat.getColor(itemView.context, apartments.metro.branchColor))
             apartmentOwnerName.text = apartments.ownerName
             apartmentOwnerAge.text = "${apartments.ownerAge} лет"
             metroText.text = apartments.metro.stationName
             apartmentSquare.text = "${apartments.apartmentSquare} м. кв."
             apartmentCost.text = "${apartments.apartmentCosts} Р"
 
-            // пока не трогаем
-//            val photos: List<ImageView> = apartments.apartmentPhotos.map<Int, ImageView> { id ->
-//                photoIdToImageView(
-//                    itemView.context,
-//                    id
-//                )
-//            }
+            val photos: List<ImageView> = apartments.photosUrls.map { url ->
+                urlToImageView(itemView.context, url)
+            }
+
+            photos.forEach(photoContainer::addView)
         }
 
-        private fun photoIdToImageView(context: Context, id: Int): ImageView {
+        private fun urlToImageView(context: Context, url: String): ImageView {
             val iv = ImageView(context)
-            iv.setImageResource(id)
 
-            return iv
+            iv.layoutParams = ViewGroup.MarginLayoutParams(
+                ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+                ViewGroup.MarginLayoutParams.WRAP_CONTENT
+            )
+
+            iv.adjustViewBounds = true
+            iv.setPadding(5, 0, 5, 0)
+
+            return Glide.with(itemView).load(url).into(iv).view
         }
     }
 }

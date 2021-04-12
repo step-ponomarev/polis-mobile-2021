@@ -12,7 +12,6 @@ import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.apartments.ApartmensAdaper
 import ru.mail.polis.list.of.apartments.Apartment
 import ru.mail.polis.metro.Metro
-import java.util.Collections
 
 class ListOfProposedApartmentsFragment : Fragment() {
     companion object {
@@ -30,9 +29,10 @@ class ListOfProposedApartmentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val rvList: RecyclerView = view.findViewById(R.id.proposed_apartments__list)
-        rvList.addItemDecoration(RecyclerViewListDecoration())
         val adapter = ApartmensAdaper(mockAparts())
+        val rvList: RecyclerView = view.findViewById(R.id.proposed_apartments__list)
+
+        rvList.addItemDecoration(RecyclerViewListDecoration())
         rvList.layoutManager = LinearLayoutManager(this.context)
         rvList.adapter = adapter
     }
@@ -46,16 +46,37 @@ class ListOfProposedApartmentsFragment : Fragment() {
                 Metro.DEVYATKINO,
                 8,
                 11999,
-                Collections.emptyList()
+                listOf(
+                    "https://i.ytimg.com/vi/vBM8H5drE0o/maxresdefault.jpg",
+                    "https://starpri.ru/wp-content/uploads/2019/02/5kenap.png",
+                    "https://www.meme-arsenal.com/memes/d547850e477b4dc2a13167e12e32fb5b.jpg"
+                )
             ),
             Apartment(
                 null,
                 "Илья Сачук",
                 12,
-                Metro.PARNAS,
+                Metro.PARNASSUS,
                 287,
                 30000,
-                Collections.emptyList()
+                listOf(
+                    "https://i.ytimg.com/vi/vBM8H5drE0o/maxresdefault.jpg",
+                    "https://starpri.ru/wp-content/uploads/2019/02/5kenap.png",
+                    "https://www.meme-arsenal.com/memes/d547850e477b4dc2a13167e12e32fb5b.jpg"
+                )
+            ),
+            Apartment(
+                null,
+                "Илья Сачук",
+                12,
+                Metro.CIVIL_PROSPECT,
+                287,
+                30000,
+                listOf(
+                    "https://i.ytimg.com/vi/vBM8H5drE0o/maxresdefault.jpg",
+                    "https://starpri.ru/wp-content/uploads/2019/02/5kenap.png",
+                    "https://www.meme-arsenal.com/memes/d547850e477b4dc2a13167e12e32fb5b.jpg"
+                )
             )
         )
     }
