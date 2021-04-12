@@ -73,7 +73,7 @@ class PeopleAdapter(
             tvDescription.text = person.description
         }
 
-        private fun urlToImageView (context: Context, url: Int):ImageView{
+        private fun urlToImageView(context: Context, url: Int): ImageView {
             val iv = ImageView(context)
 
             iv.layoutParams = ViewGroup.MarginLayoutParams(
