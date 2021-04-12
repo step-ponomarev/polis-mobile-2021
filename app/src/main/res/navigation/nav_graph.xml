@@ -19,13 +19,17 @@
         android:label="Self Definition Fragment">
         <action
             android:id="@+id/action_self_definition_fragment_to_add_apartment_fragment"
-            app:destination="@+id/nav_graph__add_apartment_fragment"/>
+            app:destination="@id/nav_graph__add_apartment_fragment" />
+        <action
+            android:id="@+id/action_nav_graph__self_definition_fragment_to_firstCreationFragment"
+            app:destination="@id/nav_graph__first_creation_fragment" />
     </fragment>
-
+    <fragment
+        android:id="@+id/nav_graph__first_creation_fragment"
+        android:name="ru.mail.polis.ui.fragments.FirstCreationFragment"
+        android:label="FirstCreationFragment" />
     <fragment
         android:id="@+id/nav_graph__add_apartment_fragment"
         android:name="ru.mail.polis.ui.fragments.AddApartmentFragment"
-        android:label="Add Apartment Fragment">
-    </fragment>
-
+        android:label="AddApartmentFragment" />
 </navigation>

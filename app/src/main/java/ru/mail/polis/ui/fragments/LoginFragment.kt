@@ -43,10 +43,10 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         singInButton = view.findViewById(R.id.gmail_login_button)
-        singInButton.setOnClickListener(this::onClickSingIn)
+        singInButton.setOnClickListener(this::onClickSignIn)
     }
 
-    private fun onClickSingIn(view: View) {
+    private fun onClickSignIn(view: View) {
         loginForResult.launch(googleAuthentication.getSignInIntent())
     }
 
