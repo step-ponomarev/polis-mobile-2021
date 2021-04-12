@@ -21,40 +21,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/people_item_iv_photo"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-
-            <TextView
-                android:id="@+id/people_item_tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:padding="5dp"
-                android:paddingStart="10dp"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@id/people_item_tv_age"
-                app:layout_constraintStart_toEndOf="@+id/people_item_iv_photo"
-                app:layout_constraintTop_toTopOf="@id/people_item_iv_photo"
-                app:layout_constraintVertical_chainStyle="packed"
-                />
-
-            <TextView
-                android:id="@+id/people_item_tv_age"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="10dp"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="@id/people_item_iv_photo"
-                app:layout_constraintStart_toStartOf="@id/people_item_tv_name"
-                app:layout_constraintTop_toBottomOf="@id/people_item_tv_name"
-                />
+        <include
+            layout="@layout/component_person_header"
+            android:id="@+id/include"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
              <View
                 android:layout_width="match_parent"
@@ -76,7 +51,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/people_item_iv_photo"
+                app:layout_constraintTop_toBottomOf="@id/include"
                 app:layout_constraintVertical_chainStyle="packed"
                 android:paddingStart="10dp"
                 >

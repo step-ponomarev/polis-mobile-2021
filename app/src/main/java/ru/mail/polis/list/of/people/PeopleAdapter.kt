@@ -27,9 +27,9 @@ class PeopleAdapter(
     }
 
     class PeopleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val ivPhoto: ImageView = itemView.findViewById(R.id.people_item_iv_photo)
-        private val tvName: TextView = itemView.findViewById(R.id.people_item_tv_name)
-        private val tvAge: TextView = itemView.findViewById(R.id.people_item_tv_age)
+        private val ivPhoto: ImageView = itemView.findViewById(R.id.component_person_header__avatar)
+        private val tvName: TextView = itemView.findViewById(R.id.component_person_header__name)
+        private val tvAge: TextView = itemView.findViewById(R.id.component_person_header__age)
         private val llIvTags: List<ImageView> = listOf(
             itemView.findViewById(R.id.people_item_ll_iv_tag1),
             itemView.findViewById(R.id.people_item_ll_iv_tag2),
@@ -57,7 +57,9 @@ class PeopleAdapter(
         private val tvDescription: TextView = itemView.findViewById(R.id.people_item_tv_description)
 
         fun bind(person: Person) {
-            ivPhoto.setImageResource(person.photo)
+            if (person.photo != 0)
+                ivPhoto.setImageResource(person.photo)
+
             tvName.text = person.name
             tvAge.text = person.age
             for (i in 0..6.coerceAtMost(person.tags.size - 1)) {

@@ -54,7 +54,7 @@ private fun generateTestPeopleList(): List<Person> {
             "Привет, меня зовут Степа и я не алкоголик. У меня есть ребенок и жена ищем квартиру для длительного проживания. У нас четыре щеночка и барабанная установка"
         ),
         Person(
-            R.drawable.ic_account_circle_24,
+            0,
             "Ника Пеутина",
             "19 лет",
             R.mipmap.ic_mark_foreground,
