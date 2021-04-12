@@ -42,12 +42,4 @@
         app:layout_constraintStart_toStartOf="@id/component_person_header__name"
         app:layout_constraintTop_toBottomOf="@id/component_person_header__name" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/shape_line"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/component_person_header__avatar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

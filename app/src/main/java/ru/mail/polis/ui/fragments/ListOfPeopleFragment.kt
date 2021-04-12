@@ -22,7 +22,7 @@ class ListOfPeopleFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.list_of_people, container, false)
+        return inflater.inflate(R.layout.fragment_list_of_people, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

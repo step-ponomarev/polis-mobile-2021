@@ -1,12 +1,15 @@
 package ru.mail.polis.list.of.people
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import ru.mail.polis.R
 
 class PeopleAdapter(
@@ -30,15 +33,7 @@ class PeopleAdapter(
         private val ivPhoto: ImageView = itemView.findViewById(R.id.component_person_header__avatar)
         private val tvName: TextView = itemView.findViewById(R.id.component_person_header__name)
         private val tvAge: TextView = itemView.findViewById(R.id.component_person_header__age)
-        private val llIvTags: List<ImageView> = listOf(
-            itemView.findViewById(R.id.people_item_ll_iv_tag1),
-            itemView.findViewById(R.id.people_item_ll_iv_tag2),
-            itemView.findViewById(R.id.people_item_ll_iv_tag3),
-            itemView.findViewById(R.id.people_item_ll_iv_tag4),
-            itemView.findViewById(R.id.people_item_ll_iv_tag5),
-            itemView.findViewById(R.id.people_item_ll_iv_tag6),
-            itemView.findViewById(R.id.people_item_ll_iv_tag7)
-        )
+        private val llIvTags: LinearLayout = itemView.findViewById(R.id.people_item_ll_tags)
         private val ivMetro: ImageView = itemView.findViewById(R.id.people_item_iv_metro)
         private val tvMetro: TextView = itemView.findViewById(R.id.people_item_tv_metro)
         private val ivBranchColor: ImageView = itemView.findViewById(R.id.people_item_iv_branch_color)
@@ -62,9 +57,10 @@ class PeopleAdapter(
 
             tvName.text = person.name
             tvAge.text = person.age
-            for (i in 0..6.coerceAtMost(person.tags.size - 1)) {
-                llIvTags[i].setImageResource(person.tags[i])
+            val tags: List<ImageView> = person.tags.map { url ->
+                urlToImageView(itemView.context, url)
             }
+            tags.forEach(llIvTags::addView)
             ivMetro.setImageResource(R.drawable.ic_train)
             tvMetro.text = person.metro.stationName
             // ivBranchColor.setImageResource(person.branchColor)
@@ -75,6 +71,21 @@ class PeopleAdapter(
                 tvRooms[i].text = person.rooms[i]
             }
             tvDescription.text = person.description
+        }
+
+        private fun urlToImageView (context: Context, url: Int):ImageView{
+            val iv = ImageView(context)
+
+            iv.layoutParams = ViewGroup.MarginLayoutParams(
+                ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+                ViewGroup.MarginLayoutParams.WRAP_CONTENT
+            )
+
+            iv.adjustViewBounds = true
+            iv.setPadding(5, 5, 10, 5)
+            Glide.with(itemView).load(url).into(iv)
+
+            return iv
         }
     }
 }

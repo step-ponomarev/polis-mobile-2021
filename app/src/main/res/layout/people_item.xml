@@ -35,18 +35,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@drawable/shape_line"
-                app:layout_constraintBottom_toTopOf="@id/people_item_ll_tags"
+                app:layout_constraintBottom_toTopOf="@id/people_item_hsv_tags"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/people_item_ll_tags"
+                app:layout_constraintTop_toTopOf="@id/people_item_hsv_tags"
                 />
-
-            <LinearLayout
-                android:id="@+id/people_item_ll_tags"
+            <HorizontalScrollView
+                android:id="@+id/people_item_hsv_tags"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginVertical="10dp"
-                android:padding="5dp"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -55,62 +53,21 @@
                 app:layout_constraintVertical_chainStyle="packed"
                 android:paddingStart="10dp"
                 >
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginEnd="5dp"
-                    android:id="@+id/people_item_ll_iv_tag1"
-                    />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:id="@+id/people_item_ll_iv_tag2"
-                    android:layout_marginEnd="5dp"
-                    />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:id="@+id/people_item_ll_iv_tag3"
-                    android:layout_marginEnd="5dp"
-                    />
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:id="@+id/people_item_ll_iv_tag4"
-                    android:layout_marginEnd="5dp"
-                    />
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:id="@+id/people_item_ll_iv_tag5"
-                    android:layout_marginEnd="5dp"
-                    />
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:id="@+id/people_item_ll_iv_tag6"
-                    android:layout_marginEnd="5dp"
-                    />
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:id="@+id/people_item_ll_iv_tag7"
-                    android:layout_marginEnd="5dp"
-                    />
-
-
-            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/people_item_ll_tags"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"> </LinearLayout>
+            </HorizontalScrollView>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@drawable/shape_line"
-                app:layout_constraintBottom_toBottomOf="@id/people_item_ll_tags"
+                app:layout_constraintBottom_toBottomOf="@id/people_item_hsv_tags"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/people_item_ll_tags"
+                app:layout_constraintTop_toBottomOf="@id/people_item_hsv_tags"
 
                 />
 
@@ -120,7 +77,7 @@
                 android:layout_height="20dp"
                 android:layout_margin="20dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/people_item_ll_tags"
+                app:layout_constraintTop_toBottomOf="@id/people_item_hsv_tags"
                 />
 
             <TextView
