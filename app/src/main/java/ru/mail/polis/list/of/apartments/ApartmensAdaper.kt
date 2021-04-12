@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.chip.Chip
 import ru.mail.polis.R
 
 class ApartmensAdaper(
@@ -39,6 +40,8 @@ class ApartmensAdaper(
             itemView.findViewById(R.id.component_person_header__age)
         private val metroText: TextView =
             itemView.findViewById(R.id.component_proposed_apartment_item_metro__text)
+        private val roomCount: Chip =
+            itemView.findViewById(R.id.component_proposed_apartment_item__room_count_chip)
         private val metroBranchColor: ImageView =
             itemView.findViewById(R.id.component_proposed_apartment_item_metro__branch_color)
         private val apartmentSquare: TextView =
@@ -59,6 +62,7 @@ class ApartmensAdaper(
             apartmentOwnerName.text = apartments.ownerName
             apartmentOwnerAge.text = "${apartments.ownerAge} лет"
             metroText.text = apartments.metro.stationName
+            roomCount.text = apartments.roomCount.label
             apartmentSquare.text = "${apartments.apartmentSquare} м. кв."
             apartmentCost.text = "${apartments.apartmentCosts} Р"
 

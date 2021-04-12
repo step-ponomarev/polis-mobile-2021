@@ -7,14 +7,14 @@
     android:paddingBottom="10dp">
 
     <include
-        android:id="@+id/userHeader"
+        android:id="@+id/component_proposed_apartment_item__userHeader"
         layout="@layout/component_person_header"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/component_proposed_apartment_item_metro"
+        android:id="@+id/component_proposed_apartment_item__metro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
@@ -23,7 +23,7 @@
         android:orientation="horizontal"
         android:padding="5dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userHeader">
+        app:layout_constraintTop_toBottomOf="@id/component_proposed_apartment_item__userHeader">
 
         <ImageView
             android:id="@+id/component_proposed_apartment_item_metro__icon"
@@ -56,7 +56,7 @@
         android:orientation="horizontal"
         android:padding="5dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/component_proposed_apartment_item_metro">
+        app:layout_constraintTop_toBottomOf="@id/component_proposed_apartment_item__metro">
 
         <ImageView
             android:id="@+id/component_proposed_apartment_item_cost__icon"
@@ -121,7 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="Фотографии:"
+            android:text="@string/photos_label"
             android:textAlignment="center"
 
             android:textStyle="bold" />
@@ -142,7 +142,7 @@
     </HorizontalScrollView>
 
     <com.google.android.material.chip.Chip
-        android:id="@+id/chip4"
+        android:id="@+id/component_proposed_apartment_item__room_count_chip"
         style="@style/Widget.MaterialComponents.Chip.Choice"
         android:layout_width="112dp"
         android:layout_height="44dp"
@@ -150,9 +150,8 @@
         android:layout_marginTop="20dp"
         android:checkable="false"
         android:gravity="center"
-        android:text="2 комнаты"
         android:textAlignment="center"
         android:theme="@style/Theme.MaterialComponents.Light"
-        app:layout_constraintLeft_toRightOf="@id/component_proposed_apartment_item_metro"
-        app:layout_constraintTop_toBottomOf="@id/userHeader" />
+        app:layout_constraintLeft_toRightOf="@id/component_proposed_apartment_item__metro"
+        app:layout_constraintTop_toBottomOf="@id/component_proposed_apartment_item__userHeader" />
 </androidx.constraintlayout.widget.ConstraintLayout>

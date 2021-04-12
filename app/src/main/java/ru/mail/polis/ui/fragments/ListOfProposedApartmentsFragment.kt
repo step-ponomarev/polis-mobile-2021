@@ -12,6 +12,7 @@ import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.apartments.ApartmensAdaper
 import ru.mail.polis.list.of.apartments.Apartment
 import ru.mail.polis.metro.Metro
+import ru.mail.polis.room.RoomCount
 
 class ListOfProposedApartmentsFragment : Fragment() {
     companion object {
@@ -30,7 +31,7 @@ class ListOfProposedApartmentsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = ApartmensAdaper(mockAparts())
-        val rvList: RecyclerView = view.findViewById(R.id.proposed_apartments__list)
+        val rvList: RecyclerView = view.findViewById(R.id.fragment_proposed_apartments__list)
 
         rvList.addItemDecoration(RecyclerViewListDecoration())
         rvList.layoutManager = LinearLayoutManager(this.context)
@@ -44,6 +45,7 @@ class ListOfProposedApartmentsFragment : Fragment() {
                 "Степан Пономарев",
                 20,
                 Metro.DEVYATKINO,
+                RoomCount.TWO,
                 8,
                 11999,
                 listOf(
@@ -57,6 +59,7 @@ class ListOfProposedApartmentsFragment : Fragment() {
                 "Илья Сачук",
                 12,
                 Metro.PARNASSUS,
+                RoomCount.ONE,
                 287,
                 30000,
                 listOf(
@@ -70,6 +73,7 @@ class ListOfProposedApartmentsFragment : Fragment() {
                 "Илья Сачук",
                 12,
                 Metro.CIVIL_PROSPECT,
+                RoomCount.FOUR,
                 287,
                 30000,
                 listOf(

@@ -5,7 +5,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/proposed_apartments__list"
+        android:id="@+id/fragment_proposed_apartments__list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
