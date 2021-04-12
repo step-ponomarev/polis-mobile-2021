@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <Button
+        android:id="@+id/add_button"
         android:layout_width="330dp"
         android:layout_height="65dp"
         android:backgroundTint="#18ccd4"
