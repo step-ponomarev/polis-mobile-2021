@@ -53,7 +53,7 @@
 
                 <include
                     android:id="@+id/fragment_settings__avatar_component"
-                    layout="@layout/avatar_component"
+                    layout="@layout/change_avatar_component"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toTopOf="@id/fragment_settings__et_name"
