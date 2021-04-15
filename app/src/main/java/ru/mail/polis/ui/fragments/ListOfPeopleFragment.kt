@@ -38,7 +38,7 @@ class ListOfPeopleFragment : Fragment() {
 private fun generateTestPeopleList(): List<Person> {
     return listOf(
         Person(
-            R.drawable.photo1,
+            null,
             "Степан Пономарев",
             "22 года",
             R.mipmap.ic_mark_foreground,
@@ -54,7 +54,7 @@ private fun generateTestPeopleList(): List<Person> {
             "Привет, меня зовут Степа и я не алкоголик. У меня есть ребенок и жена ищем квартиру для длительного проживания. У нас четыре щеночка и барабанная установка"
         ),
         Person(
-            0,
+            null,
             "Ника Пеутина",
             "19 лет",
             R.mipmap.ic_mark_foreground,

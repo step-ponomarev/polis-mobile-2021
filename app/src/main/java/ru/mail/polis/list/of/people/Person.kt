@@ -3,7 +3,7 @@ package ru.mail.polis.list.of.people
 import ru.mail.polis.metro.Metro
 
 data class Person(
-    val photo: Int,
+    val photo: String?,
     val name: String,
     val age: String,
     val mark: Int,

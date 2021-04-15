@@ -52,8 +52,9 @@ class PeopleAdapter(
         private val tvDescription: TextView = itemView.findViewById(R.id.people_item_tv_description)
 
         fun bind(person: Person) {
-            if (person.photo != 0)
-                ivPhoto.setImageResource(person.photo)
+            if (person.photo != null) {
+                urlToMyImageView(ivPhoto, person.photo)
+            }
 
             tvName.text = person.name
             tvAge.text = person.age
@@ -84,12 +85,14 @@ class PeopleAdapter(
                 ViewGroup.MarginLayoutParams.WRAP_CONTENT,
                 ViewGroup.MarginLayoutParams.WRAP_CONTENT
             )
-
             iv.adjustViewBounds = true
             iv.setPadding(5, 5, 10, 5)
             Glide.with(itemView).load(url).into(iv)
 
             return iv
+        }
+        private fun urlToMyImageView(iv: ImageView, url: String) {
+            Glide.with(itemView).load(url).into(iv)
         }
     }
 }
