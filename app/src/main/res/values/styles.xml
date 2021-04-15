@@ -50,4 +50,14 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+
+    <style name="icon">
+        <item name="android:layout_width">16dp</item>
+        <item name="android:layout_height">16dp</item>
+    </style>
+
+    <style name="metroCircle">
+        <item name="android:layout_width">5dp</item>
+        <item name="android:layout_height">5dp</item>
+    </style>
 </resources>

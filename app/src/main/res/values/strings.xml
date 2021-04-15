@@ -29,6 +29,7 @@
     <string name="three_room_text">3 комнаты</string>
     <string name="four_room_text">4 комнаты</string>
     <string name="five_plus_room_text">5+ комнат</string>
+    <string name="photos_label">Фотографии:</string>
 
     <string-array name="subways">
         <item>Автово</item>
