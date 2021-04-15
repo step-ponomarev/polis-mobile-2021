@@ -24,12 +24,16 @@
             android:id="@+id/action_nav_graph__self_definition_fragment_to_firstCreationFragment"
             app:destination="@id/nav_graph__filling_profile_info" />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_graph__add_apartment_fragment"
+        android:name="ru.mail.polis.ui.fragments.AddApartmentFragment"
+        android:label="Add Apartment Fragment">
+    </fragment>
+
     <fragment
         android:id="@+id/nav_graph__filling_profile_info"
         android:name="ru.mail.polis.ui.fragments.FirstCreationFragment"
         android:label="Filling profile info" />
-    <fragment
-        android:id="@+id/nav_graph__add_apartment_fragment"
-        android:name="ru.mail.polis.ui.fragments.AddApartmentFragment"
-        android:label="AddApartmentFragment" />
+
 </navigation>
