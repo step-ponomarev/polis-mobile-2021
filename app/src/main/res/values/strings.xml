@@ -4,7 +4,17 @@
     <string name="choose_next_step_text">Выберите дальнейшее действие</string>
     <string name="find_apartment_text">Ищем квартиру</string>
     <string name="rent_apartment_text">Сдаем квартиру</string>
+    <string name="external_accounts_text">Внешние аккаунты</string>
+    <string name="edit_button_text">Изменить</string>
+    <string name="personal_data_text">Личные данные</string>
     <string name="add_button_text">Добавить</string>
+    <string name="edit_photo_text">Изменить фото</string>
+    <string name="add_text">Добавить</string>
+    <string name="telegram_text">Telegram</string>
+    <string name="age_text">Возраст</string>
+    <string name="phone_number_text">Номер телефона</string>
+    <string name="surname_text">Фамилия</string>
+    <string name="name_text">Имя</string>
     <string name="add_apartment_text">Добавить квартиру</string>
     <string name="choose_metro_text"><u>Укажите метро</u></string>
     <string name="choose_rooms_number_text">Укажите количество комнат</string>
