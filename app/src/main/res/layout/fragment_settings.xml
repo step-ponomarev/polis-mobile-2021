@@ -52,7 +52,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <include
-                    android:id="@+id/fragment_settings__avatar_component"
+                    android:id="@+id/fragment_settings__change_avatar_component"
                     layout="@layout/change_avatar_component"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                     app:layout_constraintBottom_toTopOf="@id/fragment_settings__et_surname"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__avatar_component" />
+                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__change_avatar_component" />
 
                 <EditText
                     android:id="@+id/fragment_settings__et_surname"
