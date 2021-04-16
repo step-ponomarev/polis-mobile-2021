@@ -12,6 +12,9 @@ import ru.mail.polis.metro.Metro
 
 class CreationFragment : Fragment() {
 
+    private lateinit var spinner: Spinner
+    private val metroList = Metro.values()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -21,13 +24,16 @@ class CreationFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val spinner = view.findViewById<Spinner>(R.id.fragment_add_apartment_spinner)
-        val adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_list_item_1,
-            Metro.values()
-        )
-        spinner.adapter = adapter
-        return super.onViewCreated(view, savedInstanceState)
+        super.onViewCreated(view, savedInstanceState)
+
+        spinner = view.findViewById(R.id.fragment_advert_creation__spinner)
+
+        val metroNamesList = metroList.map { it.stationName }
+
+        ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, metroNamesList)
+            .also {
+                it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinner.adapter = it
+            }
     }
 }

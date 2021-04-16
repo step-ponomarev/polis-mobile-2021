@@ -4,6 +4,9 @@
     <string name="choose_next_step_text">Выберите дальнейшее действие</string>
     <string name="find_apartment_text">Ищем квартиру</string>
     <string name="rent_apartment_text">Сдаем квартиру</string>
+    <string name="external_accounts_text">Внешние аккаунты</string>
+    <string name="edit_button_text">Изменить</string>
+    <string name="personal_data_text">Личные данные</string>
     <string name="add_button_text">Добавить</string>
     <string name="edit_photo_text">Изменить фото</string>
     <string name="add_text">Добавить</string>
