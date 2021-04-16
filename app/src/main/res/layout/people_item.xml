@@ -21,7 +21,7 @@
             android:layout_height="match_parent">
 
             <include
-                android:id="@+id/include"
+                android:id="@+id/people_item__component_person_header"
                 layout="@layout/component_person_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -35,13 +35,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@drawable/shape_line"
-                app:layout_constraintBottom_toTopOf="@id/people_item_hsv_tags"
+                app:layout_constraintBottom_toTopOf="@id/people_item__hsv_tags"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/people_item_hsv_tags"
+                app:layout_constraintTop_toTopOf="@id/people_item__hsv_tags"
                 />
             <HorizontalScrollView
-                android:id="@+id/people_item_hsv_tags"
+                android:id="@+id/people_item__hsv_tags"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginVertical="10dp"
@@ -49,12 +49,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/include"
+                app:layout_constraintTop_toBottomOf="@id/people_item__component_person_header"
                 app:layout_constraintVertical_chainStyle="packed"
                 android:paddingStart="10dp"
                 >
             <LinearLayout
-                android:id="@+id/people_item_ll_tags"
+                android:id="@+id/people_item__ll_tags"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"> </LinearLayout>
@@ -64,20 +64,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@drawable/shape_line"
-                app:layout_constraintBottom_toBottomOf="@id/people_item_hsv_tags"
+                app:layout_constraintBottom_toBottomOf="@id/people_item__hsv_tags"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/people_item_hsv_tags"
+                app:layout_constraintTop_toBottomOf="@id/people_item__hsv_tags"
 
                 />
 
             <ImageView
-                android:id="@+id/people_item_iv_metro"
+                android:id="@+id/people_item__iv_metro"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_margin="20dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/people_item_hsv_tags"
+                app:layout_constraintTop_toBottomOf="@id/people_item__hsv_tags"
                 />
 
             <LinearLayout
@@ -90,7 +90,7 @@
                 android:orientation="horizontal"
                 android:padding="10dp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/people_item_hsv_tags">
+                app:layout_constraintTop_toBottomOf="@id/people_item__hsv_tags">
 
                 <ImageView
                     android:id="@+id/people_item__metro_icon"
@@ -126,13 +126,13 @@
                 app:layout_constraintTop_toBottomOf="@id/people_item__ll_metro">
 
                 <ImageView
-                    android:id="@+id/people_item_iv_money"
+                    android:id="@+id/people_item__iv_money"
                     style="@style/icon"
                     android:src="@drawable/ic_wallet"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/people_item_tv_money"
+                    android:id="@+id/people_item__tv_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -141,7 +141,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/people_item_ll_rooms"
+                android:id="@+id/people_item__ll_rooms"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginVertical="10dp"
@@ -155,7 +155,7 @@
                 >
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/people_item_ll_cv_rooms1"
+                    android:id="@+id/people_item__ll_cv_rooms1"
                     android:visibility="invisible"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
@@ -164,7 +164,7 @@
                     android:outlineSpotShadowColor="@color/black"
                     >
                     <TextView
-                        android:id="@+id/people_item_ll_tv_rooms1"
+                        android:id="@+id/people_item__ll_tv_rooms1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -173,7 +173,7 @@
                         />
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/people_item_ll_cv_rooms2"
+                    android:id="@+id/people_item__ll_cv_rooms2"
                     android:visibility="invisible"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
@@ -182,7 +182,7 @@
                     android:outlineSpotShadowColor="@color/black"
                     >
                     <TextView
-                        android:id="@+id/people_item_ll_tv_rooms2"
+                        android:id="@+id/people_item__ll_tv_rooms2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -191,7 +191,7 @@
                         />
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/people_item_ll_cv_rooms3"
+                    android:id="@+id/people_item__ll_cv_rooms3"
                     android:visibility="invisible"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
@@ -200,7 +200,7 @@
                     android:outlineSpotShadowColor="@color/black"
                     >
                     <TextView
-                        android:id="@+id/people_item_ll_tv_rooms3"
+                        android:id="@+id/people_item__ll_tv_rooms3"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -214,7 +214,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/people_item_tv_description"
+                android:id="@+id/people_item__tv_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -224,7 +224,7 @@
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/people_item_ll_rooms"
+                app:layout_constraintTop_toBottomOf="@id/people_item__ll_rooms"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

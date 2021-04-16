@@ -34,22 +34,22 @@ class PeopleAdapter(
         private val ivPhoto: ImageView = itemView.findViewById(R.id.component_person_header__avatar)
         private val tvName: TextView = itemView.findViewById(R.id.component_person_header__name)
         private val tvAge: TextView = itemView.findViewById(R.id.component_person_header__age)
-        private val llIvTags: LinearLayout = itemView.findViewById(R.id.people_item_ll_tags)
+        private val llIvTags: LinearLayout = itemView.findViewById(R.id.people_item__ll_tags)
         private val tvMetro: TextView = itemView.findViewById(R.id.people_item__metro_text)
         private val ivBranchColor: ImageView = itemView.findViewById(R.id.people_item__metro_branch_color)
-        private val ivMoney: ImageView = itemView.findViewById(R.id.people_item_iv_money)
-        private val tvMoney: TextView = itemView.findViewById(R.id.people_item_tv_money)
+        private val ivMoney: ImageView = itemView.findViewById(R.id.people_item__iv_money)
+        private val tvMoney: TextView = itemView.findViewById(R.id.people_item__tv_money)
         private val cvRooms: List<CardView> = listOf(
-            itemView.findViewById(R.id.people_item_ll_cv_rooms1),
-            itemView.findViewById(R.id.people_item_ll_cv_rooms2),
-            itemView.findViewById(R.id.people_item_ll_cv_rooms3)
+            itemView.findViewById(R.id.people_item__ll_cv_rooms1),
+            itemView.findViewById(R.id.people_item__ll_cv_rooms2),
+            itemView.findViewById(R.id.people_item__ll_cv_rooms3)
         )
         private val tvRooms: List<TextView> = listOf(
-            itemView.findViewById(R.id.people_item_ll_tv_rooms1),
-            itemView.findViewById(R.id.people_item_ll_tv_rooms2),
-            itemView.findViewById(R.id.people_item_ll_tv_rooms3)
+            itemView.findViewById(R.id.people_item__ll_tv_rooms1),
+            itemView.findViewById(R.id.people_item__ll_tv_rooms2),
+            itemView.findViewById(R.id.people_item__ll_tv_rooms3)
         )
-        private val tvDescription: TextView = itemView.findViewById(R.id.people_item_tv_description)
+        private val tvDescription: TextView = itemView.findViewById(R.id.people_item__tv_description)
 
         fun bind(person: Person) {
             if (person.photo != null) {
