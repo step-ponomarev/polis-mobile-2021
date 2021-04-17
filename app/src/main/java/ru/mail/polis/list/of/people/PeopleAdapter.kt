@@ -18,7 +18,6 @@ class PeopleAdapter(
     private val listener: ListItemClickListener
 ) : RecyclerView.Adapter<PeopleAdapter.PeopleViewHolder>() {
 
-
     private val mOnClickListener: ListItemClickListener = listener
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeopleViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.people_item, parent, false)
@@ -35,7 +34,6 @@ class PeopleAdapter(
         return people.size
     }
 
-
     inner class PeopleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var cardView: CardView = itemView.findViewById(R.id.people_item__card_view)
         private val ivPhoto: ImageView = itemView.findViewById(R.id.component_person_header__avatar)
@@ -45,7 +43,6 @@ class PeopleAdapter(
         private val tvMetro: TextView = itemView.findViewById(R.id.people_item__metro_text)
         private val ivBranchColor: ImageView = itemView.findViewById(R.id.people_item__metro_branch_color)
         private val tvMoney: TextView = itemView.findViewById(R.id.people_item__tv_money)
-
 
         private val cvRooms: List<CardView> = listOf(
             itemView.findViewById(R.id.people_item__ll_cv_rooms1),
@@ -59,7 +56,7 @@ class PeopleAdapter(
         )
         private val tvDescription: TextView = itemView.findViewById(R.id.people_item__tv_description)
 
-        fun getCardView():CardView = cardView
+        fun getCardView(): CardView = cardView
 
         fun bind(person: Person) {
             if (person.photo != null) {
@@ -86,10 +83,12 @@ class PeopleAdapter(
                 tvRooms[i].text = person.rooms[i]
             }
             tvDescription.text = person.description
-            cardView.setOnClickListener(View.OnClickListener {
-                val clickedPosition = adapterPosition
-                mOnClickListener.onListItemClick(clickedPosition)
-            })
+            cardView.setOnClickListener(
+                View.OnClickListener {
+                    val clickedPosition = adapterPosition
+                    mOnClickListener.onListItemClick(clickedPosition)
+                }
+            )
         }
 
         private fun urlToImageView(context: Context, url: Int): ImageView {

@@ -38,7 +38,6 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
         val person: Person = listOfPeople[clickedItemIndex]
         findNavController().navigate(R.id.nav_graph__person_announcement_fragment)
     }
-
 }
 
 private fun generateTestPeopleList(): List<Person> {
