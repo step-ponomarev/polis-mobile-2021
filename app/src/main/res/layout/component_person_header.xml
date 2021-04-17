@@ -15,7 +15,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/userAvatar"
         app:strokeColor="@color/white"
-        app:strokeWidth="1dp" />
+        app:strokeWidth="1dp"
+        />
 
     <TextView
         android:id="@+id/component_person_header__name"
