@@ -28,7 +28,7 @@
     <fragment
         android:id="@+id/nav_graph__add_apartment_fragment"
         android:name="ru.mail.polis.ui.fragments.AddApartmentFragment"
-        android:label="nav_graph__add_apartment_fragment">
+        android:label="Add Apartment Fragment">
         <action
             android:id="@+id/action_nav_graph__add_apartment_fragment_to_listOfPeopleFragment"
             app:destination="@id/nav_graph__list_of_people" />
@@ -36,7 +36,7 @@
     <fragment
         android:id="@+id/nav_graph__list_of_people"
         android:name="ru.mail.polis.ui.fragments.ListOfPeopleFragment"
-        android:label="nav_graph__list_of_people" />
+        android:label="List Of People Fragment" />
 
     <fragment
         android:id="@+id/nav_graph__filling_profile_info"
