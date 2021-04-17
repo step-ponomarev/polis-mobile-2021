@@ -12,6 +12,7 @@ import ru.mail.polis.R
 class SelfDefinitionFragment : Fragment() {
 
     private lateinit var addApartmentButton: Button
+    private lateinit var findApartmentButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,9 +27,16 @@ class SelfDefinitionFragment : Fragment() {
 
         addApartmentButton = view.findViewById(R.id.fragment_self_definition__button_rent_apartment)
         addApartmentButton.setOnClickListener(this::onClickAddApartment)
+
+        findApartmentButton = view.findViewById(R.id.fragment_self_definition__button_find_apartment)
+        findApartmentButton.setOnClickListener(this::onClickFindApartment)
     }
 
     private fun onClickAddApartment(view: View) {
         findNavController().navigate(R.id.nav_graph__add_apartment_fragment)
+    }
+
+    private fun onClickFindApartment(view: View) {
+        findNavController().navigate(R.id.nav_graph__filling_profile_info)
     }
 }

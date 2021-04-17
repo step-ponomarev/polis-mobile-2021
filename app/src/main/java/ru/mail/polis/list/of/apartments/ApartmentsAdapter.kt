@@ -13,9 +13,9 @@ import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import ru.mail.polis.R
 
-class ApartmensAdaper(
+class ApartmentsAdapter(
     private val apartments: List<Apartment>
-) : RecyclerView.Adapter<ApartmensAdaper.PeopleViewHolder>() {
+) : RecyclerView.Adapter<ApartmentsAdapter.PeopleViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeopleViewHolder {
         val view = LayoutInflater.from(parent.context)
