@@ -22,6 +22,7 @@
     <string name="add_photos_text">Добавить фотографии</string>
     <string name="enter_square_text">Укажите площадь</string>
     <string name="enter_cost_text">Укажите стоимость</string>
+    <string name="offer_an_apartment">Предложить квартиру</string>
     <string name="currency_text">руб</string>
     <string name="studio_text">Студия</string>
     <string name="one_room_text">1 комната</string>

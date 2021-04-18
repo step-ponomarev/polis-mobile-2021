@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.mail.polis.R
@@ -12,10 +13,9 @@ import ru.mail.polis.list.of.people.PeopleAdapter
 import ru.mail.polis.list.of.people.Person
 import ru.mail.polis.metro.Metro
 
-class ListOfPeopleFragment : Fragment() {
-    companion object {
-        const val NAME = "ListOfPeopleFragment"
-    }
+class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
+
+    private val listOfPeople = generateTestPeopleList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,11 +27,15 @@ class ListOfPeopleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val rvList: RecyclerView = view.findViewById(R.id.list_of_people__rv_list)
-        val adapter = PeopleAdapter(generateTestPeopleList())
+        val adapter = PeopleAdapter(listOfPeople, this)
         rvList.layoutManager = LinearLayoutManager(this.context)
         rvList.adapter = adapter
+    }
+
+    override fun onListItemClick(clickedItemIndex: Int) {
+        val person: Person = listOfPeople[clickedItemIndex]
+        findNavController().navigate(R.id.nav_graph__person_announcement_fragment)
     }
 }
 
