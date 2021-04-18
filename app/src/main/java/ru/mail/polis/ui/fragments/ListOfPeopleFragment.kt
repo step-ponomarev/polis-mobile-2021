@@ -17,7 +17,6 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
 
     private val listOfPeople = generateTestPeopleList()
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
