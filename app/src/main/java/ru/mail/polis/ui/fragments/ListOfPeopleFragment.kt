@@ -15,8 +15,8 @@ import ru.mail.polis.metro.Metro
 
 class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
 
-    val listOfPeople = generateTestPeopleList()
-    val current = this
+    private val listOfPeople = generateTestPeopleList()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,7 +29,7 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val rvList: RecyclerView = view.findViewById(R.id.list_of_people__rv_list)
-        val adapter = PeopleAdapter(listOfPeople, current)
+        val adapter = PeopleAdapter(listOfPeople, this)
         rvList.layoutManager = LinearLayoutManager(this.context)
         rvList.adapter = adapter
     }
