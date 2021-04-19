@@ -50,4 +50,10 @@
         <item>Женщина</item>
     </string-array>
 
+    <string-array name="genders_filter">
+        <item>Любой</item>
+        <item>Мужчина</item>
+        <item>Женщина</item>
+    </string-array>
+
 </resources>
