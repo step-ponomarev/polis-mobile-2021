@@ -6,4 +6,5 @@ interface IPersonService {
     fun findByEmail(email: String): PersonED
     fun findAll(): List<PersonED>
     fun addPerson(person: Person): PersonED
+    fun updatePerson(person: Person)
 }
