@@ -6,7 +6,7 @@ data class PersonED(
     val email: String,
     val photo: String?,
     val name: String?,
-    val age: String?,
+    val age: Int?,
     val mark: Int?,
     val tags: List<Int>?,
     val metro: Metro?,
