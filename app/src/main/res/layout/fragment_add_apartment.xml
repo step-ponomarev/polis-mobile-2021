@@ -270,7 +270,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/fragment_add_apartment___add_image_button"
+            android:id="@+id/fragment_add_apartment__add_image_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
