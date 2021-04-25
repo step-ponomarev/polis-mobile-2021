@@ -3,14 +3,14 @@ package ru.mail.polis.dao
 import ru.mail.polis.metro.Metro
 
 data class PersonED(
-    val email: String,
-    val photo: String?,
-    val name: String?,
-    val age: Long?,
-    val mark: Long?,
-    val tags: List<Long>?,
-    val metro: Metro?,
-    val money: Pair<Long, Long>?,
-    val rooms: List<String>?,
-    val description: String?
+    var email: String = "",
+    var photo: String? = null,
+    var name: String? = null,
+    var age: Long? = null,
+    var mark: Long? = null,
+    var tags: List<Long>? = null,
+    var metro: Metro? = null,
+    var money: Pair<Long, Long>? = null,
+    var rooms: List<String>? = null,
+    var description: String? = null
 )

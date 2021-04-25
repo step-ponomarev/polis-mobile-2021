@@ -1,41 +1,58 @@
 package ru.mail.polis.dao
 
 import android.util.Log
-import com.google.android.gms.tasks.Tasks.await
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
-import ru.mail.polis.metro.Metro
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.lang.RuntimeException
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
-class PersonService(
-    private val db: FirebaseFirestore = Firebase.firestore,
-    private val personCollection: CollectionReference = db.collection(Collections.PERSON.collectionName)
-) : IPersonService {
-    override fun findByEmail(email: String): PersonED? {
-        val personRef = personCollection.document(email)
-        val data = await(personRef.get()).data
+class PersonService : IPersonService {
+    private val db: FirebaseFirestore = Firebase.firestore
+    private val personCollection: CollectionReference =
+        db.collection(Collections.PERSON.collectionName)
 
-        return if (data == null) {
-            data
-        } else {
-            mapToPerson(data)
+    override suspend fun findByEmail(email: String): PersonED? {
+        return suspendCancellableCoroutine { coroutine ->
+            val personRef = personCollection.document(email)
+
+            personRef.get()
+                .addOnSuccessListener {
+                    coroutine.resume(it.toObject(PersonED::class.java))
+                }
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        RuntimeException("Filed fetching person with email: $email", it)
+                    )
+                }
         }
     }
 
-    override fun findAll(): List<PersonED> {
-        return personCollection.get().result?.toObjects() ?: emptyList()
+    override suspend fun findAll(): List<PersonED> {
+        return suspendCancellableCoroutine { coroutine ->
+            personCollection.get().addOnSuccessListener {
+                coroutine.resume(it.toObjects(PersonED::class.java))
+            }.addOnFailureListener {
+                coroutine.resumeWithException(
+                    RuntimeException("Filed fetching person list", it)
+                )
+            }
+        }
     }
 
-    override fun addPerson(person: PersonED): PersonED {
-        await(
+    override suspend fun addPerson(person: PersonED): PersonED {
+        return suspendCancellableCoroutine { coroutine ->
             personCollection.document(person.email)
                 .set(personToMap(person)).addOnFailureListener {
-                    throw RuntimeException(
-                        "Failure adding person with email: ${person.email}",
-                        it
+                    coroutine.resumeWithException(
+                        RuntimeException(
+                            "Failure adding person with email: ${person.email}",
+                            it
+                        )
                     )
                 }
                 .addOnSuccessListener {
@@ -43,39 +60,48 @@ class PersonService(
                         this::class.java.name,
                         "Successful adding person with email: ${person.email}"
                     )
-                }
-        )
 
-        return person
+                    coroutine.resume(person)
+                }
+        }
     }
 
-    override fun updatePerson(person: PersonED): PersonED {
-        val personRef = personCollection.document(person.email)
+    override suspend fun updatePerson(person: PersonED): PersonED {
+        return suspendCancellableCoroutine { coroutine ->
+            val personRef = personCollection.document(person.email)
 
-        await(
             personRef.update(personToMap(person))
                 .addOnFailureListener {
-                    throw RuntimeException(
-                        "Failure updating person with email: ${person.email}",
-                        it
+                    coroutine.resumeWithException(
+                        RuntimeException(
+                            "Failure updating person with email: ${person.email}",
+                            it
+                        )
                     )
                 }
-        )
-
-        return person
+                .addOnSuccessListener {
+                    coroutine.resume(person)
+                }
+        }
     }
 
-    override fun deletePersonByEmail(email: String) {
-        val personRef = personCollection.document(email)
+    override suspend fun deletePersonByEmail(email: String) {
+        return suspendCancellableCoroutine { coroutine ->
+            val personRef = personCollection.document(email)
 
-        await(
-            personRef.delete().addOnFailureListener {
-                throw RuntimeException(
-                    "Failure deleting person with email: $email",
-                    it
-                )
-            }
-        )
+            personRef.delete()
+                .addOnSuccessListener {
+                    coroutine.resume(Unit)
+                }
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        RuntimeException(
+                            "Failure deleting person with email: $email",
+                            it
+                        )
+                    )
+                }
+        }
     }
 
     private fun personToMap(person: PersonED): Map<String, Any?> {
@@ -90,21 +116,6 @@ class PersonService(
             "money" to person.money,
             "rooms" to person.rooms,
             "description" to person.description
-        )
-    }
-
-    private fun mapToPerson(personMap: Map<String, Any?>): PersonED {
-        return PersonED(
-            personMap["email"] as String,
-            personMap["photo"] as String?,
-            personMap["name"] as String?,
-            personMap["age"] as Long?,
-            personMap["mark"] as Long?,
-            personMap["tags"] as List<Long>?,
-            personMap["metro"] as Metro?,
-            personMap["money"] as Pair<Long, Long>?,
-            personMap["rooms"] as List<String>?,
-            personMap["description"] as String?
         )
     }
 }

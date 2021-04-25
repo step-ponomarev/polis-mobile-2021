@@ -1,3 +1,4 @@
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
 import ru.mail.polis.dao.IPersonService
@@ -9,41 +10,47 @@ class PersonServiceTest {
 
     @Test
     fun personShouldBeAddedSuccessful() {
-        val person = createTestPerson()
+        runBlocking {
+            val person = createTestPerson()
 
-        val addedPerson = personService.addPerson(person)
-        val gotPerson = personService.findByEmail(addedPerson.email)
+            val addedPerson = personService.addPerson(person)
+            val gotPerson = personService.findByEmail(addedPerson.email)
 
-        Assert.assertNotNull(gotPerson)
-        Assert.assertEquals(addedPerson, gotPerson)
+            Assert.assertNotNull(gotPerson)
+            Assert.assertEquals(addedPerson, gotPerson)
 
-        personService.deletePersonByEmail(addedPerson.email)
+            personService.deletePersonByEmail(addedPerson.email)
+        }
     }
 
     @Test
     fun deletingShouldBeSuccessful() {
-        val person = createTestPerson()
+        runBlocking {
+            val person = createTestPerson()
 
-        val addedPerson = personService.addPerson(person)
-        personService.deletePersonByEmail(addedPerson.email)
+            val addedPerson = personService.addPerson(person)
+            personService.deletePersonByEmail(addedPerson.email)
 
-        val gotPerson = personService.findByEmail(addedPerson.email)
+            val gotPerson = personService.findByEmail(addedPerson.email)
 
-        Assert.assertNull(gotPerson)
+            Assert.assertNull(gotPerson)
+        }
     }
 
     @Test
     fun updatingShouldBeSuccessful() {
-        val person = createTestPerson()
-        val updatedPerson = createUpdatedPerson(person)
+        runBlocking {
+            val person = createTestPerson()
+            val updatedPerson = createUpdatedPerson(person)
 
-        val addedPerson = personService.addPerson(person)
-        personService.updatePerson(updatedPerson)
-        val gotPerson = personService.findByEmail(addedPerson.email)
+            val addedPerson = personService.addPerson(person)
+            personService.updatePerson(updatedPerson)
+            val gotPerson = personService.findByEmail(addedPerson.email)
 
-        Assert.assertEquals(gotPerson, updatedPerson)
+            Assert.assertEquals(gotPerson, updatedPerson)
 
-        personService.deletePersonByEmail(addedPerson.email)
+            personService.deletePersonByEmail(addedPerson.email)
+        }
     }
 
     private fun createTestPerson(): PersonED {
