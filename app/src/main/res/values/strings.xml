@@ -37,14 +37,14 @@
     <string name="square">Площадь</string>
     <string name="features">Особенности</string>
     <string name="about_me">О себе</string>
-    <string name="publish">Опубликовать</string>
+    <string name="save">Сохранить</string>
     <string name="continue_btn">Продолжить</string>
     <string name="age">Возраст</string>
     <string name="change_photo">Изменить фото</string>
     <string name="name">Имя</string>
     <string name="surname">Фамилия</string>
     <string name="phone">Телефон</string>
-    <string name="Допустимо">Допустимо</string>
+    <string name="acceptably">Допустимо</string>
     <string name="gender">Пол</string>
     <string name="filters">Фильтры</string>
 

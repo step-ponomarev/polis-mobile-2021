@@ -363,7 +363,7 @@
         android:layout_height="46dp"
         android:background="@color/main"
         android:fontFamily="sans-serif-light"
-        android:text="@string/publish"
+        android:text="@string/save"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
