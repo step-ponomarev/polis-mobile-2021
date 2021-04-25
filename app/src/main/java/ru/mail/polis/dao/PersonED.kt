@@ -6,11 +6,11 @@ data class PersonED(
     val email: String,
     val photo: String?,
     val name: String?,
-    val age: Int?,
-    val mark: Int?,
-    val tags: List<Int>?,
+    val age: Long?,
+    val mark: Long?,
+    val tags: List<Long>?,
     val metro: Metro?,
-    val money: Pair<Int, Int>?,
+    val money: Pair<Long, Long>?,
     val rooms: List<String>?,
     val description: String?
 )
