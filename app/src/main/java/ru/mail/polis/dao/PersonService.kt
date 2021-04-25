@@ -17,9 +17,9 @@ class PersonService : IPersonService {
         db.collection(Collections.PERSON.collectionName)
 
     override suspend fun findByEmail(email: String): PersonED? {
-        return suspendCancellableCoroutine { coroutine ->
-            val personRef = personCollection.document(email)
+        val personRef = personCollection.document(email)
 
+        return suspendCancellableCoroutine { coroutine ->
             personRef.get()
                 .addOnSuccessListener {
                     coroutine.resume(it.toObject(PersonED::class.java))
@@ -34,20 +34,22 @@ class PersonService : IPersonService {
 
     override suspend fun findAll(): List<PersonED> {
         return suspendCancellableCoroutine { coroutine ->
-            personCollection.get().addOnSuccessListener {
-                coroutine.resume(it.toObjects(PersonED::class.java))
-            }.addOnFailureListener {
-                coroutine.resumeWithException(
-                    RuntimeException("Filed fetching person list", it)
-                )
-            }
+            personCollection.get()
+                .addOnSuccessListener {
+                    coroutine.resume(it.toObjects(PersonED::class.java))
+                }.addOnFailureListener {
+                    coroutine.resumeWithException(
+                        RuntimeException("Filed fetching person list", it)
+                    )
+                }
         }
     }
 
     override suspend fun addPerson(person: PersonED): PersonED {
         return suspendCancellableCoroutine { coroutine ->
             personCollection.document(person.email)
-                .set(personToMap(person)).addOnFailureListener {
+                .set(personToMap(person))
+                .addOnFailureListener {
                     coroutine.resumeWithException(
                         RuntimeException(
                             "Failure adding person with email: ${person.email}",
@@ -67,9 +69,9 @@ class PersonService : IPersonService {
     }
 
     override suspend fun updatePerson(person: PersonED): PersonED {
-        return suspendCancellableCoroutine { coroutine ->
-            val personRef = personCollection.document(person.email)
+        val personRef = personCollection.document(person.email)
 
+        return suspendCancellableCoroutine { coroutine ->
             personRef.update(personToMap(person))
                 .addOnFailureListener {
                     coroutine.resumeWithException(
@@ -86,9 +88,9 @@ class PersonService : IPersonService {
     }
 
     override suspend fun deletePersonByEmail(email: String) {
-        return suspendCancellableCoroutine { coroutine ->
-            val personRef = personCollection.document(email)
+        val personRef = personCollection.document(email)
 
+        return suspendCancellableCoroutine { coroutine ->
             personRef.delete()
                 .addOnSuccessListener {
                     coroutine.resume(Unit)
