@@ -7,93 +7,26 @@
 
     <include layout="@layout/component_person_header" />
 
-    <Button
-        android:id="@+id/fragment_advert_creation__more_rooms_btn"
-        android:layout_width="101dp"
-        android:layout_height="42dp"
-        android:background="@drawable/et_border"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/five_plus_room_text"
-        android:textAllCaps="false"
+    <ImageView
+        android:id="@+id/fragment_advert_creation__metro_cl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="103dp"
+        android:src="@drawable/shape_metro_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.945"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.383" />
+        app:layout_constraintVertical_bias="0.217" />
 
-    <Button
-        android:id="@+id/fragment_advert_creation__four_rooms_btn"
-        android:layout_width="101dp"
-        android:layout_height="42dp"
-        android:background="@drawable/et_border"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/four_room_text"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <include
+        android:id="@+id/fragment_advert_creation__apartment__chips"
+        layout="@layout/component_rooms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.384" />
-
-    <Button
-        android:id="@+id/fragment_advert_creation__three_rooms_btn"
-        android:layout_width="101dp"
-        android:layout_height="42dp"
-        android:background="@drawable/et_border"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/three_room_text"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.054"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.383" />
-
-    <Button
-        android:id="@+id/fragment_advert_creation__two_rooms_btn"
-        android:layout_width="101dp"
-        android:layout_height="42dp"
-        android:background="@drawable/et_border"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/two_room_text"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.945"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.29" />
-
-    <Button
-        android:id="@+id/fragment_advert_creation__one_room_btn"
-        android:layout_width="101dp"
-        android:layout_height="42dp"
-        android:background="@drawable/et_border"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/one_room_text"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.29" />
-
-    <Button
-        android:id="@+id/fragment_advert_creation__studio_btn"
-        android:layout_width="101dp"
-        android:layout_height="42dp"
-        android:background="@drawable/et_border"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/studio_text"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.051"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.29" />
+        tools:layout_editor_absoluteY="217dp" />
 
     <TextView
         android:id="@+id/fragment_advert_creation__name_text"
@@ -336,10 +269,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.262"
+        app:layout_constraintHorizontal_bias="0.166"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.701" />
+        app:layout_constraintVertical_bias="0.697" />
 
     <EditText
         android:id="@+id/fragment_advert_creation__about_me_et"
@@ -355,7 +288,7 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.837" />
+        app:layout_constraintVertical_bias="0.878" />
 
     <Button
         android:id="@+id/fragment_advert_creation__continue_btn"
@@ -370,7 +303,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.941" />
+        app:layout_constraintVertical_bias="0.964" />
 
     <ImageView
         android:id="@+id/fragment_advert_creation__choose_subway_ic"
@@ -381,7 +314,7 @@
         app:layout_constraintHorizontal_bias="0.126"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.214"
+        app:layout_constraintVertical_bias="0.212"
         app:srcCompat="@drawable/ic_train" />
 
     <ImageView
@@ -393,7 +326,7 @@
         app:layout_constraintHorizontal_bias="0.126"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.464"
+        app:layout_constraintVertical_bias="0.463"
         app:srcCompat="@drawable/ic_wallet" />
 
     <ImageView
@@ -405,6 +338,54 @@
         app:layout_constraintHorizontal_bias="0.126"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.581"
+        app:layout_constraintVertical_bias="0.583"
         app:srcCompat="@drawable/ic_squared_m" />
+
+    <ImageView
+        android:id="@+id/fragment_filter__paw_ic"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.234"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.754"
+        app:srcCompat="@drawable/ic_paw" />
+
+    <ImageView
+        android:id="@+id/fragment_filter__ciggarete_ic"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.393"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.754"
+        app:srcCompat="@drawable/ic_ciggarete" />
+
+    <ImageView
+        android:id="@+id/fragment_filter__drum_ic"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.314"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.754"
+        app:srcCompat="@drawable/ic_drum" />
+
+    <ImageView
+        android:id="@+id/fragment_filter__kid_ic"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.153"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.754"
+        app:srcCompat="@drawable/ic_kid" />
 </androidx.constraintlayout.widget.ConstraintLayout>
