@@ -124,94 +124,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.679" />
 
-    <Button
-        android:id="@+id/fragment_filter__four_rooms_btn"
-        android:layout_width="101dp"
-        android:layout_height="42dp"
-        android:background="@drawable/et_border"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/four_room_text"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.347" />
 
-    <Button
-        android:id="@+id/fragment_filter__studio_btn"
-        android:layout_width="101dp"
-        android:layout_height="42dp"
-        android:background="@drawable/et_border"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/studio_text"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <include
+        android:id="@+id/fragment_add_apartment__chips"
+        layout="@layout/component_rooms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.051"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.254" />
-
-    <Button
-        android:id="@+id/fragment_filter__one_room_btn"
-        android:layout_width="101dp"
-        android:layout_height="42dp"
-        android:background="@drawable/et_border"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/one_room_text"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.254" />
-
-    <Button
-        android:id="@+id/fragment_filter__two_rooms_btn"
-        android:layout_width="101dp"
-        android:layout_height="42dp"
-        android:background="@drawable/et_border"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/two_room_text"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.945"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.254" />
-
-    <Button
-        android:id="@+id/fragment_filter__more_rooms_btn"
-        android:layout_width="101dp"
-        android:layout_height="42dp"
-        android:background="@drawable/et_border"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/five_plus_room_text"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.945"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.347" />
-
-    <Button
-        android:id="@+id/fragment_filter__three_rooms_btn"
-        android:layout_width="101dp"
-        android:layout_height="42dp"
-        android:background="@drawable/et_border"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/three_room_text"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.054"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.347" />
-
+        tools:layout_editor_absoluteY="194dp" />
 
     <TextView
         android:id="@+id/fragment_filter__name_text"
