@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import ru.mail.polis.R
 import ru.mail.polis.list.of.people.Person
@@ -46,9 +47,9 @@ class PersonAnnouncementFragment : Fragment() {
         val tvDescription: TextView =
             view.findViewById(R.id.fragment_person_announcement__tv_description)
 
-        val person = generateTestPerson()
-
         super.onViewCreated(view, savedInstanceState)
+        val args: PersonAnnouncementFragmentArgs by navArgs()
+        val person = args.person
         if (person.photo != null) {
             urlToMyImageView(ivPhoto, person.photo)
         }
@@ -93,21 +94,3 @@ class PersonAnnouncementFragment : Fragment() {
     }
 }
 
-private fun generateTestPerson(): Person {
-    return Person(
-        null,
-        "Степан Пономарев",
-        "22 года",
-        0,
-        listOf(
-            R.drawable.ic_ciggarete,
-            R.drawable.ic_kid,
-            R.drawable.ic_paw,
-            R.drawable.ic_drum
-        ),
-        Metro.KUPCHINO,
-        Pair(20000, 35000),
-        listOf("1 комната", "2 комнаты"),
-        "Привет, меня зовут Степа и я не алкоголик. У меня есть ребенок и жена ищем квартиру для длительного проживания. У нас четыре щеночка и барабанная установка"
-    )
-}

@@ -1,7 +1,10 @@
 package ru.mail.polis.list.of.people
 
 import ru.mail.polis.metro.Metro
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Person(
     val photo: String?,
     val name: String,
@@ -12,4 +15,4 @@ data class Person(
     val money: Pair<Int, Int>,
     val rooms: List<String>,
     val description: String
-)
+): Parcelable

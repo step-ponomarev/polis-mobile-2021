@@ -49,6 +49,10 @@
     <fragment
         android:id="@+id/nav_graph__person_announcement_fragment"
         android:name="ru.mail.polis.ui.fragments.PersonAnnouncementFragment"
-        android:label="PersonAnnouncementFragment" />
+        android:label="PersonAnnouncementFragment" >
+        <argument
+            android:name="person"
+            app:argType="ru.mail.polis.list.of.people.Person" />
+    </fragment>
 
 </navigation>
