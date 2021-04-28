@@ -292,29 +292,11 @@
         app:layout_constraintTop_toBottomOf="@id/fragment_add_apartment__img_cl">
 
         <LinearLayout
+            android:id="@+id/fragment_add_apartment__photo_linear_layout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/stub_person_avatar" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/stub_person_avatar" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/stub_person_avatar" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/stub_person_avatar" />
         </LinearLayout>
 
     </HorizontalScrollView>

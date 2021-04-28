@@ -2,38 +2,43 @@ package ru.mail.polis.ui.fragments
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import ru.mail.polis.R
 import ru.mail.polis.metro.Metro
-import ru.mail.polis.viewModels.AddApartmentViewModel
 
 
 class AddApartmentFragment : Fragment() {
 
-    val viewModel: AddApartmentViewModel by viewModels()
-    private val startForResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-        { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val selectedImage: Uri = imageReturnedIntent.getData()
-                val img: pictureView = findViewById(R.id.img) as pictureView
-                img.setImageURI(selectedImage)
-            }
 
+    @RequiresApi(Build.VERSION_CODES.P)
+    private val takePicture = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val iv = ImageView(requireContext())
+
+            val selectedImage: Uri? = result.data?.data
+            val source = ImageDecoder.createSource(requireContext().contentResolver, selectedImage!!)
+            val bitmap = ImageDecoder.decodeBitmap(source)
+            iv.setImageBitmap(bitmap)
+
+            photoLinearLayout.addView(iv)
         }
+    }
 
     private lateinit var spinner: Spinner
     private lateinit var addApartmentButton: Button
@@ -42,6 +47,7 @@ class AddApartmentFragment : Fragment() {
     private lateinit var costEditText: EditText
     private lateinit var squareEditText: EditText
     private lateinit var addPhotoImageButton: ImageButton
+    private lateinit var photoLinearLayout: LinearLayout
     private val metroList = Metro.values()
 
     override fun onCreateView(
@@ -63,6 +69,7 @@ class AddApartmentFragment : Fragment() {
         squareEditText = view.findViewById(R.id.fragment_add_apartment__set_squared_metres_et)
         chipGroup = view.findViewById(R.id.component_rooms__chip_group)
         addPhotoImageButton = view.findViewById(R.id.fragment_add_apartment__add_image_button)
+        photoLinearLayout = view.findViewById(R.id.fragment_add_apartment__photo_linear_layout)
 
         val metroNamesList = metroList.map { it.stationName }
 
@@ -112,33 +119,12 @@ class AddApartmentFragment : Fragment() {
             "square" to squareEditText.text.toString()
         )
 
-        viewModel.save(apartmentInfo)
-
         findNavController().navigate(R.id.nav_graph__list_of_people)
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     private fun onClickAddPhoto(view: View) {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startForResult.launch(intent)
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        takePicture.launch(intent)
     }
-
-//    private fun handleResult(result: ActivityResult) {
-//
-//        var bitmap: Bitmap? = null
-//        val imageView = findViewById(R.id.imageView) as ImageView
-//
-//        when (requestCode) {
-//            GALLERY_REQUEST -> if (resultCode === RESULT_OK) {
-//                val selectedImage: Uri = imageReturnedIntent.getData()
-//                try {
-//                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage)
-//                } catch (e: IOException) {
-//                    e.printStackTrace()
-//                }
-//                imageView.setImageBitmap(bitmap)
-//            }
-//        }
-//    }
 }
