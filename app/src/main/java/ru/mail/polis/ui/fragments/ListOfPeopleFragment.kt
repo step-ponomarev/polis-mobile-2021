@@ -36,7 +36,7 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
     override fun onListItemClick(clickedItemIndex: Int) {
         val person: Person = listOfPeople[clickedItemIndex]
         val action = ListOfPeopleFragmentDirections.actionNavGraphListOfPeopleToPersonAnnouncementFragment(person)
-        findNavController().navigate(action) //R.id.nav_graf_task_fragment
+        findNavController().navigate(action) // R.id.nav_graf_task_fragment
     }
 }
 

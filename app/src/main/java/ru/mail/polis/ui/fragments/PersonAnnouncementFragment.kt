@@ -14,8 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import ru.mail.polis.R
-import ru.mail.polis.list.of.people.Person
-import ru.mail.polis.metro.Metro
 
 class PersonAnnouncementFragment : Fragment() {
     override fun onCreateView(
@@ -93,4 +91,3 @@ class PersonAnnouncementFragment : Fragment() {
         Glide.with(iv).load(url).into(iv)
     }
 }
-
