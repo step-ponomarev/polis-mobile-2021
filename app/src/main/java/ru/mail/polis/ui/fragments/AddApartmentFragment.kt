@@ -2,6 +2,7 @@ package ru.mail.polis.ui.fragments
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
@@ -25,21 +26,6 @@ import ru.mail.polis.metro.Metro
 
 class AddApartmentFragment : Fragment() {
 
-
-    @RequiresApi(Build.VERSION_CODES.P)
-    private val takePicture = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val iv = ImageView(requireContext())
-
-            val selectedImage: Uri? = result.data?.data
-            val source = ImageDecoder.createSource(requireContext().contentResolver, selectedImage!!)
-            val bitmap = ImageDecoder.decodeBitmap(source)
-            iv.setImageBitmap(bitmap)
-
-            photoLinearLayout.addView(iv)
-        }
-    }
-
     private lateinit var spinner: Spinner
     private lateinit var addApartmentButton: Button
     private lateinit var metroCircleIv: ImageView
@@ -49,6 +35,12 @@ class AddApartmentFragment : Fragment() {
     private lateinit var addPhotoImageButton: ImageButton
     private lateinit var photoLinearLayout: LinearLayout
     private val metroList = Metro.values()
+
+    private val takePicture =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult(),
+            this::handleResult
+        )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -110,7 +102,7 @@ class AddApartmentFragment : Fragment() {
 
     private fun onClickAddApartment(view: View) {
 
-        val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId)
+        val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId) ?: return
 
         val apartmentInfo = hashMapOf(
             "metro" to spinner.selectedItem.toString(),
@@ -125,6 +117,52 @@ class AddApartmentFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.P)
     private fun onClickAddPhoto(view: View) {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         takePicture.launch(intent)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    private fun handleResult(result: ActivityResult) {
+        if (result.resultCode == Activity.RESULT_OK) {
+
+            val selectedImage: Uri? = result.data?.data
+
+            photoLinearLayout.addView(createImageView(selectedImage))
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    private fun createImageView(selectedImage: Uri?): ImageView {
+
+        val iv = ImageView(requireContext())
+        iv.layoutParams = ViewGroup.MarginLayoutParams(getLayoutParams(200, 200))
+        iv.adjustViewBounds = true
+        iv.scaleType = ImageView.ScaleType.CENTER_CROP
+
+        val bitmap = decodeImage(selectedImage)
+
+        iv.setImageBitmap(bitmap)
+        iv.setPadding(10, 0, 10, 0)
+
+
+        return iv
+    }
+
+    private fun getLayoutParams(width: Int, height: Int): ViewGroup.LayoutParams {
+        val prm: ViewGroup.LayoutParams = ViewGroup.LayoutParams(
+            ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+            ViewGroup.MarginLayoutParams.WRAP_CONTENT
+        )
+        prm.width = width
+        prm.height = height
+
+        return prm
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    private fun decodeImage(selectedImage: Uri?): Bitmap {
+        val source =
+            ImageDecoder.createSource(requireContext().contentResolver, selectedImage!!)
+        return ImageDecoder.decodeBitmap(source)
     }
 }
