@@ -10,10 +10,22 @@ import java.lang.RuntimeException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-class PersonService : IPersonService {
+class PersonService private constructor() : IPersonService {
     private val db: FirebaseFirestore = Firebase.firestore
     private val personCollection: CollectionReference =
         db.collection(Collections.PERSON.collectionName)
+
+    companion object {
+        private var INSTANCE: IPersonService? = null;
+
+        fun getInstance(): IPersonService {
+            if (INSTANCE == null) {
+                INSTANCE = PersonService()
+            }
+
+            return INSTANCE!!
+        }
+    }
 
     override suspend fun findByEmail(email: String): PersonED? {
         val personRef = personCollection.document(email)

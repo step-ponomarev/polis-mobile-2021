@@ -6,7 +6,7 @@ import ru.mail.polis.dao.PersonED
 import ru.mail.polis.dao.PersonService
 
 class PersonServiceTest {
-    private val personService: IPersonService = PersonService()
+    private val personService: IPersonService = PersonService.getInstance()
 
     @Test
     fun personShouldBeAddedSuccessful() {
