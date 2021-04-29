@@ -16,7 +16,7 @@ class PersonService private constructor() : IPersonService {
         db.collection(Collections.PERSON.collectionName)
 
     companion object {
-        private var INSTANCE: IPersonService? = null;
+        private var INSTANCE: IPersonService? = null
 
         fun getInstance(): IPersonService {
             if (INSTANCE == null) {
