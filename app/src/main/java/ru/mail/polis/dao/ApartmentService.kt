@@ -9,10 +9,22 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-class ApartmentService : IApartmentService {
+class ApartmentService private constructor() : IApartmentService {
     private val db: FirebaseFirestore = Firebase.firestore
     private val apartmentCollection: CollectionReference =
         db.collection(Collections.APARTMENT.collectionName)
+
+    companion object {
+        private var INSTANCE: IApartmentService? = null
+
+        fun getInstance(): IApartmentService {
+            if (INSTANCE == null) {
+                INSTANCE = ApartmentService()
+            }
+
+            return INSTANCE!!
+        }
+    }
 
     override suspend fun findByEmail(email: String): ApartmentED? {
         val apartmentRef = apartmentCollection.document(email)

@@ -6,7 +6,7 @@ import ru.mail.polis.dao.ApartmentService
 import ru.mail.polis.dao.IApartmentService
 
 class ApartmentServiceTest {
-    private val apartmentService: IApartmentService = ApartmentService()
+    private val apartmentService: IApartmentService = ApartmentService.getInstance()
 
     @Test
     fun apartmentShouldBeAddedSuccessful() {
