@@ -1,5 +1,6 @@
 package ru.mail.polis.ui.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -15,6 +16,7 @@ import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -127,25 +129,37 @@ class AddApartmentFragment : Fragment() {
 
             val selectedImage: Uri? = result.data?.data
 
-            photoLinearLayout.addView(createImageView(selectedImage))
+            photoLinearLayout.addView(createImageComponent(selectedImage))
         }
     }
 
+    @SuppressLint("ResourceType")
     @RequiresApi(Build.VERSION_CODES.P)
-    private fun createImageView(selectedImage: Uri?): ImageView {
+    private fun createImageComponent(selectedImage: Uri?): ConstraintLayout {
 
-        val iv = ImageView(requireContext())
-        iv.layoutParams = ViewGroup.MarginLayoutParams(getLayoutParams(200, 200))
-        iv.adjustViewBounds = true
+        val view: View = LayoutInflater.from(context).inflate(R.layout.component_photo, null)
+
+        val cl = view.findViewById<ConstraintLayout>(R.id.photo_component__cl)
+        val iv = view.findViewById<ImageView>(R.id.photo_component__iv)
+        val ib = view.findViewById<ImageButton>(R.id.photo_component__ib)
+
+        ib.setOnClickListener() {
+            val parent = it.parent
+            val linearLayout = parent.parent as ViewGroup
+            linearLayout.removeViewInLayout(view)
+        }
+
+        cl.layoutParams = ViewGroup.MarginLayoutParams(getLayoutParams(200, 200))
+        cl.setPadding(10, 0, 10, 0)
+
         iv.scaleType = ImageView.ScaleType.CENTER_CROP
 
         val bitmap = decodeImage(selectedImage)
 
         iv.setImageBitmap(bitmap)
-        iv.setPadding(10, 0, 10, 0)
 
+        return cl
 
-        return iv
     }
 
     private fun getLayoutParams(width: Int, height: Int): ViewGroup.LayoutParams {
