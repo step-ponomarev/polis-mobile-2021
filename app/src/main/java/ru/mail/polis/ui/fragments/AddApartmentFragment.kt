@@ -3,6 +3,7 @@ package ru.mail.polis.ui.fragments
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
@@ -122,7 +123,6 @@ class AddApartmentFragment : Fragment() {
         takePicture.launch(intent)
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
     private fun handleResult(result: ActivityResult) {
         if (result.resultCode == Activity.RESULT_OK) {
 
@@ -173,10 +173,12 @@ class AddApartmentFragment : Fragment() {
     private fun decodeImage(selectedImage: Uri?): Bitmap {
         val source =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                ImageDecoder.createSource(requireContext().contentResolver, selectedImage!!)
+                val image = ImageDecoder.createSource(requireContext().contentResolver, selectedImage!!)
+                ImageDecoder.decodeBitmap(image)
             } else {
-                TODO("VERSION.SDK_INT < P")
+                val imageStream = requireActivity().contentResolver.openInputStream(selectedImage!!);
+                BitmapFactory.decodeStream(imageStream);
             }
-        return ImageDecoder.decodeBitmap(source)
+        return source
     }
 }
