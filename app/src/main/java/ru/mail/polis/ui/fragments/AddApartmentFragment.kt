@@ -18,6 +18,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
@@ -148,6 +149,17 @@ class AddApartmentFragment : Fragment() {
             val linearLayout = parent.parent as ViewGroup
             linearLayout.removeViewInLayout(view)
         }
+
+//        iv.setOnClickListener {
+//            val bundle = Bundle()
+//            val view = it as ImageView
+//            bundle.putParcelable("image", view.drawable.toBitmap())
+//
+//            val fullScreenImageFragment = FullScreenImageFragment()
+//            fullScreenImageFragment.arguments = bundle
+//
+//            fullScreenImageFragment.startActivity()
+//        }
 
         cl.layoutParams = ViewGroup.MarginLayoutParams(getLayoutParams(200, 200))
         cl.setPadding(10, 0, 10, 0)
