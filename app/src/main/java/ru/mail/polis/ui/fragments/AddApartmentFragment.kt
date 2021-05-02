@@ -1,6 +1,5 @@
 package ru.mail.polis.ui.fragments
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -18,7 +17,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
@@ -134,8 +132,6 @@ class AddApartmentFragment : Fragment() {
         }
     }
 
-    @SuppressLint("ResourceType")
-    @RequiresApi(Build.VERSION_CODES.P)
     private fun createImageComponent(selectedImage: Uri?): ConstraintLayout {
 
         val view: View = LayoutInflater.from(context).inflate(R.layout.component_photo, null)
@@ -149,17 +145,6 @@ class AddApartmentFragment : Fragment() {
             val linearLayout = parent.parent as ViewGroup
             linearLayout.removeViewInLayout(view)
         }
-
-//        iv.setOnClickListener {
-//            val bundle = Bundle()
-//            val view = it as ImageView
-//            bundle.putParcelable("image", view.drawable.toBitmap())
-//
-//            val fullScreenImageFragment = FullScreenImageFragment()
-//            fullScreenImageFragment.arguments = bundle
-//
-//            fullScreenImageFragment.startActivity()
-//        }
 
         cl.layoutParams = ViewGroup.MarginLayoutParams(getLayoutParams(200, 200))
         cl.setPadding(10, 0, 10, 0)
@@ -185,10 +170,13 @@ class AddApartmentFragment : Fragment() {
         return prm
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
     private fun decodeImage(selectedImage: Uri?): Bitmap {
         val source =
-            ImageDecoder.createSource(requireContext().contentResolver, selectedImage!!)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                ImageDecoder.createSource(requireContext().contentResolver, selectedImage!!)
+            } else {
+                TODO("VERSION.SDK_INT < P")
+            }
         return ImageDecoder.decodeBitmap(source)
     }
 }
