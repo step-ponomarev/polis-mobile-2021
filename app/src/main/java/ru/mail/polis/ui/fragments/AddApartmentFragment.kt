@@ -149,7 +149,7 @@ class AddApartmentFragment : Fragment() {
 
         iv.scaleType = ImageView.ScaleType.CENTER_CROP
 
-        val bitmap = decodeImage(selectedImage)
+        val bitmap = decodeImage(selectedImage!!)
 
         iv.setImageBitmap(bitmap)
 
@@ -167,15 +167,15 @@ class AddApartmentFragment : Fragment() {
         return prm
     }
 
-    private fun decodeImage(selectedImage: Uri?): Bitmap {
+    private fun decodeImage(selectedImage: Uri): Bitmap {
         val source =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 val image =
-                    ImageDecoder.createSource(requireContext().contentResolver, selectedImage!!)
+                    ImageDecoder.createSource(requireContext().contentResolver, selectedImage)
                 ImageDecoder.decodeBitmap(image)
             } else {
                 val imageStream =
-                    requireActivity().contentResolver.openInputStream(selectedImage!!)
+                    requireActivity().contentResolver.openInputStream(selectedImage)
                 BitmapFactory.decodeStream(imageStream)
             }
         return source
