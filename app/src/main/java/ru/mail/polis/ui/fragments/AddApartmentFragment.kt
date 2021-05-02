@@ -15,7 +15,6 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -116,7 +115,6 @@ class AddApartmentFragment : Fragment() {
         findNavController().navigate(R.id.nav_graph__list_of_people)
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
     private fun onClickAddPhoto(view: View) {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
@@ -156,7 +154,6 @@ class AddApartmentFragment : Fragment() {
         iv.setImageBitmap(bitmap)
 
         return cl
-
     }
 
     private fun getLayoutParams(width: Int, height: Int): ViewGroup.LayoutParams {
@@ -173,11 +170,13 @@ class AddApartmentFragment : Fragment() {
     private fun decodeImage(selectedImage: Uri?): Bitmap {
         val source =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                val image = ImageDecoder.createSource(requireContext().contentResolver, selectedImage!!)
+                val image =
+                    ImageDecoder.createSource(requireContext().contentResolver, selectedImage!!)
                 ImageDecoder.decodeBitmap(image)
             } else {
-                val imageStream = requireActivity().contentResolver.openInputStream(selectedImage!!);
-                BitmapFactory.decodeStream(imageStream);
+                val imageStream =
+                    requireActivity().contentResolver.openInputStream(selectedImage!!)
+                BitmapFactory.decodeStream(imageStream)
             }
         return source
     }
