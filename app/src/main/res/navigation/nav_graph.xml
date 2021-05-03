@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_nav_graph__add_apartment_fragment_to_listOfPeopleFragment"
             app:destination="@id/nav_graph__list_of_people" />
+        <action
+            android:id="@+id/action_nav_graph__add_apartment_fragment_to_full"
+            app:destination="@id/nav_graph__full_image"/>
     </fragment>
     <fragment
         android:id="@+id/nav_graph__list_of_people"
@@ -42,5 +45,9 @@
         android:id="@+id/nav_graph__filling_profile_info"
         android:name="ru.mail.polis.ui.fragments.FirstCreationFragment"
         android:label="Filling profile info" />
+
+    <fragment
+        android:id="@+id/nav_graph__full_image"
+        android:name="ru.mail.polis.ui.fragments.FullScreenImageFragment" />
 
 </navigation>
