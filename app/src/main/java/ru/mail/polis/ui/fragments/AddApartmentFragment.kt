@@ -1,9 +1,9 @@
 package ru.mail.polis.ui.fragments
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
@@ -15,7 +15,6 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -117,14 +116,12 @@ class AddApartmentFragment : Fragment() {
         findNavController().navigate(R.id.nav_graph__list_of_people)
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
     private fun onClickAddPhoto(view: View) {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         takePicture.launch(intent)
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
     private fun handleResult(result: ActivityResult) {
         if (result.resultCode == Activity.RESULT_OK) {
 
@@ -134,8 +131,6 @@ class AddApartmentFragment : Fragment() {
         }
     }
 
-    @SuppressLint("ResourceType")
-    @RequiresApi(Build.VERSION_CODES.P)
     private fun createImageComponent(selectedImage: Uri?): ConstraintLayout {
 
         val view: View = LayoutInflater.from(context).inflate(R.layout.component_photo, null)
@@ -144,7 +139,7 @@ class AddApartmentFragment : Fragment() {
         val iv = view.findViewById<ImageView>(R.id.photo_component__iv)
         val ib = view.findViewById<ImageButton>(R.id.photo_component__ib)
 
-        ib.setOnClickListener() {
+        ib.setOnClickListener {
             val parent = it.parent
             val linearLayout = parent.parent as ViewGroup
             linearLayout.removeViewInLayout(view)
@@ -152,6 +147,7 @@ class AddApartmentFragment : Fragment() {
 
         iv.setOnClickListener {
             val bundle = Bundle()
+
             val view = it as ImageView
             bundle.putParcelable("image", view.drawable.toBitmap())
 
@@ -184,10 +180,15 @@ class AddApartmentFragment : Fragment() {
         return prm
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
     private fun decodeImage(selectedImage: Uri?): Bitmap {
-        val source =
-            ImageDecoder.createSource(requireContext().contentResolver, selectedImage!!)
-        return ImageDecoder.decodeBitmap(source)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val image =
+                ImageDecoder.createSource(requireContext().contentResolver, selectedImage!!)
+            ImageDecoder.decodeBitmap(image)
+        } else {
+            val imageStream =
+                requireActivity().contentResolver.openInputStream(selectedImage!!)
+            BitmapFactory.decodeStream(imageStream)
+        }
     }
 }
