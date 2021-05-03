@@ -2,7 +2,6 @@ package ru.mail.polis.ui.fragments
 
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +24,7 @@ class FullScreenImageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val bundle = arguments
-        val iv = view.findViewById<ImageView>(R.id.fragment__fdadas)
+        val iv = view.findViewById<ImageView>(R.id.fragment_full_screen_image__iv)
 
         println(bundle)
 

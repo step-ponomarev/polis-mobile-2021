@@ -9,8 +9,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.TextUtils.replace
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +20,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -161,7 +158,7 @@ class AddApartmentFragment : Fragment() {
             val fullScreenImageFragment = FullScreenImageFragment()
             fullScreenImageFragment.arguments = bundle
 
-            findNavController().navigate(R.id.nav_graph__full_image, bundle)
+            findNavController().navigate(R.id.nav_graph__full_image_fragment, bundle)
         }
 
         cl.layoutParams = ViewGroup.MarginLayoutParams(getLayoutParams(200, 200))
