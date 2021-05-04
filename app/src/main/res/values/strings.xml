@@ -37,6 +37,7 @@
     <string name="square">Площадь</string>
     <string name="features">Особенности</string>
     <string name="about_me">О себе</string>
+    <string name="save">Сохранить</string>
     <string name="publish">Опубликовать</string>
     <string name="continue_btn">Продолжить</string>
     <string name="age">Возраст</string>
@@ -44,8 +45,17 @@
     <string name="name">Имя</string>
     <string name="surname">Фамилия</string>
     <string name="phone">Телефон</string>
+    <string name="acceptably">Допустимо</string>
+    <string name="gender">Пол</string>
+    <string name="filters">Фильтры</string>
 
     <string-array name="genders">
+        <item>Мужчина</item>
+        <item>Женщина</item>
+    </string-array>
+
+    <string-array name="genders_filter">
+        <item>Любой</item>
         <item>Мужчина</item>
         <item>Женщина</item>
     </string-array>
