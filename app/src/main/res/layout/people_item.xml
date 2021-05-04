@@ -8,6 +8,7 @@
     android:padding="10dp">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/people_item__card_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,15 +61,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/people_item__hsv_tags"
 
-                />
-
-            <ImageView
-                android:id="@+id/people_item__iv_metro"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_margin="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/people_item__hsv_tags"
                 />
 
             <LinearLayout
