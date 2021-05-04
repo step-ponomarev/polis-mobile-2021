@@ -1,7 +1,6 @@
 package ru.mail.polis.dao.person
 
 import ru.mail.polis.metro.Metro
-import java.util.Objects
 
 class PersonED(
     var email: String = "",
@@ -121,6 +120,4 @@ class PersonED(
         result = 31 * result + (description?.hashCode() ?: 0)
         return result
     }
-
-
 }
