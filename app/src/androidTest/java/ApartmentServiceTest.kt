@@ -54,17 +54,30 @@ class ApartmentServiceTest {
     }
 
     private fun createTestApartment(): ApartmentED {
-        return ApartmentED(
-            "test@test.test", "test", "test", 0,
-            null, null, null, null, null
-        )
+        return ApartmentED.Builder.createBuilder()
+            .setEmail("test@test.test")
+            .setOwnerAvatar("test")
+            .setOwnerName("test")
+            .setOwnerAge(0)
+            .setMetro(null)
+            .setRoomCount(null)
+            .setApartmentSquare(null)
+            .setApartmentCosts(null)
+            .setPhotosUrls(null)
+            .build()
     }
 
     private fun createUpdatedApartment(oldApartment: ApartmentED): ApartmentED {
-        return ApartmentED(
-            oldApartment.email, "${oldApartment.ownerAvatar}1", "${oldApartment.ownerName}1",
-            null, null, null,
-            null, null, null
-        )
+        return ApartmentED.Builder.createBuilder()
+            .setEmail(oldApartment.email)
+            .setOwnerAvatar(oldApartment.ownerAvatar)
+            .setOwnerName(oldApartment.ownerName)
+            .setOwnerAge(oldApartment.ownerAge)
+            .setMetro(oldApartment.metro)
+            .setRoomCount(oldApartment.roomCount)
+            .setApartmentSquare(oldApartment.apartmentSquare)
+            .setApartmentCosts(oldApartment.apartmentCosts)
+            .setPhotosUrls(oldApartment.photosUrls)
+            .build()
     }
 }

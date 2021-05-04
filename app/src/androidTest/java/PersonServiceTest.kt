@@ -65,7 +65,7 @@ class PersonServiceTest {
             .setMoney(null)
             .setRooms(null)
             .setDescription(null)
-            .build();
+            .build()
     }
 
     private fun createUpdatedPerson(oldPerson: PersonED): PersonED {
@@ -80,6 +80,6 @@ class PersonServiceTest {
             .setMoney(oldPerson.money)
             .setRooms(oldPerson.rooms)
             .setDescription(oldPerson.description)
-            .build();
+            .build()
     }
 }

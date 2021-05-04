@@ -1,7 +1,7 @@
 package ru.mail.polis.dao.person
 
 import ru.mail.polis.metro.Metro
-import java.util.*
+import java.util.Objects
 
 class PersonED(
     var email: String = "",
@@ -29,84 +29,83 @@ class PersonED(
 
         companion object {
             fun createBuilder(): Builder {
-                return Builder();
+                return Builder()
             }
         }
 
         fun setEmail(email: String): Builder {
-            this.email = email;
-            return this;
+            this.email = email
+            return this
         }
 
         fun setPhoto(photo: String?): Builder {
-            this.photo = photo;
-            return this;
+            this.photo = photo
+            return this
         }
 
         fun setName(name: String?): Builder {
-            this.name = name;
-            return this;
+            this.name = name
+            return this
         }
 
         fun setAge(age: Long?): Builder {
-            this.age = age;
-            return this;
+            this.age = age
+            return this
         }
 
         fun setMark(mark: Long?): Builder {
-            this.mark = mark;
-            return this;
+            this.mark = mark
+            return this
         }
 
         fun setTags(tags: List<Long>?): Builder {
-            this.tags = tags;
-            return this;
+            this.tags = tags
+            return this
         }
 
         fun setMoney(money: Pair<Long, Long>?): Builder {
-            this.money = money;
-            return this;
+            this.money = money
+            return this
         }
 
         fun setMetro(metro: Metro?): Builder {
-            this.metro = metro;
-            return this;
+            this.metro = metro
+            return this
         }
 
         fun setRooms(rooms: List<String>?): Builder {
-            this.rooms = rooms;
-            return this;
+            this.rooms = rooms
+            return this
         }
 
         fun setDescription(description: String?): Builder {
-            this.description = description;
-            return this;
+            this.description = description
+            return this
         }
 
         fun build(): PersonED {
-            return PersonED(
-                email, photo, name, age,
-                mark, tags, metro, money,
-                rooms, description
-            )
+            return PersonED(email, photo, name, age, mark, tags, metro, money, rooms, description)
         }
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other == null || other !is PersonED) {
-            return false
-        }
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
 
-        return Objects.equals(email, other.email)
-                && Objects.equals(photo, other.photo)
-                && Objects.equals(name, other.name)
-                && Objects.equals(age, other.age)
-                && Objects.equals(mark, other.mark)
-                && Objects.equals(tags, other.tags)
-                && Objects.equals(metro, other.metro)
-                && Objects.equals(money, other.money)
-                && Objects.equals(rooms, other.rooms)
-                && Objects.equals(description, other.description)
+        other as PersonED
+
+        if (email != other.email) return false
+        if (photo != other.photo) return false
+        if (name != other.name) return false
+        if (age != other.age) return false
+        if (mark != other.mark) return false
+        if (tags != other.tags) return false
+        if (metro != other.metro) return false
+        if (money != other.money) return false
+        if (rooms != other.rooms) return false
+        if (description != other.description) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
@@ -122,4 +121,6 @@ class PersonED(
         result = 31 * result + (description?.hashCode() ?: 0)
         return result
     }
+
+
 }
