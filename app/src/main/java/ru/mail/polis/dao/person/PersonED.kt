@@ -137,6 +137,4 @@ class PersonED(
         result = 31 * result + (description?.hashCode() ?: 0)
         return result
     }
-
-
 }
