@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,11 +20,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import ru.mail.polis.R
 import ru.mail.polis.metro.Metro
+import ru.mail.polis.viewModels.AddApartmentViewModel
 
 
 class AddApartmentFragment : Fragment() {
@@ -36,6 +39,7 @@ class AddApartmentFragment : Fragment() {
     private lateinit var squareEditText: EditText
     private lateinit var addPhotoImageButton: ImageButton
     private lateinit var photoLinearLayout: LinearLayout
+    private lateinit var addApartmentViewModel: AddApartmentViewModel
     private val metroList = Metro.values()
 
     private val takePhotoFromGallery =
@@ -43,12 +47,7 @@ class AddApartmentFragment : Fragment() {
             ActivityResultContracts.StartActivityForResult(),
             this::handleResult
         )
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
+    
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -69,6 +68,8 @@ class AddApartmentFragment : Fragment() {
         chipGroup = view.findViewById(R.id.component_rooms__chip_group)
         addPhotoImageButton = view.findViewById(R.id.fragment_add_apartment__add_image_button)
         photoLinearLayout = view.findViewById(R.id.fragment_add_apartment__photo_linear_layout)
+
+        addApartmentViewModel = ViewModelProvider(this).get(AddApartmentViewModel::class.java)
 
         val metroNamesList = metroList.map { it.stationName }
 
@@ -132,11 +133,14 @@ class AddApartmentFragment : Fragment() {
 
             val selectedImage: Uri? = result.data?.data
 
-            photoLinearLayout.addView(createImageComponent(selectedImage))
+            val bitmap = decodeImage(selectedImage)
+
+            photoLinearLayout.addView(createImageComponent(bitmap))
+            Log.d("!!!", "FROM HADLE RESULT CHILD NUBMER : ${photoLinearLayout.childCount}")
         }
     }
 
-    private fun createImageComponent(selectedImage: Uri?): ConstraintLayout {
+    private fun createImageComponent(bitmap: Bitmap): ConstraintLayout {
 
         val view: View = LayoutInflater.from(context).inflate(R.layout.component_photo, null)
 
@@ -163,8 +167,6 @@ class AddApartmentFragment : Fragment() {
         cl.setPadding(10, 0, 10, 0)
 
         iv.scaleType = ImageView.ScaleType.CENTER_CROP
-
-        val bitmap = decodeImage(selectedImage)
 
         iv.setImageBitmap(bitmap)
 
