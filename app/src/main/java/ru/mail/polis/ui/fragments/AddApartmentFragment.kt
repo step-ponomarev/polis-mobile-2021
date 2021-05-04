@@ -38,11 +38,16 @@ class AddApartmentFragment : Fragment() {
     private lateinit var photoLinearLayout: LinearLayout
     private val metroList = Metro.values()
 
-    private val takePicture =
+    private val takePhotoFromGallery =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(),
             this::handleResult
         )
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -119,7 +124,7 @@ class AddApartmentFragment : Fragment() {
     private fun onClickAddPhoto(view: View) {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        takePicture.launch(intent)
+        takePhotoFromGallery.launch(intent)
     }
 
     private fun handleResult(result: ActivityResult) {
@@ -150,9 +155,6 @@ class AddApartmentFragment : Fragment() {
 
             val view = it as ImageView
             bundle.putParcelable("image", view.drawable.toBitmap())
-
-            val fullScreenImageFragment = FullScreenImageFragment()
-            fullScreenImageFragment.arguments = bundle
 
             findNavController().navigate(R.id.nav_graph__full_image_fragment, bundle)
         }
