@@ -32,52 +32,52 @@ class PersonED(
             }
         }
 
-        fun setEmail(email: String): Builder {
+        fun email(email: String): Builder {
             this.email = email
             return this
         }
 
-        fun setPhoto(photo: String?): Builder {
+        fun photo(photo: String?): Builder {
             this.photo = photo
             return this
         }
 
-        fun setName(name: String?): Builder {
+        fun name(name: String?): Builder {
             this.name = name
             return this
         }
 
-        fun setAge(age: Long?): Builder {
+        fun age(age: Long?): Builder {
             this.age = age
             return this
         }
 
-        fun setMark(mark: Long?): Builder {
+        fun mark(mark: Long?): Builder {
             this.mark = mark
             return this
         }
 
-        fun setTags(tags: List<Long>?): Builder {
+        fun tags(tags: List<Long>?): Builder {
             this.tags = tags
             return this
         }
 
-        fun setMoney(money: Pair<Long, Long>?): Builder {
+        fun money(money: Pair<Long, Long>?): Builder {
             this.money = money
             return this
         }
 
-        fun setMetro(metro: Metro?): Builder {
+        fun metro(metro: Metro?): Builder {
             this.metro = metro
             return this
         }
 
-        fun setRooms(rooms: List<String>?): Builder {
+        fun rooms(rooms: List<String>?): Builder {
             this.rooms = rooms
             return this
         }
 
-        fun setDescription(description: String?): Builder {
+        fun description(description: String?): Builder {
             this.description = description
             return this
         }

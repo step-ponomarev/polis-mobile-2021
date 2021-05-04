@@ -31,47 +31,47 @@ class ApartmentED(
             }
         }
 
-        fun setEmail(email: String): Builder {
+        fun email(email: String): Builder {
             this.email = email
             return this
         }
 
-        fun setOwnerAvatar(ownerAvatar: String?): Builder {
+        fun ownerAvatar(ownerAvatar: String?): Builder {
             this.ownerAvatar = ownerAvatar
             return this
         }
 
-        fun setOwnerName(ownerName: String?): Builder {
+        fun ownerName(ownerName: String?): Builder {
             this.ownerName = ownerName
             return this
         }
 
-        fun setOwnerAge(ownerAge: Long?): Builder {
+        fun ownerAge(ownerAge: Long?): Builder {
             this.ownerAge = ownerAge
             return this
         }
 
-        fun setMetro(metro: Metro?): Builder {
+        fun metro(metro: Metro?): Builder {
             this.metro = metro
             return this
         }
 
-        fun setRoomCount(roomCount: RoomCount?): Builder {
+        fun roomCount(roomCount: RoomCount?): Builder {
             this.roomCount = roomCount
             return this
         }
 
-        fun setApartmentSquare(apartmentSquare: Long?): Builder {
+        fun apartmentSquare(apartmentSquare: Long?): Builder {
             this.apartmentSquare = apartmentSquare
             return this
         }
 
-        fun setApartmentCosts(apartmentCosts: Long?): Builder {
+        fun apartmentCosts(apartmentCosts: Long?): Builder {
             this.apartmentCosts = apartmentCosts
             return this
         }
 
-        fun setPhotosUrls(photosUrls: List<String>?): Builder {
+        fun photosUrls(photosUrls: List<String>?): Builder {
             this.photosUrls = photosUrls
             return this
         }
