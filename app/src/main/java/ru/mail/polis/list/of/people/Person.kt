@@ -6,13 +6,14 @@ import ru.mail.polis.metro.Metro
 
 @Parcelize
 data class Person(
-    val photo: String?,
-    val name: String,
-    val age: String,
-    val mark: Int,
-    val tags: List<Int>,
-    val metro: Metro,
-    val money: Pair<Int, Int>,
-    val rooms: List<String>,
-    val description: String
+    var email: String = "",
+    var photo: String? = null,
+    var name: String? = null,
+    var age: Long? = null,
+    var mark: Long? = null,
+    var tags: List<Long>? = null,
+    var metro: Metro? = null,
+    var money: Pair<Long, Long>? = null,
+    var rooms: List<String>? = null,
+    var description: String? = null
 ) : Parcelable

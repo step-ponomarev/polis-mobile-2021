@@ -1,6 +1,7 @@
 package ru.mail.polis.list.of.people
 
 import android.content.Context
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +13,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.mail.polis.R
+import ru.mail.polis.dao.PersonED
 
 class PeopleAdapter(
-    private val people: List<Person>,
+    private val people: List<PersonED>,
     private val listener: ListItemClickListener
 ) : RecyclerView.Adapter<PeopleAdapter.PeopleViewHolder>() {
 
@@ -58,40 +60,70 @@ class PeopleAdapter(
 
         fun getCardView(): CardView = cardView
 
-        fun bind(person: Person) {
+        fun bind(person: PersonED) {
             if (person.photo != null) {
-                urlToMyImageView(ivPhoto, person.photo)
+                urlToMyImageView(ivPhoto, person.photo!!)
             }
 
             tvName.text = person.name
-            tvAge.text = person.age
-            val tags: List<ImageView> = person.tags.map { url ->
+            tvAge.text = getAgeString(person.age)
+            val tags: List<ImageView> = person.tags?.map { url ->
                 urlToImageView(itemView.context, url)
-            }
+            } ?: listOf()
             tags.forEach(llIvTags::addView)
 
-            tvMetro.text = person.metro.stationName
-            ivBranchColor.background.setTint(
-                ContextCompat.getColor(
-                    itemView.context,
-                    person.metro.branchColor
+            if(person.metro != null) {
+                tvMetro.text = person.metro!!.stationName
+                ivBranchColor.background.setTint(
+                    ContextCompat.getColor(
+                        itemView.context,
+                        person.metro!!.branchColor
+                    )
                 )
-            )
-            tvMoney.text = "от " + person.money.first + " до " + person.money.second
-            for (i in 0..3.coerceAtMost(person.rooms.size - 1)) {
-                cvRooms[i].visibility = View.VISIBLE
-                tvRooms[i].text = person.rooms[i]
+            }
+            if(person.money != null) {
+                tvMoney.text = itemView.context.getString(R.string.money, 1, 2)
+                tvMoney.text = "от " + person.money!!.first + " до " + person.money!!.second
+            } else {
+                tvMoney.text = R.string.money_default_value.toString()
+            }
+            if(person.rooms != null) {
+                for (i in 0..3.coerceAtMost(person.rooms!!.size - 1)) {
+                    cvRooms[i].visibility = View.VISIBLE
+                    tvRooms[i].text = person.rooms!!.get(i)
+                }
+                cardView.setOnClickListener(
+                    View.OnClickListener {
+                        val clickedPosition = adapterPosition
+                        mOnClickListener.onListItemClick(clickedPosition)
+                    }
+                )
             }
             tvDescription.text = person.description
-            cardView.setOnClickListener(
-                View.OnClickListener {
-                    val clickedPosition = adapterPosition
-                    mOnClickListener.onListItemClick(clickedPosition)
-                }
-            )
         }
 
-        private fun urlToImageView(context: Context, url: Int): ImageView {
+        private fun getAgeString(age: Int?): String? {
+            return if (age == null)
+                ""
+            else {
+                when {
+                    age % 100 in 5..20 -> {
+                        "$age лет"
+                    }
+                    age % 10 in 2..4 -> {
+                        "$age года"
+                    }
+                    age % 10 == 1 -> {
+                        "$age год"
+                    }
+                    else -> {
+                        "$age лет"
+                    }
+                }
+            }
+        }
+
+        private fun urlToImageView(context: Context, url: Long): ImageView {
             val iv = ImageView(context)
 
             iv.layoutParams = ViewGroup.MarginLayoutParams(

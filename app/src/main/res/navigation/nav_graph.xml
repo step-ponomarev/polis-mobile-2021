@@ -18,11 +18,11 @@
         android:name="ru.mail.polis.ui.fragments.SelfDefinitionFragment"
         android:label="Self Definition Fragment">
         <action
-            android:id="@+id/action_self_definition_fragment_to_add_apartment_fragment"
-            app:destination="@id/nav_graph__add_apartment_fragment" />
-        <action
             android:id="@+id/action_nav_graph__self_definition_fragment_to_firstCreationFragment"
             app:destination="@id/nav_graph__filling_profile_info" />
+        <action
+            android:id="@+id/action_nav_graph__self_definition_fragment_to_nav_graph__add_apartment_fragment"
+            app:destination="@id/nav_graph__add_apartment_fragment" />
     </fragment>
 
     <fragment
@@ -30,7 +30,7 @@
         android:name="ru.mail.polis.ui.fragments.AddApartmentFragment"
         android:label="Add Apartment Fragment">
         <action
-            android:id="@+id/action_nav_graph__add_apartment_fragment_to_listOfPeopleFragment"
+            android:id="@+id/action_nav_graph__add_apartment_fragment_to_nav_graph__list_of_people"
             app:destination="@id/nav_graph__list_of_people" />
     </fragment>
     <fragment
@@ -52,7 +52,7 @@
         android:label="PersonAnnouncementFragment" >
         <argument
             android:name="person"
-            app:argType="ru.mail.polis.list.of.people.Person" />
+            app:argType="ru.mail.polis.dao.PersonED" />
     </fragment>
 
 </navigation>

@@ -44,10 +44,10 @@
     <string name="name">Имя</string>
     <string name="surname">Фамилия</string>
     <string name="phone">Телефон</string>
-
+    <string name = "money_default_value">Не указано</string>
     <string-array name="genders">
         <item>Мужчина</item>
         <item>Женщина</item>
     </string-array>
-
+    <string name="money">от %1$d до %2$d</string>
 </resources>

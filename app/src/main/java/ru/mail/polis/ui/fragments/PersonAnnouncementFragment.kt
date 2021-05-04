@@ -1,6 +1,7 @@
 package ru.mail.polis.ui.fragments
 
 import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -49,32 +50,41 @@ class PersonAnnouncementFragment : Fragment() {
         val args: PersonAnnouncementFragmentArgs by navArgs()
         val person = args.person
         if (person.photo != null) {
-            urlToMyImageView(ivPhoto, person.photo)
+            urlToMyImageView(ivPhoto, person.photo!!)
         }
         tvName.text = person.name
-        tvAge.text = person.age
-        val tags: List<ImageView> = person.tags.map { url ->
+        tvAge.text = getAgeString(person.age)
+        val tags: List<ImageView> = person.tags?.map { url ->
             urlToImageView(view.context, url)
-        }
+        } ?: listOf()
         tags.forEach(llIvTags::addView)
 
-        tvMetro.text = person.metro.stationName
-        ivBranchColor.background.setTint(
-            ContextCompat.getColor(
-                view.context,
-                person.metro.branchColor
+        if(person.metro != null) {
+            tvMetro.text = person.metro!!.stationName
+            ivBranchColor.background.setTint(
+                ContextCompat.getColor(
+                    view.context,
+                    person.metro!!.branchColor
+                )
             )
-        )
+        }
 
-        tvMoney.text = "от " + person.money.first + " до " + person.money.second
+        if(person.money != null) {
+            tvMoney.text = view.context.getString(R.string.money, person.money!!.first, person.money!!.second)
+        } else {
+            tvMoney.text = R.string.money_default_value.toString()
+        }
 
-        for (i in 0..3.coerceAtMost(person.rooms.size - 1)) {
-            cvRooms[i].visibility = View.VISIBLE
-            tvRooms[i].text = person.rooms[i]
+        if(person.rooms != null) {
+            for (i in 0..3.coerceAtMost(person.rooms!!.size - 1)) {
+                cvRooms[i].visibility = View.VISIBLE
+                tvRooms[i].text = person.rooms!!.get(i)
+            }
         }
         tvDescription.text = person.description
+
     }
-    private fun urlToImageView(context: Context, url: Int): ImageView {
+    private fun urlToImageView(context: Context, url: Long): ImageView {
         val iv = ImageView(context)
 
         iv.layoutParams = ViewGroup.MarginLayoutParams(
@@ -89,5 +99,26 @@ class PersonAnnouncementFragment : Fragment() {
     }
     private fun urlToMyImageView(iv: ImageView, url: String) {
         Glide.with(iv).load(url).into(iv)
+    }
+
+    private fun getAgeString(age: Int?): String? {
+        return if (age == null)
+            ""
+        else {
+            when {
+                age % 100 in 5..20 -> {
+                    "$age лет"
+                }
+                age % 10 in 2..4 -> {
+                    "$age года"
+                }
+                age % 10 == 1 -> {
+                    "$age год"
+                }
+                else -> {
+                    "$age лет"
+                }
+            }
+        }
     }
 }
