@@ -10,7 +10,8 @@ class PersonED(
     var mark: Long? = null,
     var tags: List<Long>? = null,
     var metro: Metro? = null,
-    var money: Pair<Long, Long>? = null,
+    var moneyTo: Long = 0,
+    var moneyFrom: Long = 0,
     var rooms: List<String>? = null,
     var description: String? = null
 ) {
@@ -22,7 +23,8 @@ class PersonED(
         private var mark: Long? = null
         private var tags: List<Long>? = null
         private var metro: Metro? = null
-        private var money: Pair<Long, Long>? = null
+        private var moneyTo: Long = 0
+        private var moneyFrom: Long = 0
         private var rooms: List<String>? = null
         private var description: String? = null
 
@@ -62,8 +64,9 @@ class PersonED(
             return this
         }
 
-        fun money(money: Pair<Long, Long>?): Builder {
-            this.money = money
+        fun money(from: Long, to: Long): Builder {
+            this.moneyFrom = from
+            this.moneyTo = to
             return this
         }
 
@@ -83,7 +86,19 @@ class PersonED(
         }
 
         fun build(): PersonED {
-            return PersonED(email, photo, name, age, mark, tags, metro, money, rooms, description)
+            return PersonED(
+                email,
+                photo,
+                name,
+                age,
+                mark,
+                tags,
+                metro,
+                moneyFrom,
+                moneyTo,
+                rooms,
+                description
+            )
         }
     }
 
@@ -100,7 +115,8 @@ class PersonED(
         if (mark != other.mark) return false
         if (tags != other.tags) return false
         if (metro != other.metro) return false
-        if (money != other.money) return false
+        if (moneyTo != other.moneyTo) return false
+        if (moneyFrom != other.moneyFrom) return false
         if (rooms != other.rooms) return false
         if (description != other.description) return false
 
@@ -115,9 +131,12 @@ class PersonED(
         result = 31 * result + (mark?.hashCode() ?: 0)
         result = 31 * result + (tags?.hashCode() ?: 0)
         result = 31 * result + (metro?.hashCode() ?: 0)
-        result = 31 * result + (money?.hashCode() ?: 0)
+        result = 31 * result + moneyTo.hashCode()
+        result = 31 * result + moneyFrom.hashCode()
         result = 31 * result + (rooms?.hashCode() ?: 0)
         result = 31 * result + (description?.hashCode() ?: 0)
         return result
     }
+
+
 }

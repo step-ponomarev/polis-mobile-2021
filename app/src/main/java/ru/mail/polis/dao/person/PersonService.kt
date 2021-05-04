@@ -127,7 +127,8 @@ class PersonService private constructor() : IPersonService {
             "mark" to person.mark,
             "tags" to person.tags,
             "metro" to person.metro,
-            "money" to person.money,
+            "moneyFrom" to person.moneyFrom,
+            "moneyTo" to person.moneyTo,
             "rooms" to person.rooms,
             "description" to person.description
         )

@@ -4,6 +4,7 @@ import org.junit.Test
 import ru.mail.polis.dao.person.IPersonService
 import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.person.PersonService
+import ru.mail.polis.metro.Metro
 
 class PersonServiceTest {
     private val personService: IPersonService = PersonService.getInstance()
@@ -60,11 +61,11 @@ class PersonServiceTest {
             .name("test")
             .age(0)
             .mark(0)
-            .tags(null)
-            .metro(null)
-            .money(null)
-            .rooms(null)
-            .description(null)
+            .tags(listOf(1L))
+            .metro(Metro.PARNASSUS)
+            .money(0L, 0L)
+            .rooms(listOf("test"))
+            .description("test")
             .build()
     }
 
@@ -77,7 +78,7 @@ class PersonServiceTest {
             .mark(oldPerson.mark)
             .tags(oldPerson.tags)
             .metro(oldPerson.metro)
-            .money(oldPerson.money)
+            .money(oldPerson.moneyFrom, oldPerson.moneyTo)
             .rooms(oldPerson.rooms)
             .description(oldPerson.description)
             .build()
