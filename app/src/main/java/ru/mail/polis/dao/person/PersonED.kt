@@ -108,4 +108,18 @@ class PersonED(
                 && Objects.equals(rooms, other.rooms)
                 && Objects.equals(description, other.description)
     }
+
+    override fun hashCode(): Int {
+        var result = email.hashCode()
+        result = 31 * result + (photo?.hashCode() ?: 0)
+        result = 31 * result + (name?.hashCode() ?: 0)
+        result = 31 * result + (age?.hashCode() ?: 0)
+        result = 31 * result + (mark?.hashCode() ?: 0)
+        result = 31 * result + (tags?.hashCode() ?: 0)
+        result = 31 * result + (metro?.hashCode() ?: 0)
+        result = 31 * result + (money?.hashCode() ?: 0)
+        result = 31 * result + (rooms?.hashCode() ?: 0)
+        result = 31 * result + (description?.hashCode() ?: 0)
+        return result
+    }
 }
