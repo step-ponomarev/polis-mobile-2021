@@ -1,4 +1,4 @@
-package ru.mail.polis.dao
+package ru.mail.polis.dao.apartments
 
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount

@@ -1,9 +1,9 @@
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
-import ru.mail.polis.dao.IPersonService
-import ru.mail.polis.dao.PersonED
-import ru.mail.polis.dao.PersonService
+import ru.mail.polis.dao.person.IPersonService
+import ru.mail.polis.dao.person.PersonED
+import ru.mail.polis.dao.person.PersonService
 
 class PersonServiceTest {
     private val personService: IPersonService = PersonService.getInstance()
@@ -54,17 +54,32 @@ class PersonServiceTest {
     }
 
     private fun createTestPerson(): PersonED {
-        return PersonED(
-            "test@test.test", "test", "test", 0,
-            0, null, null, null, null, null
-        )
+        return PersonED.Builder.createBuilder()
+            .setEmail("test@test.test")
+            .setPhoto("test")
+            .setName("test")
+            .setAge(0)
+            .setMark(0)
+            .setTags(null)
+            .setMetro(null)
+            .setMoney(null)
+            .setRooms(null)
+            .setDescription(null)
+            .build();
     }
 
     private fun createUpdatedPerson(oldPerson: PersonED): PersonED {
-        return PersonED(
-            oldPerson.email, "${oldPerson.photo}1", "${oldPerson.name}1",
-            oldPerson.age?.plus(1), oldPerson.mark?.plus(1), null,
-            null, null, null, null
-        )
+        return PersonED.Builder.createBuilder()
+            .setEmail(oldPerson.email)
+            .setPhoto(oldPerson.photo)
+            .setName(oldPerson.name)
+            .setAge(oldPerson.age)
+            .setMark(oldPerson.mark)
+            .setTags(oldPerson.tags)
+            .setMetro(oldPerson.metro)
+            .setMoney(oldPerson.money)
+            .setRooms(oldPerson.rooms)
+            .setDescription(oldPerson.description)
+            .build();
     }
 }

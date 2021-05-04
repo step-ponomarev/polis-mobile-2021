@@ -1,9 +1,9 @@
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
-import ru.mail.polis.dao.ApartmentED
-import ru.mail.polis.dao.ApartmentService
-import ru.mail.polis.dao.IApartmentService
+import ru.mail.polis.dao.apartments.ApartmentED
+import ru.mail.polis.dao.apartments.ApartmentService
+import ru.mail.polis.dao.apartments.IApartmentService
 
 class ApartmentServiceTest {
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
