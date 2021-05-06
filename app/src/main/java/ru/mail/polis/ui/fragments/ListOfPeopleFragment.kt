@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +18,7 @@ import ru.mail.polis.metro.Metro
 
 class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
     private val personService: IPersonService = PersonService.getInstance()
-    private lateinit var listOfPeopleED : List<PersonED>
+    private lateinit var listOfPeopleED: List<PersonED>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,12 +29,9 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-       /*runBlocking {
+        runBlocking {
             listOfPeopleED = personService.findAll()
-            val toast = Toast.makeText(context, "Загрузка данных", Toast.LENGTH_SHORT)
-            toast.show()
-        }*/
-        listOfPeopleED = generateTestPeopleList()
+        }
         super.onViewCreated(view, savedInstanceState)
         val rvList: RecyclerView = view.findViewById(R.id.list_of_people__rv_list)
         val adapter = PeopleAdapter(listOfPeopleED, this)

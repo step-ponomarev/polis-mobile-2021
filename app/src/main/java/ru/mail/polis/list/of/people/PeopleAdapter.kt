@@ -1,7 +1,6 @@
 package ru.mail.polis.list.of.people
 
 import android.content.Context
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,7 +71,7 @@ class PeopleAdapter(
             } ?: listOf()
             tags.forEach(llIvTags::addView)
 
-            if(person.metro != null) {
+            if (person.metro != null) {
                 tvMetro.text = person.metro!!.stationName
                 ivBranchColor.background.setTint(
                     ContextCompat.getColor(
@@ -81,13 +80,13 @@ class PeopleAdapter(
                     )
                 )
             }
-            if(person.money != null) {
+            if (person.money != null) {
                 tvMoney.text = itemView.context.getString(R.string.money, 1, 2)
                 tvMoney.text = "от " + person.money!!.first + " до " + person.money!!.second
             } else {
                 tvMoney.text = R.string.money_default_value.toString()
             }
-            if(person.rooms != null) {
+            if (person.rooms != null) {
                 for (i in 0..3.coerceAtMost(person.rooms!!.size - 1)) {
                     cvRooms[i].visibility = View.VISIBLE
                     tvRooms[i].text = person.rooms!!.get(i)

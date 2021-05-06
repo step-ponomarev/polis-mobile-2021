@@ -1,7 +1,6 @@
 package ru.mail.polis.ui.fragments
 
 import android.content.Context
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -59,7 +58,7 @@ class PersonAnnouncementFragment : Fragment() {
         } ?: listOf()
         tags.forEach(llIvTags::addView)
 
-        if(person.metro != null) {
+        if (person.metro != null) {
             tvMetro.text = person.metro!!.stationName
             ivBranchColor.background.setTint(
                 ContextCompat.getColor(
@@ -69,20 +68,19 @@ class PersonAnnouncementFragment : Fragment() {
             )
         }
 
-        if(person.money != null) {
+        if (person.money != null) {
             tvMoney.text = view.context.getString(R.string.money, person.money!!.first, person.money!!.second)
         } else {
             tvMoney.text = R.string.money_default_value.toString()
         }
 
-        if(person.rooms != null) {
+        if (person.rooms != null) {
             for (i in 0..3.coerceAtMost(person.rooms!!.size - 1)) {
                 cvRooms[i].visibility = View.VISIBLE
                 tvRooms[i].text = person.rooms!!.get(i)
             }
         }
         tvDescription.text = person.description
-
     }
     private fun urlToImageView(context: Context, url: Long): ImageView {
         val iv = ImageView(context)
