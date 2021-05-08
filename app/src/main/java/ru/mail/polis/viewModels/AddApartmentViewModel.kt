@@ -14,7 +14,6 @@ class AddApartmentViewModel : ViewModel() {
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
     val list = LinkedHashSet<Bitmap>()
 
-
     fun addApartment(apartmentED: ApartmentED) {
         viewModelScope.launch(Dispatchers.IO) {
             apartmentService.addApartment(apartmentED)
