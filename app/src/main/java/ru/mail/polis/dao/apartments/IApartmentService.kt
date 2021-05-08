@@ -1,4 +1,4 @@
-package ru.mail.polis.dao
+package ru.mail.polis.dao.apartments
 
 interface IApartmentService {
     suspend fun findByEmail(email: String): ApartmentED?
