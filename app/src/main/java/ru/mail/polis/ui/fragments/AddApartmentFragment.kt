@@ -20,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
@@ -27,6 +28,7 @@ import com.google.android.material.chip.ChipGroup
 import ru.mail.polis.R
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.viewModels.AddApartmentViewModel
+import ru.mail.polis.viewModels.StateScrollView
 
 
 class AddApartmentFragment : Fragment() {
@@ -47,13 +49,26 @@ class AddApartmentFragment : Fragment() {
             ActivityResultContracts.StartActivityForResult(),
             this::handleResult
         )
-    
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_add_apartment, container, false)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+
+
+        if (StateScrollView.list.isNotEmpty()) {
+            StateScrollView.list.forEach { bitmap ->
+                photoLinearLayout.addView(createImageComponent(bitmap))
+            }
+        }
+
+//        StateScrollView.list.clear()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,6 +85,10 @@ class AddApartmentFragment : Fragment() {
         photoLinearLayout = view.findViewById(R.id.fragment_add_apartment__photo_linear_layout)
 
         addApartmentViewModel = ViewModelProvider(this).get(AddApartmentViewModel::class.java)
+
+        addApartmentViewModel.liveData.observe(viewLifecycleOwner, Observer {
+            photoLinearLayout = it
+        })
 
         val metroNamesList = metroList.map { it.stationName }
 
@@ -136,6 +155,8 @@ class AddApartmentFragment : Fragment() {
             val bitmap = decodeImage(selectedImage)
 
             photoLinearLayout.addView(createImageComponent(bitmap))
+
+//            addApartmentViewModel.addView(createImageComponent(bitmap), photoLinearLayout)
             Log.d("!!!", "FROM HADLE RESULT CHILD NUBMER : ${photoLinearLayout.childCount}")
         }
     }
@@ -151,6 +172,7 @@ class AddApartmentFragment : Fragment() {
         ib.setOnClickListener {
             val parent = it.parent
             val linearLayout = parent.parent as ViewGroup
+            StateScrollView.list.remove(iv.drawable.toBitmap())
             linearLayout.removeViewInLayout(view)
         }
 
@@ -169,6 +191,7 @@ class AddApartmentFragment : Fragment() {
         iv.scaleType = ImageView.ScaleType.CENTER_CROP
 
         iv.setImageBitmap(bitmap)
+        StateScrollView.list.add(bitmap)
 
         return cl
     }
