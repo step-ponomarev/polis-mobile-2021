@@ -1,4 +1,4 @@
-package ru.mail.polis.utils
+package ru.mail.polis.decoder
 
 import android.content.ContentResolver
 import android.graphics.Bitmap

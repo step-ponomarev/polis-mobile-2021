@@ -28,7 +28,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import ru.mail.polis.R
 import ru.mail.polis.metro.Metro
-import ru.mail.polis.utils.DecoderFactory
+import ru.mail.polis.decoder.DecoderFactory
 import ru.mail.polis.viewModels.AddApartmentViewModel
 import ru.mail.polis.viewModels.StateScrollView
 
