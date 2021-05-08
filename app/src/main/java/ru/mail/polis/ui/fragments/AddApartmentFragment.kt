@@ -34,7 +34,6 @@ import ru.mail.polis.decoder.DecoderFactory
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
 import ru.mail.polis.viewModels.AddApartmentViewModel
-import ru.mail.polis.viewModels.StateScrollView
 
 class AddApartmentFragment : Fragment() {
 
@@ -67,8 +66,8 @@ class AddApartmentFragment : Fragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
 
-        if (StateScrollView.list.isNotEmpty()) {
-            StateScrollView.list.forEach { bitmap ->
+        if (addApartmentViewModel.list.isNotEmpty()) {
+            addApartmentViewModel.list.forEach { bitmap ->
                 photoLinearLayout.addView(createImageComponent(bitmap))
             }
         }
@@ -144,7 +143,7 @@ class AddApartmentFragment : Fragment() {
         ib.setOnClickListener {
             val parent = it.parent
             val linearLayout = parent.parent as ViewGroup
-            StateScrollView.list.remove(iv.drawable.toBitmap())
+            addApartmentViewModel.list.remove(iv.drawable.toBitmap())
             linearLayout.removeViewInLayout(view)
         }
 
@@ -163,7 +162,7 @@ class AddApartmentFragment : Fragment() {
         iv.scaleType = ImageView.ScaleType.CENTER_CROP
         iv.setImageBitmap(bitmap)
 
-        StateScrollView.list.add(bitmap)
+        addApartmentViewModel.list.add(bitmap)
 
         return cl
     }
