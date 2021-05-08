@@ -25,7 +25,6 @@ import ru.mail.polis.utils.DecoderFactory
 import ru.mail.polis.viewModels.AddApartmentViewModel
 import ru.mail.polis.viewModels.StateScrollView
 
-
 class AddApartmentFragment : Fragment() {
 
     private lateinit var spinner: Spinner
@@ -141,8 +140,8 @@ class AddApartmentFragment : Fragment() {
         cl.setPadding(10, 0, 10, 0)
 
         iv.scaleType = ImageView.ScaleType.CENTER_CROP
-
         iv.setImageBitmap(bitmap)
+
         StateScrollView.list.add(bitmap)
 
         return cl
@@ -161,8 +160,6 @@ class AddApartmentFragment : Fragment() {
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
-
             }
 
             override fun onItemSelected(
@@ -181,8 +178,6 @@ class AddApartmentFragment : Fragment() {
                     )
                 }
             }
-
         }
-
     }
 }
