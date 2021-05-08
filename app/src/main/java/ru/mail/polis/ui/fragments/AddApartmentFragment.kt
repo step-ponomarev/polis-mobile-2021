@@ -23,12 +23,16 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.firebase.auth.FirebaseAuth
 import ru.mail.polis.R
-import ru.mail.polis.metro.Metro
+import ru.mail.polis.dao.ApartmentED
 import ru.mail.polis.decoder.DecoderFactory
+import ru.mail.polis.metro.Metro
+import ru.mail.polis.room.RoomCount
 import ru.mail.polis.viewModels.AddApartmentViewModel
 import ru.mail.polis.viewModels.StateScrollView
 
@@ -81,6 +85,8 @@ class AddApartmentFragment : Fragment() {
         addPhotoImageButton = view.findViewById(R.id.fragment_add_apartment__add_image_button)
         photoLinearLayout = view.findViewById(R.id.fragment_add_apartment__photo_linear_layout)
 
+        addApartmentViewModel = ViewModelProvider(this).get(AddApartmentViewModel::class.java)
+
         initSpinner(view)
 
         addApartmentButton.setOnClickListener(this::onClickAddApartment)
@@ -91,12 +97,20 @@ class AddApartmentFragment : Fragment() {
 
         val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId) ?: return
 
-        val apartmentInfo = hashMapOf(
-            "metro" to spinner.selectedItem.toString(),
-            "rooms" to selectedChip.text.toString(),
-            "cost" to costEditText.text.toString(),
-            "square" to squareEditText.text.toString()
+        val metro = spinner.selectedItem.toString().trim()
+        val rooms = selectedChip.text.toString().trim()
+        val cost = costEditText.text.toString()
+        val square = squareEditText.text.toString()
+
+        val apartmentED = ApartmentED(
+            email = FirebaseAuth.getInstance().currentUser.email!!,
+            metro = Metro.fromString(metro),
+            roomCount = RoomCount.fromString(rooms),
+            apartmentCosts = Integer.parseInt(cost).toLong(),
+            apartmentSquare = Integer.parseInt(square).toLong()
         )
+
+        addApartmentViewModel.addApartment(apartmentED)
 
         findNavController().navigate(R.id.nav_graph__list_of_people)
     }
