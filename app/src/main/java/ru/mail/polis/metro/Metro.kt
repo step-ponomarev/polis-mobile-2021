@@ -75,7 +75,7 @@ enum class Metro(val stationName: String, val branchColor: Int) {
         fun fromString(stationName: String): Metro {
             values().forEach {
                 if (it.stationName.compareTo(stationName) == 0) {
-                    return it;
+                    return it
                 }
             }
             throw IllegalArgumentException("No enum constant with name $stationName")

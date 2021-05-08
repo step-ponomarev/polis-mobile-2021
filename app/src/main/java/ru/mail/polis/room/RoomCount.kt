@@ -12,7 +12,7 @@ enum class RoomCount(val roomCount: Int, val label: String) {
         fun fromString(roomCount: String): RoomCount {
             values().forEach {
                 if (it.label == roomCount) {
-                    return it;
+                    return it
                 }
             }
             throw IllegalArgumentException("No enum constant with name $roomCount")
