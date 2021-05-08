@@ -141,10 +141,8 @@ class AddApartmentFragment : Fragment() {
         val ib = view.findViewById<ImageButton>(R.id.photo_component__ib)
 
         ib.setOnClickListener {
-            val parent = it.parent
-            val linearLayout = parent.parent as ViewGroup
             addApartmentViewModel.list.remove(iv.drawable.toBitmap())
-            linearLayout.removeViewInLayout(view)
+            photoLinearLayout.removeView(cl)
         }
 
         iv.setOnClickListener {
