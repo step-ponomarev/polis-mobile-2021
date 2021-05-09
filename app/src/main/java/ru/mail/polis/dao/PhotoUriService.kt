@@ -7,7 +7,7 @@ import kotlin.coroutines.resume
 
 class PhotoUriService : IPhotoUriService {
 
-    private val storage = FirebaseStorage.getInstance();
+    private val storage = FirebaseStorage.getInstance()
 
     override suspend fun saveImage(byteArray: ByteArray): Uri {
 
@@ -29,16 +29,15 @@ class PhotoUriService : IPhotoUriService {
                     coroutine.resume(task.result!!)
                 }
             }
-
         }
     }
 
     private fun getRandomNameForFile(): String {
         val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
         val randomString = (1..50)
-            .map { i -> kotlin.random.Random.nextInt(0, charPool.size) }
+            .map { kotlin.random.Random.nextInt(0, charPool.size) }
             .map(charPool::get)
-            .joinToString("");
+            .joinToString("")
         return randomString
     }
 }
