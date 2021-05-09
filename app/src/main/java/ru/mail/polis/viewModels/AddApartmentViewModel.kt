@@ -8,13 +8,14 @@ import kotlinx.coroutines.launch
 import ru.mail.polis.dao.ApartmentED
 import ru.mail.polis.dao.ApartmentService
 import ru.mail.polis.dao.IApartmentService
+import ru.mail.polis.dao.IPhotoUriService
 import ru.mail.polis.dao.PhotoUriService
 import java.io.ByteArrayOutputStream
 
 class AddApartmentViewModel : ViewModel() {
 
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
-    private val photoUriService: PhotoUriService = PhotoUriService()
+    private val photoUriService: IPhotoUriService = PhotoUriService()
     val list = LinkedHashSet<Bitmap>()
 
     fun addApartment(apartmentED: ApartmentED) {

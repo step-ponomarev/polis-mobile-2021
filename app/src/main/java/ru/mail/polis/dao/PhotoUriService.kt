@@ -5,11 +5,11 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-class PhotoUriService {
+class PhotoUriService : IPhotoUriService {
 
     private val storage = FirebaseStorage.getInstance();
 
-    suspend fun saveImage(byteArray: ByteArray): Uri {
+    override suspend fun saveImage(byteArray: ByteArray): Uri {
 
         return suspendCancellableCoroutine { coroutine ->
 
