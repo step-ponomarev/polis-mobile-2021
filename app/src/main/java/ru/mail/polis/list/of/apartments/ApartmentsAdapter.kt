@@ -14,7 +14,7 @@ import com.google.android.material.chip.Chip
 import ru.mail.polis.R
 
 class ApartmentsAdapter(
-    private val apartments: List<Apartment>
+    private var apartmentViewModels: List<ApartmentViewModel> = emptyList()
 ) : RecyclerView.Adapter<ApartmentsAdapter.PeopleViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeopleViewHolder {
@@ -23,10 +23,15 @@ class ApartmentsAdapter(
         return PeopleViewHolder(view)
     }
 
-    override fun getItemCount(): Int = apartments.size
+    override fun getItemCount(): Int = apartmentViewModels.size
 
     override fun onBindViewHolder(holder: PeopleViewHolder, position: Int) {
-        holder.bind(apartments[position])
+        holder.bind(apartmentViewModels[position])
+    }
+
+    fun setData(apartmentViewModels: List<ApartmentViewModel>) {
+        this.apartmentViewModels = apartmentViewModels
+        notifyDataSetChanged()
     }
 
     class PeopleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -49,7 +54,7 @@ class ApartmentsAdapter(
         private val photoContainer: LinearLayout =
             itemView.findViewById(R.id.component_proposed_apartment_item__photos_container)
 
-        fun bind(apartments: Apartment) {
+        fun bind(apartments: ApartmentViewModel) {
             if (apartments.ownerAvatar != null) {
                 Glide.with(itemView).load(apartments.ownerAvatar).into(userAvatar)
             } else {
@@ -59,13 +64,14 @@ class ApartmentsAdapter(
             metroBranchColor.background.setTint(
                 ContextCompat.getColor(
                     itemView.context,
-                    apartments.metro.branchColor
+                    apartments.metro!!.branchColor
                 )
             )
+
             apartmentOwnerName.text = apartments.ownerName
             apartmentOwnerAge.text = "${apartments.ownerAge} лет"
-            metroText.text = apartments.metro.stationName
-            roomCount.text = apartments.roomCount.label
+            metroText.text = apartments.metro?.stationName
+            roomCount.text = apartments.roomCount?.label
             apartmentSquare.text = "${apartments.apartmentSquare} м. кв."
             apartmentCost.text = "${apartments.apartmentCosts} Р"
 

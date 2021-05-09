@@ -1,21 +1,24 @@
-package ru.mail.polis.dao.apartments
+package ru.mail.polis.list.of.apartments
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
 
-class ApartmentED(
-    var email: String = "",
-    var ownerAvatar: String? = null,
-    var ownerName: String? = null,
-    var ownerAge: Long? = null,
-    var metro: Metro? = null,
-    var roomCount: RoomCount? = null,
-    var apartmentSquare: Long? = null,
-    var apartmentCosts: Long? = null,
+@Parcelize
+class ApartmentViewModel(
+    var email: String,
+    var ownerAvatar: String?,
+    var ownerName: String,
+    var ownerAge: Long,
+    var metro: Metro,
+    var roomCount: RoomCount,
+    var apartmentSquare: Long,
+    var apartmentCosts: Long,
     var photosUrls: List<String> = emptyList()
-) {
+) : Parcelable {
     class Builder private constructor() {
-        private var email: String? = null
+        private var email: String = ""
         private var ownerAvatar: String? = null
         private var ownerName: String? = null
         private var ownerAge: Long? = null
@@ -76,10 +79,10 @@ class ApartmentED(
             return this
         }
 
-        fun build(): ApartmentED {
-            return ApartmentED(
-                email!!,
-                ownerAvatar!!,
+        fun build(): ApartmentViewModel {
+            return ApartmentViewModel(
+                email,
+                ownerAvatar,
                 ownerName!!,
                 ownerAge!!,
                 metro!!,
@@ -89,37 +92,5 @@ class ApartmentED(
                 photosUrls
             )
         }
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as ApartmentED
-
-        if (email != other.email) return false
-        if (ownerAvatar != other.ownerAvatar) return false
-        if (ownerName != other.ownerName) return false
-        if (ownerAge != other.ownerAge) return false
-        if (metro != other.metro) return false
-        if (roomCount != other.roomCount) return false
-        if (apartmentSquare != other.apartmentSquare) return false
-        if (apartmentCosts != other.apartmentCosts) return false
-        if (photosUrls != other.photosUrls) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = email.hashCode()
-        result = 31 * result + (ownerAvatar?.hashCode() ?: 0)
-        result = 31 * result + (ownerName?.hashCode() ?: 0)
-        result = 31 * result + (ownerAge?.hashCode() ?: 0)
-        result = 31 * result + (metro?.hashCode() ?: 0)
-        result = 31 * result + (roomCount?.hashCode() ?: 0)
-        result = 31 * result + (apartmentSquare?.hashCode() ?: 0)
-        result = 31 * result + (apartmentCosts?.hashCode() ?: 0)
-        result = 31 * result + (photosUrls.hashCode())
-        return result
     }
 }
