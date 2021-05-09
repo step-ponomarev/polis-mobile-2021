@@ -16,12 +16,12 @@ class ApartmentServiceTest {
             val apartment = createTestApartment()
 
             val addedPerson = apartmentService.addApartment(apartment)
-            val gotPerson = apartmentService.findByEmail(addedPerson.email)
+            val gotPerson = apartmentService.findByEmail(addedPerson.email!!)
 
             Assert.assertNotNull(gotPerson)
             Assert.assertEquals(addedPerson, gotPerson)
 
-            apartmentService.deleteApartmentByEmail(addedPerson.email)
+            apartmentService.deleteApartmentByEmail(addedPerson.email!!)
         }
     }
 
@@ -31,9 +31,9 @@ class ApartmentServiceTest {
             val apartment = createTestApartment()
 
             val addedPerson = apartmentService.addApartment(apartment)
-            apartmentService.deleteApartmentByEmail(addedPerson.email)
+            apartmentService.deleteApartmentByEmail(addedPerson.email!!)
 
-            val gotPerson = apartmentService.findByEmail(addedPerson.email)
+            val gotPerson = apartmentService.findByEmail(addedPerson.email!!)
 
             Assert.assertNull(gotPerson)
         }
@@ -47,11 +47,11 @@ class ApartmentServiceTest {
 
             val addedApartment = apartmentService.addApartment(apartment)
             apartmentService.updateApartment(updatedApartment)
-            val gotApartment = apartmentService.findByEmail(apartment.email)
+            val gotApartment = apartmentService.findByEmail(apartment.email!!)
 
             Assert.assertEquals(gotApartment, updatedApartment)
 
-            apartmentService.deleteApartmentByEmail(addedApartment.email)
+            apartmentService.deleteApartmentByEmail(addedApartment.email!!)
         }
     }
 
@@ -71,7 +71,7 @@ class ApartmentServiceTest {
 
     private fun createUpdatedApartment(oldApartment: ApartmentED): ApartmentED {
         return ApartmentED.Builder.createBuilder()
-            .email(oldApartment.email)
+            .email(oldApartment.email!!)
             .ownerAvatar(oldApartment.ownerAvatar)
             .ownerName(oldApartment.ownerName!!)
             .ownerAge(oldApartment.ownerAge!!)
