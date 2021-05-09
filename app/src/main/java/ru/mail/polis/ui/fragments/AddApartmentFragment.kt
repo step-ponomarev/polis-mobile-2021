@@ -17,6 +17,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -94,12 +95,22 @@ class AddApartmentFragment : Fragment() {
 
     private fun onClickAddApartment(view: View) {
 
-        val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId) ?: return
+        val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId)
 
-        val metro = spinner.selectedItem.toString().trim()
-        val rooms = selectedChip.text.toString().trim()
+        if (selectedChip == null) {
+            getToastAboutFillAllFields().show()
+            return
+        }
+
+        val metro = spinner.selectedItem.toString()
+        val rooms = selectedChip.text.toString()
         val cost = costEditText.text.toString()
         val square = squareEditText.text.toString()
+
+        if (metro.isEmpty() || rooms.isEmpty() || cost.isEmpty() || square.isEmpty()) {
+            getToastAboutFillAllFields().show()
+            return
+        }
 
         val apartmentED = ApartmentED(
             email = FirebaseAuth.getInstance().currentUser.email!!,
@@ -197,5 +208,13 @@ class AddApartmentFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun getToastAboutFillAllFields(): Toast {
+        return Toast.makeText(
+            requireContext(),
+            "Укажите всю информацию о квартире",
+            Toast.LENGTH_SHORT
+        )
     }
 }
