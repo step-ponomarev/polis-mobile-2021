@@ -50,9 +50,9 @@ class ProposedApartmentsFragment : Fragment() {
     }
 
     private fun toApartmentView(apartments: List<ApartmentED>): List<ApartmentViewModel> {
-        return apartments.map {
+        return apartments.filter { it.isValid() }.map {
             ApartmentViewModel.Builder.createBuilder()
-                .email(it.email)
+                .email(it.email!!)
                 .apartmentCosts(it.apartmentCosts!!)
                 .apartmentSquare(it.apartmentSquare!!)
                 .ownerAge(it.ownerAge!!)

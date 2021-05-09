@@ -4,7 +4,7 @@ import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
 
 class ApartmentED(
-    var email: String = "",
+    var email: String? = null,
     var ownerAvatar: String? = null,
     var ownerName: String? = null,
     var ownerAge: Long? = null,
@@ -14,6 +14,16 @@ class ApartmentED(
     var apartmentCosts: Long? = null,
     var photosUrls: List<String> = emptyList()
 ) {
+    fun isValid(): Boolean {
+        return email != null &&
+            ownerName != null &&
+            ownerAge != null &&
+            metro != null &&
+            roomCount != null &&
+            apartmentSquare != null &&
+            apartmentCosts != null
+    }
+
     class Builder private constructor() {
         private var email: String? = null
         private var ownerAvatar: String? = null

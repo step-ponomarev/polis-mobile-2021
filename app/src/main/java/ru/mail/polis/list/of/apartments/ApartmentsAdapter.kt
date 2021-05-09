@@ -64,14 +64,14 @@ class ApartmentsAdapter(
             metroBranchColor.background.setTint(
                 ContextCompat.getColor(
                     itemView.context,
-                    apartments.metro!!.branchColor
+                    apartments.metro.branchColor
                 )
             )
 
             apartmentOwnerName.text = apartments.ownerName
             apartmentOwnerAge.text = "${apartments.ownerAge} лет"
-            metroText.text = apartments.metro?.stationName
-            roomCount.text = apartments.roomCount?.label
+            metroText.text = apartments.metro.stationName
+            roomCount.text = apartments.roomCount.label
             apartmentSquare.text = "${apartments.apartmentSquare} м. кв."
             apartmentCost.text = "${apartments.apartmentCosts} Р"
 
