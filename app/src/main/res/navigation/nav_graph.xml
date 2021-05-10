@@ -52,7 +52,7 @@
         android:label="PersonAnnouncementFragment" >
         <argument
             android:name="person"
-            app:argType="ru.mail.polis.dao.PersonED" />
+            app:argType="ru.mail.polis.list.of.people.Person" />
     </fragment>
 
 </navigation>

@@ -1,11 +1,8 @@
-package ru.mail.polis.list.of.people
+package ru.mail.polis.dao.person
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 import ru.mail.polis.metro.Metro
 
-@Parcelize
-data class Person(
+class PersonED(
     var email: String? = null,
     var photo: String? = null,
     var name: String? = null,
@@ -17,7 +14,15 @@ data class Person(
     var moneyFrom: Long = 0,
     var rooms: List<String> = emptyList(),
     var description: String? = null
-) : Parcelable {
+) {
+    fun isValid(): Boolean {
+        return email != null &&
+            name != null &&
+            age != null &&
+            metro != null &&
+            description != null
+    }
+
     class Builder private constructor() {
         private var email: String? = null
         private var photo: String? = null
@@ -57,7 +62,7 @@ data class Person(
             return this
         }
 
-        fun mark(mark: Long): Builder {
+        fun mark(mark: Long?): Builder {
             this.mark = mark
             return this
         }
@@ -67,18 +72,14 @@ data class Person(
             return this
         }
 
+        fun money(from: Long, to: Long): Builder {
+            this.moneyFrom = from
+            this.moneyTo = to
+            return this
+        }
+
         fun metro(metro: Metro): Builder {
             this.metro = metro
-            return this
-        }
-
-        fun moneyTo(moneyTo: Long): Builder {
-            this.moneyTo = moneyTo
-            return this
-        }
-
-        fun moneyFrom(moneyFrom: Long): Builder {
-            this.moneyFrom = moneyFrom
             return this
         }
 
@@ -92,20 +93,56 @@ data class Person(
             return this
         }
 
-        fun build(): Person {
-            return Person(
-                email,
+        fun build(): PersonED {
+            return PersonED(
+                email!!,
                 photo,
                 name,
                 age,
                 mark,
-                tags,
+                tags!!,
                 metro,
-                moneyTo,
                 moneyFrom,
-                rooms,
+                moneyTo,
+                rooms!!,
                 description
             )
         }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as PersonED
+
+        if (email != other.email) return false
+        if (photo != other.photo) return false
+        if (name != other.name) return false
+        if (age != other.age) return false
+        if (mark != other.mark) return false
+        if (tags != other.tags) return false
+        if (metro != other.metro) return false
+        if (moneyTo != other.moneyTo) return false
+        if (moneyFrom != other.moneyFrom) return false
+        if (rooms != other.rooms) return false
+        if (description != other.description) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = email.hashCode()
+        result = 31 * result + (photo?.hashCode() ?: 0)
+        result = 31 * result + (name?.hashCode() ?: 0)
+        result = 31 * result + (age?.hashCode() ?: 0)
+        result = 31 * result + (mark?.hashCode() ?: 0)
+        result = 31 * result + (tags.hashCode())
+        result = 31 * result + (metro?.hashCode() ?: 0)
+        result = 31 * result + moneyTo.hashCode()
+        result = 31 * result + moneyFrom.hashCode()
+        result = 31 * result + (rooms.hashCode())
+        result = 31 * result + (description?.hashCode() ?: 0)
+        return result
     }
 }

@@ -68,8 +68,8 @@ class PersonAnnouncementFragment : Fragment() {
             )
         }
 
-        if (person.money != null) {
-            tvMoney.text = view.context.getString(R.string.money, person.money!!.first, person.money!!.second)
+        if (person.moneyFrom != 0L && person.moneyTo != 0L) {
+            tvMoney.text = view.context.getString(R.string.money, person.moneyFrom, person.moneyTo)
         } else {
             tvMoney.text = R.string.money_default_value.toString()
         }

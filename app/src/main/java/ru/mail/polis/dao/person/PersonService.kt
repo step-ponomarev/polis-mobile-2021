@@ -1,4 +1,4 @@
-package ru.mail.polis.dao
+package ru.mail.polis.dao.person
 
 import android.util.Log
 import com.google.firebase.firestore.CollectionReference
@@ -6,6 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.suspendCancellableCoroutine
+import ru.mail.polis.dao.Collections
 import java.lang.RuntimeException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -58,7 +59,7 @@ class PersonService private constructor() : IPersonService {
 
     override suspend fun addPerson(person: PersonED): PersonED {
         return suspendCancellableCoroutine { coroutine ->
-            personCollection.document(person.email)
+            personCollection.document(person.email!!)
                 .set(personToMap(person))
                 .addOnFailureListener {
                     coroutine.resumeWithException(
@@ -80,7 +81,7 @@ class PersonService private constructor() : IPersonService {
     }
 
     override suspend fun updatePerson(person: PersonED): PersonED {
-        val personRef = personCollection.document(person.email)
+        val personRef = personCollection.document(person.email!!)
 
         return suspendCancellableCoroutine { coroutine ->
             personRef.update(personToMap(person))
@@ -126,7 +127,8 @@ class PersonService private constructor() : IPersonService {
             "mark" to person.mark,
             "tags" to person.tags,
             "metro" to person.metro,
-            "money" to person.money,
+            "moneyFrom" to person.moneyFrom,
+            "moneyTo" to person.moneyTo,
             "rooms" to person.rooms,
             "description" to person.description
         )

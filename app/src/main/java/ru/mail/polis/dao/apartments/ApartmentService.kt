@@ -1,4 +1,4 @@
-package ru.mail.polis.dao
+package ru.mail.polis.dao.apartments
 
 import android.util.Log
 import com.google.firebase.firestore.CollectionReference
@@ -6,6 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.suspendCancellableCoroutine
+import ru.mail.polis.dao.Collections
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 

@@ -12,11 +12,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.mail.polis.R
-import ru.mail.polis.dao.PersonED
 
 class PeopleAdapter(
-    private val people: List<Person>,
-    private val listener: ListItemClickListener
+    private var people: List<Person>,
+    listener: ListItemClickListener
 ) : RecyclerView.Adapter<PeopleAdapter.PeopleViewHolder>() {
 
     private val mOnClickListener: ListItemClickListener = listener
@@ -26,6 +25,11 @@ class PeopleAdapter(
     }
     override fun onBindViewHolder(holder: PeopleViewHolder, position: Int) {
         holder.bind(people[position])
+    }
+
+    fun setData(listOfPeople: List<Person>) {
+        this.people = listOfPeople
+        notifyDataSetChanged()
     }
 
     interface ListItemClickListener {
@@ -57,18 +61,18 @@ class PeopleAdapter(
         )
         private val tvDescription: TextView = itemView.findViewById(R.id.people_item__tv_description)
 
-        fun getCardView(): CardView = cardView
+        // fun getCardView(): CardView = cardView
 
-        fun bind(person: PersonED) {
+        fun bind(person: Person) {
             if (person.photo != null) {
                 urlToMyImageView(ivPhoto, person.photo!!)
             }
 
             tvName.text = person.name
             tvAge.text = getAgeString(person.age)
-            val tags: List<ImageView> = person.tags?.map { url ->
+            val tags: List<ImageView> = person.tags.map { url ->
                 urlToImageView(itemView.context, url)
-            } ?: listOf()
+            }
             tags.forEach(llIvTags::addView)
 
             if (person.metro != null) {
@@ -80,29 +84,24 @@ class PeopleAdapter(
                     )
                 )
             }
-            if (person.money != null) {
-                tvMoney.text = itemView.context.getString(R.string.money, 1, 2)
-                tvMoney.text = "от " + person.money!!.first + " до " + person.money!!.second
+            if (person.moneyFrom != 0L && person.moneyTo != 0L) {
+                tvMoney.text = itemView.context.getString(R.string.money, person.moneyFrom, person.moneyTo)
             } else {
                 tvMoney.text = R.string.money_default_value.toString()
             }
-            if (person.rooms != null) {
-                for (i in 0..3.coerceAtMost(person.rooms!!.size - 1)) {
-                    cvRooms[i].visibility = View.VISIBLE
-                    tvRooms[i].text = person.rooms!!.get(i)
-                }
-                cardView.setOnClickListener(
-                    View.OnClickListener {
-                        val clickedPosition = adapterPosition
-                        mOnClickListener.onListItemClick(clickedPosition)
-                    }
-                )
+            for (i in 0..3.coerceAtMost(person.rooms.size - 1)) {
+                cvRooms[i].visibility = View.VISIBLE
+                tvRooms[i].text = person.rooms[i]
+            }
+            cardView.setOnClickListener {
+                val clickedPosition = adapterPosition
+                mOnClickListener.onListItemClick(clickedPosition)
             }
             tvDescription.text = person.description
         }
 
-        private fun getAgeString(age: Int?): String? {
-            return if (age == null)
+        private fun getAgeString(age: Int?): String {
+            return if (age == null || age == 0)
                 ""
             else {
                 when {
