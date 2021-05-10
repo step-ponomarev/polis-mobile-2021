@@ -15,7 +15,7 @@ import ru.mail.polis.R
 import ru.mail.polis.dao.PersonED
 
 class PeopleAdapter(
-    private val people: List<PersonED>,
+    private val people: List<Person>,
     private val listener: ListItemClickListener
 ) : RecyclerView.Adapter<PeopleAdapter.PeopleViewHolder>() {
 

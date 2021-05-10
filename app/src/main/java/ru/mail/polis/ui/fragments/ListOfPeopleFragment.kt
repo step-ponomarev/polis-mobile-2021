@@ -14,11 +14,12 @@ import ru.mail.polis.dao.IPersonService
 import ru.mail.polis.dao.PersonED
 import ru.mail.polis.dao.PersonService
 import ru.mail.polis.list.of.people.PeopleAdapter
+import ru.mail.polis.list.of.people.Person
 import ru.mail.polis.metro.Metro
 
 class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
     private val personService: IPersonService = PersonService.getInstance()
-    private lateinit var listOfPeopleED: List<PersonED>
+    private lateinit var listOfPeople: List<Person>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,26 +30,28 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val listOfPeopleED :List<PersonED>
         runBlocking {
             listOfPeopleED = personService.findAll()
         }
         super.onViewCreated(view, savedInstanceState)
         val rvList: RecyclerView = view.findViewById(R.id.list_of_people__rv_list)
-        val adapter = PeopleAdapter(listOfPeopleED, this)
+
+        val adapter = PeopleAdapter(listOfPeople, this)
         rvList.layoutManager = LinearLayoutManager(this.context)
         rvList.adapter = adapter
     }
 
     override fun onListItemClick(clickedItemIndex: Int) {
-        val person: PersonED = listOfPeopleED[clickedItemIndex]
+        val person: Person = listOfPeople[clickedItemIndex]
         val action = ListOfPeopleFragmentDirections.actionNavGraphListOfPeopleToPersonAnnouncementFragment(person)
         findNavController().navigate(action) // R.id.nav_graf_task_fragment
     }
 }
 
-private fun generateTestPeopleList(): List<PersonED> {
+private fun generateTestPeopleList(): List<Person> {
     return listOf(
-        PersonED(
+        Person(
             "",
             null,
             "Степан Пономарев",
@@ -60,7 +63,7 @@ private fun generateTestPeopleList(): List<PersonED> {
             listOf("1 комната", "2 комнаты"),
             "Привет, меня зовут Степа и я не алкоголик. У меня есть ребенок и жена ищем квартиру для длительного проживания. У нас четыре щеночка и барабанная установка"
         ),
-        PersonED(
+        Person(
             "",
             null,
             "Ника Пеутина",

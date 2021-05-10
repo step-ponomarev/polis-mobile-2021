@@ -3,7 +3,7 @@ package ru.mail.polis.dao
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import ru.mail.polis.metro.Metro
-@Parcelize
+
 data class PersonED(
     var email: String = "",
     var photo: String? = null,
@@ -15,4 +15,4 @@ data class PersonED(
     var money: Pair<Long, Long>? = null,
     var rooms: List<String>? = null,
     var description: String? = null
-) : Parcelable
+)
