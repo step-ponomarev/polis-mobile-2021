@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mail.polis.dao.Collections
@@ -59,7 +60,7 @@ class ApartmentService private constructor() : IApartmentService {
 
     override suspend fun addApartment(apartment: ApartmentED): ApartmentED {
         return suspendCancellableCoroutine { coroutine ->
-            apartmentCollection.document(apartment.email)
+            apartmentCollection.document(apartment.email!!)
                 .set(apartment)
                 .addOnFailureListener {
                     coroutine.resumeWithException(
@@ -81,7 +82,7 @@ class ApartmentService private constructor() : IApartmentService {
     }
 
     override suspend fun updateApartment(apartment: ApartmentED): ApartmentED {
-        val apartmentRef = apartmentCollection.document(apartment.email)
+        val apartmentRef = apartmentCollection.document(apartment.email!!)
 
         return suspendCancellableCoroutine { coroutine ->
             apartmentRef.update(apartmentToMap(apartment))
