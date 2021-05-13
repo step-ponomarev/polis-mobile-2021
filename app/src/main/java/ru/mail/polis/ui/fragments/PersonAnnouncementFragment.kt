@@ -53,9 +53,9 @@ class PersonAnnouncementFragment : Fragment() {
         }
         tvName.text = person.name
         tvAge.text = getAgeString(person.age)
-        val tags: List<ImageView> = person.tags?.map { url ->
+        val tags: List<ImageView> = person.tags.map { url ->
             urlToImageView(view.context, url)
-        } ?: listOf()
+        }
         tags.forEach(llIvTags::addView)
 
         if (person.metro != null) {
@@ -68,17 +68,15 @@ class PersonAnnouncementFragment : Fragment() {
             )
         }
 
-        if (person.moneyFrom != 0L && person.moneyTo != 0L) {
-            tvMoney.text = view.context.getString(R.string.money, person.moneyFrom, person.moneyTo)
+        if (person.moneyFrom == 0L && person.moneyTo == 0L) {
+            tvMoney.setText(R.string.money_default_value)
         } else {
-            tvMoney.text = R.string.money_default_value.toString()
+            tvMoney.text = view.context.getString(R.string.money, person.moneyFrom, person.moneyTo)
         }
 
-        if (person.rooms != null) {
-            for (i in 0..3.coerceAtMost(person.rooms!!.size - 1)) {
-                cvRooms[i].visibility = View.VISIBLE
-                tvRooms[i].text = person.rooms!!.get(i)
-            }
+        for (i in 0..3.coerceAtMost(person.rooms.size - 1)) {
+            cvRooms[i].visibility = View.VISIBLE
+            tvRooms[i].text = person.rooms[i]
         }
         tvDescription.text = person.description
     }
@@ -99,7 +97,7 @@ class PersonAnnouncementFragment : Fragment() {
         Glide.with(iv).load(url).into(iv)
     }
 
-    private fun getAgeString(age: Int?): String? {
+    private fun getAgeString(age: Int?): String {
         return if (age == null)
             ""
         else {
