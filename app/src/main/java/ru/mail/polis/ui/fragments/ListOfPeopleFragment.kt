@@ -8,14 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.person.IPersonService
 import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.person.PersonService
 import ru.mail.polis.list.of.people.PeopleAdapter
 import ru.mail.polis.list.of.people.Person
-import ru.mail.polis.metro.Metro
 
 class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
     private val personService: IPersonService = PersonService.getInstance()
@@ -67,33 +69,4 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
         val action = ListOfPeopleFragmentDirections.actionNavGraphListOfPeopleToPersonAnnouncementFragment(person)
         findNavController().navigate(action) // R.id.nav_graf_task_fragment
     }
-}
-
-private fun generateTestPeopleList(): List<Person> {
-    return listOf(
-        Person(
-            "",
-            null,
-            "Степан Пономарев",
-            22,
-            null,
-            listOf(),
-            Metro.KUPCHINO,
-            20000, 35000,
-            listOf("1 комната", "2 комнаты"),
-            "Привет, меня зовут Степа и я не алкоголик. У меня есть ребенок и жена ищем квартиру для длительного проживания. У нас четыре щеночка и барабанная установка"
-        ),
-        Person(
-            "",
-            null,
-            "Ника Пеутина",
-            19,
-            null,
-            listOf(),
-            Metro.ACADEMIC,
-            10000, 25000,
-            listOf("3 комнаты"),
-            "Привет, меня зовут Ника. У меня три кота. Со мной будет жить бабушка, мама, отец, два брата и маленькая сестра. Ищем квартиру для длительного проживания."
-        )
-    )
 }
