@@ -57,7 +57,7 @@ data class Person(
             return this
         }
 
-        fun mark(mark: Long): Builder {
+        fun mark(mark: Long?): Builder {
             this.mark = mark
             return this
         }

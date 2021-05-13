@@ -72,7 +72,7 @@ class PersonServiceTest {
     private fun createUpdatedPerson(oldPerson: PersonED): PersonED {
         return PersonED.Builder.createBuilder()
             .email(oldPerson.email!!)
-            .photo(oldPerson.photo)
+            .photo(oldPerson.photo!!)
             .name(oldPerson.name!!)
             .age(oldPerson.age!!)
             .mark(oldPerson.mark!!)
