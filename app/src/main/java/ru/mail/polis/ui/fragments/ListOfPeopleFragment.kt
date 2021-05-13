@@ -49,7 +49,7 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
         return people.filter { it.isValid() }.map {
             Person.Builder.createBuilder()
                 .email(it.email!!)
-                .photo(it.photo!!)
+                .photo(it.photo)
                 .name(it.name!!)
                 .age(it.age!!)
                 .mark(it.mark)

@@ -42,7 +42,7 @@ data class Person(
             return this
         }
 
-        fun photo(photo: String): Builder {
+        fun photo(photo: String?): Builder {
             this.photo = photo
             return this
         }

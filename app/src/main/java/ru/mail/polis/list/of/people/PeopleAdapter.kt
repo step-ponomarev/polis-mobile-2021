@@ -61,8 +61,6 @@ class PeopleAdapter(
         )
         private val tvDescription: TextView = itemView.findViewById(R.id.people_item__tv_description)
 
-        // fun getCardView(): CardView = cardView
-
         fun bind(person: Person) {
             if (person.photo != null) {
                 urlToMyImageView(ivPhoto, person.photo!!)
@@ -84,11 +82,12 @@ class PeopleAdapter(
                     )
                 )
             }
-            if (person.moneyFrom != 0L && person.moneyTo != 0L) {
-                tvMoney.text = itemView.context.getString(R.string.money, person.moneyFrom, person.moneyTo)
+            if (person.moneyFrom == 0L && person.moneyTo == 0L) {
+                tvMoney.setText(R.string.money_default_value)
             } else {
-                tvMoney.text = R.string.money_default_value.toString()
+                tvMoney.text = itemView.context.getString(R.string.money, person.moneyFrom, person.moneyTo)
             }
+
             for (i in 0..3.coerceAtMost(person.rooms.size - 1)) {
                 cvRooms[i].visibility = View.VISIBLE
                 tvRooms[i].text = person.rooms[i]

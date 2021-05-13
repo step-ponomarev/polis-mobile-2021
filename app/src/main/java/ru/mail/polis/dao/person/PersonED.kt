@@ -17,7 +17,6 @@ class PersonED(
 ) {
     fun isValid(): Boolean {
         return email != null &&
-                photo != null &&
                 name != null &&
                 age != null &&
                 metro != null &&
@@ -101,11 +100,11 @@ class PersonED(
                 name,
                 age,
                 mark,
-                tags!!,
+                tags,
                 metro,
                 moneyFrom,
                 moneyTo,
-                rooms!!,
+                rooms,
                 description
             )
         }
