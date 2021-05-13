@@ -17,11 +17,11 @@ class PersonED(
 ) {
     fun isValid(): Boolean {
         return email != null &&
-                name != null &&
-                age != null &&
-                metro != null &&
-                description != null
-            }
+            name != null &&
+            age != null &&
+            metro != null &&
+            description != null
+    }
 
     class Builder private constructor() {
         private var email: String? = null
