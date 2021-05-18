@@ -4,16 +4,16 @@
     <item
         android:id="@+id/nav_graph__list_of_people"
         android:enabled="true"
-        android:title="Объявления"
+        android:title="@string/menu_title_list_of_people_text"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/nav_graph__list_of_proposed_apartments_fragment"
         android:enabled="true"
-        android:title="Список квартир"
+        android:title="@string/menu_title_list_of_apartments"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/nav_graph__settings_fragment"
         android:enabled="true"
-        android:title="Найстройки"
+        android:title="@string/menu_title_settings"
         app:showAsAction="ifRoom" />
 </menu>
