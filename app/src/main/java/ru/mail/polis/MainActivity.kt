@@ -26,10 +26,8 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             if (destination.id == R.id.nav_graph__list_of_people) {
                 bottomNavigationView.visibility = View.VISIBLE
-
             } else if (destination.id == R.id.nav_graph__list_of_proposed_apartments_fragment) {
                 bottomNavigationView.visibility = View.VISIBLE
-
             } else if (destination.id == R.id.nav_graph__settings_fragment) {
                 bottomNavigationView.visibility = View.VISIBLE
             } else {
