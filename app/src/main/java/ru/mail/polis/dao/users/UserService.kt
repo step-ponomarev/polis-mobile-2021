@@ -12,11 +12,11 @@ import kotlin.coroutines.resumeWithException
 class UserService : IUserService {
 
     private val db: FirebaseFirestore = Firebase.firestore
-    private val apartmentCollection: CollectionReference =
+    private val userCollection: CollectionReference =
         db.collection(Collections.USER.collectionName)
 
-    override suspend fun updateUserByEmail(email: String, user: UserED): UserED? {
-        val userRef = apartmentCollection.document(email)
+    override suspend fun updateUserByEmail(email: String, user: UserED): UserED {
+        val userRef = userCollection.document(email)
 
         return suspendCancellableCoroutine { coroutine ->
             userRef.update(userToMap(user))
@@ -30,6 +30,22 @@ class UserService : IUserService {
                 }
                 .addOnSuccessListener {
                     coroutine.resume(user)
+                }
+        }
+    }
+
+    override suspend fun findUserByEmail(email: String): UserED? {
+        val userRef = userCollection.document(email)
+
+        return suspendCancellableCoroutine { coroutine ->
+            userRef.get()
+                .addOnSuccessListener {
+                    coroutine.resume(it.toObject(UserED::class.java))
+                }
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        RuntimeException("Filed fetching user with email: $email", it)
+                    )
                 }
         }
     }

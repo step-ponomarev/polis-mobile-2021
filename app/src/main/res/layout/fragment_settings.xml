@@ -161,6 +161,7 @@
                     app:layout_constraintTop_toBottomOf="@id/fragment_settings__external_acc_tv" />
 
                 <Button
+                    android:id="@+id/fragment_settings__add_external_account_button"
                     style="@style/App.Button.External.Accounts.Style"
                     android:layout_width="130dp"
                     android:layout_height="wrap_content"
