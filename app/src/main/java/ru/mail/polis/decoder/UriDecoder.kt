@@ -7,8 +7,8 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 
-class UriDecoder(private val contentResolver: ContentResolver) : Decoder {
-    override fun decode(uri: Uri): Bitmap {
+class UriDecoder(private val contentResolver: ContentResolver) {
+    fun decode(uri: Uri): Bitmap {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val image =
                 ImageDecoder.createSource(contentResolver, uri)
