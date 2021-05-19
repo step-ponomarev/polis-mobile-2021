@@ -45,6 +45,7 @@
     <string name="name">Имя</string>
     <string name="surname">Фамилия</string>
     <string name="phone">Телефон</string>
+    <string name="fill_all_information_about_apartment">Укажите всю информацию о квартире</string>
     <string name="acceptably">Допустимо</string>
     <string name="gender">Пол</string>
     <string name="filters">Фильтры</string>

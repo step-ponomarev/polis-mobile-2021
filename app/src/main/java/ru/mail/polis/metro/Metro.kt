@@ -69,5 +69,16 @@ enum class Metro(val stationName: String, val branchColor: Int) {
     BLACK_RIVER("Чёрная речка", R.color.metro_blue),
     CHERNYSHEVSKAYA("Чернышевская", R.color.metro_red),
     CHKALOVSKAYA("Чкаловская", R.color.metro_purple),
-    ELECTROSILA("Электросила", R.color.metro_blue)
+    ELECTROSILA("Электросила", R.color.metro_blue);
+
+    companion object {
+        fun from(stationName: String): Metro {
+            values().forEach {
+                if (it.stationName.compareTo(stationName) == 0) {
+                    return it
+                }
+            }
+            throw IllegalArgumentException("No enum constant with name $stationName")
+        }
+    }
 }
