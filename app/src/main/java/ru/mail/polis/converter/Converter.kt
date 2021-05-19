@@ -12,5 +12,4 @@ object Converter {
         bitmap.compress(Bitmap.CompressFormat.JPEG, BITMAP_QUALITY, baos)
         return baos.toByteArray()
     }
-
 }

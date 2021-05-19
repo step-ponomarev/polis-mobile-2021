@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.mail.polis.converter.Converter
+import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.IPhotoUriService
 import ru.mail.polis.dao.PhotoUriService
 import ru.mail.polis.dao.apartments.ApartmentED
@@ -30,7 +31,8 @@ class AddApartmentViewModel : ViewModel() {
         val urlList = ArrayList<String>()
 
         list.forEach {
-            val url = photoUriService.saveImage(Converter.bitmapToInputStream(it))
+            val url =
+                photoUriService.saveImage(Collections.APARTMENT, Converter.bitmapToInputStream(it))
             urlList.add(url.toString())
         }
 

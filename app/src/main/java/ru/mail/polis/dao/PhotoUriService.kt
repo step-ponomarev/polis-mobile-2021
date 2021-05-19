@@ -9,11 +9,12 @@ class PhotoUriService : IPhotoUriService {
 
     private val storage = FirebaseStorage.getInstance()
 
-    override suspend fun saveImage(byteArray: ByteArray): Uri {
+    override suspend fun saveImage(collections: Collections, byteArray: ByteArray): Uri {
 
         return suspendCancellableCoroutine { coroutine ->
 
-            val ref = storage.reference.child("apartmentPhotos/${getRandomNameForFile()}.jpg")
+            val ref =
+                storage.reference.child("${collections.collectionName}Photos/${getRandomNameForFile()}.jpg")
 
             val uploadTask = ref.putBytes(byteArray)
 
