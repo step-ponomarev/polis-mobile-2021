@@ -30,7 +30,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.FirebaseAuth
 import ru.mail.polis.R
-import ru.mail.polis.dao.ApartmentED
+import ru.mail.polis.dao.apartments.ApartmentED
 import ru.mail.polis.decoder.DecoderFactory
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount

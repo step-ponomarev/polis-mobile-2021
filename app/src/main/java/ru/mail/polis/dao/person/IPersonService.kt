@@ -1,4 +1,4 @@
-package ru.mail.polis.dao
+package ru.mail.polis.dao.person
 
 interface IPersonService {
     suspend fun findByEmail(email: String): PersonED?
