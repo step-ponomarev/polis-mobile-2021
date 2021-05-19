@@ -31,11 +31,24 @@ class AddApartmentViewModel : ViewModel() {
         val urlList = ArrayList<String>()
 
         list.forEach {
+
+            val pathString =
+                "${Collections.APARTMENT.collectionName}Photos/${getRandomNameForFile()}.jpg"
+
             val url =
-                photoUriService.saveImage(Collections.APARTMENT, Converter.bitmapToInputStream(it))
+                photoUriService.saveImage(pathString, Converter.bitmapToInputStream(it))
             urlList.add(url.toString())
         }
 
         return urlList
+    }
+
+    private fun getRandomNameForFile(): String {
+        val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+        val randomString = (1..50)
+            .map { kotlin.random.Random.nextInt(0, charPool.size) }
+            .map(charPool::get)
+            .joinToString("")
+        return randomString
     }
 }

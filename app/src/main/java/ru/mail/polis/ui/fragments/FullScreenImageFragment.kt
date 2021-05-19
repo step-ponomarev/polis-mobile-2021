@@ -26,7 +26,7 @@ class FullScreenImageFragment : Fragment() {
         val iv = view.findViewById<ImageView>(R.id.fragment_full_screen_image__iv)
 
         if (bundle != null) {
-            iv.setImageBitmap(bundle.get("image") as Bitmap)
+            iv.setImageBitmap(bundle.get(FragmentUtils.BUNDLE_IMAGE_KEY) as Bitmap)
         }
     }
 }

@@ -9,12 +9,12 @@ class PhotoUriService : IPhotoUriService {
 
     private val storage = FirebaseStorage.getInstance()
 
-    override suspend fun saveImage(collections: Collections, byteArray: ByteArray): Uri {
+    override suspend fun saveImage(pathString: String, byteArray: ByteArray): Uri {
 
         return suspendCancellableCoroutine { coroutine ->
 
             val ref =
-                storage.reference.child("${collections.collectionName}Photos/${getRandomNameForFile()}.jpg")
+                storage.reference.child(pathString)
 
             val uploadTask = ref.putBytes(byteArray)
 
@@ -31,14 +31,5 @@ class PhotoUriService : IPhotoUriService {
                 }
             }
         }
-    }
-
-    private fun getRandomNameForFile(): String {
-        val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
-        val randomString = (1..50)
-            .map { kotlin.random.Random.nextInt(0, charPool.size) }
-            .map(charPool::get)
-            .joinToString("")
-        return randomString
     }
 }

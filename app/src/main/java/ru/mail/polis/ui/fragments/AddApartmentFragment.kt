@@ -165,7 +165,7 @@ class AddApartmentFragment : Fragment() {
             val bundle = Bundle()
 
             val view = it as ImageView
-            bundle.putParcelable("image", view.drawable.toBitmap())
+            bundle.putParcelable(FragmentUtils.BUNDLE_IMAGE_KEY, view.drawable.toBitmap())
 
             findNavController().navigate(R.id.nav_graph__full_image_fragment, bundle)
         }
