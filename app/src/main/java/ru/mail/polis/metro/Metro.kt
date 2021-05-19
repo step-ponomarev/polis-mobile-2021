@@ -72,7 +72,7 @@ enum class Metro(val stationName: String, val branchColor: Int) {
     ELECTROSILA("Электросила", R.color.metro_blue);
 
     companion object {
-        fun fromString(stationName: String): Metro {
+        fun from(stationName: String): Metro {
             values().forEach {
                 if (it.stationName.compareTo(stationName) == 0) {
                     return it

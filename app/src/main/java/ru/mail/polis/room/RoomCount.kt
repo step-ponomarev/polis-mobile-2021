@@ -9,7 +9,7 @@ enum class RoomCount(val roomCount: Int, val label: String) {
     FIVE_MORE(2, "5+ комнат");
 
     companion object {
-        fun fromString(roomCount: String): RoomCount {
+        fun from(roomCount: String): RoomCount {
             values().forEach {
                 if (it.label == roomCount) {
                     return it

@@ -14,6 +14,10 @@ import java.io.ByteArrayOutputStream
 
 class AddApartmentViewModel : ViewModel() {
 
+    companion object {
+        private const val BITMAP_QUALITY = 100
+    }
+
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
     private val photoUriService: IPhotoUriService = PhotoUriService()
     val list = LinkedHashSet<Bitmap>()
@@ -28,7 +32,7 @@ class AddApartmentViewModel : ViewModel() {
 
     private fun bitmapToInputStream(bitmap: Bitmap): ByteArray {
         val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, BITMAP_QUALITY, baos)
         return baos.toByteArray()
     }
 

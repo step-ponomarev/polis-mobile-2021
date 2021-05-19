@@ -38,6 +38,11 @@ import ru.mail.polis.viewModels.AddApartmentViewModel
 
 class AddApartmentFragment : Fragment() {
 
+    companion object {
+        private const val PHOTO_CONSTRAINT_LAYOUT_WIDTH = 200
+        private const val PHOTO_CONSTRAINT_LAYOUT_HEIGHT = 200
+    }
+
     private lateinit var spinner: Spinner
     private lateinit var addApartmentButton: Button
     private lateinit var metroCircleIv: ImageView
@@ -114,8 +119,8 @@ class AddApartmentFragment : Fragment() {
 
         val apartmentED = ApartmentED(
             email = FirebaseAuth.getInstance().currentUser.email!!,
-            metro = Metro.fromString(metro),
-            roomCount = RoomCount.fromString(rooms),
+            metro = Metro.from(metro),
+            roomCount = RoomCount.from(rooms),
             apartmentCosts = Integer.parseInt(cost).toLong(),
             apartmentSquare = Integer.parseInt(square).toLong()
         )
@@ -165,7 +170,11 @@ class AddApartmentFragment : Fragment() {
             findNavController().navigate(R.id.nav_graph__full_image_fragment, bundle)
         }
 
-        cl.layoutParams = ViewGroup.MarginLayoutParams(LayoutSettings.getLayoutParams(200, 200))
+        cl.layoutParams = ViewGroup.MarginLayoutParams(
+            LayoutSettings.getLayoutParams(
+                PHOTO_CONSTRAINT_LAYOUT_WIDTH, PHOTO_CONSTRAINT_LAYOUT_HEIGHT
+            )
+        )
         cl.setPadding(10, 0, 10, 0)
 
         iv.scaleType = ImageView.ScaleType.CENTER_CROP
@@ -213,7 +222,7 @@ class AddApartmentFragment : Fragment() {
     private fun getToastAboutFillAllFields(): Toast {
         return Toast.makeText(
             requireContext(),
-            "Укажите всю информацию о квартире",
+            getString(R.string.fill_all_information_about_apartment),
             Toast.LENGTH_SHORT
         )
     }
