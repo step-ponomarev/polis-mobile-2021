@@ -23,15 +23,15 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigationView.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            if (destination.id == R.id.nav_graph__list_of_people) {
-                bottomNavigationView.visibility = View.VISIBLE
-            } else if (destination.id == R.id.nav_graph__list_of_proposed_apartments_fragment) {
-                bottomNavigationView.visibility = View.VISIBLE
-            } else if (destination.id == R.id.nav_graph__settings_fragment) {
-                bottomNavigationView.visibility = View.VISIBLE
-            } else {
-                bottomNavigationView.visibility = View.GONE
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+
+            when (destination.id) {
+                R.id.nav_graph__list_of_people -> bottomNavigationView.visibility = View.VISIBLE
+                R.id.nav_graph__list_of_proposed_apartments_fragment ->
+                    bottomNavigationView.visibility =
+                        View.VISIBLE
+                R.id.nav_graph__settings_fragment -> bottomNavigationView.visibility = View.VISIBLE
+                else -> bottomNavigationView.visibility = View.GONE
             }
         }
     }
