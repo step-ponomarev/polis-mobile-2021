@@ -49,6 +49,9 @@
     <string name="acceptably">Допустимо</string>
     <string name="gender">Пол</string>
     <string name="filters">Фильтры</string>
+    <string name="menu_title_list_of_people_text">Объявления</string>
+    <string name="menu_title_list_of_apartments">Список квартир</string>
+    <string name="menu_title_settings">Найстройки</string>
 
     <string-array name="genders">
         <item>Мужчина</item>
