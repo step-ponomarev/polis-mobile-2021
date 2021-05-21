@@ -2,6 +2,7 @@ package ru.mail.polis.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import ru.mail.polis.R
 import ru.mail.polis.auth.AuthenticationService
 import ru.mail.polis.auth.GoogleSingInUtils
+import java.lang.Exception
 
 class LoginFragment : Fragment() {
     companion object {
@@ -51,10 +53,12 @@ class LoginFragment : Fragment() {
     }
 
     private fun handleResult(result: ActivityResult) {
-        val success = googleAuthentication.handleResult(result.data)
-
-        if (success) {
+        try {
+            val email = googleAuthentication.handleResult(result.data)
+            activity?.getPreferences(Context.MODE_PRIVATE)?.edit()?.putString("EMAIL", email);
             findNavController().navigate(R.id.nav_graph__self_definition_fragment)
+        } catch (e: Exception) {
+            Log.e("Auth error", e.message, e)
         }
     }
 }

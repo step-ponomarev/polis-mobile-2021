@@ -7,20 +7,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import ru.mail.polis.R
-import ru.mail.polis.dao.apartments.ApartmentED
-import ru.mail.polis.dao.apartments.ApartmentService
-import ru.mail.polis.dao.apartments.IApartmentService
+import ru.mail.polis.dao.apartments.*
 import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.apartments.ApartmentViewModel
 import ru.mail.polis.list.of.apartments.ApartmentsAdapter
 
 class ProposedApartmentsFragment : Fragment() {
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
+    private val proposeService: IProposeService = ProposeService.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,9 +36,15 @@ class ProposedApartmentsFragment : Fragment() {
         rvList.layoutManager = LinearLayoutManager(this.context)
         rvList.adapter = adapter
 
+        val email: String = "step.ponomarev@gmail.com"
         GlobalScope.launch(Dispatchers.Main) {
+            val proposeList = withContext(Dispatchers.IO) {
+                proposeService.findRenterEmail(email)
+            }
+
             val apartments = async(Dispatchers.IO) {
-                apartmentService.findAll()
+                apartmentService.findByEmails(proposeList.map { proposeED -> proposeED.ownerEmail!! }
+                    .toSet());
             }
 
             adapter.setData(toApartmentView(apartments.await()))
