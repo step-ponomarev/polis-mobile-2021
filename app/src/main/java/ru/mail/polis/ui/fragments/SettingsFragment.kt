@@ -50,6 +50,13 @@ class SettingsFragment : Fragment() {
 
         settingsViewModel.getUserInfo()
 
+        settingsViewModel.getUser().observe(viewLifecycleOwner, { userED ->
+            nameEditText.setText(userED.name)
+            surnameEditText.setText(userED.surname)
+            phoneEditText.setText(userED.phone)
+            ageEditText.setText(userED.age.toString())
+        })
+
         editButton.setOnClickListener(this::onClickEditUser)
         changePhotoButton.setOnClickListener(this::onClickChangePhoto)
         addExternalAccountImageButton.setOnClickListener(this::onClickAddExternalAccount)
