@@ -47,9 +47,9 @@
         <Spinner
             android:id="@+id/fragment_add_apartment_spinner"
             android:layout_width="250dp"
-            android:maxWidth="250dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:maxWidth="250dp"
             android:spinnerMode="dialog"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/fragment_add_apartment__circle"
@@ -58,10 +58,11 @@
 
         <ImageView
             android:id="@+id/fragment_add_apartment__circle"
+            style="@style/metroCircle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:src="@drawable/shape_metro_circle"
+            android:background="@drawable/shape_metro_circle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/fragment_add_apartment_spinner"
@@ -269,7 +270,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/fragment_add_apartment___add_image_button"
+            android:id="@+id/fragment_add_apartment__add_image_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -291,29 +292,11 @@
         app:layout_constraintTop_toBottomOf="@id/fragment_add_apartment__img_cl">
 
         <LinearLayout
+            android:id="@+id/fragment_add_apartment__photo_linear_layout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/stub_person_avatar" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/stub_person_avatar" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/stub_person_avatar" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/stub_person_avatar" />
         </LinearLayout>
 
     </HorizontalScrollView>
@@ -324,9 +307,9 @@
         layout="@layout/add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="10dp"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
