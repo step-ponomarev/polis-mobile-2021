@@ -10,9 +10,15 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.mail.polis.R
 import ru.mail.polis.auth.AuthenticationService
 import ru.mail.polis.auth.GoogleSingInUtils
+import ru.mail.polis.dao.users.IUserService
+import ru.mail.polis.dao.users.UserService
 
 class LoginFragment : Fragment() {
     companion object {
@@ -26,6 +32,8 @@ class LoginFragment : Fragment() {
 
     private lateinit var googleAuthentication: AuthenticationService
     private lateinit var singInButton: View
+
+    private val userService: IUserService = UserService()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -56,7 +64,13 @@ class LoginFragment : Fragment() {
             val email = googleAuthentication.handleResult(result.data)
             saveEmail(email)
 
-            findNavController().navigate(R.id.nav_graph__filling_profile_info)
+            GlobalScope.launch(Dispatchers.Main) {
+                if (checkIfUserExist(email)) {
+                    findNavController().navigate(R.id.nav_graph__self_definition_fragment)
+                } else {
+                    findNavController().navigate(R.id.nav_graph__filling_profile_info)
+                }
+            }
         } catch (e: Exception) {
             Log.e("Auth error", e.message, e)
         }
@@ -70,5 +84,11 @@ class LoginFragment : Fragment() {
             ?.edit()
             ?.putString(getString(R.string.preference_email_key), email)
             ?.apply()
+    }
+
+    private suspend fun checkIfUserExist(email: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            userService.isExist(email)
+        }
     }
 }

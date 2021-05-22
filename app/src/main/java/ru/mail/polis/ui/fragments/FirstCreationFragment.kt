@@ -1,6 +1,7 @@
 package ru.mail.polis.ui.fragments
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -19,7 +20,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.imageview.ShapeableImageView
-import com.google.firebase.auth.FirebaseAuth
 import ru.mail.polis.R
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
@@ -83,12 +83,12 @@ class FirstCreationFragment : Fragment() {
 
         firstCreationViewModel.addUser(
             UserED(
-                email = FirebaseAuth.getInstance().currentUser.email!!,
+                email = getEmail(),
                 name = nameEditText.text.toString(),
                 surname = surnameEditText.text.toString(),
                 age = Integer.parseInt(ageEditText.text.toString()).toLong(),
                 phone = phoneEditText.text.toString(),
-                photo = "",
+                photo = null,
                 externalAccounts = emptyList()
             ),
             avatar.drawable.toBitmap()
@@ -110,8 +110,8 @@ class FirstCreationFragment : Fragment() {
     }
 
     private fun checkField(): Boolean {
-        if (nameEditText.text.toString().isEmpty() || surnameEditText.text.toString().isEmpty()
-            || ageEditText.text.toString().isEmpty() || phoneEditText.text.toString().isEmpty()
+        if (nameEditText.text.toString().isEmpty() || surnameEditText.text.toString().isEmpty() ||
+            ageEditText.text.toString().isEmpty() || phoneEditText.text.toString().isEmpty()
         ) {
             return false
         }
@@ -122,9 +122,16 @@ class FirstCreationFragment : Fragment() {
     private fun getToastAboutFillAllFields(): Toast {
         return Toast.makeText(
             requireContext(),
-            getString(R.string.fill_all_information_about_user),
+            getString(R.string.toast_fill_all_information_about_user),
             Toast.LENGTH_SHORT
         )
     }
 
+    private fun getEmail(): String {
+        return activity?.getSharedPreferences(
+            getString(R.string.preference_file_key),
+            Context.MODE_PRIVATE
+        )?.getString(getString(R.string.preference_email_key), null)
+            ?: throw IllegalStateException("Email not found")
+    }
 }

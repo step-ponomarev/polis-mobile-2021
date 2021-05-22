@@ -222,7 +222,7 @@ class AddApartmentFragment : Fragment() {
     private fun getToastAboutFillAllFields(): Toast {
         return Toast.makeText(
             requireContext(),
-            getString(R.string.fill_all_information_about_apartment),
+            getString(R.string.toast_fill_all_information_about_apartment),
             Toast.LENGTH_SHORT
         )
     }

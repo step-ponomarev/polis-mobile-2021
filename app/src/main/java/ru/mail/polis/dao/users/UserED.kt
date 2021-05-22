@@ -6,8 +6,6 @@ class UserED(
     var surname: String,
     var phone: String,
     var age: Long,
-    var photo: String,
-    var externalAccounts: List<String>?
-) {
-
-}
+    var photo: String?,
+    var externalAccounts: List<String>
+)

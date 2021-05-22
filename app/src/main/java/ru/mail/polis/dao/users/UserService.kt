@@ -24,7 +24,7 @@ class UserService : IUserService {
                 .addOnFailureListener {
                     coroutine.resumeWithException(
                         RuntimeException(
-                            "Failure updating user with email: ${email}",
+                            "Failure updating user with email: $email",
                             it
                         )
                     )
@@ -70,6 +70,33 @@ class UserService : IUserService {
                     )
 
                     coroutine.resume(user)
+                }
+        }
+    }
+
+    override suspend fun isExist(email: String): Boolean {
+        return suspendCancellableCoroutine { coroutine ->
+
+            userCollection.document(email)
+                .get()
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        RuntimeException(
+                            "Failure adding user with email: $email",
+                            it
+                        )
+                    )
+                }
+                .addOnSuccessListener { document ->
+                    Log.i(
+                        this::class.java.name,
+                        "Successful adding user with email: $email"
+                    )
+                    if (document.exists()) {
+                        coroutine.resume(true)
+                    } else {
+                        coroutine.resume(false)
+                    }
                 }
         }
     }
