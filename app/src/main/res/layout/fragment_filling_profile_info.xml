@@ -5,10 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-
     <include layout="@layout/component_person_header" />
-
-
 
     <Button
         android:id="@+id/fragment_filling_profile_info_edit_btn"
@@ -26,7 +23,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.066" />
 
-
     <Button
         android:id="@+id/fragment_filling_profile_info_continue_btn"
         android:layout_width="225dp"
@@ -41,7 +37,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.774" />
-
 
     <EditText
         android:id="@+id/fragment_filling_profile_info_name_et"
