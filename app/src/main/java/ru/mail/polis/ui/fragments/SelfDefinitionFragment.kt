@@ -1,5 +1,6 @@
 package ru.mail.polis.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,10 +8,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import ru.mail.polis.R
+import ru.mail.polis.viewModels.SelfDefinitionViewModel
 
 class SelfDefinitionFragment : Fragment() {
-
+    private val selfDefinitionViewModel = SelfDefinitionViewModel()
     private lateinit var addApartmentButton: Button
     private lateinit var findApartmentButton: Button
 
@@ -25,11 +30,23 @@ class SelfDefinitionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        addApartmentButton = view.findViewById(R.id.fragment_self_definition__button_rent_apartment)
-        addApartmentButton.setOnClickListener(this::onClickAddApartment)
+        val email = getEmail()
+        GlobalScope.launch(Dispatchers.Main) {
+            val apartments = selfDefinitionViewModel.fetchApartment(email)
+            val person = selfDefinitionViewModel.fetchPerson(email)
 
-        findApartmentButton = view.findViewById(R.id.fragment_self_definition__button_find_apartment)
-        findApartmentButton.setOnClickListener(this::onClickFindApartment)
+            if (person != null || apartments != null) {
+                findNavController().navigate(R.id.nav_graph__list_of_people)
+            }
+        }
+
+        addApartmentButton =
+            view.findViewById(R.id.fragment_self_definition__button_rent_apartment)
+        addApartmentButton.setOnClickListener(::onClickAddApartment)
+
+        findApartmentButton =
+            view.findViewById(R.id.fragment_self_definition__button_find_apartment)
+        findApartmentButton.setOnClickListener(::onClickFindApartment)
     }
 
     private fun onClickAddApartment(view: View) {
@@ -38,5 +55,13 @@ class SelfDefinitionFragment : Fragment() {
 
     private fun onClickFindApartment(view: View) {
         findNavController().navigate(R.id.nav_graph__advert_creation_fragment)
+    }
+
+    private fun getEmail(): String {
+        return activity?.getSharedPreferences(
+            getString(R.string.preference_file_key),
+            Context.MODE_PRIVATE
+        )?.getString(getString(R.string.preference_email_key), null)
+            ?: throw IllegalStateException("Email not found")
     }
 }
