@@ -1,4 +1,4 @@
-package ru.mail.polis.dao.apartments
+package ru.mail.polis.dao.propose
 
 class ProposeED(
     var ownerEmail: String? = null,

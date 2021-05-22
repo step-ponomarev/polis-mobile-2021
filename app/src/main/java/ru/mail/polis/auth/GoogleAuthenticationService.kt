@@ -29,7 +29,7 @@ class GoogleAuthenticationService(private val singInClient: GoogleSignInClient) 
             val account = task.getResult(ApiException::class.java)!!
             firebaseAuthWithGoogle(account.idToken!!)
 
-            return account.email!!;
+            return account.email!!
         } catch (e: ApiException) {
             Log.w(TAG, "Google sign in failed", e)
 

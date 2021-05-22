@@ -55,10 +55,21 @@ class LoginFragment : Fragment() {
     private fun handleResult(result: ActivityResult) {
         try {
             val email = googleAuthentication.handleResult(result.data)
-            activity?.getPreferences(Context.MODE_PRIVATE)?.edit()?.putString("EMAIL", email);
+            saveEmail(email)
+
             findNavController().navigate(R.id.nav_graph__self_definition_fragment)
         } catch (e: Exception) {
             Log.e("Auth error", e.message, e)
         }
+    }
+
+    private fun saveEmail(email: String) {
+        activity?.getSharedPreferences(
+            getString(R.string.preference_file_key),
+            Context.MODE_PRIVATE
+        )
+            ?.edit()
+            ?.putString(getString(R.string.preference_email_key), email)
+            ?.apply()
     }
 }

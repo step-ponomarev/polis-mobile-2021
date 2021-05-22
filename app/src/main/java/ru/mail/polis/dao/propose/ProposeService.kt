@@ -1,4 +1,4 @@
-package ru.mail.polis.dao.apartments
+package ru.mail.polis.dao.propose
 
 import android.util.Log
 import com.google.firebase.firestore.CollectionReference

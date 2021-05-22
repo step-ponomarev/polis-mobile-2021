@@ -1,4 +1,4 @@
-package ru.mail.polis.dao.apartments
+package ru.mail.polis.dao.propose
 
 interface IProposeService {
     suspend fun findOwnerEmail(email: String): List<ProposeED>
