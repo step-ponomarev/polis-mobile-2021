@@ -37,6 +37,6 @@ class SelfDefinitionFragment : Fragment() {
     }
 
     private fun onClickFindApartment(view: View) {
-        findNavController().navigate(R.id.nav_graph__filling_profile_info)
+        findNavController().navigate(R.id.nav_graph__advert_creation_fragment)
     }
 }

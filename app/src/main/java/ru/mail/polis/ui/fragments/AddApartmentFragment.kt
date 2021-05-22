@@ -1,6 +1,7 @@
 package ru.mail.polis.ui.fragments
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -29,6 +30,9 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.apartments.ApartmentED
 import ru.mail.polis.decoder.DecoderFactory
@@ -112,20 +116,28 @@ class AddApartmentFragment : Fragment() {
         val cost = costEditText.text.toString()
         val square = squareEditText.text.toString()
 
-        if (metro.isEmpty() || rooms.isEmpty() || cost.isEmpty() || square.isEmpty()) {
+        if (metro.isEmpty() || rooms.isBlank() || cost.isBlank() || square.isBlank()) {
             getToastAboutFillAllFields().show()
             return
         }
 
-        val apartmentED = ApartmentED(
-            email = FirebaseAuth.getInstance().currentUser.email!!,
-            metro = Metro.from(metro),
-            roomCount = RoomCount.from(rooms),
-            apartmentCosts = Integer.parseInt(cost).toLong(),
-            apartmentSquare = Integer.parseInt(square).toLong()
-        )
+        val email = getEmail();
+        GlobalScope.launch(Dispatchers.Main) {
+            val user = addApartmentViewModel.fetchUser(email)
+                ?: throw java.lang.IllegalStateException("Null user by email: $email");
 
-        addApartmentViewModel.addApartment(apartmentED)
+            val apartmentED = ApartmentED.Builder
+                .createBuilder()
+                .email(email)
+                .ownerName("${user.name} ${user.surname}")
+                .metro(Metro.from(metro))
+                .roomCount(RoomCount.from(rooms))
+                .apartmentCosts(cost.toLong())
+                .apartmentSquare(square.toLong())
+                .build()
+
+            addApartmentViewModel.addApartment(apartmentED)
+        }
 
         findNavController().navigate(R.id.nav_graph__list_of_people)
     }
@@ -225,5 +237,13 @@ class AddApartmentFragment : Fragment() {
             getString(R.string.toast_fill_all_information_about_apartment),
             Toast.LENGTH_SHORT
         )
+    }
+
+    private fun getEmail(): String {
+        return activity?.getSharedPreferences(
+            getString(R.string.preference_file_key),
+            Context.MODE_PRIVATE
+        )?.getString(getString(R.string.preference_email_key), null)
+            ?: throw IllegalStateException("Email not found")
     }
 }

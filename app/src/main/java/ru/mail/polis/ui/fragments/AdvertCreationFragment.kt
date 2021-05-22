@@ -70,25 +70,41 @@ class AdvertCreationFragment : Fragment() {
         }
 
         val email = getEmail()
-        val metro = Metro.from(spinner.selectedItem.toString())
-        val roomCount = RoomCount.from(selectedChip.text.toString())
+        val metro = spinner.selectedItem.toString()
+        val roomCount = selectedChip.text.toString()
         val costFrom = costFromEditText.text.toString()
         val costTo = costToEditText.text.toString()
         val aboutMe = aboutMeEditText.text.toString()
 
-        // TODO: Запросить юзера
-        val person = PersonED.Builder.createBuilder()
-            .email(email)
-            .age(0)
-            .name("NO_NAME")
-            .metro(metro)
-            .description(aboutMe)
-            .money(costFrom.toLong(), costTo.toLong())
-            .rooms(Collections.singletonList(roomCount))
-            .tags(emptyList())
-            .build()
+        if (metro.isBlank()
+            || roomCount.isBlank()
+            || costFrom.isBlank()
+            || costTo.isBlank()
+        ) {
+            getToastAboutFillAllFields().show()
+            return
+        }
 
         GlobalScope.launch(Dispatchers.Main) {
+            val user = viewModel.fetchUser(email)
+                ?: throw IllegalStateException("User not found by email: $email")
+
+            val person = PersonED.Builder.createBuilder()
+                .email(email)
+                .age(user.age!!)
+                .name("${user.name} ${user.surname}")
+                .metro(Metro.from(metro))
+                .description(aboutMe)
+                .money(costFrom.toLong(), costTo.toLong())
+                .rooms(Collections.singletonList(RoomCount.from(roomCount)))
+                .tags(emptyList())
+                .build()
+
+            if (person.photo != null) {
+                person.photo = person.photo;
+            }
+
+
             viewModel.addPerson(person)
             findNavController().navigate(R.id.nav_graph__list_of_people)
         }

@@ -21,8 +21,8 @@
             android:id="@+id/action_self_definition_fragment_to_add_apartment_fragment"
             app:destination="@id/nav_graph__add_apartment_fragment" />
         <action
-            android:id="@+id/action_nav_graph__self_definition_fragment_to_filling_profile_info"
-            app:destination="@id/nav_graph__filling_profile_info" />
+            android:id="@+id/action_nav_graph__self_definition_fragment_to_advert_creation_fragment"
+            app:destination="@id/nav_graph__advert_creation_fragment" />
     </fragment>
 
     <fragment

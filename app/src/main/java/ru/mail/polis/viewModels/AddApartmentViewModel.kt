@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.mail.polis.converter.Converter
 import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.IPhotoUriService
@@ -12,18 +12,26 @@ import ru.mail.polis.dao.PhotoUriService
 import ru.mail.polis.dao.apartments.ApartmentED
 import ru.mail.polis.dao.apartments.ApartmentService
 import ru.mail.polis.dao.apartments.IApartmentService
+import ru.mail.polis.dao.users.IUserService
+import ru.mail.polis.dao.users.UserED
+import ru.mail.polis.dao.users.UserService
 
 class AddApartmentViewModel : ViewModel() {
-
+    private val userService: IUserService = UserService()
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
     private val photoUriService: IPhotoUriService = PhotoUriService()
     val list = LinkedHashSet<Bitmap>()
 
-    fun addApartment(apartmentED: ApartmentED) {
-
-        viewModelScope.launch(Dispatchers.IO) {
+    suspend fun addApartment(apartmentED: ApartmentED): ApartmentED {
+        return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
             apartmentED.photosUrls = getUrlList()
             apartmentService.addApartment(apartmentED)
+        }
+    }
+
+    suspend fun fetchUser(email: String): UserED? {
+        return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+            userService.findUserByEmail(email)
         }
     }
 
