@@ -1,5 +1,6 @@
 package ru.mail.polis.auth
 
+import android.accounts.AuthenticatorException
 import android.content.Intent
 import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -21,19 +22,19 @@ class GoogleAuthenticationService(private val singInClient: GoogleSignInClient) 
         return singInClient.signInIntent
     }
 
-    override fun handleResult(data: Intent?): Boolean {
+    override fun handleResult(data: Intent?): String {
         val task = GoogleSignIn.getSignedInAccountFromIntent(data)
 
         try {
             val account = task.getResult(ApiException::class.java)!!
             firebaseAuthWithGoogle(account.idToken!!)
+
+            return account.email!!
         } catch (e: ApiException) {
             Log.w(TAG, "Google sign in failed", e)
 
-            return false
+            throw AuthenticatorException("Login Error")
         }
-
-        return true
     }
 
     override fun signOut() {
