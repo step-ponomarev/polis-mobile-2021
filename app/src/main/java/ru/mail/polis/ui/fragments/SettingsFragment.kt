@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
+import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseAuth
 import ru.mail.polis.R
+import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.viewModels.SettingsViewModel
 
 class SettingsFragment : Fragment() {
@@ -20,7 +22,7 @@ class SettingsFragment : Fragment() {
     private lateinit var surnameEditText: EditText
     private lateinit var phoneEditText: EditText
     private lateinit var ageEditText: EditText
-    private lateinit var addExternalAccountImageButton: ImageButton
+    private lateinit var addExternalAccountImageButton: AppCompatButton
     private lateinit var settingsViewModel: SettingsViewModel
 
     override fun onCreateView(
@@ -38,7 +40,7 @@ class SettingsFragment : Fragment() {
 
 
 
-        changePhotoButton = view.findViewById(R.id.fragment_settings__change_avatar_component)
+        changePhotoButton = view.findViewById(R.id.change_avatar_component__edit_button)
         nameEditText = view.findViewById(R.id.fragment_settings__et_name)
         surnameEditText = view.findViewById(R.id.fragment_settings__et_surname)
         phoneEditText = view.findViewById(R.id.fragment_settings__et_phone)
@@ -68,7 +70,17 @@ class SettingsFragment : Fragment() {
     }
 
     private fun onClickEditUser(view: View) {
-
+        settingsViewModel.updateUser(
+            UserED(
+                email = FirebaseAuth.getInstance().currentUser.email,
+                name = nameEditText.text.toString(),
+                surname = surnameEditText.text.toString(),
+                phone = phoneEditText.text.toString(),
+                age = Integer.parseInt(ageEditText.text.toString()).toLong(),
+                externalAccounts = emptyList(),
+                photo = ""
+            )
+        )
     }
 
     private fun onClickAddExternalAccount(view: View) {

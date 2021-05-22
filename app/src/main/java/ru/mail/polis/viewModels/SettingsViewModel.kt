@@ -26,8 +26,11 @@ class SettingsViewModel : ViewModel() {
     var userED = MutableLiveData<UserED>()
 
     fun getUserInfo() {
+
+        var userEDDD: UserED? = null
+
         viewModelScope.launch(Dispatchers.IO) {
-            userED.value = userService.findUserByEmail(email)
+            userEDDD = userService.findUserByEmail(email)
 
 //            name.value = user?.name
 //            surname.value = user?.surname
@@ -35,6 +38,17 @@ class SettingsViewModel : ViewModel() {
 //            phone.value = user?.phone
 //            externalAccounts.value = user?.externalAccounts ?: emptyList()
 //            photo.value = user?.photo
+        }
+
+        if (userEDDD != null) {
+            userED.value = userEDDD!!
+        }
+
+    }
+
+    fun updateUser(userED: UserED) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userService.updateUserByEmail(email, userED)
         }
     }
 
