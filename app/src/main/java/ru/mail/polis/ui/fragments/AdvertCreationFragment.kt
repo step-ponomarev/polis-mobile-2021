@@ -47,7 +47,7 @@ class AdvertCreationFragment : Fragment() {
 
         spinner = view.findViewById(R.id.fragment_advert_creation__spinner)
         val metroNamesList = Metro.values().map { it.stationName }
-        ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, metroNamesList)
+        ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, metroNamesList)
             .also {
                 it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinner.adapter = it

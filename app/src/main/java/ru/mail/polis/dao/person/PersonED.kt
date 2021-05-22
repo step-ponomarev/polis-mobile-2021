@@ -8,11 +8,11 @@ class PersonED(
     var photo: String? = null,
     var name: String? = null,
     var age: Long? = null,
-    var tags: List<Long>? = null,
+    var tags: List<Long> = emptyList(),
     var metro: Metro? = null,
     var moneyTo: Long = 0,
     var moneyFrom: Long = 0,
-    var rooms: List<RoomCount>? = null,
+    var rooms: List<RoomCount> = emptyList(),
     var description: String? = null
 ) {
     class Builder private constructor() {
@@ -20,11 +20,11 @@ class PersonED(
         private var photo: String? = null
         private var name: String? = null
         private var age: Long? = null
-        private var tags: List<Long>? = null
+        private var tags: List<Long> = emptyList()
         private var metro: Metro? = null
         private var moneyTo: Long = 0
         private var moneyFrom: Long = 0
-        private var rooms: List<RoomCount>? = null
+        private var rooms: List<RoomCount> = emptyList()
         private var description: String? = null
 
         companion object {
@@ -120,11 +120,11 @@ class PersonED(
         result = 31 * result + (photo?.hashCode() ?: 0)
         result = 31 * result + (name?.hashCode() ?: 0)
         result = 31 * result + (age?.hashCode() ?: 0)
-        result = 31 * result + (tags?.hashCode() ?: 0)
+        result = 31 * result + (tags.hashCode() ?: 0)
         result = 31 * result + (metro?.hashCode() ?: 0)
         result = 31 * result + moneyTo.hashCode()
         result = 31 * result + moneyFrom.hashCode()
-        result = 31 * result + (rooms?.hashCode() ?: 0)
+        result = 31 * result + (rooms.hashCode() ?: 0)
         result = 31 * result + (description?.hashCode() ?: 0)
         return result
     }
