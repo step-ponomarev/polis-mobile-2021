@@ -50,14 +50,16 @@ class ProposedApartmentsFragment : Fragment() {
                 proposeService.findRenterEmail(email)
             }
 
-            val apartments = withContext(Dispatchers.IO) {
-                apartmentService.findByEmails(
-                    proposeList.map { proposeED -> proposeED.ownerEmail!! }
-                        .toSet()
-                )
-            }
+            if (proposeList.isNotEmpty()) {
+                val apartments = withContext(Dispatchers.IO) {
+                    apartmentService.findByEmails(
+                        proposeList.map { proposeED -> proposeED.ownerEmail!! }
+                            .toSet()
+                    )
+                }
 
-            adapter.setData(toApartmentView(apartments))
+                adapter.setData(toApartmentView(apartments))
+            }
         }
     }
 
