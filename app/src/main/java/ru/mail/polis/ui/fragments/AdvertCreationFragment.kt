@@ -5,19 +5,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Spinner
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.mail.polis.R
 import ru.mail.polis.dao.person.IPersonService
 import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.person.PersonService
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
-import java.util.*
+import java.util.Collections
 
 class AdvertCreationFragment : Fragment() {
     private val personService: IPersonService = PersonService.getInstance()
@@ -64,14 +71,14 @@ class AdvertCreationFragment : Fragment() {
             return
         }
 
-        val email = getEmail();
+        val email = getEmail()
         val metro = Metro.from(spinner.selectedItem.toString())
         val roomCount = RoomCount.from(selectedChip.text.toString())
         val costFrom = costFromEditText.text.toString()
         val costTo = costToEditText.text.toString()
         val aboutMe = aboutMeEditText.text.toString()
 
-        //TODO: Запросить юзера
+        // TODO: Запросить юзера
         val person = PersonED.Builder.createBuilder()
             .email(email)
             .age(0)
@@ -85,7 +92,7 @@ class AdvertCreationFragment : Fragment() {
 
         GlobalScope.launch(Dispatchers.Main) {
             withContext(Dispatchers.IO) {
-                personService.addPerson(person);
+                personService.addPerson(person)
             }
 
             findNavController().navigate(R.id.nav_graph__list_of_people)
