@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import ru.mail.polis.R
 import ru.mail.polis.auth.AuthenticationService
 import ru.mail.polis.auth.GoogleSingInUtils
-import java.lang.Exception
 
 class LoginFragment : Fragment() {
     companion object {
@@ -57,7 +56,7 @@ class LoginFragment : Fragment() {
             val email = googleAuthentication.handleResult(result.data)
             saveEmail(email)
 
-            findNavController().navigate(R.id.nav_graph__self_definition_fragment)
+            findNavController().navigate(R.id.nav_graph__filling_profile_info)
         } catch (e: Exception) {
             Log.e("Auth error", e.message, e)
         }
