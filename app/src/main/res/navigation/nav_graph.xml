@@ -10,7 +10,7 @@
         android:label="Login Fragment">
         <action
             android:id="@+id/action_login_fragment_to_self_definition_fragment"
-            app:destination="@id/nav_graph__self_definition_fragment" />
+            app:destination="@id/nav_graph__filling_profile_info" />
     </fragment>
 
     <fragment
@@ -21,7 +21,7 @@
             android:id="@+id/action_self_definition_fragment_to_add_apartment_fragment"
             app:destination="@id/nav_graph__add_apartment_fragment" />
         <action
-            android:id="@+id/action_nav_graph__self_definition_fragment_to_firstCreationFragment"
+            android:id="@+id/action_nav_graph__self_definition_fragment_to_filling_profile_info"
             app:destination="@id/nav_graph__filling_profile_info" />
     </fragment>
 
@@ -49,8 +49,11 @@
     <fragment
         android:id="@+id/nav_graph__filling_profile_info"
         android:name="ru.mail.polis.ui.fragments.FirstCreationFragment"
-        android:label="Filling profile info" />
-
+        android:label="Filling profile info">
+        <action
+            android:id="@+id/action_nav_graph__filling_profile_info_to_self_definition_fragment"
+            app:destination="@id/nav_graph__self_definition_fragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_graph__person_announcement_fragment"
         android:name="ru.mail.polis.ui.fragments.PersonAnnouncementFragment"
