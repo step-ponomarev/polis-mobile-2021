@@ -17,17 +17,15 @@ import com.google.android.material.chip.ChipGroup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.mail.polis.R
-import ru.mail.polis.dao.person.IPersonService
 import ru.mail.polis.dao.person.PersonED
-import ru.mail.polis.dao.person.PersonService
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
 import java.util.Collections
+import ru.mail.polis.viewModels.AdvertCreationViewModel
 
 class AdvertCreationFragment : Fragment() {
-    private val personService: IPersonService = PersonService.getInstance()
+    private val viewModel = AdvertCreationViewModel()
 
     private lateinit var spinner: Spinner
     private lateinit var chipGroup: ChipGroup
@@ -91,10 +89,7 @@ class AdvertCreationFragment : Fragment() {
             .build()
 
         GlobalScope.launch(Dispatchers.Main) {
-            withContext(Dispatchers.IO) {
-                personService.addPerson(person)
-            }
-
+            viewModel.addPerson(person)
             findNavController().navigate(R.id.nav_graph__list_of_people)
         }
     }
