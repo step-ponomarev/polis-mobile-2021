@@ -68,4 +68,9 @@
         android:id="@+id/nav_graph__proposed_apartments_fragment"
         android:name="ru.mail.polis.ui.fragments.ProposedApartmentsFragment"
         android:label="ProposedApartmentsFragment" />
+
+    <fragment
+        android:id="@+id/nav_graph__advert_creation_fragment"
+        android:name="ru.mail.polis.ui.fragments.AdvertCreationFragment"
+        android:label="AdvertCreationFragment" />
 </navigation>
