@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.mail.polis.dao.users.IUserService
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.dao.users.UserService
@@ -14,44 +14,26 @@ import ru.mail.polis.dao.users.UserService
 class SettingsViewModel : ViewModel() {
 
     private val userService: IUserService = UserService()
-    private val email = FirebaseAuth.getInstance().currentUser.email
-
-//    val name = MutableLiveData<String>()
-//    val surname = MutableLiveData<String>()
-//    val age = MutableLiveData<Long>()
-//    val phone = MutableLiveData<String>()
-//    val externalAccounts = MutableLiveData<List<String>>()
-//    val photo = MutableLiveData<String>()
 
     var userED = MutableLiveData<UserED>()
 
-    fun getUserInfo() {
-
-        var userEDDD: UserED? = null
+    fun getUserInfo(email: String) {
 
         viewModelScope.launch(Dispatchers.IO) {
-            userEDDD = userService.findUserByEmail(email)
 
-//            name.value = user?.name
-//            surname.value = user?.surname
-//            age.value = user?.age
-//            phone.value = user?.phone
-//            externalAccounts.value = user?.externalAccounts ?: emptyList()
-//            photo.value = user?.photo
+            val user = userService.findUserByEmail(email)
+
+            withContext(Dispatchers.Main) {
+                userED.value = user!!
+            }
         }
-
-        if (userEDDD != null) {
-            userED.value = userEDDD!!
-        }
-
     }
 
     fun updateUser(userED: UserED) {
         viewModelScope.launch(Dispatchers.IO) {
-            userService.updateUserByEmail(email, userED)
+            userService.updateUserByEmail(userED.email!!, userED)
         }
     }
 
     fun getUser(): LiveData<UserED> = userED
-
 }
