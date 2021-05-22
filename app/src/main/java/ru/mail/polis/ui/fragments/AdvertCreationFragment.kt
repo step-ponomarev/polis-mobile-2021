@@ -21,8 +21,8 @@ import ru.mail.polis.R
 import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
-import java.util.Collections
 import ru.mail.polis.viewModels.AdvertCreationViewModel
+import java.util.Collections
 
 class AdvertCreationFragment : Fragment() {
     private val viewModel = AdvertCreationViewModel()
@@ -76,10 +76,10 @@ class AdvertCreationFragment : Fragment() {
         val costTo = costToEditText.text.toString()
         val aboutMe = aboutMeEditText.text.toString()
 
-        if (metro.isBlank()
-            || roomCount.isBlank()
-            || costFrom.isBlank()
-            || costTo.isBlank()
+        if (metro.isBlank() ||
+            roomCount.isBlank() ||
+            costFrom.isBlank() ||
+            costTo.isBlank()
         ) {
             getToastAboutFillAllFields().show()
             return
@@ -101,9 +101,8 @@ class AdvertCreationFragment : Fragment() {
                 .build()
 
             if (person.photo != null) {
-                person.photo = person.photo;
+                person.photo = person.photo
             }
-
 
             viewModel.addPerson(person)
             findNavController().navigate(R.id.nav_graph__list_of_people)

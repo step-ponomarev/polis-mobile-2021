@@ -29,7 +29,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -121,10 +120,10 @@ class AddApartmentFragment : Fragment() {
             return
         }
 
-        val email = getEmail();
+        val email = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
             val user = addApartmentViewModel.fetchUser(email)
-                ?: throw java.lang.IllegalStateException("Null user by email: $email");
+                ?: throw java.lang.IllegalStateException("Null user by email: $email")
 
             val apartmentED = ApartmentED.Builder
                 .createBuilder()
