@@ -4,6 +4,6 @@ import android.content.Intent
 
 interface AuthenticationService {
     fun getSignInIntent(): Intent
-    fun handleResult(data: Intent?): Boolean
+    fun handleResult(data: Intent?): String
     fun signOut()
 }
