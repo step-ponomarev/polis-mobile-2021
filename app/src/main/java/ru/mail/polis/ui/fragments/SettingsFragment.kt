@@ -122,7 +122,10 @@ class SettingsFragment : Fragment() {
             ), bitmap
         )
 
+
         getToastThatUserChangedInformation().show()
+
+
     }
 
     private fun onClickAddExternalAccount(view: View) {

@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import ru.mail.polis.converter.Converter
 import ru.mail.polis.dao.Collections
@@ -38,24 +37,20 @@ class SettingsViewModel : ViewModel() {
 
     fun updateUser(user: UserED, bitmap: Bitmap?) {
         viewModelScope.launch(Dispatchers.IO) {
-            runBlocking {
-
-                if (user.photo == null && bitmap != null) {
-                    val url = withContext(Dispatchers.IO) {
-                        val pathString =
-                            "${Collections.USER.collectionName}Photos/${user.email}-photo.jpg"
-                        photoUriService.saveImage(pathString, Converter.bitmapToInputStream(bitmap))
-                    }
-
-                    user.photo = url.toString()
+            if (user.photo == null && bitmap != null) {
+                val url = withContext(Dispatchers.IO) {
+                    val pathString =
+                        "${Collections.USER.collectionName}Photos/${user.email}-photo.jpg"
+                    photoUriService.saveImage(pathString, Converter.bitmapToInputStream(bitmap))
                 }
 
-                withContext(Dispatchers.Main) {
-                    userED.value = userService.updateUserByEmail(user.email!!, user)
-                }
+                user.photo = url.toString()
             }
+
+            userED.value = userService.updateUserByEmail(user.email!!, user)
         }
     }
+
 
     fun getUser(): LiveData<UserED> = userED
 }
