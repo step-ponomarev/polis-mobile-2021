@@ -1,12 +1,18 @@
 package ru.mail.polis.viewModels
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import ru.mail.polis.converter.Converter
+import ru.mail.polis.dao.Collections
+import ru.mail.polis.dao.IPhotoUriService
+import ru.mail.polis.dao.PhotoUriService
 import ru.mail.polis.dao.users.IUserService
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.dao.users.UserService
@@ -14,8 +20,9 @@ import ru.mail.polis.dao.users.UserService
 class SettingsViewModel : ViewModel() {
 
     private val userService: IUserService = UserService()
+    private val photoUriService: IPhotoUriService = PhotoUriService()
 
-    var userED = MutableLiveData<UserED>()
+    private var userED = MutableLiveData<UserED>()
 
     fun getUserInfo(email: String) {
 
@@ -29,9 +36,24 @@ class SettingsViewModel : ViewModel() {
         }
     }
 
-    fun updateUser(userED: UserED) {
+    fun updateUser(user: UserED, bitmap: Bitmap?) {
         viewModelScope.launch(Dispatchers.IO) {
-            userService.updateUserByEmail(userED.email!!, userED)
+            runBlocking {
+
+                if (user.photo == null && bitmap != null) {
+                    val url = withContext(Dispatchers.IO) {
+                        val pathString =
+                            "${Collections.USER.collectionName}Photos/${user.email}-photo.jpg"
+                        photoUriService.saveImage(pathString, Converter.bitmapToInputStream(bitmap))
+                    }
+
+                    user.photo = url.toString()
+                }
+
+                withContext(Dispatchers.Main) {
+                    userED.value = userService.updateUserByEmail(user.email!!, user)
+                }
+            }
         }
     }
 
