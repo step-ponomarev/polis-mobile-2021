@@ -51,6 +51,5 @@ class SettingsViewModel : ViewModel() {
         }
     }
 
-
     fun getUser(): LiveData<UserED> = userED
 }

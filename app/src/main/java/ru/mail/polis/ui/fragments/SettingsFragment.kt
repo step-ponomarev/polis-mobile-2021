@@ -72,19 +72,21 @@ class SettingsFragment : Fragment() {
 
         settingsViewModel.getUserInfo(getEmail())
 
-        settingsViewModel.getUser().observe(viewLifecycleOwner, { userED ->
-            nameEditText.setText(userED.name)
-            surnameEditText.setText(userED.surname)
-            phoneEditText.setText(userED.phone)
-            ageEditText.setText(userED.age.toString())
-            Glide.with(avatar).load(userED.photo).into(avatar)
-            currentPhotoUrl = userED.photo
-        })
+        settingsViewModel.getUser().observe(
+            viewLifecycleOwner,
+            { userED ->
+                nameEditText.setText(userED.name)
+                surnameEditText.setText(userED.surname)
+                phoneEditText.setText(userED.phone)
+                ageEditText.setText(userED.age.toString())
+                Glide.with(avatar).load(userED.photo).into(avatar)
+                currentPhotoUrl = userED.photo
+            }
+        )
 
         editButton.setOnClickListener(this::onClickEditUser)
         changePhotoButton.setOnClickListener(this::onClickChangePhoto)
         addExternalAccountImageButton.setOnClickListener(this::onClickAddExternalAccount)
-
     }
 
     private fun onClickChangePhoto(view: View) {
@@ -94,7 +96,6 @@ class SettingsFragment : Fragment() {
     }
 
     private fun onClickEditUser(view: View) {
-
 
         Log.d("CHECKBIT", currentPhotoUrl ?: "null")
 
@@ -119,17 +120,14 @@ class SettingsFragment : Fragment() {
                 age = Integer.parseInt(ageEditText.text.toString()).toLong(),
                 externalAccounts = emptyList(),
                 photo = photo
-            ), bitmap
+            ),
+            bitmap
         )
 
-
         getToastThatUserChangedInformation().show()
-
-
     }
 
     private fun onClickAddExternalAccount(view: View) {
-
     }
 
     private fun getEmail(): String {
