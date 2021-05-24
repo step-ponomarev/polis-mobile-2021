@@ -139,7 +139,6 @@ class AddApartmentFragment : Fragment() {
 
             addApartmentViewModel.addApartment(apartmentED)
         }
-//        addApartmentViewModel.addApartment(apartmentED)
 
         findNavController().navigate(R.id.nav_graph__list_of_people)
     }
