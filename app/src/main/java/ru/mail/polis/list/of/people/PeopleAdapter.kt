@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.mail.polis.R
 import ru.mail.polis.helpers.getAgeString
-import ru.mail.polis.room.RoomCount
 
 class PeopleAdapter(
     private var people: List<Person>,
@@ -125,4 +124,3 @@ class PeopleAdapter(
         Glide.with(iv).load(url).into(iv)
     }
 }
-

@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide
 import ru.mail.polis.R
 import ru.mail.polis.helpers.getAgeString
 import ru.mail.polis.list.of.people.Person
-import ru.mail.polis.room.RoomCount
 
 class PersonAnnouncementFragment : Fragment() {
     override fun onCreateView(
@@ -50,7 +49,7 @@ class PersonAnnouncementFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
         val args: PersonAnnouncementFragmentArgs by navArgs()
-        val person :Person = args.person
+        val person: Person = args.person
         if (person.photo != null) {
             urlToMyImageView(ivPhoto, person.photo!!)
         }

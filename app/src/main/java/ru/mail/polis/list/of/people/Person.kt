@@ -2,7 +2,6 @@ package ru.mail.polis.list.of.people
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
 
@@ -56,7 +55,6 @@ data class Person(
             this.age = age
             return this
         }
-
 
         fun tags(tags: List<Long>): Builder {
             this.tags = tags
