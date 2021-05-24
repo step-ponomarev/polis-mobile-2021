@@ -10,7 +10,7 @@ data class Person(
     var email: String? = null,
     var photo: String? = null,
     var name: String? = null,
-    var age: Int? = null,
+    var age: Long? = null,
     var tags: List<Long> = emptyList(),
     var metro: Metro? = null,
     var moneyTo: Long = 0,
@@ -22,7 +22,7 @@ data class Person(
         private var email: String? = null
         private var photo: String? = null
         private var name: String? = null
-        private var age: Int? = null
+        private var age: Long? = null
         private var tags: List<Long> = emptyList()
         private var metro: Metro? = null
         private var moneyTo: Long = 0
@@ -51,7 +51,7 @@ data class Person(
             return this
         }
 
-        fun age(age: Int): Builder {
+        fun age(age: Long): Builder {
             this.age = age
             return this
         }

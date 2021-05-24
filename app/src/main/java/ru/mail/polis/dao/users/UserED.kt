@@ -5,7 +5,7 @@ class UserED(
     var name: String? = null,
     var surname: String? = null,
     var phone: String? = null,
-    var age: Int? = null,
+    var age: Long? = null,
     var photo: String? = null,
     var externalAccounts: List<String> = emptyList()
 )
