@@ -98,7 +98,6 @@ class PersonAnnouncementFragment : Fragment() {
         }
         tvDescription.text = person.description
 
-
         offerApartmentButton.setOnClickListener(this::onOfferApartment)
     }
 
