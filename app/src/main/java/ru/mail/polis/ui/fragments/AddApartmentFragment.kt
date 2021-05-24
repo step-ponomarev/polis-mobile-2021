@@ -135,6 +135,10 @@ class AddApartmentFragment : Fragment() {
                 .apartmentSquare(square.toLong())
                 .build()
 
+            if (user.photo !== null) {
+                apartmentED.ownerAvatar = user.photo
+            }
+
             addApartmentViewModel.addApartment(apartmentED)
         }
 

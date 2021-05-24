@@ -89,7 +89,7 @@ class ApartmentED(
         fun build(): ApartmentED {
             return ApartmentED(
                 email!!,
-                ownerAvatar!!,
+                ownerAvatar,
                 ownerName!!,
                 ownerAge!!,
                 metro!!,
