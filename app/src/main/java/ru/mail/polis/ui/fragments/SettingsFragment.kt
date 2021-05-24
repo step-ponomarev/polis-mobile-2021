@@ -7,7 +7,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.AppCompatButton
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -35,7 +33,6 @@ class SettingsFragment : Fragment() {
     private lateinit var surnameEditText: EditText
     private lateinit var phoneEditText: EditText
     private lateinit var ageEditText: EditText
-    private lateinit var addExternalAccountImageButton: AppCompatButton
     private lateinit var settingsViewModel: SettingsViewModel
     private lateinit var avatar: ShapeableImageView
 
@@ -64,8 +61,6 @@ class SettingsFragment : Fragment() {
         surnameEditText = view.findViewById(R.id.fragment_settings__et_surname)
         phoneEditText = view.findViewById(R.id.fragment_settings__et_phone)
         ageEditText = view.findViewById(R.id.fragment_settings__et_age)
-        addExternalAccountImageButton =
-            view.findViewById(R.id.fragment_settings__add_external_account_button)
         avatar = view.findViewById(R.id.change_avatar_component__people_item_iv_photo)
 
         settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
@@ -86,7 +81,6 @@ class SettingsFragment : Fragment() {
 
         editButton.setOnClickListener(this::onClickEditUser)
         changePhotoButton.setOnClickListener(this::onClickChangePhoto)
-        addExternalAccountImageButton.setOnClickListener(this::onClickAddExternalAccount)
     }
 
     private fun onClickChangePhoto(view: View) {
@@ -96,8 +90,6 @@ class SettingsFragment : Fragment() {
     }
 
     private fun onClickEditUser(view: View) {
-
-        Log.d("CHECKBIT", currentPhotoUrl ?: "null")
 
         val photo: String? = if (currentPhotoUrl == null) {
             null
@@ -125,9 +117,6 @@ class SettingsFragment : Fragment() {
         )
 
         getToastThatUserChangedInformation().show()
-    }
-
-    private fun onClickAddExternalAccount(view: View) {
     }
 
     private fun getEmail(): String {

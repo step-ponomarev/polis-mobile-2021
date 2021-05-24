@@ -46,7 +46,6 @@
                 android:id="@+id/fragment_settings__cl_person_settings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/fragment_settings__bot_dividing_line"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -112,70 +111,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <include
-                android:id="@+id/fragment_settings__bot_dividing_line"
-                layout="@layout/dividing_line"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                app:layout_constraintBottom_toTopOf="@id/fragment_settings__cl_external_accounts"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fragment_settings__cl_person_settings" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/fragment_settings__cl_external_accounts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                app:layout_constraintBottom_toTopOf="@id/fragment_settings__button_edit"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fragment_settings__bot_dividing_line">
-
-                <TextView
-                    android:id="@+id/fragment_settings__external_acc_tv"
-                    style="@style/App.Text.Style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:text="@string/external_accounts_text"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Button
-                    android:id="@+id/fragment_settings__telegram_button"
-                    style="@style/App.Button.External.Accounts.Style"
-                    android:layout_width="130dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:drawableStart="@drawable/ic_telegram"
-                    android:text="@string/telegram_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__external_acc_tv" />
-
-                <Button
-                    android:id="@+id/fragment_settings__add_external_account_button"
-                    style="@style/App.Button.External.Accounts.Style"
-                    android:layout_width="130dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:drawableStart="@drawable/ic_plus"
-                    android:text="@string/add_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__telegram_button" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
             <Button
                 android:id="@+id/fragment_settings__button_edit"
                 style="@style/App.Buttons.Style"
@@ -185,7 +120,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fragment_settings__cl_external_accounts" />
+                app:layout_constraintTop_toBottomOf="@id/fragment_settings__cl_person_settings" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
