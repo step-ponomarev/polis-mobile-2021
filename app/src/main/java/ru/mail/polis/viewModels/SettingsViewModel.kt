@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.mail.polis.converter.Converter
@@ -37,17 +38,23 @@ class SettingsViewModel : ViewModel() {
 
     fun updateUser(user: UserED, bitmap: Bitmap?) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (user.photo == null && bitmap != null) {
-                val url = withContext(Dispatchers.IO) {
-                    val pathString =
-                        "${Collections.USER.collectionName}Photos/${user.email}-photo.jpg"
-                    photoUriService.saveImage(pathString, Converter.bitmapToInputStream(bitmap))
+            val task = async {
+                if (user.photo == null && bitmap != null) {
+                    val url = withContext(Dispatchers.IO) {
+                        val pathString =
+                            "${Collections.USER.collectionName}Photos/${user.email}-photo.jpg"
+                        photoUriService.saveImage(pathString, Converter.bitmapToInputStream(bitmap))
+                    }
+
+                    user.photo = url.toString()
                 }
-
-                user.photo = url.toString()
             }
+            task.await()
 
-            userED.value = userService.updateUserByEmail(user.email!!, user)
+            withContext(Dispatchers.Main) {
+                userED.value = userService.updateUserByEmail(user.email!!, user)
+
+            }
         }
     }
 
