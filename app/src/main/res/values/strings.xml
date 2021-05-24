@@ -54,7 +54,7 @@
     <string name="menu_title_settings">Найстройки</string>
     <string name="preference_file_key">SHARED_PREFERENCE_KEY</string>
     <string name="preference_email_key">EMAIL</string>
-    <string name="toast_fill_all_information_about_user">Укажите всю информацию о квартире</string>
+    <string name="toast_fill_all_information_about_user">Укажите всю информацию о себе</string>
     <string name="toast_chages_are_saved">Изменения сохранены</string>
 
     <string-array name="genders">
