@@ -11,10 +11,11 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import ru.mail.polis.R
+import ru.mail.polis.helpers.getAgeString
 import ru.mail.polis.list.of.people.Person
-import ru.mail.polis.metro.Metro
 
 class PersonAnnouncementFragment : Fragment() {
     override fun onCreateView(
@@ -46,36 +47,44 @@ class PersonAnnouncementFragment : Fragment() {
         val tvDescription: TextView =
             view.findViewById(R.id.fragment_person_announcement__tv_description)
 
-        val person = generateTestPerson()
-
         super.onViewCreated(view, savedInstanceState)
+        val args: PersonAnnouncementFragmentArgs by navArgs()
+        val person: Person = args.person
         if (person.photo != null) {
-            urlToMyImageView(ivPhoto, person.photo)
+            urlToMyImageView(ivPhoto, person.photo!!)
         }
         tvName.text = person.name
-        tvAge.text = person.age
+        if (person.age != null)
+            tvAge.text = getAgeString(person.age!!)
+
         val tags: List<ImageView> = person.tags.map { url ->
             urlToImageView(view.context, url)
         }
         tags.forEach(llIvTags::addView)
 
-        tvMetro.text = person.metro.stationName
-        ivBranchColor.background.setTint(
-            ContextCompat.getColor(
-                view.context,
-                person.metro.branchColor
+        if (person.metro != null) {
+            tvMetro.text = person.metro!!.stationName
+            ivBranchColor.background.setTint(
+                ContextCompat.getColor(
+                    view.context,
+                    person.metro!!.branchColor
+                )
             )
-        )
+        }
 
-        tvMoney.text = "от " + person.money.first + " до " + person.money.second
+        if (person.moneyFrom == 0L && person.moneyTo == 0L) {
+            tvMoney.setText(R.string.money_default_value)
+        } else {
+            tvMoney.text = view.context.getString(R.string.money, person.moneyFrom, person.moneyTo)
+        }
 
         for (i in 0..3.coerceAtMost(person.rooms.size - 1)) {
             cvRooms[i].visibility = View.VISIBLE
-            tvRooms[i].text = person.rooms[i]
+            tvRooms[i].text = person.rooms[i].label
         }
         tvDescription.text = person.description
     }
-    private fun urlToImageView(context: Context, url: Int): ImageView {
+    private fun urlToImageView(context: Context, url: Long): ImageView {
         val iv = ImageView(context)
 
         iv.layoutParams = ViewGroup.MarginLayoutParams(
@@ -84,30 +93,17 @@ class PersonAnnouncementFragment : Fragment() {
         )
         iv.adjustViewBounds = true
         iv.setPadding(5, 5, 10, 5)
-        Glide.with(iv).load(url).into(iv)
+
+        Glide.with(iv)
+            .load(url)
+            .into(iv)
 
         return iv
     }
-    private fun urlToMyImageView(iv: ImageView, url: String) {
-        Glide.with(iv).load(url).into(iv)
-    }
-}
 
-private fun generateTestPerson(): Person {
-    return Person(
-        null,
-        "Степан Пономарев",
-        "22 года",
-        0,
-        listOf(
-            R.drawable.ic_ciggarete,
-            R.drawable.ic_kid,
-            R.drawable.ic_paw,
-            R.drawable.ic_drum
-        ),
-        Metro.KUPCHINO,
-        Pair(20000, 35000),
-        listOf("1 комната", "2 комнаты"),
-        "Привет, меня зовут Степа и я не алкоголик. У меня есть ребенок и жена ищем квартиру для длительного проживания. У нас четыре щеночка и барабанная установка"
-    )
+    private fun urlToMyImageView(iv: ImageView, url: String) {
+        Glide.with(iv)
+            .load(url)
+            .into(iv)
+    }
 }

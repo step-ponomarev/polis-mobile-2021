@@ -59,7 +59,7 @@ class PersonService private constructor() : IPersonService {
 
     override suspend fun addPerson(person: PersonED): PersonED {
         return suspendCancellableCoroutine { coroutine ->
-            personCollection.document(person.email)
+            personCollection.document(person.email!!)
                 .set(personToMap(person))
                 .addOnFailureListener {
                     coroutine.resumeWithException(
@@ -81,7 +81,7 @@ class PersonService private constructor() : IPersonService {
     }
 
     override suspend fun updatePerson(person: PersonED): PersonED {
-        val personRef = personCollection.document(person.email)
+        val personRef = personCollection.document(person.email!!)
 
         return suspendCancellableCoroutine { coroutine ->
             personRef.update(personToMap(person))

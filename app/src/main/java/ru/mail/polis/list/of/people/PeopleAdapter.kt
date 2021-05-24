@@ -12,10 +12,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.mail.polis.R
+import ru.mail.polis.helpers.getAgeString
 
 class PeopleAdapter(
-    private val people: List<Person>,
-    private val listener: ListItemClickListener
+    private var people: List<Person>,
+    listener: ListItemClickListener
 ) : RecyclerView.Adapter<PeopleAdapter.PeopleViewHolder>() {
 
     private val mOnClickListener: ListItemClickListener = listener
@@ -23,13 +24,20 @@ class PeopleAdapter(
         val view = LayoutInflater.from(parent.context).inflate(R.layout.people_item, parent, false)
         return PeopleViewHolder(view)
     }
+
     override fun onBindViewHolder(holder: PeopleViewHolder, position: Int) {
         holder.bind(people[position])
+    }
+
+    fun setData(listOfPeople: List<Person>) {
+        this.people = listOfPeople
+        notifyDataSetChanged()
     }
 
     interface ListItemClickListener {
         fun onListItemClick(clickedItemIndex: Int)
     }
+
     override fun getItemCount(): Int {
         return people.size
     }
@@ -41,7 +49,8 @@ class PeopleAdapter(
         private val tvAge: TextView = itemView.findViewById(R.id.component_person_header__age)
         private val llIvTags: LinearLayout = itemView.findViewById(R.id.people_item__ll_tags)
         private val tvMetro: TextView = itemView.findViewById(R.id.people_item__metro_text)
-        private val ivBranchColor: ImageView = itemView.findViewById(R.id.people_item__metro_branch_color)
+        private val ivBranchColor: ImageView =
+            itemView.findViewById(R.id.people_item__metro_branch_color)
         private val tvMoney: TextView = itemView.findViewById(R.id.people_item__tv_money)
 
         private val cvRooms: List<CardView> = listOf(
@@ -54,58 +63,64 @@ class PeopleAdapter(
             itemView.findViewById(R.id.people_item__ll_tv_rooms2),
             itemView.findViewById(R.id.people_item__ll_tv_rooms3)
         )
-        private val tvDescription: TextView = itemView.findViewById(R.id.people_item__tv_description)
-
-        fun getCardView(): CardView = cardView
+        private val tvDescription: TextView =
+            itemView.findViewById(R.id.people_item__tv_description)
 
         fun bind(person: Person) {
             if (person.photo != null) {
-                urlToMyImageView(ivPhoto, person.photo)
+                urlToMyImageView(ivPhoto, person.photo!!)
             }
 
             tvName.text = person.name
-            tvAge.text = person.age
+            tvAge.text = person.age?.let { getAgeString(it) }
             val tags: List<ImageView> = person.tags.map { url ->
                 urlToImageView(itemView.context, url)
             }
             tags.forEach(llIvTags::addView)
 
-            tvMetro.text = person.metro.stationName
-            ivBranchColor.background.setTint(
-                ContextCompat.getColor(
-                    itemView.context,
-                    person.metro.branchColor
+            if (person.metro != null) {
+                tvMetro.text = person.metro!!.stationName
+                ivBranchColor.background.setTint(
+                    ContextCompat.getColor(
+                        itemView.context,
+                        person.metro!!.branchColor
+                    )
                 )
-            )
-            tvMoney.text = "от " + person.money.first + " до " + person.money.second
+            }
+            if (person.moneyFrom == 0L && person.moneyTo == 0L) {
+                tvMoney.setText(R.string.money_default_value)
+            } else {
+                tvMoney.text =
+                    itemView.context.getString(R.string.money, person.moneyFrom, person.moneyTo)
+            }
+
             for (i in 0..3.coerceAtMost(person.rooms.size - 1)) {
                 cvRooms[i].visibility = View.VISIBLE
-                tvRooms[i].text = person.rooms[i]
+                tvRooms[i].text = person.rooms[i].label
+            }
+            cardView.setOnClickListener {
+                val clickedPosition = adapterPosition
+                mOnClickListener.onListItemClick(clickedPosition)
             }
             tvDescription.text = person.description
-            cardView.setOnClickListener(
-                View.OnClickListener {
-                    val clickedPosition = adapterPosition
-                    mOnClickListener.onListItemClick(clickedPosition)
-                }
-            )
         }
+    }
 
-        private fun urlToImageView(context: Context, url: Int): ImageView {
-            val iv = ImageView(context)
+    private fun urlToImageView(context: Context, url: Long): ImageView {
+        val iv = ImageView(context)
 
-            iv.layoutParams = ViewGroup.MarginLayoutParams(
-                ViewGroup.MarginLayoutParams.WRAP_CONTENT,
-                ViewGroup.MarginLayoutParams.WRAP_CONTENT
-            )
-            iv.adjustViewBounds = true
-            iv.setPadding(5, 5, 10, 5)
-            Glide.with(iv).load(url).into(iv)
+        iv.layoutParams = ViewGroup.MarginLayoutParams(
+            ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+            ViewGroup.MarginLayoutParams.WRAP_CONTENT
+        )
+        iv.adjustViewBounds = true
+        iv.setPadding(5, 5, 10, 5)
+        Glide.with(iv).load(url).into(iv)
 
-            return iv
-        }
-        private fun urlToMyImageView(iv: ImageView, url: String) {
-            Glide.with(iv).load(url).into(iv)
-        }
+        return iv
+    }
+
+    private fun urlToMyImageView(iv: ImageView, url: String) {
+        Glide.with(iv).load(url).into(iv)
     }
 }

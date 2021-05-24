@@ -10,7 +10,7 @@
         android:label="Login Fragment">
         <action
             android:id="@+id/action_login_fragment_to_self_definition_fragment"
-            app:destination="@id/nav_graph__filling_profile_info" />
+            app:destination="@id/nav_graph__self_definition_fragment" />
     </fragment>
 
     <fragment
@@ -46,6 +46,7 @@
             app:destination="@id/nav_graph__person_announcement_fragment" />
     </fragment>
 
+
     <fragment
         android:id="@+id/nav_graph__filling_profile_info"
         android:name="ru.mail.polis.ui.fragments.FirstCreationFragment"
@@ -57,7 +58,12 @@
     <fragment
         android:id="@+id/nav_graph__person_announcement_fragment"
         android:name="ru.mail.polis.ui.fragments.PersonAnnouncementFragment"
-        android:label="PersonAnnouncementFragment" />
+        android:label="PersonAnnouncementFragment" >
+        <argument
+            android:name="person"
+            app:argType="ru.mail.polis.list.of.people.Person" />
+    </fragment>
+
     <fragment
         android:id="@+id/nav_graph__settings_fragment"
         android:name="ru.mail.polis.ui.fragments.SettingsFragment"

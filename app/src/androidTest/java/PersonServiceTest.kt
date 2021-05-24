@@ -16,12 +16,12 @@ class PersonServiceTest {
             val person = createTestPerson()
 
             val addedPerson = personService.addPerson(person)
-            val gotPerson = personService.findByEmail(addedPerson.email)
+            val gotPerson = personService.findByEmail(addedPerson.email!!)
 
             Assert.assertNotNull(gotPerson)
             Assert.assertEquals(addedPerson, gotPerson)
 
-            personService.deletePersonByEmail(addedPerson.email)
+            personService.deletePersonByEmail(addedPerson.email!!)
         }
     }
 
@@ -31,9 +31,9 @@ class PersonServiceTest {
             val person = createTestPerson()
 
             val addedPerson = personService.addPerson(person)
-            personService.deletePersonByEmail(addedPerson.email)
+            personService.deletePersonByEmail(addedPerson.email!!)
 
-            val gotPerson = personService.findByEmail(addedPerson.email)
+            val gotPerson = personService.findByEmail(addedPerson.email!!)
 
             Assert.assertNull(gotPerson)
         }
@@ -47,11 +47,11 @@ class PersonServiceTest {
 
             val addedPerson = personService.addPerson(person)
             personService.updatePerson(updatedPerson)
-            val gotPerson = personService.findByEmail(addedPerson.email)
+            val gotPerson = personService.findByEmail(addedPerson.email!!)
 
             Assert.assertEquals(gotPerson, updatedPerson)
 
-            personService.deletePersonByEmail(addedPerson.email)
+            personService.deletePersonByEmail(addedPerson.email!!)
         }
     }
 
@@ -71,15 +71,15 @@ class PersonServiceTest {
 
     private fun createUpdatedPerson(oldPerson: PersonED): PersonED {
         return PersonED.Builder.createBuilder()
-            .email(oldPerson.email)
-            .photo(oldPerson.photo!!)
+            .email(oldPerson.email!!)
+            .photo(oldPerson.photo)
             .name(oldPerson.name!!)
             .age(oldPerson.age!!)
             .tags(oldPerson.tags!!)
             .metro(oldPerson.metro!!)
             .money(oldPerson.moneyFrom, oldPerson.moneyTo)
             .rooms(oldPerson.rooms!!)
-            .description(oldPerson.description!!)
+            .description("")
             .build()
     }
 }
