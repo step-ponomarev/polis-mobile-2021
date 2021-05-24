@@ -64,7 +64,7 @@ class ProposeService(
         }
     }
 
-    override suspend fun checkOfferExist(ownerEmail: String, renterEmail: String): Boolean {
+    override suspend fun checkProposeExist(ownerEmail: String, renterEmail: String): Boolean {
         return suspendCancellableCoroutine { coroutine ->
             proposeCollection.whereEqualTo("ownerEmail", ownerEmail)
                 .whereEqualTo("renterEmail", renterEmail)
