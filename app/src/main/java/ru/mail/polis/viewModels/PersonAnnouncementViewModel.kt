@@ -17,9 +17,16 @@ class PersonAnnouncementViewModel : ViewModel() {
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
     private val proposeService: IProposeService = ProposeService()
 
-    fun offerApartment(emailFromOffer: String, emailToOffer: String, callback: () -> Unit) {
+    fun offerApartment(emailFromOffer: String, emailToOffer: String) {
         viewModelScope.launch(Dispatchers.IO) {
 
+            val exist = withContext(Dispatchers.IO) {
+                proposeService.checkOfferExist(emailFromOffer, emailToOffer)
+            }
+
+            if (exist) {
+                return@launch
+            }
             val apartment = withContext(Dispatchers.IO) {
                 apartmentService.findByEmail(emailFromOffer)
             } ?: throw IllegalStateException("You have not got an apartment yet!")
@@ -32,9 +39,6 @@ class PersonAnnouncementViewModel : ViewModel() {
                         ProposeStatus.PENDING
                     )
                 )
-                withContext(Dispatchers.Main) {
-                    callback.invoke()
-                }
             }
         }
     }

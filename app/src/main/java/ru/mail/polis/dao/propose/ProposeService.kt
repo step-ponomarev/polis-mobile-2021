@@ -1,6 +1,7 @@
 package ru.mail.polis.dao.propose
 
 import android.util.Log
+import com.google.android.gms.common.util.CollectionUtils
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -37,7 +38,7 @@ class ProposeService(
                 .addOnFailureListener {
                     coroutine.resumeWithException(
                         RuntimeException(
-                            "Filed fetching apartment propose by ownerEmail: $email",
+                            "Failed fetching apartment propose by ownerEmail: $email",
                             it
                         )
                     )
@@ -55,7 +56,27 @@ class ProposeService(
                 .addOnFailureListener {
                     coroutine.resumeWithException(
                         RuntimeException(
-                            "Filed fetching apartment propose by renterEmail: $email",
+                            "Failed fetching apartment propose by renterEmail: $email",
+                            it
+                        )
+                    )
+                }
+        }
+    }
+
+    override suspend fun checkOfferExist(ownerEmail: String, renterEmail: String): Boolean {
+        return suspendCancellableCoroutine { coroutine ->
+            proposeCollection.whereEqualTo("ownerEmail", ownerEmail)
+                .whereEqualTo("renterEmail", renterEmail)
+                .get()
+                .addOnSuccessListener {
+                    val list = it.toObjects(ProposeED::class.java)
+                    coroutine.resume(!CollectionUtils.isEmpty(list))
+                }
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        RuntimeException(
+                            "Failed fetching apartment propose by ownerEmail: $ownerEmail and renterEmail: $renterEmail",
                             it
                         )
                     )

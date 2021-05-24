@@ -106,11 +106,15 @@ class PersonAnnouncementFragment : Fragment() {
 
         val emailPerson: String = person.email ?: return
 
-        personAnnouncementViewModel.offerApartment(
-            getEmail(),
-            emailPerson
-        ) {
-            getToastThatUserOfferApartment(person).show()
+        try {
+            personAnnouncementViewModel.offerApartment(
+                getEmail(),
+                emailPerson
+            )
+
+            getToastWithText("Вы предложили квартиру человеку с именем ${person.name}").show()
+        } catch (e: java.lang.IllegalStateException) {
+            getToastWithText("У вас не добавлена квартира").show()
         }
     }
 
@@ -145,10 +149,10 @@ class PersonAnnouncementFragment : Fragment() {
             ?: throw IllegalStateException("Email not found")
     }
 
-    private fun getToastThatUserOfferApartment(person: Person): Toast {
+    private fun getToastWithText(text: String): Toast {
         return Toast.makeText(
             requireContext(),
-            "Вы предложили квартиру человеку с именем ${person.name}",
+            text,
             Toast.LENGTH_SHORT
         )
     }
