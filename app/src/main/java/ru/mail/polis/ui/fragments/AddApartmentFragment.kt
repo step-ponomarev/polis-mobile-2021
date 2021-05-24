@@ -131,13 +131,10 @@ class AddApartmentFragment : Fragment() {
                 .ownerName("${user.name} ${user.surname}")
                 .metro(Metro.from(metro))
                 .roomCount(RoomCount.from(rooms))
+                .ownerAvatar(user.photo)
                 .apartmentCosts(cost.toLong())
                 .apartmentSquare(square.toLong())
                 .build()
-
-            if (user.photo !== null) {
-                apartmentED.ownerAvatar = user.photo
-            }
 
             addApartmentViewModel.addApartment(apartmentED)
         }
