@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,7 +20,6 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.google.android.material.imageview.ShapeableImageView
 import ru.mail.polis.R
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
@@ -34,7 +34,7 @@ class SettingsFragment : Fragment() {
     private lateinit var phoneEditText: EditText
     private lateinit var ageEditText: EditText
     private lateinit var settingsViewModel: SettingsViewModel
-    private lateinit var avatar: ShapeableImageView
+    private lateinit var avatar: ImageView
 
     private var currentPhotoUrl: String? = null
 
