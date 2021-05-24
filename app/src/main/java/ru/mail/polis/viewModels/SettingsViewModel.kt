@@ -53,7 +53,6 @@ class SettingsViewModel : ViewModel() {
 
             withContext(Dispatchers.Main) {
                 userED.value = userService.updateUserByEmail(user.email!!, user)
-
             }
         }
     }
