@@ -143,7 +143,7 @@ class SettingsFragment : Fragment() {
     private fun getToastThatUserChangedInformation(): Toast {
         return Toast.makeText(
             requireContext(),
-            getString(R.string.toast_chages_are_saved),
+            getString(R.string.toast_changes_are_saved),
             Toast.LENGTH_SHORT
         )
     }
