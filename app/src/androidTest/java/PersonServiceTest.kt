@@ -5,6 +5,7 @@ import ru.mail.polis.dao.person.IPersonService
 import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.person.PersonService
 import ru.mail.polis.metro.Metro
+import ru.mail.polis.room.RoomCount
 
 class PersonServiceTest {
     private val personService: IPersonService = PersonService.getInstance()
@@ -60,11 +61,10 @@ class PersonServiceTest {
             .photo("test")
             .name("test")
             .age(0)
-            .mark(0)
             .tags(listOf(1L))
             .metro(Metro.PARNASSUS)
             .money(0L, 0L)
-            .rooms(listOf("test"))
+            .rooms(listOf(RoomCount.ONE))
             .description("test")
             .build()
     }
@@ -72,15 +72,14 @@ class PersonServiceTest {
     private fun createUpdatedPerson(oldPerson: PersonED): PersonED {
         return PersonED.Builder.createBuilder()
             .email(oldPerson.email)
-            .photo(oldPerson.photo)
-            .name(oldPerson.name)
-            .age(oldPerson.age)
-            .mark(oldPerson.mark)
-            .tags(oldPerson.tags)
-            .metro(oldPerson.metro)
+            .photo(oldPerson.photo!!)
+            .name(oldPerson.name!!)
+            .age(oldPerson.age!!)
+            .tags(oldPerson.tags!!)
+            .metro(oldPerson.metro!!)
             .money(oldPerson.moneyFrom, oldPerson.moneyTo)
-            .rooms(oldPerson.rooms)
-            .description(oldPerson.description)
+            .rooms(oldPerson.rooms!!)
+            .description(oldPerson.description!!)
             .build()
     }
 }
