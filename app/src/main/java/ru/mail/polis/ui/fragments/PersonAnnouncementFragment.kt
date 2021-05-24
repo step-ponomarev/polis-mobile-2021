@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import ru.mail.polis.R
+import ru.mail.polis.helpers.getAgeString
 
 class PersonAnnouncementFragment : Fragment() {
     override fun onCreateView(
@@ -52,7 +53,9 @@ class PersonAnnouncementFragment : Fragment() {
             urlToMyImageView(ivPhoto, person.photo!!)
         }
         tvName.text = person.name
-        tvAge.text = getAgeString(person.age)
+        if (person.age != null)
+            tvAge.text = getAgeString(person.age!!)
+
         val tags: List<ImageView> = person.tags.map { url ->
             urlToImageView(view.context, url)
         }
@@ -89,32 +92,17 @@ class PersonAnnouncementFragment : Fragment() {
         )
         iv.adjustViewBounds = true
         iv.setPadding(5, 5, 10, 5)
-        Glide.with(iv).load(url).into(iv)
+
+        Glide.with(iv)
+            .load(url)
+            .into(iv)
 
         return iv
     }
-    private fun urlToMyImageView(iv: ImageView, url: String) {
-        Glide.with(iv).load(url).into(iv)
-    }
 
-    private fun getAgeString(age: Int?): String {
-        return if (age == null)
-            ""
-        else {
-            when {
-                age % 100 in 5..20 -> {
-                    "$age лет"
-                }
-                age % 10 in 2..4 -> {
-                    "$age года"
-                }
-                age % 10 == 1 -> {
-                    "$age год"
-                }
-                else -> {
-                    "$age лет"
-                }
-            }
-        }
+    private fun urlToMyImageView(iv: ImageView, url: String) {
+        Glide.with(iv)
+            .load(url)
+            .into(iv)
     }
 }
