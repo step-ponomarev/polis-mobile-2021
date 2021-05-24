@@ -51,8 +51,14 @@
     <string name="acceptably">Допустимо</string>
     <string name="gender">Пол</string>
     <string name="filters">Фильтры</string>
-
-
+    <string name="menu_title_list_of_people_text">Объявления</string>
+    <string name="menu_title_list_of_apartments">Список квартир</string>
+    <string name="menu_title_settings">Найстройки</string>
+    <string name="preference_file_key">SHARED_PREFERENCE_KEY</string>
+    <string name="preference_email_key">EMAIL</string>
+    <string name="toast_fill_all_information_about_user">Укажите всю информацию о квартире</string>
+    <string name="toast_fill_all_information_about_apartment">Укажите всю информацию о квартире</string>
+    <string name="toast_fill_all_advert_info">Заполните обязательные поля</string>
     <string-array name="genders">
         <item>Мужчина</item>
         <item>Женщина</item>

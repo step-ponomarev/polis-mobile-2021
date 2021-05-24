@@ -18,11 +18,11 @@
         android:name="ru.mail.polis.ui.fragments.SelfDefinitionFragment"
         android:label="Self Definition Fragment">
         <action
-            android:id="@+id/action_nav_graph__self_definition_fragment_to_firstCreationFragment"
-            app:destination="@id/nav_graph__filling_profile_info" />
-        <action
-            android:id="@+id/action_nav_graph__self_definition_fragment_to_nav_graph__add_apartment_fragment"
+            android:id="@+id/action_self_definition_fragment_to_add_apartment_fragment"
             app:destination="@id/nav_graph__add_apartment_fragment" />
+        <action
+            android:id="@+id/action_nav_graph__self_definition_fragment_to_advert_creation_fragment"
+            app:destination="@id/nav_graph__advert_creation_fragment" />
     </fragment>
 
     <fragment
@@ -30,8 +30,11 @@
         android:name="ru.mail.polis.ui.fragments.AddApartmentFragment"
         android:label="Add Apartment Fragment">
         <action
-            android:id="@+id/action_nav_graph__add_apartment_fragment_to_nav_graph__list_of_people"
+            android:id="@+id/action_nav_graph__add_apartment_fragment_to_listOfPeopleFragment"
             app:destination="@id/nav_graph__list_of_people" />
+        <action
+            android:id="@+id/action_nav_graph__add_apartment_fragment_to_full_image_fragment"
+            app:destination="@id/nav_graph__full_image_fragment" />
     </fragment>
 
     <fragment
@@ -46,8 +49,11 @@
     <fragment
         android:id="@+id/nav_graph__filling_profile_info"
         android:name="ru.mail.polis.ui.fragments.FirstCreationFragment"
-        android:label="Filling profile info" />
-
+        android:label="Filling profile info">
+        <action
+            android:id="@+id/action_nav_graph__filling_profile_info_to_self_definition_fragment"
+            app:destination="@id/nav_graph__self_definition_fragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_graph__person_announcement_fragment"
         android:name="ru.mail.polis.ui.fragments.PersonAnnouncementFragment"
@@ -58,7 +64,21 @@
     </fragment>
 
     <fragment
+        android:id="@+id/nav_graph__settings_fragment"
+        android:name="ru.mail.polis.ui.fragments.SettingsFragment"
+        android:label="SettingsFragment" />
+
+    <fragment
+        android:id="@+id/nav_graph__full_image_fragment"
+        android:name="ru.mail.polis.ui.fragments.FullScreenImageFragment" />
+
+    <fragment
         android:id="@+id/nav_graph__proposed_apartments_fragment"
         android:name="ru.mail.polis.ui.fragments.ProposedApartmentsFragment"
         android:label="ProposedApartmentsFragment" />
+
+    <fragment
+        android:id="@+id/nav_graph__advert_creation_fragment"
+        android:name="ru.mail.polis.ui.fragments.AdvertCreationFragment"
+        android:label="AdvertCreationFragment" />
 </navigation>

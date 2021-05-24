@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/nav_graph__list_of_people"
+        android:enabled="true"
+        android:title="@string/menu_title_list_of_people_text"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/nav_graph__proposed_apartments_fragment"
+        android:enabled="true"
+        android:title="@string/menu_title_list_of_apartments"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/nav_graph__settings_fragment"
+        android:enabled="true"
+        android:title="@string/menu_title_settings"
+        app:showAsAction="ifRoom" />
+</menu>

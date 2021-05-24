@@ -2,5 +2,7 @@ package ru.mail.polis.dao
 
 enum class Collections(val collectionName: String) {
     PERSON("person"),
-    APARTMENT("apartment");
+    PROPOSE("apartment_propose"),
+    APARTMENT("apartment"),
+    USER("user");
 }

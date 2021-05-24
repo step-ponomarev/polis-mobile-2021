@@ -205,7 +205,7 @@
         app:layout_constraintVertical_bias="0.551" />
 
     <TextView
-        android:id="@+id/fragment_advert__creation_prices"
+        android:id="@+id/fragment_advert_creation__prices"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"

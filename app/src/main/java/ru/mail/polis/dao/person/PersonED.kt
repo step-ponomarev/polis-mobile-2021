@@ -1,18 +1,18 @@
 package ru.mail.polis.dao.person
 
 import ru.mail.polis.metro.Metro
+import ru.mail.polis.room.RoomCount
 
 class PersonED(
     var email: String? = null,
     var photo: String? = null,
     var name: String? = null,
-    var age: Int? = null,
-    var mark: Long? = null,
+    var age: Long? = null,
     var tags: List<Long> = emptyList(),
     var metro: Metro? = null,
     var moneyTo: Long = 0,
     var moneyFrom: Long = 0,
-    var rooms: List<String> = emptyList(),
+    var rooms: List<RoomCount> = emptyList(),
     var description: String? = null
 ) {
     fun isValid(): Boolean {
@@ -27,13 +27,12 @@ class PersonED(
         private var email: String? = null
         private var photo: String? = null
         private var name: String? = null
-        private var age: Int? = null
-        private var mark: Long? = null
+        private var age: Long? = null
         private var tags: List<Long> = emptyList()
         private var metro: Metro? = null
         private var moneyTo: Long = 0
         private var moneyFrom: Long = 0
-        private var rooms: List<String> = emptyList()
+        private var rooms: List<RoomCount> = emptyList()
         private var description: String? = null
 
         companion object {
@@ -57,13 +56,8 @@ class PersonED(
             return this
         }
 
-        fun age(age: Int): Builder {
+        fun age(age: Long): Builder {
             this.age = age
-            return this
-        }
-
-        fun mark(mark: Long?): Builder {
-            this.mark = mark
             return this
         }
 
@@ -83,7 +77,7 @@ class PersonED(
             return this
         }
 
-        fun rooms(rooms: List<String>): Builder {
+        fun rooms(rooms: List<RoomCount>): Builder {
             this.rooms = rooms
             return this
         }
@@ -99,7 +93,6 @@ class PersonED(
                 photo,
                 name,
                 age,
-                mark,
                 tags,
                 metro,
                 moneyFrom,
@@ -120,7 +113,6 @@ class PersonED(
         if (photo != other.photo) return false
         if (name != other.name) return false
         if (age != other.age) return false
-        if (mark != other.mark) return false
         if (tags != other.tags) return false
         if (metro != other.metro) return false
         if (moneyTo != other.moneyTo) return false
@@ -136,12 +128,11 @@ class PersonED(
         result = 31 * result + (photo?.hashCode() ?: 0)
         result = 31 * result + (name?.hashCode() ?: 0)
         result = 31 * result + (age?.hashCode() ?: 0)
-        result = 31 * result + (mark?.hashCode() ?: 0)
-        result = 31 * result + (tags.hashCode())
+        result = 31 * result + tags.hashCode()
         result = 31 * result + (metro?.hashCode() ?: 0)
         result = 31 * result + moneyTo.hashCode()
         result = 31 * result + moneyFrom.hashCode()
-        result = 31 * result + (rooms.hashCode())
+        result = 31 * result + rooms.hashCode()
         result = 31 * result + (description?.hashCode() ?: 0)
         return result
     }
