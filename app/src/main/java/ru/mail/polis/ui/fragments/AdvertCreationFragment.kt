@@ -113,7 +113,7 @@ class AdvertCreationFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             val person = PersonED.Builder.createBuilder()
                 .email(email)
-                .age(user.age!!)
+                .age(user.age)
                 .name("${user.name} ${user.surname}")
                 .metro(Metro.from(metro))
                 .description(aboutMe)

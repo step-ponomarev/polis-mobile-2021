@@ -4,7 +4,7 @@ import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
 
 class PersonED(
-    var email: String = "",
+    var email: String? = null,
     var photo: String? = null,
     var name: String? = null,
     var age: Long? = null,
@@ -15,8 +15,16 @@ class PersonED(
     var rooms: List<RoomCount> = emptyList(),
     var description: String? = null
 ) {
+    fun isValid(): Boolean {
+        return email != null &&
+            name != null &&
+            age != null &&
+            metro != null &&
+            description != null
+    }
+
     class Builder private constructor() {
-        private var email: String = ""
+        private var email: String? = null
         private var photo: String? = null
         private var name: String? = null
         private var age: Long? = null
@@ -38,7 +46,7 @@ class PersonED(
             return this
         }
 
-        fun photo(photo: String): Builder {
+        fun photo(photo: String?): Builder {
             this.photo = photo
             return this
         }
@@ -48,7 +56,7 @@ class PersonED(
             return this
         }
 
-        fun age(age: Long): Builder {
+        fun age(age: Long?): Builder {
             this.age = age
             return this
         }
@@ -81,7 +89,7 @@ class PersonED(
 
         fun build(): PersonED {
             return PersonED(
-                email,
+                email!!,
                 photo,
                 name,
                 age,
@@ -120,11 +128,11 @@ class PersonED(
         result = 31 * result + (photo?.hashCode() ?: 0)
         result = 31 * result + (name?.hashCode() ?: 0)
         result = 31 * result + (age?.hashCode() ?: 0)
-        result = 31 * result + (tags.hashCode() ?: 0)
+        result = 31 * result + tags.hashCode()
         result = 31 * result + (metro?.hashCode() ?: 0)
         result = 31 * result + moneyTo.hashCode()
         result = 31 * result + moneyFrom.hashCode()
-        result = 31 * result + (rooms.hashCode() ?: 0)
+        result = 31 * result + rooms.hashCode()
         result = 31 * result + (description?.hashCode() ?: 0)
         return result
     }
