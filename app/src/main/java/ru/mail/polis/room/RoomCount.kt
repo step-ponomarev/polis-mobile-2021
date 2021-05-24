@@ -2,7 +2,7 @@ package ru.mail.polis.room
 
 enum class RoomCount(val roomCount: Int, val label: String) {
     STUDIO(1, "Студия"),
-    ONE(1, "1 конмата"),
+    ONE(1, "1 комната"),
     TWO(2, "2 комнаты"),
     THREE(2, "3 комнаты"),
     FOUR(2, "4 комнаты"),

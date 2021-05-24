@@ -54,7 +54,6 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
                 .photo(it.photo)
                 .name(it.name!!)
                 .age(it.age!!)
-                .mark(it.mark)
                 .tags(it.tags)
                 .moneyFrom(it.moneyFrom)
                 .moneyTo(it.moneyTo)

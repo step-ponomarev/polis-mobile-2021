@@ -7,7 +7,7 @@ class PersonED(
     var email: String? = null,
     var photo: String? = null,
     var name: String? = null,
-    var age: Long? = null,
+    var age: Int? = null,
     var tags: List<Long> = emptyList(),
     var metro: Metro? = null,
     var moneyTo: Long = 0,
@@ -27,7 +27,7 @@ class PersonED(
         private var email: String? = null
         private var photo: String? = null
         private var name: String? = null
-        private var age: Long? = null
+        private var age: Int? = null
         private var tags: List<Long> = emptyList()
         private var metro: Metro? = null
         private var moneyTo: Long = 0
@@ -56,7 +56,7 @@ class PersonED(
             return this
         }
 
-        fun age(age: Long): Builder {
+        fun age(age: Int): Builder {
             this.age = age
             return this
         }

@@ -86,7 +86,7 @@ class FirstCreationFragment : Fragment() {
                 email = getEmail(),
                 name = nameEditText.text.toString(),
                 surname = surnameEditText.text.toString(),
-                age = Integer.parseInt(ageEditText.text.toString()).toLong(),
+                age = Integer.parseInt(ageEditText.text.toString()),
                 phone = phoneEditText.text.toString(),
                 photo = null,
                 externalAccounts = emptyList()

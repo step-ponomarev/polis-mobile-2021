@@ -2,7 +2,9 @@ package ru.mail.polis.list.of.people
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.metro.Metro
+import ru.mail.polis.room.RoomCount
 
 @Parcelize
 data class Person(
@@ -10,12 +12,11 @@ data class Person(
     var photo: String? = null,
     var name: String? = null,
     var age: Int? = null,
-    var mark: Long? = null,
     var tags: List<Long> = emptyList(),
     var metro: Metro? = null,
     var moneyTo: Long = 0,
     var moneyFrom: Long = 0,
-    var rooms: List<String> = emptyList(),
+    var rooms: List<RoomCount> = emptyList(),
     var description: String? = null
 ) : Parcelable {
     class Builder private constructor() {
@@ -23,12 +24,11 @@ data class Person(
         private var photo: String? = null
         private var name: String? = null
         private var age: Int? = null
-        private var mark: Long? = null
         private var tags: List<Long> = emptyList()
         private var metro: Metro? = null
         private var moneyTo: Long = 0
         private var moneyFrom: Long = 0
-        private var rooms: List<String> = emptyList()
+        private var rooms: List<RoomCount> = emptyList()
         private var description: String? = null
 
         companion object {
@@ -57,10 +57,6 @@ data class Person(
             return this
         }
 
-        fun mark(mark: Long?): Builder {
-            this.mark = mark
-            return this
-        }
 
         fun tags(tags: List<Long>): Builder {
             this.tags = tags
@@ -82,7 +78,7 @@ data class Person(
             return this
         }
 
-        fun rooms(rooms: List<String>): Builder {
+        fun rooms(rooms: List<RoomCount>): Builder {
             this.rooms = rooms
             return this
         }
@@ -98,7 +94,6 @@ data class Person(
                 photo,
                 name,
                 age,
-                mark,
                 tags,
                 metro,
                 moneyTo,
