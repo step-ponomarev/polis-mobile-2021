@@ -80,7 +80,7 @@ class PersonServiceTest {
             .metro(oldPerson.metro!!)
             .money(oldPerson.moneyFrom, oldPerson.moneyTo)
             .rooms(oldPerson.rooms!!)
-            .description(oldPerson.description!!)
+            .description("")
             .build()
     }
 }

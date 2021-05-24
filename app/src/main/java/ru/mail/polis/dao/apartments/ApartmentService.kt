@@ -44,6 +44,21 @@ class ApartmentService private constructor() : IApartmentService {
         }
     }
 
+    override suspend fun findByEmails(emailList: Set<String>): List<ApartmentED> {
+        return suspendCancellableCoroutine { coroutine ->
+            apartmentCollection.whereIn("email", emailList.toList())
+                .get()
+                .addOnSuccessListener {
+                    coroutine.resume(it.toObjects(ApartmentED::class.java))
+                }
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        RuntimeException("Filed fetching apartment by email: $emailList", it)
+                    )
+                }
+        }
+    }
+
     override suspend fun findAll(): List<ApartmentED> {
         return suspendCancellableCoroutine { coroutine ->
             apartmentCollection.get()
