@@ -85,12 +85,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="29dp"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_advert__creation_prices"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_advert_creation__spinner"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_advert__creation__prices"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_advert_reation__spinner"
         tools:layout_editor_absoluteX="-16dp" />
 
     <TextView
-        android:id="@+id/fragment_advert__creation_prices"
+        android:id="@+id/fragment_advert_creation__prices"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
