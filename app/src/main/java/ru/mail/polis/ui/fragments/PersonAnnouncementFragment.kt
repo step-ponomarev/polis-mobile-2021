@@ -53,7 +53,7 @@ class PersonAnnouncementFragment : Fragment() {
             urlToMyImageView(ivPhoto, person.photo!!)
         }
         tvName.text = person.name
-        if(person.age != null)
+        if (person.age != null)
             tvAge.text = getAgeString(person.age!!)
 
         val tags: List<ImageView> = person.tags.map { url ->
@@ -94,16 +94,15 @@ class PersonAnnouncementFragment : Fragment() {
         iv.setPadding(5, 5, 10, 5)
 
         Glide.with(iv)
-                .load(url)
-                .into(iv)
+            .load(url)
+            .into(iv)
 
         return iv
     }
 
     private fun urlToMyImageView(iv: ImageView, url: String) {
         Glide.with(iv)
-                .load(url)
-                .into(iv)
+            .load(url)
+            .into(iv)
     }
-
 }
