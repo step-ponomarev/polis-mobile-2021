@@ -4,22 +4,88 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.Button
+import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.forEach
+import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.google.android.material.chip.Chip
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import ru.mail.polis.R
+import ru.mail.polis.dao.apartments.ApartmentED
+import ru.mail.polis.metro.Metro
+import ru.mail.polis.viewModels.ApartmentViewModel
 
-class EditApartmentFragment : Fragment() {
+class EditApartmentFragment : ApartmentFragment() {
+
+    private lateinit var editApartmentButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_add_apartment, container, false)
+        return inflater.inflate(R.layout.fragment_edit_apartment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        metroCircleIv = view.findViewById(R.id.fragment_add_apartment__circle)
+        editApartmentButton = view.findViewById(R.id.edit_button)
+        costEditText = view.findViewById(R.id.fragment_add_apartment__set_cost_et)
+        squareEditText = view.findViewById(R.id.fragment_add_apartment__set_squared_metres_et)
+        chipGroup = view.findViewById(R.id.component_rooms__chip_group)
+        addPhotoImageButton = view.findViewById(R.id.fragment_add_apartment__add_image_button)
+        photoLinearLayout = view.findViewById(R.id.fragment_add_apartment__photo_linear_layout)
+
+        apartmentViewModel = ViewModelProvider(this).get(ApartmentViewModel::class.java)
+        initSpinner(view)
+
+        editApartmentButton.setOnClickListener(this::onClickEditApartment)
+        addPhotoImageButton.setOnClickListener(this::onClickAddPhoto)
+
+
+        val email = getEmail()
+        GlobalScope.launch(Dispatchers.Main) {
+            val user = apartmentViewModel.fetchUser(email)
+                ?: throw java.lang.IllegalStateException("Null user by email: $email")
+
+            val apartmentED = apartmentViewModel.getApartmentByEmail(email)
+
+            if (apartmentED != null) {
+                fillFields(apartmentED)
+            } else {
+                getToastWithText("У вас нет квартиры для редактирования")
+            }
+        }
+    }
+
+    private fun onClickEditApartment(view: View) {
+
+    }
+
+    private fun fillFields(apartmentED: ApartmentED) {
+
+        spinner.setSelection(Metro.values().indexOf(apartmentED.metro))
+
+        chipGroup.forEach { view ->
+            if (view is Chip) {
+                if (view.text == apartmentED.roomCount?.label) {
+                    view.isChecked = true
+                }
+            }
+        }
+
+        costEditText.setText(apartmentED.apartmentCosts.toString())
+        squareEditText.setText(apartmentED.apartmentSquare.toString())
+
+        apartmentED.photosUrls.forEach {
+            val drawable = Glide.with(requireContext()).load(it).submit()
+            photoLinearLayout.addView(createImageComponent(drawable.get().toBitmap()))
+        }
     }
 
 

@@ -16,7 +16,7 @@ import ru.mail.polis.dao.users.IUserService
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.dao.users.UserService
 
-class AddApartmentViewModel : ViewModel() {
+class ApartmentViewModel : ViewModel() {
     private val userService: IUserService = UserService()
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
     private val photoUriService: IPhotoUriService = PhotoUriService()
@@ -32,6 +32,19 @@ class AddApartmentViewModel : ViewModel() {
     suspend fun fetchUser(email: String): UserED? {
         return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
             userService.findUserByEmail(email)
+        }
+    }
+
+    suspend fun updateApartment(apartmentED: ApartmentED): ApartmentED {
+        return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+            apartmentED.photosUrls = getUrlList()
+            apartmentService.updateApartment(apartmentED)
+        }
+    }
+
+    suspend fun getApartmentByEmail(email: String): ApartmentED? {
+        return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+            apartmentService.findByEmail(email)
         }
     }
 
