@@ -58,7 +58,7 @@
     <fragment
         android:id="@+id/nav_graph__person_announcement_fragment"
         android:name="ru.mail.polis.ui.fragments.PersonAnnouncementFragment"
-        android:label="PersonAnnouncementFragment" >
+        android:label="PersonAnnouncementFragment">
         <argument
             android:name="person"
             app:argType="ru.mail.polis.list.of.people.Person" />
@@ -82,4 +82,9 @@
         android:id="@+id/nav_graph__advert_creation_fragment"
         android:name="ru.mail.polis.ui.fragments.AdvertCreationFragment"
         android:label="AdvertCreationFragment" />
+
+    <fragment
+        android:id="@+id/nav_graph__edit_apartment_fragment"
+        android:name="ru.mail.polis.ui.fragments.EditApartmentFragment"
+        android:label="EditApartmentFragment" />
 </navigation>

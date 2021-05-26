@@ -19,7 +19,7 @@
     <include
         android:id="@+id/fragment_edit_apartment__apartment_component"
         layout="@layout/component_apartment_info"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

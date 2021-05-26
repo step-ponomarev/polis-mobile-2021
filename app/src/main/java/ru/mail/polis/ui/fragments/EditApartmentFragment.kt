@@ -13,6 +13,7 @@ import com.google.android.material.chip.Chip
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.mail.polis.R
 import ru.mail.polis.dao.apartments.ApartmentED
 import ru.mail.polis.metro.Metro
@@ -83,8 +84,13 @@ class EditApartmentFragment : ApartmentFragment() {
         squareEditText.setText(apartmentED.apartmentSquare.toString())
 
         apartmentED.photosUrls.forEach {
-            val drawable = Glide.with(requireContext()).load(it).submit()
-            photoLinearLayout.addView(createImageComponent(drawable.get().toBitmap()))
+            GlobalScope.launch(Dispatchers.Main) {
+                val drawable = withContext(Dispatchers.IO) {
+                    Glide.with(requireContext()).load(it).submit().get()
+                }
+
+                photoLinearLayout.addView(createImageComponent(drawable.toBitmap()))
+            }
         }
     }
 
