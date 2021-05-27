@@ -58,9 +58,6 @@ class PersonServiceTest {
     private fun createTestPerson(): PersonED {
         return PersonED.Builder.createBuilder()
             .email("test@test.test")
-            .photo("test")
-            .name("test")
-            .age(0)
             .tags(listOf(1L))
             .metro(Metro.PARNASSUS)
             .money(0L, 0L)
@@ -72,9 +69,6 @@ class PersonServiceTest {
     private fun createUpdatedPerson(oldPerson: PersonED): PersonED {
         return PersonED.Builder.createBuilder()
             .email(oldPerson.email!!)
-            .photo(oldPerson.photo)
-            .name(oldPerson.name!!)
-            .age(oldPerson.age!!)
             .tags(oldPerson.tags!!)
             .metro(oldPerson.metro!!)
             .money(oldPerson.moneyFrom, oldPerson.moneyTo)
