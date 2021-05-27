@@ -21,7 +21,7 @@ import ru.mail.polis.list.of.apartments.ApartmentsAdapter
 import ru.mail.polis.viewModels.ProposedApartmentsViewModel
 
 class ProposedApartmentsFragment : Fragment() {
-    private lateinit var proposedApartmentsViewModel: ProposedApartmentsViewModel
+    private lateinit var viewModel: ProposedApartmentsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +34,7 @@ class ProposedApartmentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        proposedApartmentsViewModel =
+        viewModel =
             ViewModelProvider(this).get(ProposedApartmentsViewModel::class.java)
 
         val adapter = ApartmentsAdapter()
@@ -46,10 +46,10 @@ class ProposedApartmentsFragment : Fragment() {
 
         val email: String = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
-            val apartments = proposedApartmentsViewModel.fetchApartmentsByRenterEmail(email)
+            val apartments = viewModel.fetchApartmentsByRenterEmail(email)
 
             if (apartments.isNotEmpty()) {
-                val user = proposedApartmentsViewModel.fetchUser(email)
+                val user = viewModel.fetchUser(email)
                     ?: throw IllegalStateException("No user with email $email")
 
                 adapter.setData(toApartmentView(apartments, user))
