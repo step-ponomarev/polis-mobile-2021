@@ -6,25 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.mail.polis.R
 import ru.mail.polis.dao.apartments.ApartmentED
-import ru.mail.polis.dao.apartments.ApartmentService
-import ru.mail.polis.dao.apartments.IApartmentService
-import ru.mail.polis.dao.propose.IProposeService
-import ru.mail.polis.dao.propose.ProposeService
+import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.list.RecyclerViewListDecoration
-import ru.mail.polis.list.of.apartments.ApartmentViewModel
+import ru.mail.polis.list.of.apartments.ApartmentView
 import ru.mail.polis.list.of.apartments.ApartmentsAdapter
+import ru.mail.polis.viewModels.ProposedApartmentsViewModel
 
 class ProposedApartmentsFragment : Fragment() {
-    private val apartmentService: IApartmentService = ApartmentService.getInstance()
-    private val proposeService: IProposeService = ProposeService.getInstance()
+    private lateinit var proposedApartmentsViewModel: ProposedApartmentsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +34,9 @@ class ProposedApartmentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        proposedApartmentsViewModel =
+            ViewModelProvider(this).get(ProposedApartmentsViewModel::class.java)
+
         val adapter = ApartmentsAdapter()
         val rvList: RecyclerView = view.findViewById(R.id.fragment_proposed_apartments__list)
 
@@ -46,19 +46,13 @@ class ProposedApartmentsFragment : Fragment() {
 
         val email: String = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
-            val proposeList = withContext(Dispatchers.IO) {
-                proposeService.findRenterEmail(email)
-            }
+            val apartments = proposedApartmentsViewModel.fetchApartmentsByRenterEmail(email)
 
-            if (proposeList.isNotEmpty()) {
-                val apartments = withContext(Dispatchers.IO) {
-                    apartmentService.findByEmails(
-                        proposeList.map { proposeED -> proposeED.ownerEmail!! }
-                            .toSet()
-                    )
-                }
+            if (apartments.isNotEmpty()) {
+                val user = proposedApartmentsViewModel.fetchUser(email)
+                    ?: throw IllegalStateException("No user with email $email")
 
-                adapter.setData(toApartmentView(apartments))
+                adapter.setData(toApartmentView(apartments, user))
             }
         }
     }
@@ -71,16 +65,16 @@ class ProposedApartmentsFragment : Fragment() {
             ?: throw IllegalStateException("Email not found")
     }
 
-    private fun toApartmentView(apartments: List<ApartmentED>): List<ApartmentViewModel> {
+    private fun toApartmentView(apartments: List<ApartmentED>, user: UserED): List<ApartmentView> {
         return apartments.filter { it.isValid() }.map {
-            ApartmentViewModel.Builder.createBuilder()
+            ApartmentView.Builder.createBuilder()
                 .email(it.email!!)
                 .apartmentCosts(it.apartmentCosts!!)
                 .apartmentSquare(it.apartmentSquare!!)
-                .ownerAge(it.ownerAge!!)
+                .ownerName("${user.name} ${user.surname}")
+                .ownerAge(user.age!!)
+                .ownerAvatar(user.photo)
                 .metro(it.metro!!)
-                .ownerAvatar(it.ownerAvatar)
-                .ownerName(it.ownerName!!)
                 .roomCount(it.roomCount!!)
                 .photosUrls(it.photosUrls)
                 .build()

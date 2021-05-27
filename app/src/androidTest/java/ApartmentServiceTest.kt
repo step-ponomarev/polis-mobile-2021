@@ -58,9 +58,6 @@ class ApartmentServiceTest {
     private fun createTestApartment(): ApartmentED {
         return ApartmentED.Builder.createBuilder()
             .email("test@test.test")
-            .ownerAvatar("test")
-            .ownerName("test")
-            .ownerAge(0)
             .metro(Metro.DEVYATKINO)
             .roomCount(RoomCount.FIVE_MORE)
             .apartmentSquare(200L)
@@ -72,9 +69,6 @@ class ApartmentServiceTest {
     private fun createUpdatedApartment(oldApartment: ApartmentED): ApartmentED {
         return ApartmentED.Builder.createBuilder()
             .email(oldApartment.email!!)
-            .ownerAvatar(oldApartment.ownerAvatar)
-            .ownerName(oldApartment.ownerName!!)
-            .ownerAge(oldApartment.ownerAge!!)
             .metro(oldApartment.metro!!)
             .roomCount(oldApartment.roomCount!!)
             .apartmentSquare(oldApartment.apartmentSquare!!)
