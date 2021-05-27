@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -35,6 +36,10 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel =
+            ViewModelProvider(this).get(ListOfPeopleViewModel::class.java)
+
         val rvList: RecyclerView = view.findViewById(R.id.list_of_people__rv_list)
 
         val adapter = PeopleAdapter(emptyList(), this)
