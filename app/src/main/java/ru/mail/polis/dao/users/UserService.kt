@@ -108,7 +108,7 @@ class UserService : IUserService {
             "surname" to user.surname,
             "age" to user.age,
             "phone" to user.phone,
-            "photoUrl" to user.photo,
+            "photo" to user.photo,
             "externalAccounts" to user.externalAccounts
         )
     }

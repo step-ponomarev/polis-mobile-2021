@@ -86,8 +86,8 @@
         android:layout_marginTop="24dp"
         android:layout_marginBottom="29dp"
         app:layout_constraintBottom_toTopOf="@+id/fragment_advert__creation__prices"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_advert_reation__spinner"
-        tools:layout_editor_absoluteX="-16dp" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment_advert_creation__spinner"
+        tools:layout_editor_absoluteX="0dp" />
 
     <TextView
         android:id="@+id/fragment_advert_creation__prices"
@@ -165,7 +165,77 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.516" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/shape_line"
+        app:layout_constraintTop_toTopOf="@id/fragment_advert_creation__hsv_tags"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <HorizontalScrollView
+        android:id="@+id/fragment_advert_creation__hsv_tags"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginVertical="0dp"
+        android:layout_marginBottom="116dp"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_advert_creation__features"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_advert_creation__to_price_et"
+        app:layout_constraintVertical_chainStyle="packed">
 
+        <LinearLayout
+            android:id="@+id/fragment_advert_creation__ll_tags"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+
+            <ImageButton
+                android:id="@+id/fragment_advert_creation__ib_paw_ic"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@null"
+                app:srcCompat="@drawable/ic_paw_not_click"
+                android:layout_margin="5dp" />
+
+            <ImageButton
+                android:id="@+id/fragment_advert_creation__ib_cigarette_ic"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@null"
+                app:srcCompat="@drawable/ic_cigarette_not_click"
+                android:layout_margin="5dp" />
+
+            <ImageButton
+                android:id="@+id/fragment_advert_creation__ib_kid_ic"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@null"
+                app:srcCompat="@drawable/ic_kid_not_click"
+                android:layout_margin="5dp" />
+
+            <ImageButton
+                android:id="@+id/fragment_advert_creation__ib_drum_ic"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@null"
+                app:srcCompat="@drawable/ic_drum_not_click"
+                android:layout_margin="5dp" />
+        </LinearLayout>
+    </HorizontalScrollView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/shape_line"
+        app:layout_constraintBottom_toBottomOf="@id/fragment_advert_creation__hsv_tags"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
     <TextView
         android:id="@+id/fragment_advert_creation__features"
         android:layout_width="wrap_content"
@@ -226,7 +296,7 @@
 
     <ImageView
         android:id="@+id/fragment_advert_creation__price_per_month_ic"
-        android:layout_width="21dp"
+        android:layout_width="20dp"
         android:layout_height="21dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
