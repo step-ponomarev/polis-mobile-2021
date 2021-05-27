@@ -5,7 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -76,7 +83,6 @@ class AdvertCreationFragment : Fragment() {
         ibDrum = view.findViewById(R.id.fragment_advert_creation__ib_drum_ic)
         ibCigarette = view.findViewById(R.id.fragment_advert_creation__ib_cigarette_ic)
 
-
         email = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
             user = viewModel.fetchUser(email)
@@ -100,7 +106,7 @@ class AdvertCreationFragment : Fragment() {
 
     private fun ClickOnIbPaw(view: View) {
         val tag = Tags.PETS
-        if(tag in tagsForPerson) {
+        if (tag in tagsForPerson) {
             tagsForPerson.remove(tag)
             ibPaw.setImageResource(R.drawable.ic_paw_not_click)
         } else {
@@ -111,7 +117,7 @@ class AdvertCreationFragment : Fragment() {
 
     private fun ClickOnIbKid(view: View) {
         val tag = Tags.KIDS
-        if(tag in tagsForPerson) {
+        if (tag in tagsForPerson) {
             tagsForPerson.remove(tag)
             ibKid.setImageResource(R.drawable.ic_kid_not_click)
         } else {
@@ -122,7 +128,7 @@ class AdvertCreationFragment : Fragment() {
 
     private fun ClickOnIbDrum(view: View) {
         val tag = Tags.NOISE
-        if(tag in tagsForPerson) {
+        if (tag in tagsForPerson) {
             tagsForPerson.remove(tag)
             ibDrum.setImageResource(R.drawable.ic_drum_not_click)
         } else {
@@ -133,7 +139,7 @@ class AdvertCreationFragment : Fragment() {
 
     private fun ClickOnIbCigarette(view: View) {
         val tag = Tags.CIGARETTE
-        if(tag in tagsForPerson) {
+        if (tag in tagsForPerson) {
             tagsForPerson.remove(tag)
             ibCigarette.setImageResource(R.drawable.ic_cigarette_not_click)
         } else {
@@ -141,7 +147,6 @@ class AdvertCreationFragment : Fragment() {
             tagsForPerson.add(tag)
         }
     }
-
 
     private fun createAdvert(view: View) {
         val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId)
@@ -216,5 +221,4 @@ class AdvertCreationFragment : Fragment() {
 
         return ib
     }
-
 }

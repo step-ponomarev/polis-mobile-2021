@@ -8,4 +8,3 @@ enum class Tags(val image: Int) {
     KIDS(R.drawable.ic_kid),
     CIGARETTE(R.drawable.ic_cigarette);
 }
-
