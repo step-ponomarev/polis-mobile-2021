@@ -22,9 +22,8 @@ import ru.mail.polis.list.of.people.Person
 import ru.mail.polis.viewModels.PersonAnnouncementViewModel
 
 class PersonAnnouncementFragment : Fragment() {
-
-    private lateinit var offerApartmentButton: Button
     private lateinit var person: Person
+    private lateinit var offerApartmentButton: Button
     private lateinit var personAnnouncementViewModel: PersonAnnouncementViewModel
 
     override fun onCreateView(
@@ -102,10 +101,8 @@ class PersonAnnouncementFragment : Fragment() {
     }
 
     private fun onOfferApartment(view: View) {
-
-        val emailPerson: String = person.email ?: return
-
         try {
+            val emailPerson: String = person.email ?: return
             personAnnouncementViewModel.offerApartment(
                 getEmail(),
                 emailPerson

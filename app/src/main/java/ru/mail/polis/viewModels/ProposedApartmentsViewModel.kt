@@ -34,9 +34,9 @@ class ProposedApartmentsViewModel : ViewModel() {
         }
     }
 
-    suspend fun fetchUser(email: String): UserED? {
+    suspend fun fetchUsers(emailList: Set<String>): List<UserED> {
         return withContext(Dispatchers.IO) {
-            userService.findUserByEmail(email)
+            userService.findUsersByEmails(emailList)
         }
     }
 }

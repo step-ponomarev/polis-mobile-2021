@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.Objects
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.apartments.ApartmentView
 import ru.mail.polis.list.of.apartments.ApartmentsAdapter
 import ru.mail.polis.viewModels.ProposedApartmentsViewModel
+import kotlin.jvm.Throws
 
 class ProposedApartmentsFragment : Fragment() {
     private lateinit var viewModel: ProposedApartmentsViewModel
@@ -47,13 +49,36 @@ class ProposedApartmentsFragment : Fragment() {
         val email: String = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
             val apartments = viewModel.fetchApartmentsByRenterEmail(email)
-
-            if (apartments.isNotEmpty()) {
-                val user = viewModel.fetchUser(email)
-                    ?: throw IllegalStateException("No user with email $email")
-
-                adapter.setData(toApartmentView(apartments, user))
+            if (apartments.isEmpty()) {
+                return@launch
             }
+
+            val emailSet = apartments.map { it.email!! }.toSet()
+            val users = viewModel.fetchUsers(emailSet)
+
+            if (users.isEmpty()) {
+                throw IllegalStateException("There are no owners of apartments $apartments")
+            }
+
+            if (users.size != apartments.size) {
+                filterData(apartments, users)
+            }
+
+            adapter.setData(toApartmentView(apartments, users))
+        }
+    }
+
+    private fun filterData(apartments: List<ApartmentED>, users: List<UserED>) {
+        val filterApartments: Boolean = apartments.size > users.size
+
+        val emails = if (filterApartments)
+            users.map { it.email!! }
+        else apartments.map { it.email!! }
+
+        if (filterApartments) {
+            apartments.filter { emails.contains(it.email) }
+        } else {
+            users.filter { emails.contains(it.email) }
         }
     }
 
@@ -65,18 +90,23 @@ class ProposedApartmentsFragment : Fragment() {
             ?: throw IllegalStateException("Email not found")
     }
 
-    private fun toApartmentView(apartments: List<ApartmentED>, user: UserED): List<ApartmentView> {
-        return apartments.filter { it.isValid() }.map {
+    private fun toApartmentView(
+        apartments: List<ApartmentED>,
+        users: List<UserED>
+    ): List<ApartmentView> {
+        return apartments.filter { it.isValid() }.map { a ->
+            val user = users.find { Objects.equals(a.email, it.email) }!!
+
             ApartmentView.Builder.createBuilder()
-                .email(it.email!!)
-                .apartmentCosts(it.apartmentCosts!!)
-                .apartmentSquare(it.apartmentSquare!!)
+                .email(a.email!!)
+                .apartmentCosts(a.apartmentCosts!!)
+                .apartmentSquare(a.apartmentSquare!!)
                 .ownerName("${user.name} ${user.surname}")
                 .ownerAge(user.age!!)
                 .ownerAvatar(user.photo)
-                .metro(it.metro!!)
-                .roomCount(it.roomCount!!)
-                .photosUrls(it.photosUrls)
+                .metro(a.metro!!)
+                .roomCount(a.roomCount!!)
+                .photosUrls(a.photosUrls)
                 .build()
         }
     }

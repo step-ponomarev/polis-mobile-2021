@@ -17,9 +17,9 @@ class PersonAnnouncementViewModel : ViewModel() {
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
     private val proposeService: IProposeService = ProposeService()
 
+    @Throws(IllegalStateException::class)
     fun offerApartment(ownerEmail: String, renterEmail: String) {
         viewModelScope.launch(Dispatchers.IO) {
-
             val exist = withContext(Dispatchers.IO) {
                 proposeService.checkProposeExist(ownerEmail, renterEmail)
             }
@@ -27,7 +27,10 @@ class PersonAnnouncementViewModel : ViewModel() {
             if (exist) {
                 return@launch
             }
-            val apartment = withContext(Dispatchers.IO) {
+
+            // Проверяем, что у пользователя
+            // есть аппартаменты иначе выбрасывам исключение
+            withContext(Dispatchers.IO) {
                 apartmentService.findByEmail(ownerEmail)
             } ?: throw IllegalStateException("You have not got an apartment yet!")
 
