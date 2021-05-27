@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.mail.polis.R
 import ru.mail.polis.helpers.getAgeString
+import ru.mail.polis.tags.Tags
 
 class PeopleAdapter(
     private var people: List<Person>,
@@ -73,8 +74,8 @@ class PeopleAdapter(
 
             tvName.text = person.name
             tvAge.text = person.age?.let { getAgeString(it) }
-            val tags: List<ImageView> = person.tags.map { url ->
-                urlToImageView(itemView.context, url)
+            val tags: List<ImageView> = person.tags.map { tag ->
+                tagToImageView(itemView.context, tag)
             }
             tags.forEach(llIvTags::addView)
 
@@ -106,7 +107,7 @@ class PeopleAdapter(
         }
     }
 
-    private fun urlToImageView(context: Context, url: Long): ImageView {
+    private fun tagToImageView(context: Context, tag: Tags): ImageView {
         val iv = ImageView(context)
 
         iv.layoutParams = ViewGroup.MarginLayoutParams(
@@ -115,8 +116,7 @@ class PeopleAdapter(
         )
         iv.adjustViewBounds = true
         iv.setPadding(5, 5, 10, 5)
-        Glide.with(iv).load(url).into(iv)
-
+        iv.setImageResource(tag.image)
         return iv
     }
 

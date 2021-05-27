@@ -4,6 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
+import ru.mail.polis.tags.Tags
 
 @Parcelize
 data class Person(
@@ -11,7 +12,7 @@ data class Person(
     var photo: String? = null,
     var name: String? = null,
     var age: Long? = null,
-    var tags: List<Long> = emptyList(),
+    var tags: List<Tags> = emptyList(),
     var metro: Metro? = null,
     var moneyTo: Long = 0,
     var moneyFrom: Long = 0,
@@ -23,7 +24,7 @@ data class Person(
         private var photo: String? = null
         private var name: String? = null
         private var age: Long? = null
-        private var tags: List<Long> = emptyList()
+        private var tags: List<Tags> = emptyList()
         private var metro: Metro? = null
         private var moneyTo: Long = 0
         private var moneyFrom: Long = 0
@@ -56,7 +57,7 @@ data class Person(
             return this
         }
 
-        fun tags(tags: List<Long>): Builder {
+        fun tags(tags: List<Tags>): Builder {
             this.tags = tags
             return this
         }

@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import ru.mail.polis.R
 import ru.mail.polis.helpers.getAgeString
 import ru.mail.polis.list.of.people.Person
+import ru.mail.polis.tags.Tags
 
 class PersonAnnouncementFragment : Fragment() {
     override fun onCreateView(
@@ -57,8 +58,8 @@ class PersonAnnouncementFragment : Fragment() {
         if (person.age != null)
             tvAge.text = getAgeString(person.age!!)
 
-        val tags: List<ImageView> = person.tags.map { url ->
-            urlToImageView(view.context, url)
+        val tags: List<ImageView> = person.tags.map { tag ->
+            tagToImageView(view.context, tag)
         }
         tags.forEach(llIvTags::addView)
 
@@ -84,7 +85,7 @@ class PersonAnnouncementFragment : Fragment() {
         }
         tvDescription.text = person.description
     }
-    private fun urlToImageView(context: Context, url: Long): ImageView {
+    private fun tagToImageView(context: Context, tag: Tags): ImageView {
         val iv = ImageView(context)
 
         iv.layoutParams = ViewGroup.MarginLayoutParams(
@@ -93,10 +94,7 @@ class PersonAnnouncementFragment : Fragment() {
         )
         iv.adjustViewBounds = true
         iv.setPadding(5, 5, 10, 5)
-
-        Glide.with(iv)
-            .load(url)
-            .into(iv)
+        iv.setImageResource(tag.image)
 
         return iv
     }
