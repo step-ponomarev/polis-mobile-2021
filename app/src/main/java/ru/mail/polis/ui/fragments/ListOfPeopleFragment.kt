@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.mail.polis.R
@@ -51,7 +50,6 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
             val user = withContext(Dispatchers.IO) {
                 viewModel.fetchUser(email)
             } ?: throw IllegalStateException("User with email $email not found")
-
 
             listOfPeople = toPersonView(people, user)
             adapter.setData(listOfPeople)
