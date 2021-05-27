@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import java.util.Objects
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -20,7 +19,7 @@ import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.apartments.ApartmentView
 import ru.mail.polis.list.of.apartments.ApartmentsAdapter
 import ru.mail.polis.viewModels.ProposedApartmentsViewModel
-import kotlin.jvm.Throws
+import java.util.Objects
 
 class ProposedApartmentsFragment : Fragment() {
     private lateinit var viewModel: ProposedApartmentsViewModel
