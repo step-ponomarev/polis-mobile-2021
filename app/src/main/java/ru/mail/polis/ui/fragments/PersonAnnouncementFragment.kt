@@ -108,7 +108,6 @@ class PersonAnnouncementFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val emailPerson: String = person.email ?: return@launch
-
                 withContext(Dispatchers.IO) {
                     personAnnouncementViewModel.offerApartment(
                         getEmail(),
