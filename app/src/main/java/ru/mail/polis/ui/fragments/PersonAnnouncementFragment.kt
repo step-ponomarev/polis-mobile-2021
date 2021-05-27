@@ -16,6 +16,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.mail.polis.R
 import ru.mail.polis.helpers.getAgeString
 import ru.mail.polis.list.of.people.Person
@@ -101,16 +105,21 @@ class PersonAnnouncementFragment : Fragment() {
     }
 
     private fun onOfferApartment(view: View) {
-        try {
-            val emailPerson: String = person.email ?: return
-            personAnnouncementViewModel.offerApartment(
-                getEmail(),
-                emailPerson
-            )
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                val emailPerson: String = person.email ?: return@launch
 
-            getToastWithText("Вы предложили квартиру человеку с именем ${person.name}").show()
-        } catch (e: java.lang.IllegalStateException) {
-            getToastWithText("У вас не добавлена квартира").show()
+                withContext(Dispatchers.IO) {
+                    personAnnouncementViewModel.offerApartment(
+                        getEmail(),
+                        emailPerson
+                    )
+                }
+
+                getToastWithText("Вы предложили квартиру человеку с именем ${person.name}").show()
+            } catch (e: java.lang.IllegalStateException) {
+                getToastWithText("У вас не добавлена квартира").show()
+            }
         }
     }
 
