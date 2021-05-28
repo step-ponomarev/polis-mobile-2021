@@ -111,12 +111,12 @@ class PeopleAdapter(
         val iv = ImageView(context)
 
         iv.layoutParams = ViewGroup.MarginLayoutParams(
-            ViewGroup.MarginLayoutParams.WRAP_CONTENT,
-            ViewGroup.MarginLayoutParams.WRAP_CONTENT
+            60,
+            60
         )
         iv.adjustViewBounds = true
-        iv.setPadding(5, 5, 10, 5)
-        iv.setImageResource(tag.image)
+        iv.setPadding(5, 5, 5, 5)
+        iv.setImageResource(tag.imageOnClick)
         return iv
     }
 

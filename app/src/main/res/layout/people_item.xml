@@ -43,13 +43,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/people_item__component_person_header"
                 app:layout_constraintVertical_chainStyle="packed"
-                android:paddingStart="10dp"
                 >
             <LinearLayout
                 android:id="@+id/people_item__ll_tags"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"> </LinearLayout>
+                android:orientation="horizontal"
+                android:paddingHorizontal="10dp"> </LinearLayout>
             </HorizontalScrollView>
 
             <View

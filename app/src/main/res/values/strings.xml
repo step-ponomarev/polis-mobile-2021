@@ -35,7 +35,6 @@
     <string name="from">от</string>
     <string name="to">до</string>
     <string name="square">Площадь</string>
-    <string name="features">Особенности</string>
     <string name="about_me">О себе</string>
     <string name="save">Сохранить</string>
     <string name="publish">Опубликовать</string>
@@ -64,6 +63,7 @@
     </string-array>
 
     <string name="money">от %1$d до %2$d</string>
+    <string name="features">Особенности</string>
 
 
     <string-array name="genders_filter">

@@ -1,18 +1,12 @@
 package ru.mail.polis.ui.fragments
 
+import android.R.attr.*
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -28,7 +22,8 @@ import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
 import ru.mail.polis.tags.Tags
 import ru.mail.polis.viewModels.AdvertCreationViewModel
-import java.util.Collections
+import java.util.*
+
 
 class AdvertCreationFragment : Fragment() {
     private val viewModel = AdvertCreationViewModel()
@@ -45,10 +40,7 @@ class AdvertCreationFragment : Fragment() {
     private lateinit var costToEditText: EditText
     private lateinit var aboutMeEditText: EditText
     private lateinit var createAdvertFragment: Button
-    private lateinit var ibPaw: ImageButton
-    private lateinit var ibKid: ImageButton
-    private lateinit var ibCigarette: ImageButton
-    private lateinit var ibDrum: ImageButton
+    private lateinit var llTags: LinearLayout
     private var tagsForPerson: MutableList<Tags> = mutableListOf()
 
     override fun onCreateView(
@@ -78,10 +70,25 @@ class AdvertCreationFragment : Fragment() {
         avatarImageView = view.findViewById(R.id.component_person_header__avatar)
         nameTextView = view.findViewById(R.id.component_person_header__name)
         ageTextView = view.findViewById(R.id.component_person_header__age)
-        ibPaw = view.findViewById(R.id.fragment_advert_creation__ib_paw_ic)
-        ibKid = view.findViewById(R.id.fragment_advert_creation__ib_kid_ic)
-        ibDrum = view.findViewById(R.id.fragment_advert_creation__ib_drum_ic)
-        ibCigarette = view.findViewById(R.id.fragment_advert_creation__ib_cigarette_ic)
+        llTags = view.findViewById(R.id.fragment_advert_creation__ll_tags)
+
+        val tags: List<ImageView> = Tags.values().map { tag ->
+            tagToImageButton(view.context, tag.imageNotClick)
+        }
+
+        tags.forEach { i ->
+            i.setOnClickListener {
+                val tag = Tags.from(i.tag as Int)
+                if (tag in tagsForPerson) {
+                    i.setImageResource(tag.imageNotClick)
+                    tagsForPerson.remove(tag)
+                } else {
+                    i.setImageResource(tag.imageOnClick)
+                    tagsForPerson.add(tag)
+                }
+            }
+        }
+        tags.forEach(llTags::addView)
 
         email = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
@@ -96,57 +103,9 @@ class AdvertCreationFragment : Fragment() {
             ageTextView.text = user.age.toString()
         }
 
-        ibPaw.setOnClickListener(this::ClickOnIbPaw)
-        ibDrum.setOnClickListener(this::ClickOnIbDrum)
-        ibKid.setOnClickListener(this::ClickOnIbKid)
-        ibCigarette.setOnClickListener(this::ClickOnIbCigarette)
-
         createAdvertFragment.setOnClickListener(this::createAdvert)
     }
 
-    private fun ClickOnIbPaw(view: View) {
-        val tag = Tags.PETS
-        if (tag in tagsForPerson) {
-            tagsForPerson.remove(tag)
-            ibPaw.setImageResource(R.drawable.ic_paw_not_click)
-        } else {
-            ibPaw.setImageResource(R.drawable.ic_paw)
-            tagsForPerson.add(tag)
-        }
-    }
-
-    private fun ClickOnIbKid(view: View) {
-        val tag = Tags.KIDS
-        if (tag in tagsForPerson) {
-            tagsForPerson.remove(tag)
-            ibKid.setImageResource(R.drawable.ic_kid_not_click)
-        } else {
-            ibKid.setImageResource(R.drawable.ic_kid)
-            tagsForPerson.add(tag)
-        }
-    }
-
-    private fun ClickOnIbDrum(view: View) {
-        val tag = Tags.NOISE
-        if (tag in tagsForPerson) {
-            tagsForPerson.remove(tag)
-            ibDrum.setImageResource(R.drawable.ic_drum_not_click)
-        } else {
-            ibDrum.setImageResource(R.drawable.ic_drum)
-            tagsForPerson.add(tag)
-        }
-    }
-
-    private fun ClickOnIbCigarette(view: View) {
-        val tag = Tags.CIGARETTE
-        if (tag in tagsForPerson) {
-            tagsForPerson.remove(tag)
-            ibCigarette.setImageResource(R.drawable.ic_cigarette_not_click)
-        } else {
-            ibCigarette.setImageResource(R.drawable.ic_cigarette)
-            tagsForPerson.add(tag)
-        }
-    }
 
     private fun createAdvert(view: View) {
         val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId)
@@ -209,16 +168,15 @@ class AdvertCreationFragment : Fragment() {
 
     private fun tagToImageButton(context: Context, tags: Int): ImageButton {
         val ib = ImageButton(context)
-
-        ib.layoutParams = ViewGroup.MarginLayoutParams(
-            ViewGroup.MarginLayoutParams.WRAP_CONTENT,
-            ViewGroup.MarginLayoutParams.WRAP_CONTENT
+        ib.layoutParams = ViewGroup.LayoutParams(
+            60,
+            60
         )
         ib.adjustViewBounds = true
         ib.background = null
-        ib.setPadding(5, 5, 10, 5)
+        ib.setPadding(5, 5, 5, 5)
         ib.setImageResource(tags)
-
+        ib.tag = tags
         return ib
     }
 }
