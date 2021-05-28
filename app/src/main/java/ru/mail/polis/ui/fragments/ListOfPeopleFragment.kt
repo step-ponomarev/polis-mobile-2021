@@ -45,15 +45,13 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
         rvList.adapter = adapter
 
         GlobalScope.launch(Dispatchers.Main) {
-            val people =
-                withContext(Dispatchers.Default) { viewModel.fetchPeople() }.toMutableList()
+            val people = viewModel.fetchPeople().toMutableList()
             if (people.isEmpty()) {
                 return@launch
             }
 
             val emailSet = people.map { it.email!! }.toSet()
-            val users =
-                withContext(Dispatchers.Default) { viewModel.fetchUsers(emailSet) }.toMutableList()
+            val users = viewModel.fetchUsers(emailSet).toMutableList()
 
             if (users.isEmpty()) {
                 throw IllegalStateException("There are no owners of adverts $people")
