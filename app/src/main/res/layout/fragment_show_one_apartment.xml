@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <include
+        layout="@layout/component_proposed_apartment_item"
+        />
+
+    <Button
+        android:id="@+id/fragment_show_one_apartment__btn_show_phone"
+        android:layout_width="330dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#18ccd4"
+        android:text="@string/show_phone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="visible"
+        />
+
+    <Button
+        android:id="@+id/fragment_show_one_apartment__phone"
+        android:layout_width="330dp"
+        android:layout_height="65dp"
+        android:background="@null"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

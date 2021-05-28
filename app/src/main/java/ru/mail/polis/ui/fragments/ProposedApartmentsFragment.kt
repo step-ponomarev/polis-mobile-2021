@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
@@ -22,10 +23,11 @@ import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.apartments.ApartmentViewModel
 import ru.mail.polis.list.of.apartments.ApartmentsAdapter
 
-class ProposedApartmentsFragment : Fragment() {
+class ProposedApartmentsFragment : Fragment(), ApartmentsAdapter.ListItemClickListener {
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
     private val proposeService: IProposeService = ProposeService.getInstance()
-
+    private lateinit var apartmentsED: List<ApartmentED>
+    private lateinit var apartments: List<ApartmentViewModel>
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,7 +39,7 @@ class ProposedApartmentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = ApartmentsAdapter()
+        val adapter = ApartmentsAdapter(emptyList(), this)
         val rvList: RecyclerView = view.findViewById(R.id.fragment_proposed_apartments__list)
 
         rvList.addItemDecoration(RecyclerViewListDecoration())
@@ -51,16 +53,18 @@ class ProposedApartmentsFragment : Fragment() {
             }
 
             if (proposeList.isNotEmpty()) {
-                val apartments = withContext(Dispatchers.IO) {
+                apartmentsED = withContext(Dispatchers.IO) {
                     apartmentService.findByEmails(
                         proposeList.map { proposeED -> proposeED.ownerEmail!! }
                             .toSet()
                     )
                 }
-
-                adapter.setData(toApartmentView(apartments))
+                apartments = toApartmentView(apartmentsED)
+                adapter.setData(apartments)
             }
         }
+
+
     }
 
     private fun getEmail(): String {
@@ -85,5 +89,11 @@ class ProposedApartmentsFragment : Fragment() {
                 .photosUrls(it.photosUrls)
                 .build()
         }
+    }
+
+    override fun onListItemClick(clickedItemIndex: Int) {
+        val apartment: ApartmentViewModel = apartments[clickedItemIndex]
+        val action = ProposedApartmentsFragmentDirections.actionNavGraphProposedApartmentsFragmentToFragmentShowOneApartment(apartment)
+        findNavController().navigate(action)
     }
 }

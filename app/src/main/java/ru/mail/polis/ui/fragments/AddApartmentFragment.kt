@@ -128,6 +128,7 @@ class AddApartmentFragment : Fragment() {
             val apartmentED = ApartmentED.Builder
                 .createBuilder()
                 .email(email)
+                .phone(user.phone!!)
                 .ownerName("${user.name} ${user.surname}")
                 .ownerAge(user.age!!)
                 .metro(Metro.from(metro))

@@ -8,6 +8,7 @@ import ru.mail.polis.room.RoomCount
 @Parcelize
 class ApartmentViewModel(
     var email: String,
+    var phone: String,
     var ownerAvatar: String?,
     var ownerName: String,
     var ownerAge: Long,
@@ -19,6 +20,7 @@ class ApartmentViewModel(
 ) : Parcelable {
     class Builder private constructor() {
         private var email: String = ""
+        private var phone: String = ""
         private var ownerAvatar: String? = null
         private var ownerName: String? = null
         private var ownerAge: Long? = null
@@ -36,6 +38,11 @@ class ApartmentViewModel(
 
         fun email(email: String): Builder {
             this.email = email
+            return this
+        }
+
+        fun phone(phone: String): Builder {
+            this.phone = phone
             return this
         }
 
@@ -82,6 +89,7 @@ class ApartmentViewModel(
         fun build(): ApartmentViewModel {
             return ApartmentViewModel(
                 email,
+                phone,
                 ownerAvatar,
                 ownerName!!,
                 ownerAge!!,

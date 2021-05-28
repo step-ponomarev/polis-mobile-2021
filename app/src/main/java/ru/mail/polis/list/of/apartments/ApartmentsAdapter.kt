@@ -7,16 +7,20 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import ru.mail.polis.R
+import ru.mail.polis.list.of.people.PeopleAdapter
+import ru.mail.polis.ui.fragments.ProposedApartmentsFragment
 
 class ApartmentsAdapter(
-    private var apartmentViewModels: List<ApartmentViewModel> = emptyList()
+    private var apartmentViewModels: List<ApartmentViewModel> = emptyList(),
+    listener: ListItemClickListener
 ) : RecyclerView.Adapter<ApartmentsAdapter.PeopleViewHolder>() {
-
+    private val mOnClickListener: ListItemClickListener = listener
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeopleViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.component_proposed_apartment_item, parent, false)
@@ -29,12 +33,16 @@ class ApartmentsAdapter(
         holder.bind(apartmentViewModels[position])
     }
 
+    interface ListItemClickListener {
+        fun onListItemClick(clickedItemIndex: Int)
+    }
+
     fun setData(apartmentViewModels: List<ApartmentViewModel>) {
         this.apartmentViewModels = apartmentViewModels
         notifyDataSetChanged()
     }
 
-    class PeopleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class PeopleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val userAvatar: ImageView =
             itemView.findViewById(R.id.component_person_header__avatar)
         private val apartmentOwnerName: TextView =
@@ -53,6 +61,7 @@ class ApartmentsAdapter(
             itemView.findViewById(R.id.component_proposed_apartment_item__cost_text)
         private val photoContainer: LinearLayout =
             itemView.findViewById(R.id.component_proposed_apartment_item__photos_container)
+        private val cardView: CardView = itemView.findViewById(R.id.component_proposed_apartment_item__card_view)
 
         fun bind(apartments: ApartmentViewModel) {
             if (apartments.ownerAvatar != null) {
@@ -80,6 +89,11 @@ class ApartmentsAdapter(
             }
 
             photos.forEach(photoContainer::addView)
+
+            cardView.setOnClickListener {
+                val clickedPosition = adapterPosition
+                mOnClickListener.onListItemClick(clickedPosition)
+            }
         }
 
         private fun urlToImageView(context: Context, url: String): ImageView {

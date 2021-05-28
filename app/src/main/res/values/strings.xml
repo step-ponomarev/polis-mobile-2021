@@ -64,6 +64,7 @@
     </string-array>
 
     <string name="money">от %1$d до %2$d</string>
+    <string name="show_phone">Показать телефон</string>
 
 
     <string-array name="genders_filter">
