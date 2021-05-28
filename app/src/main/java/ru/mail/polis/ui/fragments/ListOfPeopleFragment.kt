@@ -73,7 +73,7 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
             ListOfPeopleFragmentDirections.actionNavGraphListOfPeopleToPersonAnnouncementFragment(
                 person
             )
-        findNavController().navigate(action) // R.id.nav_graf_task_fragment
+        findNavController().navigate(action)
     }
 
     private fun filterData(people: MutableList<PersonED>, users: MutableList<UserED>) {
