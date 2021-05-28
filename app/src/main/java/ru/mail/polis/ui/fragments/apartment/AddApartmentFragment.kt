@@ -61,11 +61,8 @@ class AddApartmentFragment : ApartmentFragment() {
             val apartmentED = ApartmentED.Builder
                 .createBuilder()
                 .email(email)
-                .ownerName("${user.name} ${user.surname}")
-                .ownerAge(user.age!!)
                 .metro(Metro.from(metro))
                 .roomCount(RoomCount.from(rooms))
-                .ownerAvatar(user.photo)
                 .apartmentCosts(cost.toLong())
                 .apartmentSquare(square.toLong())
                 .build()
