@@ -14,7 +14,7 @@ import com.google.android.material.chip.Chip
 import ru.mail.polis.R
 
 class ApartmentsAdapter(
-    private var apartmentViewModels: List<ApartmentViewModel> = emptyList()
+    private var apartmentViews: List<ApartmentView> = emptyList()
 ) : RecyclerView.Adapter<ApartmentsAdapter.PeopleViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeopleViewHolder {
@@ -23,14 +23,14 @@ class ApartmentsAdapter(
         return PeopleViewHolder(view)
     }
 
-    override fun getItemCount(): Int = apartmentViewModels.size
+    override fun getItemCount(): Int = apartmentViews.size
 
     override fun onBindViewHolder(holder: PeopleViewHolder, position: Int) {
-        holder.bind(apartmentViewModels[position])
+        holder.bind(apartmentViews[position])
     }
 
-    fun setData(apartmentViewModels: List<ApartmentViewModel>) {
-        this.apartmentViewModels = apartmentViewModels
+    fun setData(apartmentViews: List<ApartmentView>) {
+        this.apartmentViews = apartmentViews
         notifyDataSetChanged()
     }
 
@@ -54,7 +54,7 @@ class ApartmentsAdapter(
         private val photoContainer: LinearLayout =
             itemView.findViewById(R.id.component_proposed_apartment_item__photos_container)
 
-        fun bind(apartments: ApartmentViewModel) {
+        fun bind(apartments: ApartmentView) {
             if (apartments.ownerAvatar != null) {
                 Glide.with(itemView).load(apartments.ownerAvatar).into(userAvatar)
             } else {
