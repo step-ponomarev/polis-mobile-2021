@@ -92,19 +92,19 @@ class ProposedApartmentsFragment : Fragment() {
         apartments: List<ApartmentED>,
         users: List<UserED>
     ): List<ApartmentView> {
-        return apartments.filter { it.isValid() }.map { a ->
-            val user = users.find { Objects.equals(a.email, it.email) }!!
+        return apartments.filter { it.isValid() }.map { apartment ->
+            val user = users.find { Objects.equals(apartment.email, it.email) }!!
 
             ApartmentView.Builder.createBuilder()
-                .email(a.email!!)
-                .apartmentCosts(a.apartmentCosts!!)
-                .apartmentSquare(a.apartmentSquare!!)
+                .email(apartment.email!!)
+                .apartmentCosts(apartment.apartmentCosts!!)
+                .apartmentSquare(apartment.apartmentSquare!!)
                 .ownerName("${user.name} ${user.surname}")
                 .ownerAge(user.age!!)
                 .ownerAvatar(user.photo)
-                .metro(a.metro!!)
-                .roomCount(a.roomCount!!)
-                .photosUrls(a.photosUrls)
+                .metro(apartment.metro!!)
+                .roomCount(apartment.roomCount!!)
+                .photosUrls(apartment.photosUrls)
                 .build()
         }
     }
