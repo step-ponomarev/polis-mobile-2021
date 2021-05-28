@@ -22,7 +22,6 @@ class AddApartmentFragment : ApartmentFragment() {
 
     private lateinit var addApartmentButton: Button
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

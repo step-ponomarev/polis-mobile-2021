@@ -48,7 +48,6 @@ open class ApartmentFragment : Fragment() {
     protected lateinit var apartmentViewModel: ApartmentViewModel
     private val metroList = Metro.values()
 
-
     private val takePhotoFromGallery =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(),

@@ -48,7 +48,6 @@ class EditApartmentFragment : ApartmentFragment() {
         editApartmentButton.setOnClickListener(this::onClickEditApartment)
         addPhotoImageButton.setOnClickListener(this::onClickAddPhoto)
 
-
         val email = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
             val user = apartmentViewModel.fetchUser(email)
@@ -65,7 +64,6 @@ class EditApartmentFragment : ApartmentFragment() {
     }
 
     private fun onClickEditApartment(view: View) {
-
     }
 
     private fun fillFields(apartmentED: ApartmentED) {
@@ -93,6 +91,4 @@ class EditApartmentFragment : ApartmentFragment() {
             }
         }
     }
-
-
 }
