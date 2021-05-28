@@ -28,7 +28,7 @@ import ru.mail.polis.viewModels.PersonAnnouncementViewModel
 class PersonAnnouncementFragment : Fragment() {
     private lateinit var person: Person
     private lateinit var offerApartmentButton: Button
-    private lateinit var personAnnouncementViewModel: PersonAnnouncementViewModel
+    private lateinit var viewModel: PersonAnnouncementViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,8 +49,10 @@ class PersonAnnouncementFragment : Fragment() {
         val ivBranchColor: ImageView =
             view.findViewById(R.id.fragment_person_announcement__metro_branch_color)
         val tvMoney: TextView = view.findViewById(R.id.fragment_person_announcement__tv_money)
-        personAnnouncementViewModel =
+        viewModel =
             ViewModelProvider(this).get(PersonAnnouncementViewModel::class.java)
+        viewModel.setContext(this.context)
+
         val cvRooms: List<CardView> = listOf(
             view.findViewById(R.id.fragment_person_announcement__ll_cv_rooms1),
             view.findViewById(R.id.fragment_person_announcement__ll_cv_rooms2),
@@ -111,10 +113,10 @@ class PersonAnnouncementFragment : Fragment() {
                     ?: throw NotificationException(
                         "Advert is not exist",
                         null,
-                        R.string.toast_advert_unavailable.toString()
+                        getString(R.string.toast_advert_unavailable)
                     )
 
-                personAnnouncementViewModel.offerApartment(
+                viewModel.offerApartment(
                     getEmail(),
                     emailPerson
                 )
