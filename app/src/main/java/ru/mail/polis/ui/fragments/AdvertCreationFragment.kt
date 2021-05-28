@@ -1,12 +1,19 @@
 package ru.mail.polis.ui.fragments
 
-import android.R.attr.*
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -22,8 +29,7 @@ import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
 import ru.mail.polis.tags.Tags
 import ru.mail.polis.viewModels.AdvertCreationViewModel
-import java.util.*
-
+import java.util.Collections
 
 class AdvertCreationFragment : Fragment() {
     private val viewModel = AdvertCreationViewModel()
@@ -105,7 +111,6 @@ class AdvertCreationFragment : Fragment() {
 
         createAdvertFragment.setOnClickListener(this::createAdvert)
     }
-
 
     private fun createAdvert(view: View) {
         val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId)

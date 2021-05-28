@@ -1,7 +1,6 @@
 package ru.mail.polis.tags
 
 import ru.mail.polis.R
-import ru.mail.polis.room.RoomCount
 
 enum class Tags(val imageOnClick: Int, val imageNotClick: Int) {
     PETS(R.drawable.ic_paw, R.drawable.ic_paw_not_click),
