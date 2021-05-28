@@ -39,14 +39,14 @@ class EditApartmentFragment : ApartmentFragment() {
         val email = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
             val user = apartmentViewModel.fetchUser(email)
-                ?: throw java.lang.IllegalStateException("Null user by email: $email")
+                ?: throw IllegalStateException("Null user by email: $email")
 
             val apartmentED = apartmentViewModel.getApartmentByEmail(email)
 
             if (apartmentED != null) {
                 fillFields(apartmentED)
             } else {
-                getToastWithText("У вас нет квартиры для редактирования")
+                getToastWithText(getString(R.string.toast_there_are_no_apartment_to_edit))
             }
         }
     }
@@ -73,7 +73,7 @@ class EditApartmentFragment : ApartmentFragment() {
         val email = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
             val user = apartmentViewModel.fetchUser(email)
-                ?: throw java.lang.IllegalStateException("Null user by email: $email")
+                ?: throw IllegalStateException("Null user by email: $email")
 
             val apartmentED = ApartmentED.Builder
                 .createBuilder()

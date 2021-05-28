@@ -142,16 +142,16 @@ class SettingsFragment : Fragment() {
             } else {
                 val dialogFragment =
                     CustomDialogFragment(
-                        "Добавление квартиры",
-                        "У вас нет квартиры, хотите ее добавить?"
-                    )
-                        .setPositiveAction { dialog, i ->
+                        getString(R.string.dialog_fragment_title_add_apartment),
+                        getString(R.string.dialog_fragment_message_add_apartment),
+                        { dialog, i ->
                             dialog.cancel()
                             findNavController().navigate(R.id.nav_graph__add_apartment_fragment)
-                        }
-                        .setNegativeAction { dialog, i ->
+                        },
+                        { dialog, i ->
                             dialog.cancel()
                         }
+                    )
                 dialogFragment.show(parentFragmentManager, "Apartment editing")
             }
         }

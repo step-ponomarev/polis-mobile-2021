@@ -2,7 +2,6 @@ package ru.mail.polis.viewModels
 
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.mail.polis.converter.Converter
@@ -23,14 +22,14 @@ class ApartmentViewModel : ViewModel() {
     val list = LinkedHashSet<Bitmap>()
 
     suspend fun addApartment(apartmentED: ApartmentED): ApartmentED {
-        return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
             apartmentED.photosUrls = getUrlList()
             apartmentService.addApartment(apartmentED)
         }
     }
 
     suspend fun fetchUser(email: String): UserED? {
-        return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
             userService.findUserByEmail(email)
         }
     }
@@ -43,7 +42,7 @@ class ApartmentViewModel : ViewModel() {
     }
 
     suspend fun getApartmentByEmail(email: String): ApartmentED? {
-        return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
             apartmentService.findByEmail(email)
         }
     }

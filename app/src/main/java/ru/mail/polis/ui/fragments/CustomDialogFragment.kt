@@ -8,12 +8,11 @@ import androidx.fragment.app.DialogFragment
 
 class CustomDialogFragment(
     private val title: String,
-    private val message: String
+    private val message: String,
+    private var positive: ((DialogInterface, Int) -> Unit),
+    private var negative: ((DialogInterface, Int) -> Unit)
 ) :
     DialogFragment() {
-
-    private var positive: ((DialogInterface, Int) -> Unit)? = null
-    private var negative: ((DialogInterface, Int) -> Unit)? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(activity)
@@ -23,15 +22,5 @@ class CustomDialogFragment(
             .setPositiveButton("Создать", positive)
             .setNegativeButton("Отмена", negative)
             .create()
-    }
-
-    fun setPositiveAction(positive: (DialogInterface, Int) -> Unit): CustomDialogFragment {
-        this.positive = positive
-        return this
-    }
-
-    fun setNegativeAction(negative: (DialogInterface, Int) -> Unit): CustomDialogFragment {
-        this.negative = negative
-        return this
     }
 }
