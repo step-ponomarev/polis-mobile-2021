@@ -36,7 +36,7 @@ class ApartmentViewModel : ViewModel() {
     }
 
     suspend fun updateApartment(apartmentED: ApartmentED): ApartmentED {
-        return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
             apartmentED.photosUrls = getUrlList()
             apartmentService.updateApartment(apartmentED)
         }

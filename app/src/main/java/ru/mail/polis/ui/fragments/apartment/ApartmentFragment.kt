@@ -85,7 +85,7 @@ open class ApartmentFragment : Fragment() {
     }
 
     fun initSpinner(view: View) {
-        spinner = view.findViewById(R.id.fragment_add_apartment_spinner)
+        spinner = view.findViewById(R.id.component_apartment_info__spinner)
 
         val metroNamesList = metroList.map { it.stationName }
 

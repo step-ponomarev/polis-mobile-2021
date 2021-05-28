@@ -35,13 +35,13 @@ class EditApartmentFragment : ApartmentFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        metroCircleIv = view.findViewById(R.id.fragment_add_apartment__circle)
+        metroCircleIv = view.findViewById(R.id.component_apartment_info__circle)
         editApartmentButton = view.findViewById(R.id.edit_button)
-        costEditText = view.findViewById(R.id.fragment_add_apartment__set_cost_et)
-        squareEditText = view.findViewById(R.id.fragment_add_apartment__set_squared_metres_et)
+        costEditText = view.findViewById(R.id.component_apartment_info__set_cost_et)
+        squareEditText = view.findViewById(R.id.component_apartment_info__set_squared_metres_et)
         chipGroup = view.findViewById(R.id.component_rooms__chip_group)
-        addPhotoImageButton = view.findViewById(R.id.fragment_add_apartment__add_image_button)
-        photoLinearLayout = view.findViewById(R.id.fragment_add_apartment__photo_linear_layout)
+        addPhotoImageButton = view.findViewById(R.id.component_apartment_info__add_image_button)
+        photoLinearLayout = view.findViewById(R.id.component_apartment_info__photo_linear_layout)
 
         apartmentViewModel = ViewModelProvider(this).get(ApartmentViewModel::class.java)
         initSpinner(view)
