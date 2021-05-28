@@ -36,7 +36,6 @@ class EditApartmentFragment : ApartmentFragment() {
         editApartmentButton = view.findViewById(R.id.edit_button)
         editApartmentButton.setOnClickListener(this::onClickEditApartment)
 
-
         val email = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
             val user = apartmentViewModel.fetchUser(email)
