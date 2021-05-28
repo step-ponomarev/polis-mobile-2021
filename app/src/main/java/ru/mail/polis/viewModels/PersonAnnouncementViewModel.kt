@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import ru.mail.polis.R
 import ru.mail.polis.dao.apartments.ApartmentService
 import ru.mail.polis.dao.apartments.IApartmentService
 import ru.mail.polis.dao.propose.IProposeService
@@ -28,7 +29,7 @@ class PersonAnnouncementViewModel : ViewModel() {
                     NotificationException(
                         "Apartments proposed already",
                         null,
-                        "Вы уже предложили квартиру этому человеку"
+                        R.string.toast_apartment_already_proposed.toString()
                     )
                 )
             }
@@ -41,7 +42,7 @@ class PersonAnnouncementViewModel : ViewModel() {
                 NotificationException(
                     "Apartment is not exist",
                     null,
-                    "У вас нет доступных квартир"
+                    R.string.toast_no_apartments_yet.toString()
                 )
             )
         }

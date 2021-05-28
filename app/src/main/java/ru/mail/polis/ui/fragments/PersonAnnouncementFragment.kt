@@ -111,7 +111,7 @@ class PersonAnnouncementFragment : Fragment() {
                     ?: throw NotificationException(
                         "Advert is not exist",
                         null,
-                        "Объявление больше не доступно"
+                        R.string.toast_advert_unavailable.toString()
                     )
 
                 personAnnouncementViewModel.offerApartment(
