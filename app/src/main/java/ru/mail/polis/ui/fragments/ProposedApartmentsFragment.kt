@@ -35,8 +35,7 @@ class ProposedApartmentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel =
-            ViewModelProvider(this).get(ProposedApartmentsViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ProposedApartmentsViewModel::class.java)
 
         val adapter = ApartmentsAdapter()
         val rvList: RecyclerView = view.findViewById(R.id.fragment_proposed_apartments__list)

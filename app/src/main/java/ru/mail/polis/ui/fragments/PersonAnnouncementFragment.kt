@@ -20,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
+import ru.mail.polis.exception.NotificationException
 import ru.mail.polis.helpers.getAgeString
 import ru.mail.polis.list.of.people.Person
 import ru.mail.polis.viewModels.PersonAnnouncementViewModel
@@ -106,15 +107,20 @@ class PersonAnnouncementFragment : Fragment() {
     private fun onOfferApartment(view: View) {
         GlobalScope.launch(Dispatchers.Main) {
             try {
-                val emailPerson: String = person.email ?: return@launch
+                val emailPerson: String = person.email
+                    ?: throw NotificationException(
+                        "Advert is not exist",
+                        null,
+                        "Объявление больше не доступно"
+                    )
                 personAnnouncementViewModel.offerApartment(
                     getEmail(),
                     emailPerson
                 )
 
                 getToastWithText("Вы предложили квартиру человеку с именем ${person.name}").show()
-            } catch (e: IllegalStateException) {
-                getToastWithText(e.message!!).show()
+            } catch (e: NotificationException) {
+                getToastWithText(e.getToastMessage()).show()
             }
         }
     }
