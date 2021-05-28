@@ -108,13 +108,6 @@ class PeopleAdapter(
 
     private fun urlToImageView(context: Context, url: Long): ImageView {
         val iv = ImageView(context)
-
-        iv.layoutParams = ViewGroup.MarginLayoutParams(
-            ViewGroup.MarginLayoutParams.WRAP_CONTENT,
-            ViewGroup.MarginLayoutParams.WRAP_CONTENT
-        )
-        iv.adjustViewBounds = true
-        iv.setPadding(5, 5, 10, 5)
         Glide.with(iv).load(url).into(iv)
 
         return iv

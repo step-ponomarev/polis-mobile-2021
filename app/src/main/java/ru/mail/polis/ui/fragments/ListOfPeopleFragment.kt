@@ -19,6 +19,7 @@ import ru.mail.polis.list.of.people.PeopleAdapter
 import ru.mail.polis.list.of.people.Person
 import ru.mail.polis.viewModels.ListOfPeopleViewModel
 import java.util.Objects
+import ru.mail.polis.list.RecyclerViewListDecoration
 
 class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
 
@@ -41,6 +42,7 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
         val adapter = PeopleAdapter(emptyList(), this)
         val rvList: RecyclerView = view.findViewById(R.id.list_of_people__rv_list)
         rvList.layoutManager = LinearLayoutManager(this.context)
+        rvList.addItemDecoration(RecyclerViewListDecoration())
         rvList.adapter = adapter
 
         GlobalScope.launch(Dispatchers.Main) {
