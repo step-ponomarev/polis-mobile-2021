@@ -24,6 +24,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.ChipGroup
 import ru.mail.polis.R
@@ -33,7 +34,7 @@ import ru.mail.polis.ui.fragments.FragmentUtils
 import ru.mail.polis.ui.fragments.LayoutSettings
 import ru.mail.polis.viewModels.ApartmentViewModel
 
-open class ApartmentFragment : Fragment() {
+abstract class ApartmentFragment : Fragment() {
 
     companion object {
         const val PHOTO_CONSTRAINT_LAYOUT_WIDTH = 200
@@ -45,10 +46,11 @@ open class ApartmentFragment : Fragment() {
     protected lateinit var chipGroup: ChipGroup
     protected lateinit var costEditText: EditText
     protected lateinit var squareEditText: EditText
-    protected lateinit var addPhotoImageButton: ImageButton
     protected lateinit var photoLinearLayout: LinearLayout
     protected lateinit var apartmentViewModel: ApartmentViewModel
+
     private val metroList = Metro.values()
+    private lateinit var addPhotoImageButton: ImageButton
 
     private val takePhotoFromGallery =
         registerForActivityResult(
@@ -64,6 +66,21 @@ open class ApartmentFragment : Fragment() {
                 photoLinearLayout.addView(createImageComponent(bitmap))
             }
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        metroCircleIv = view.findViewById(R.id.component_apartment_info__circle)
+        costEditText = view.findViewById(R.id.component_apartment_info__set_cost_et)
+        squareEditText = view.findViewById(R.id.component_apartment_info__set_squared_metres_et)
+        chipGroup = view.findViewById(R.id.component_rooms__chip_group)
+        addPhotoImageButton = view.findViewById(R.id.component_apartment_info__add_image_button)
+        photoLinearLayout = view.findViewById(R.id.component_apartment_info__photo_linear_layout)
+
+        apartmentViewModel = ViewModelProvider(this).get(ApartmentViewModel::class.java)
+        addPhotoImageButton.setOnClickListener(this::onClickAddPhoto)
+        initSpinner(view)
     }
 
     fun onClickAddPhoto(view: View) {

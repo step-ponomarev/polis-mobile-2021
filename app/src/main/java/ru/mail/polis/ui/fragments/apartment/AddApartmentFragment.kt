@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +14,6 @@ import ru.mail.polis.R
 import ru.mail.polis.dao.apartments.ApartmentED
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
-import ru.mail.polis.viewModels.ApartmentViewModel
 
 class AddApartmentFragment : ApartmentFragment() {
 
@@ -32,20 +30,8 @@ class AddApartmentFragment : ApartmentFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        metroCircleIv = view.findViewById(R.id.component_apartment_info__circle)
         addApartmentButton = view.findViewById(R.id.add_button)
-        costEditText = view.findViewById(R.id.component_apartment_info__set_cost_et)
-        squareEditText = view.findViewById(R.id.component_apartment_info__set_squared_metres_et)
-        chipGroup = view.findViewById(R.id.component_rooms__chip_group)
-        addPhotoImageButton = view.findViewById(R.id.component_apartment_info__add_image_button)
-        photoLinearLayout = view.findViewById(R.id.component_apartment_info__photo_linear_layout)
-
-        apartmentViewModel = ViewModelProvider(this).get(ApartmentViewModel::class.java)
-
-        initSpinner(view)
-
         addApartmentButton.setOnClickListener(this::onClickAddApartment)
-        addPhotoImageButton.setOnClickListener(this::onClickAddPhoto)
     }
 
     private fun onClickAddApartment(view: View) {
