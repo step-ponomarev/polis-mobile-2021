@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/nav_graph__add_apartment_fragment"
-        android:name="ru.mail.polis.ui.fragments.AddApartmentFragment"
+        android:name="ru.mail.polis.ui.fragments.apartment.AddApartmentFragment"
         android:label="Add Apartment Fragment">
         <action
             android:id="@+id/action_nav_graph__add_apartment_fragment_to_listOfPeopleFragment"
@@ -85,6 +85,6 @@
 
     <fragment
         android:id="@+id/nav_graph__edit_apartment_fragment"
-        android:name="ru.mail.polis.ui.fragments.EditApartmentFragment"
+        android:name="ru.mail.polis.ui.fragments.apartment.EditApartmentFragment"
         android:label="EditApartmentFragment" />
 </navigation>

@@ -1,4 +1,4 @@
-package ru.mail.polis.ui.fragments
+package ru.mail.polis.ui.fragments.apartment
 
 import android.app.Activity
 import android.content.Context
@@ -29,6 +29,8 @@ import com.google.android.material.chip.ChipGroup
 import ru.mail.polis.R
 import ru.mail.polis.decoder.DecoderFactory
 import ru.mail.polis.metro.Metro
+import ru.mail.polis.ui.fragments.FragmentUtils
+import ru.mail.polis.ui.fragments.LayoutSettings
 import ru.mail.polis.viewModels.ApartmentViewModel
 
 open class ApartmentFragment : Fragment() {
