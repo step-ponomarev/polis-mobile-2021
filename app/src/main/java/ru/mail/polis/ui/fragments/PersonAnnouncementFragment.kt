@@ -113,6 +113,7 @@ class PersonAnnouncementFragment : Fragment() {
                         null,
                         "Объявление больше не доступно"
                     )
+
                 personAnnouncementViewModel.offerApartment(
                     getEmail(),
                     emailPerson
