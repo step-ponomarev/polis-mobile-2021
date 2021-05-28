@@ -9,17 +9,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import java.util.Objects
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.mail.polis.R
 import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.list.of.people.PeopleAdapter
 import ru.mail.polis.list.of.people.Person
 import ru.mail.polis.viewModels.ListOfPeopleViewModel
+import java.util.Objects
 
 class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
 
