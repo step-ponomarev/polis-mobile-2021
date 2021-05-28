@@ -83,7 +83,7 @@ abstract class ApartmentFragment : Fragment() {
         initSpinner(view)
     }
 
-    fun onClickAddPhoto(view: View) {
+    private fun onClickAddPhoto(view: View) {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         takePhotoFromGallery.launch(intent)
@@ -101,7 +101,7 @@ abstract class ApartmentFragment : Fragment() {
         }
     }
 
-    fun initSpinner(view: View) {
+    private fun initSpinner(view: View) {
         spinner = view.findViewById(R.id.component_apartment_info__spinner)
 
         val metroNamesList = metroList.map { it.stationName }
@@ -135,7 +135,7 @@ abstract class ApartmentFragment : Fragment() {
         }
     }
 
-    fun createImageComponent(bitmap: Bitmap): ConstraintLayout {
+    protected fun createImageComponent(bitmap: Bitmap): ConstraintLayout {
 
         val view: View = LayoutInflater.from(context).inflate(R.layout.component_photo, null)
 
@@ -172,7 +172,7 @@ abstract class ApartmentFragment : Fragment() {
         return cl
     }
 
-    fun getEmail(): String {
+    protected fun getEmail(): String {
         return activity?.getSharedPreferences(
             getString(R.string.preference_file_key),
             Context.MODE_PRIVATE
@@ -180,7 +180,7 @@ abstract class ApartmentFragment : Fragment() {
             ?: throw IllegalStateException("Email not found")
     }
 
-    fun getToastWithText(text: String): Toast {
+    protected fun getToastWithText(text: String): Toast {
         return Toast.makeText(
             requireContext(),
             text,
