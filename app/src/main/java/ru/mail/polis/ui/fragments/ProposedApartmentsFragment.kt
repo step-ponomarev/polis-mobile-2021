@@ -7,26 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.mail.polis.R
 import ru.mail.polis.dao.apartments.ApartmentED
-import ru.mail.polis.dao.apartments.ApartmentService
-import ru.mail.polis.dao.apartments.IApartmentService
-import ru.mail.polis.dao.propose.IProposeService
-import ru.mail.polis.dao.propose.ProposeService
+import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.list.RecyclerViewListDecoration
-import ru.mail.polis.list.of.apartments.ApartmentViewModel
+import ru.mail.polis.list.of.apartments.ApartmentView
 import ru.mail.polis.list.of.apartments.ApartmentsAdapter
+import ru.mail.polis.viewModels.ProposedApartmentsViewModel
+import java.util.Objects
+
 
 class ProposedApartmentsFragment : Fragment(), ApartmentsAdapter.ListItemClickListener {
-    private val apartmentService: IApartmentService = ApartmentService.getInstance()
-    private val proposeService: IProposeService = ProposeService.getInstance()
-    private lateinit var apartmentsED: List<ApartmentED>
+
+    private lateinit var viewModel: ProposedApartmentsViewModel
     private lateinit var apartments: List<ApartmentViewModel>
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +38,8 @@ class ProposedApartmentsFragment : Fragment(), ApartmentsAdapter.ListItemClickLi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProvider(this).get(ProposedApartmentsViewModel::class.java)
+
         val adapter = ApartmentsAdapter(emptyList(), this)
         val rvList: RecyclerView = view.findViewById(R.id.fragment_proposed_apartments__list)
 
@@ -48,23 +49,38 @@ class ProposedApartmentsFragment : Fragment(), ApartmentsAdapter.ListItemClickLi
 
         val email: String = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
-            val proposeList = withContext(Dispatchers.IO) {
-                proposeService.findRenterEmail(email)
+            val apartments = viewModel.fetchApartmentsByRenterEmail(email).toMutableList()
+            if (apartments.isEmpty()) {
+                return@launch
             }
 
-            if (proposeList.isNotEmpty()) {
-                apartmentsED = withContext(Dispatchers.IO) {
-                    apartmentService.findByEmails(
-                        proposeList.map { proposeED -> proposeED.ownerEmail!! }
-                            .toSet()
-                    )
-                }
-                apartments = toApartmentView(apartmentsED)
-                adapter.setData(apartments)
+            val emailSet = apartments.map { it.email!! }.toSet()
+            val users = viewModel.fetchUsers(emailSet).toMutableList()
+
+            if (users.isEmpty()) {
+                throw IllegalStateException("There are no owners of apartments $apartments")
             }
+
+            if (users.size != apartments.size) {
+                filterData(apartments, users)
+            }
+
+            adapter.setData(toApartmentView(apartments, users))
         }
+    }
 
+    private fun filterData(apartments: MutableList<ApartmentED>, users: MutableList<UserED>) {
+        val filterApartments: Boolean = apartments.size > users.size
 
+        val emails = if (filterApartments)
+            users.map { it.email!! }
+        else apartments.map { it.email!! }
+
+        if (filterApartments) {
+            apartments.removeAll() { !emails.contains(it.email) }
+        } else {
+            users.removeAll { !emails.contains(it.email) }
+        }
     }
 
     private fun getEmail(): String {
@@ -75,24 +91,29 @@ class ProposedApartmentsFragment : Fragment(), ApartmentsAdapter.ListItemClickLi
             ?: throw IllegalStateException("Email not found")
     }
 
-    private fun toApartmentView(apartments: List<ApartmentED>): List<ApartmentViewModel> {
-        return apartments.filter { it.isValid() }.map {
-            ApartmentViewModel.Builder.createBuilder()
-                .email(it.email!!)
-                .apartmentCosts(it.apartmentCosts!!)
-                .apartmentSquare(it.apartmentSquare!!)
-                .ownerAge(it.ownerAge!!)
-                .metro(it.metro!!)
-                .ownerAvatar(it.ownerAvatar)
-                .ownerName(it.ownerName!!)
-                .roomCount(it.roomCount!!)
-                .photosUrls(it.photosUrls)
+    private fun toApartmentView(
+        apartments: List<ApartmentED>,
+        users: List<UserED>
+    ): List<ApartmentView> {
+        return apartments.filter { it.isValid() }.map { apartment ->
+            val user = users.find { Objects.equals(apartment.email, it.email) }!!
+
+            ApartmentView.Builder.createBuilder()
+                .email(apartment.email!!)
+                .apartmentCosts(apartment.apartmentCosts!!)
+                .apartmentSquare(apartment.apartmentSquare!!)
+                .ownerName("${user.name} ${user.surname}")
+                .ownerAge(user.age!!)
+                .ownerAvatar(user.photo)
+                .metro(apartment.metro!!)
+                .roomCount(apartment.roomCount!!)
+                .photosUrls(apartment.photosUrls)
                 .build()
         }
     }
 
     override fun onListItemClick(clickedItemIndex: Int) {
-        val apartment: ApartmentViewModel = apartments[clickedItemIndex]
+        val apartment: ApartmentView = apartments[clickedItemIndex]
         val action = ProposedApartmentsFragmentDirections.actionNavGraphProposedApartmentsFragmentToFragmentShowOneApartment(apartment)
         findNavController().navigate(action)
     }

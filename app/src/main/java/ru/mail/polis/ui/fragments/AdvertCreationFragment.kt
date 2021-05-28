@@ -112,19 +112,12 @@ class AdvertCreationFragment : Fragment() {
 
         GlobalScope.launch(Dispatchers.Main) {
             val person = PersonED.Builder.createBuilder()
-                .email(email)
-                .age(user.age)
-                .name("${user.name} ${user.surname}")
                 .metro(Metro.from(metro))
                 .description(aboutMe)
                 .money(costFrom.toLong(), costTo.toLong())
                 .rooms(Collections.singletonList(RoomCount.from(roomCount)))
                 .tags(emptyList())
                 .build()
-
-            if (person.photo != null) {
-                person.photo = person.photo
-            }
 
             viewModel.addPerson(person)
             findNavController().navigate(R.id.nav_graph__list_of_people)

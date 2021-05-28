@@ -13,11 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import ru.mail.polis.R
-import ru.mail.polis.list.of.people.PeopleAdapter
 import ru.mail.polis.ui.fragments.ProposedApartmentsFragment
 
 class ApartmentsAdapter(
-    private var apartmentViewModels: List<ApartmentViewModel> = emptyList(),
+    private var apartmentViews: List<ApartmentView> = emptyList(),
     listener: ListItemClickListener
 ) : RecyclerView.Adapter<ApartmentsAdapter.PeopleViewHolder>() {
     private val mOnClickListener: ListItemClickListener = listener
@@ -27,10 +26,10 @@ class ApartmentsAdapter(
         return PeopleViewHolder(view)
     }
 
-    override fun getItemCount(): Int = apartmentViewModels.size
+    override fun getItemCount(): Int = apartmentViews.size
 
     override fun onBindViewHolder(holder: PeopleViewHolder, position: Int) {
-        holder.bind(apartmentViewModels[position])
+        holder.bind(apartmentViews[position])
     }
 
     interface ListItemClickListener {
@@ -38,7 +37,7 @@ class ApartmentsAdapter(
     }
 
     fun setData(apartmentViewModels: List<ApartmentViewModel>) {
-        this.apartmentViewModels = apartmentViewModels
+        this.apartmentViews = apartmentViewModels
         notifyDataSetChanged()
     }
 
@@ -63,7 +62,7 @@ class ApartmentsAdapter(
             itemView.findViewById(R.id.component_proposed_apartment_item__photos_container)
         private val cardView: CardView = itemView.findViewById(R.id.component_proposed_apartment_item__card_view)
 
-        fun bind(apartments: ApartmentViewModel) {
+        fun bind(apartments: ApartmentView) {
             if (apartments.ownerAvatar != null) {
                 Glide.with(itemView).load(apartments.ownerAvatar).into(userAvatar)
             } else {

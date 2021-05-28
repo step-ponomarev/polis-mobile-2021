@@ -4,7 +4,6 @@ import android.util.Log
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mail.polis.dao.Collections
@@ -138,9 +137,6 @@ class ApartmentService private constructor() : IApartmentService {
         return mapOf(
             "email" to apartment.email,
             "phone" to apartment.phone,
-            "ownerAvatar" to apartment.ownerAvatar,
-            "ownerName" to apartment.ownerName,
-            "ownerAge" to apartment.ownerAge,
             "metro" to apartment.metro,
             "roomCount" to apartment.roomCount,
             "apartmentSquare" to apartment.apartmentSquare,

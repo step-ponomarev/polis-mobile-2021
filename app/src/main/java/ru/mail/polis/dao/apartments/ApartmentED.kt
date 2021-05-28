@@ -6,9 +6,6 @@ import ru.mail.polis.room.RoomCount
 class ApartmentED(
     var email: String? = null,
     var phone: String? = null,
-    var ownerAvatar: String? = null,
-    var ownerName: String? = null,
-    var ownerAge: Long? = null,
     var metro: Metro? = null,
     var roomCount: RoomCount? = null,
     var apartmentSquare: Long? = null,
@@ -17,8 +14,6 @@ class ApartmentED(
 ) {
     fun isValid(): Boolean {
         return email != null &&
-            ownerName != null &&
-            ownerAge != null &&
             metro != null &&
             roomCount != null &&
             apartmentSquare != null &&
@@ -28,9 +23,6 @@ class ApartmentED(
     class Builder private constructor() {
         private var email: String? = null
         private var phone: String? = null
-        private var ownerAvatar: String? = null
-        private var ownerName: String? = null
-        private var ownerAge: Long? = null
         private var metro: Metro? = null
         private var roomCount: RoomCount? = null
         private var apartmentSquare: Long? = null
@@ -48,26 +40,6 @@ class ApartmentED(
             return this
         }
 
-        fun ownerAvatar(ownerAvatar: String?): Builder {
-            this.ownerAvatar = ownerAvatar
-            return this
-        }
-
-        fun ownerName(ownerName: String): Builder {
-            this.ownerName = ownerName
-            return this
-        }
-
-        fun ownerAge(ownerAge: Long): Builder {
-            this.ownerAge = ownerAge
-            return this
-        }
-
-        fun phone(phone: String): Builder {
-            this.phone = phone
-            return this
-        }
-
         fun metro(metro: Metro): Builder {
             this.metro = metro
             return this
@@ -75,6 +47,10 @@ class ApartmentED(
 
         fun roomCount(roomCount: RoomCount): Builder {
             this.roomCount = roomCount
+            return this
+        }
+        fun phone(phone: String): Builder {
+            this.phone = phone
             return this
         }
 
@@ -97,9 +73,6 @@ class ApartmentED(
             return ApartmentED(
                 email!!,
                 phone,
-                ownerAvatar,
-                ownerName!!,
-                ownerAge!!,
                 metro!!,
                 roomCount!!,
                 apartmentSquare!!,
@@ -117,9 +90,6 @@ class ApartmentED(
 
         if (email != other.email) return false
         if (phone != other.phone) return false
-        if (ownerAvatar != other.ownerAvatar) return false
-        if (ownerName != other.ownerName) return false
-        if (ownerAge != other.ownerAge) return false
         if (metro != other.metro) return false
         if (roomCount != other.roomCount) return false
         if (apartmentSquare != other.apartmentSquare) return false
@@ -131,10 +101,7 @@ class ApartmentED(
 
     override fun hashCode(): Int {
         var result = email.hashCode()
-        result = 31 * result + (ownerAvatar?.hashCode() ?: 0)
         result = 31 * result + (phone?.hashCode() ?: 0)
-        result = 31 * result + (ownerName?.hashCode() ?: 0)
-        result = 31 * result + (ownerAge?.hashCode() ?: 0)
         result = 31 * result + (metro?.hashCode() ?: 0)
         result = 31 * result + (roomCount?.hashCode() ?: 0)
         result = 31 * result + (apartmentSquare?.hashCode() ?: 0)

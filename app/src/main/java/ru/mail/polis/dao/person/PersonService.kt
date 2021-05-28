@@ -121,9 +121,6 @@ class PersonService private constructor() : IPersonService {
     private fun personToMap(person: PersonED): Map<String, Any?> {
         return mapOf(
             "email" to person.email,
-            "photo" to person.photo,
-            "name" to person.name,
-            "age" to person.age,
             "tags" to person.tags,
             "metro" to person.metro,
             "moneyFrom" to person.moneyFrom,

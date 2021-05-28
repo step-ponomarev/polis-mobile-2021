@@ -129,11 +129,9 @@ class AddApartmentFragment : Fragment() {
                 .createBuilder()
                 .email(email)
                 .phone(user.phone!!)
-                .ownerName("${user.name} ${user.surname}")
-                .ownerAge(user.age!!)
+
                 .metro(Metro.from(metro))
                 .roomCount(RoomCount.from(rooms))
-                .ownerAvatar(user.photo)
                 .apartmentCosts(cost.toLong())
                 .apartmentSquare(square.toLong())
                 .build()
