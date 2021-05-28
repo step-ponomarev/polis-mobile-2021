@@ -19,7 +19,6 @@ import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.mail.polis.R
 import ru.mail.polis.helpers.getAgeString
 import ru.mail.polis.list.of.people.Person
@@ -108,16 +107,14 @@ class PersonAnnouncementFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val emailPerson: String = person.email ?: return@launch
-                withContext(Dispatchers.IO) {
-                    personAnnouncementViewModel.offerApartment(
-                        getEmail(),
-                        emailPerson
-                    )
-                }
+                personAnnouncementViewModel.offerApartment(
+                    getEmail(),
+                    emailPerson
+                )
 
                 getToastWithText("Вы предложили квартиру человеку с именем ${person.name}").show()
-            } catch (e: java.lang.IllegalStateException) {
-                getToastWithText("У вас не добавлена квартира").show()
+            } catch (e: IllegalStateException) {
+                getToastWithText(e.message!!).show()
             }
         }
     }

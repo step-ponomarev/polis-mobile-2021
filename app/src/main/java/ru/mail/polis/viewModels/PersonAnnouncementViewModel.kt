@@ -17,17 +17,25 @@ class PersonAnnouncementViewModel : ViewModel() {
 
     @Throws(IllegalStateException::class)
     suspend fun offerApartment(ownerEmail: String, renterEmail: String) {
+        val exist = withContext(Dispatchers.IO) {
+            proposeService.checkProposeExist(ownerEmail, renterEmail)
+        }
+
+        if (exist) {
+            return suspendCancellableCoroutine { coroutine ->
+                coroutine.cancel(IllegalStateException("Вы уже предложили квартиру этому человеку"))
+            }
+        }
+
         // Проверяем, что у пользователя
         // есть аппартаменты иначе выбрасывам исключение
-        val apartments = withContext(Dispatchers.IO) {
+        withContext(Dispatchers.IO) {
             apartmentService.findByEmail(ownerEmail)
+        } ?: return suspendCancellableCoroutine { coroutine ->
+            coroutine.cancel(IllegalStateException("У вас нет доступных квартир"))
         }
 
         withContext(Dispatchers.IO) {
-            if (apartments == null) {
-                return@withContext
-            }
-
             proposeService.createPropose(
                 ProposeED(
                     ownerEmail,
@@ -35,12 +43,6 @@ class PersonAnnouncementViewModel : ViewModel() {
                     ProposeStatus.PENDING
                 )
             )
-        }
-
-        return suspendCancellableCoroutine { coroutine ->
-            if (apartments == null) {
-                coroutine.cancel(IllegalStateException("No apartments"))
-            }
         }
     }
 }
