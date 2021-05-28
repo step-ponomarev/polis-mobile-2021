@@ -51,6 +51,21 @@ class UserService : IUserService {
         }
     }
 
+    override suspend fun findUsersByEmails(emails: Set<String>): List<UserED> {
+        return suspendCancellableCoroutine { coroutine ->
+            userCollection.whereIn("email", emails.toList())
+                .get()
+                .addOnSuccessListener {
+                    coroutine.resume(it.toObjects(UserED::class.java))
+                }
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        RuntimeException("Filed fetching users by emails: $emails", it)
+                    )
+                }
+        }
+    }
+
     override suspend fun addUser(user: UserED): UserED {
         return suspendCancellableCoroutine { coroutine ->
             userCollection.document(user.email!!)

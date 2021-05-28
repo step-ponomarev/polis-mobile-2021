@@ -6,7 +6,7 @@ import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
 
 @Parcelize
-class ApartmentViewModel(
+class ApartmentView(
     var email: String,
     var ownerAvatar: String?,
     var ownerName: String,
@@ -79,8 +79,8 @@ class ApartmentViewModel(
             return this
         }
 
-        fun build(): ApartmentViewModel {
-            return ApartmentViewModel(
+        fun build(): ApartmentView {
+            return ApartmentView(
                 email,
                 ownerAvatar,
                 ownerName!!,
