@@ -1,6 +1,5 @@
 package ru.mail.polis.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.Objects
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -37,58 +37,75 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel =
-            ViewModelProvider(this).get(ListOfPeopleViewModel::class.java)
-
-        val rvList: RecyclerView = view.findViewById(R.id.list_of_people__rv_list)
+        viewModel = ViewModelProvider(this).get(ListOfPeopleViewModel::class.java)
 
         val adapter = PeopleAdapter(emptyList(), this)
+        val rvList: RecyclerView = view.findViewById(R.id.list_of_people__rv_list)
         rvList.layoutManager = LinearLayoutManager(this.context)
         rvList.adapter = adapter
 
-        val email = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
-            val people = withContext(Dispatchers.IO) {
-                viewModel.fetchPeople()
+            val people =
+                withContext(Dispatchers.Default) { viewModel.fetchPeople() }.toMutableList()
+            if (people.isEmpty()) {
+                return@launch
             }
 
-            val user = withContext(Dispatchers.IO) {
-                viewModel.fetchUser(email)
-            } ?: throw IllegalStateException("User with email $email not found")
+            val emailSet = people.map { it.email!! }.toSet()
+            val users =
+                withContext(Dispatchers.Default) { viewModel.fetchUsers(emailSet) }.toMutableList()
 
-            listOfPeople = toPersonView(people, user)
-            adapter.setData(listOfPeople)
-        }
-    }
+            if (users.isEmpty()) {
+                throw IllegalStateException("There are no owners of adverts $people")
+            }
 
-    private fun toPersonView(people: List<PersonED>, user: UserED): List<Person> {
-        return people.filter { it.isValid() }.map {
-            Person.Builder.createBuilder()
-                .email(it.email!!)
-                .photo(user.photo)
-                .name("${user.name} ${user.surname}")
-                .age(user.age!!)
-                .tags(it.tags)
-                .moneyFrom(it.moneyFrom)
-                .moneyTo(it.moneyTo)
-                .rooms(it.rooms)
-                .description(it.description!!)
-                .metro(it.metro!!)
-                .build()
+            if (users.size != people.size) {
+                filterData(people, users)
+            }
+
+            adapter.setData(toPersonView(people, users))
         }
     }
 
     override fun onListItemClick(clickedItemIndex: Int) {
         val person: Person = listOfPeople[clickedItemIndex]
-        val action = ListOfPeopleFragmentDirections.actionNavGraphListOfPeopleToPersonAnnouncementFragment(person)
+        val action =
+            ListOfPeopleFragmentDirections.actionNavGraphListOfPeopleToPersonAnnouncementFragment(
+                person
+            )
         findNavController().navigate(action) // R.id.nav_graf_task_fragment
     }
 
-    private fun getEmail(): String {
-        return activity?.getSharedPreferences(
-            getString(R.string.preference_file_key),
-            Context.MODE_PRIVATE
-        )?.getString(getString(R.string.preference_email_key), null)
-            ?: throw IllegalStateException("Email not found")
+    private fun filterData(people: MutableList<PersonED>, users: MutableList<UserED>) {
+        val filterPeople: Boolean = people.size > users.size
+
+        val emails = if (filterPeople)
+            users.map { it.email!! }
+        else people.map { it.email!! }
+
+        if (filterPeople) {
+            people.removeAll { !emails.contains(it.email) }
+        } else {
+            users.removeAll { !emails.contains(it.email) }
+        }
+    }
+
+    private fun toPersonView(people: List<PersonED>, users: List<UserED>): List<Person> {
+        return people.filter { it.isValid() }.map { person ->
+            val user = users.find { Objects.equals(person.email, it.email) }!!
+
+            Person.Builder.createBuilder()
+                .email(person.email!!)
+                .photo(user.photo)
+                .name("${user.name} ${user.surname}")
+                .age(user.age!!)
+                .tags(person.tags)
+                .moneyFrom(person.moneyFrom)
+                .moneyTo(person.moneyTo)
+                .rooms(person.rooms)
+                .description(person.description!!)
+                .metro(person.metro!!)
+                .build()
+        }
     }
 }

@@ -46,13 +46,13 @@ class ProposedApartmentsFragment : Fragment() {
 
         val email: String = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
-            val apartments = viewModel.fetchApartmentsByRenterEmail(email)
+            val apartments = viewModel.fetchApartmentsByRenterEmail(email).toMutableList()
             if (apartments.isEmpty()) {
                 return@launch
             }
 
             val emailSet = apartments.map { it.email!! }.toSet()
-            val users = viewModel.fetchUsers(emailSet)
+            val users = viewModel.fetchUsers(emailSet).toMutableList()
 
             if (users.isEmpty()) {
                 throw IllegalStateException("There are no owners of apartments $apartments")
@@ -66,7 +66,7 @@ class ProposedApartmentsFragment : Fragment() {
         }
     }
 
-    private fun filterData(apartments: List<ApartmentED>, users: List<UserED>) {
+    private fun filterData(apartments: MutableList<ApartmentED>, users: MutableList<UserED>) {
         val filterApartments: Boolean = apartments.size > users.size
 
         val emails = if (filterApartments)
@@ -74,9 +74,9 @@ class ProposedApartmentsFragment : Fragment() {
         else apartments.map { it.email!! }
 
         if (filterApartments) {
-            apartments.filter { emails.contains(it.email) }
+            apartments.removeAll() { !emails.contains(it.email) }
         } else {
-            users.filter { emails.contains(it.email) }
+            users.removeAll { !emails.contains(it.email) }
         }
     }
 

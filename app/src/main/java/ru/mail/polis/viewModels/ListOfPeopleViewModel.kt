@@ -1,7 +1,6 @@
 package ru.mail.polis.viewModels
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.mail.polis.dao.person.IPersonService
@@ -16,14 +15,14 @@ class ListOfPeopleViewModel : ViewModel() {
     private val userService: IUserService = UserService()
 
     suspend fun fetchPeople(): List<PersonED> {
-        return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
             personService.findAll()
         }
     }
 
-    suspend fun fetchUser(email: String): UserED? {
-        return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
-            userService.findUserByEmail(email)
+    suspend fun fetchUsers(emailList: Set<String>): List<UserED> {
+        return withContext(Dispatchers.IO) {
+            userService.findUsersByEmails(emailList)
         }
     }
 }
