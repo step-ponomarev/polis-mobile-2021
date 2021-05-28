@@ -10,12 +10,13 @@ import ru.mail.polis.dao.propose.IProposeService
 import ru.mail.polis.dao.propose.ProposeED
 import ru.mail.polis.dao.propose.ProposeService
 import ru.mail.polis.dao.propose.ProposeStatus
+import ru.mail.polis.exception.NotificationException
 
 class PersonAnnouncementViewModel : ViewModel() {
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
     private val proposeService: IProposeService = ProposeService()
 
-    @Throws(IllegalStateException::class)
+    @Throws(NotificationException::class)
     suspend fun offerApartment(ownerEmail: String, renterEmail: String) {
         val exist = withContext(Dispatchers.IO) {
             proposeService.checkProposeExist(ownerEmail, renterEmail)
@@ -23,16 +24,26 @@ class PersonAnnouncementViewModel : ViewModel() {
 
         if (exist) {
             return suspendCancellableCoroutine { coroutine ->
-                coroutine.cancel(IllegalStateException("Вы уже предложили квартиру этому человеку"))
+                coroutine.cancel(
+                    NotificationException(
+                        "Apartments proposed already",
+                        null,
+                        "Вы уже предложили квартиру этому человеку"
+                    )
+                )
             }
         }
 
-        // Проверяем, что у пользователя
-        // есть аппартаменты иначе выбрасывам исключение
         withContext(Dispatchers.IO) {
             apartmentService.findByEmail(ownerEmail)
         } ?: return suspendCancellableCoroutine { coroutine ->
-            coroutine.cancel(IllegalStateException("У вас нет доступных квартир"))
+            coroutine.cancel(
+                NotificationException(
+                    "Apartment is not exist",
+                    null,
+                    "У вас нет доступных квартир"
+                )
+            )
         }
 
         withContext(Dispatchers.IO) {
