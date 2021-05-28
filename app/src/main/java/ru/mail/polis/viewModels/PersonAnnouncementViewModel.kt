@@ -1,6 +1,5 @@
 package ru.mail.polis.viewModels
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -12,14 +11,13 @@ import ru.mail.polis.dao.propose.IProposeService
 import ru.mail.polis.dao.propose.ProposeED
 import ru.mail.polis.dao.propose.ProposeService
 import ru.mail.polis.dao.propose.ProposeStatus
-import ru.mail.polis.exception.NotificationException
+import ru.mail.polis.exception.NotificationKeeperException
 
 class PersonAnnouncementViewModel : ViewModel() {
-    private var context: Context? = null
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
     private val proposeService: IProposeService = ProposeService()
 
-    @Throws(NotificationException::class)
+    @Throws(NotificationKeeperException::class)
     suspend fun offerApartment(ownerEmail: String, renterEmail: String) {
         val exist = withContext(Dispatchers.IO) {
             proposeService.checkProposeExist(ownerEmail, renterEmail)
@@ -27,10 +25,10 @@ class PersonAnnouncementViewModel : ViewModel() {
         if (exist) {
             return suspendCancellableCoroutine { coroutine ->
                 coroutine.cancel(
-                    NotificationException(
+                    NotificationKeeperException(
                         "Apartments proposed already",
                         null,
-                        context?.getString(R.string.toast_apartment_already_proposed) ?: ""
+                        R.string.toast_apartment_already_proposed
                     )
                 )
             }
@@ -41,10 +39,10 @@ class PersonAnnouncementViewModel : ViewModel() {
         } ?: return suspendCancellableCoroutine { coroutine ->
 
             coroutine.cancel(
-                NotificationException(
+                NotificationKeeperException(
                     "Apartment is not exist",
                     null,
-                    context?.getString(R.string.toast_no_apartments_yet) ?: ""
+                    R.string.toast_no_apartments_yet
                 )
             )
         }
@@ -58,9 +56,5 @@ class PersonAnnouncementViewModel : ViewModel() {
                 )
             )
         }
-    }
-
-    fun setContext(context: Context?) {
-        this.context = context
     }
 }
