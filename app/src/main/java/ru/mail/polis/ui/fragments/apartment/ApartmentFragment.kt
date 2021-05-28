@@ -139,16 +139,17 @@ abstract class ApartmentFragment : Fragment() {
 
         val view: View = LayoutInflater.from(context).inflate(R.layout.component_photo, null)
 
-        val cl = view.findViewById<ConstraintLayout>(R.id.photo_component__cl)
-        val iv = view.findViewById<ImageView>(R.id.photo_component__iv)
-        val ib = view.findViewById<ImageButton>(R.id.photo_component__ib)
+        val constraintLayoutPhotoComponent =
+            view.findViewById<ConstraintLayout>(R.id.photo_component__cl)
+        val imageViewPhoto = view.findViewById<ImageView>(R.id.photo_component__iv)
+        val imageButtonDeletePhoto = view.findViewById<ImageButton>(R.id.photo_component__ib)
 
-        ib.setOnClickListener {
-            apartmentViewModel.list.remove(iv.drawable.toBitmap())
-            photoLinearLayout.removeView(cl)
+        imageButtonDeletePhoto.setOnClickListener {
+            apartmentViewModel.list.remove(imageViewPhoto.drawable.toBitmap())
+            photoLinearLayout.removeView(constraintLayoutPhotoComponent)
         }
 
-        iv.setOnClickListener {
+        imageViewPhoto.setOnClickListener {
             val bundle = Bundle()
 
             val view = it as ImageView
@@ -157,19 +158,19 @@ abstract class ApartmentFragment : Fragment() {
             findNavController().navigate(R.id.nav_graph__full_image_fragment, bundle)
         }
 
-        cl.layoutParams = ViewGroup.MarginLayoutParams(
+        constraintLayoutPhotoComponent.layoutParams = ViewGroup.MarginLayoutParams(
             LayoutSettings.getLayoutParams(
                 PHOTO_CONSTRAINT_LAYOUT_WIDTH, PHOTO_CONSTRAINT_LAYOUT_HEIGHT
             )
         )
-        cl.setPadding(10, 0, 10, 0)
+        constraintLayoutPhotoComponent.setPadding(10, 0, 10, 0)
 
-        iv.scaleType = ImageView.ScaleType.CENTER_CROP
-        iv.setImageBitmap(bitmap)
+        imageViewPhoto.scaleType = ImageView.ScaleType.CENTER_CROP
+        imageViewPhoto.setImageBitmap(bitmap)
 
         apartmentViewModel.list.add(bitmap)
 
-        return cl
+        return constraintLayoutPhotoComponent
     }
 
     protected fun getEmail(): String {
