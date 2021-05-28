@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
@@ -54,7 +53,7 @@ class AddApartmentFragment : ApartmentFragment() {
         val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId)
 
         if (selectedChip == null) {
-            getToastAboutFillAllFields().show()
+            getToastWithText(getString(R.string.toast_fill_all_information_about_apartment)).show()
             return
         }
 
@@ -64,7 +63,7 @@ class AddApartmentFragment : ApartmentFragment() {
         val square = squareEditText.text.toString()
 
         if (metro.isEmpty() || rooms.isBlank() || cost.isBlank() || square.isBlank()) {
-            getToastAboutFillAllFields().show()
+            getToastWithText(getString(R.string.toast_fill_all_information_about_apartment)).show()
             return
         }
 
@@ -89,13 +88,5 @@ class AddApartmentFragment : ApartmentFragment() {
         }
 
         findNavController().navigate(R.id.nav_graph__list_of_people)
-    }
-
-    private fun getToastAboutFillAllFields(): Toast {
-        return Toast.makeText(
-            requireContext(),
-            getString(R.string.toast_fill_all_information_about_apartment),
-            Toast.LENGTH_SHORT
-        )
     }
 }
