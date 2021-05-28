@@ -60,7 +60,8 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
                 filterData(people, users)
             }
 
-            adapter.setData(toPersonView(people, users))
+            listOfPeople = toPersonView(people, users)
+            adapter.setData(listOfPeople)
         }
     }
 
