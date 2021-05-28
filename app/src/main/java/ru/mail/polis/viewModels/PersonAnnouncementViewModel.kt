@@ -2,7 +2,6 @@ package ru.mail.polis.viewModels
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
@@ -14,7 +13,6 @@ import ru.mail.polis.dao.propose.ProposeED
 import ru.mail.polis.dao.propose.ProposeService
 import ru.mail.polis.dao.propose.ProposeStatus
 import ru.mail.polis.exception.NotificationException
-import kotlin.coroutines.coroutineContext
 
 class PersonAnnouncementViewModel : ViewModel() {
     private var context: Context? = null
@@ -63,6 +61,6 @@ class PersonAnnouncementViewModel : ViewModel() {
     }
 
     fun setContext(context: Context?) {
-        this.context = context;
+        this.context = context
     }
 }

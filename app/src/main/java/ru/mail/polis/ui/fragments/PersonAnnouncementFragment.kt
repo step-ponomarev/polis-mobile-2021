@@ -49,8 +49,7 @@ class PersonAnnouncementFragment : Fragment() {
         val ivBranchColor: ImageView =
             view.findViewById(R.id.fragment_person_announcement__metro_branch_color)
         val tvMoney: TextView = view.findViewById(R.id.fragment_person_announcement__tv_money)
-        viewModel =
-            ViewModelProvider(this).get(PersonAnnouncementViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(PersonAnnouncementViewModel::class.java)
         viewModel.setContext(this.context)
 
         val cvRooms: List<CardView> = listOf(
