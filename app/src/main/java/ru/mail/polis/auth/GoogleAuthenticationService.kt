@@ -33,7 +33,7 @@ class GoogleAuthenticationService(private val singInClient: GoogleSignInClient) 
         } catch (e: ApiException) {
             Log.w(TAG, "Google sign in failed", e)
 
-            throw AuthenticatorException("Login Error")
+            throw AuthenticatorException("Login Error", e)
         }
     }
 

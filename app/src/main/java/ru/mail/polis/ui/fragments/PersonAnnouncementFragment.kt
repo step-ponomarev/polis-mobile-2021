@@ -20,7 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
-import ru.mail.polis.exception.NotificationException
+import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.helpers.getAgeString
 import ru.mail.polis.list.of.people.Person
 import ru.mail.polis.viewModels.PersonAnnouncementViewModel
@@ -28,7 +28,7 @@ import ru.mail.polis.viewModels.PersonAnnouncementViewModel
 class PersonAnnouncementFragment : Fragment() {
     private lateinit var person: Person
     private lateinit var offerApartmentButton: Button
-    private lateinit var personAnnouncementViewModel: PersonAnnouncementViewModel
+    private lateinit var viewModel: PersonAnnouncementViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,8 +49,8 @@ class PersonAnnouncementFragment : Fragment() {
         val ivBranchColor: ImageView =
             view.findViewById(R.id.fragment_person_announcement__metro_branch_color)
         val tvMoney: TextView = view.findViewById(R.id.fragment_person_announcement__tv_money)
-        personAnnouncementViewModel =
-            ViewModelProvider(this).get(PersonAnnouncementViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(PersonAnnouncementViewModel::class.java)
+
         val cvRooms: List<CardView> = listOf(
             view.findViewById(R.id.fragment_person_announcement__ll_cv_rooms1),
             view.findViewById(R.id.fragment_person_announcement__ll_cv_rooms2),
@@ -108,20 +108,20 @@ class PersonAnnouncementFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val emailPerson: String = person.email
-                    ?: throw NotificationException(
+                    ?: throw NotificationKeeperException(
                         "Advert is not exist",
                         null,
-                        "Объявление больше не доступно"
+                        R.string.toast_advert_unavailable
                     )
 
-                personAnnouncementViewModel.offerApartment(
+                viewModel.offerApartment(
                     getEmail(),
                     emailPerson
                 )
 
                 getToastWithText("Вы предложили квартиру человеку с именем ${person.name}").show()
-            } catch (e: NotificationException) {
-                getToastWithText(e.getToastMessage()).show()
+            } catch (e: NotificationKeeperException) {
+                getToastWithText(getString(e.getResourceStringCode())).show()
             }
         }
     }
