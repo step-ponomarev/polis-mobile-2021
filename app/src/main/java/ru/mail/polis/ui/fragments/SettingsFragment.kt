@@ -89,7 +89,6 @@ class SettingsFragment : Fragment() {
         )
 
         apartmentButton.setOnClickListener(this::onClickApartmentButton)
-        personButton.setOnClickListener(this::onClickPersonButton)
         editButton.setOnClickListener(this::onClickEditUser)
         changePhotoButton.setOnClickListener(this::onClickChangePhoto)
     }
@@ -155,9 +154,6 @@ class SettingsFragment : Fragment() {
                 dialogFragment.show(parentFragmentManager, "Apartment editing")
             }
         }
-    }
-
-    private fun onClickPersonButton(view: View) {
     }
 
     private fun getEmail(): String {
