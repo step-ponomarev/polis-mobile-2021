@@ -42,10 +42,10 @@
     </HorizontalScrollView>
 
 
-    <View
+    <include
+        layout="@layout/dividing_line"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@drawable/shape_line"
         app:layout_constraintBottom_toBottomOf="@id/fragment_person_announcement__hsv_tags"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

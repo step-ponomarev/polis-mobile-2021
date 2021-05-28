@@ -42,20 +42,20 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/people_item__component_person_header"
-                app:layout_constraintVertical_chainStyle="packed"
-                >
-            <LinearLayout
-                android:id="@+id/people_item__ll_tags"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingHorizontal="10dp"> </LinearLayout>
+                app:layout_constraintVertical_chainStyle="packed">
+
+                <LinearLayout
+                    android:id="@+id/people_item__ll_tags"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="10dp"></LinearLayout>
             </HorizontalScrollView>
 
-            <View
+            <include
+                layout="@layout/dividing_line"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@drawable/shape_line"
                 app:layout_constraintBottom_toBottomOf="@id/people_item__hsv_tags"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
