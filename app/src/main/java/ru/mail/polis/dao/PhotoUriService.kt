@@ -29,6 +29,8 @@ class PhotoUriService : IPhotoUriService {
                 if (task.isSuccessful) {
                     coroutine.resume(task.result!!)
                 }
+            }.addOnFailureListener {
+                coroutine.cancel(it)
             }
         }
     }

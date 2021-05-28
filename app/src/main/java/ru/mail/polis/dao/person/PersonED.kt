@@ -6,9 +6,6 @@ import ru.mail.polis.tags.Tags
 
 class PersonED(
     var email: String? = null,
-    var photo: String? = null,
-    var name: String? = null,
-    var age: Long? = null,
     var tags: List<Tags> = emptyList(),
     var metro: Metro? = null,
     var moneyTo: Long = 0,
@@ -18,17 +15,12 @@ class PersonED(
 ) {
     fun isValid(): Boolean {
         return email != null &&
-            name != null &&
-            age != null &&
             metro != null &&
             description != null
     }
 
     class Builder private constructor() {
         private var email: String? = null
-        private var photo: String? = null
-        private var name: String? = null
-        private var age: Long? = null
         private var tags: List<Tags> = emptyList()
         private var metro: Metro? = null
         private var moneyTo: Long = 0
@@ -44,21 +36,6 @@ class PersonED(
 
         fun email(email: String): Builder {
             this.email = email
-            return this
-        }
-
-        fun photo(photo: String?): Builder {
-            this.photo = photo
-            return this
-        }
-
-        fun name(name: String): Builder {
-            this.name = name
-            return this
-        }
-
-        fun age(age: Long?): Builder {
-            this.age = age
             return this
         }
 
@@ -91,9 +68,6 @@ class PersonED(
         fun build(): PersonED {
             return PersonED(
                 email!!,
-                photo,
-                name,
-                age,
                 tags,
                 metro,
                 moneyFrom,
@@ -111,9 +85,6 @@ class PersonED(
         other as PersonED
 
         if (email != other.email) return false
-        if (photo != other.photo) return false
-        if (name != other.name) return false
-        if (age != other.age) return false
         if (tags != other.tags) return false
         if (metro != other.metro) return false
         if (moneyTo != other.moneyTo) return false
@@ -126,9 +97,6 @@ class PersonED(
 
     override fun hashCode(): Int {
         var result = email.hashCode()
-        result = 31 * result + (photo?.hashCode() ?: 0)
-        result = 31 * result + (name?.hashCode() ?: 0)
-        result = 31 * result + (age?.hashCode() ?: 0)
         result = 31 * result + tags.hashCode()
         result = 31 * result + (metro?.hashCode() ?: 0)
         result = 31 * result + moneyTo.hashCode()
