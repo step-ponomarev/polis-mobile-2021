@@ -1,6 +1,5 @@
 package ru.mail.polis.ui.fragments
 
-
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,7 +18,6 @@ import ru.mail.polis.R
 import ru.mail.polis.list.of.apartments.ApartmentView
 
 class FragmentShowOneApartment : Fragment() {
-
 
     private lateinit var showPhoneButton: Button
     private lateinit var apartment: ApartmentView
@@ -83,7 +81,6 @@ class FragmentShowOneApartment : Fragment() {
         }
 
         photos.forEach(photoContainer::addView)
-
 
         showPhoneButton.setOnClickListener {
             phoneText.text = apartment.phone

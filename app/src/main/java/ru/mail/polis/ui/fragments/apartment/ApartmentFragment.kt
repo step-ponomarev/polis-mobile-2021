@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -28,15 +27,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.ChipGroup
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
-import ru.mail.polis.dao.apartments.ApartmentED
 import ru.mail.polis.decoder.DecoderFactory
 import ru.mail.polis.metro.Metro
-import ru.mail.polis.ui.fragments.FragmentUtils
-import ru.mail.polis.ui.fragments.LayoutSettings
 import ru.mail.polis.viewModels.ApartmentViewModel
 
 abstract class ApartmentFragment : Fragment() {

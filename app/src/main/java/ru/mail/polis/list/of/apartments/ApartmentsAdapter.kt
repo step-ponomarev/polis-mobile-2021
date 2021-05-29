@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import ru.mail.polis.R
-import ru.mail.polis.ui.fragments.ProposedApartmentsFragment
 
 class ApartmentsAdapter(
     private var apartmentViews: List<ApartmentView> = emptyList(),

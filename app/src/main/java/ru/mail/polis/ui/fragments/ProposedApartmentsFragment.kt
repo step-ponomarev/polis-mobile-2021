@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +21,6 @@ import ru.mail.polis.list.of.apartments.ApartmentView
 import ru.mail.polis.list.of.apartments.ApartmentsAdapter
 import ru.mail.polis.viewModels.ProposedApartmentsViewModel
 import java.util.Objects
-
 
 class ProposedApartmentsFragment : Fragment(), ApartmentsAdapter.ListItemClickListener {
 
@@ -66,7 +65,6 @@ class ProposedApartmentsFragment : Fragment(), ApartmentsAdapter.ListItemClickLi
             }
             apartments = toApartmentView(apartmentsED, users)
             adapter.setData(apartments)
-
         }
     }
 
