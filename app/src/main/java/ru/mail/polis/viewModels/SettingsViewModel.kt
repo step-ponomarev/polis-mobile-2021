@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.mail.polis.R
 import ru.mail.polis.converter.Converter
 import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.apartments.ApartmentService
@@ -18,6 +18,8 @@ import ru.mail.polis.dao.photo.PhotoUriService
 import ru.mail.polis.dao.users.IUserService
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.dao.users.UserService
+import ru.mail.polis.exception.DaoException
+import ru.mail.polis.exception.NotificationKeeperException
 
 class SettingsViewModel : ViewModel() {
 
@@ -28,7 +30,6 @@ class SettingsViewModel : ViewModel() {
     private var userED = MutableLiveData<UserED>()
 
     fun getUserInfo(email: String) {
-
         viewModelScope.launch(Dispatchers.IO) {
 
             val user = userService.findUserByEmail(email)
@@ -39,30 +40,42 @@ class SettingsViewModel : ViewModel() {
         }
     }
 
-    fun updateUser(user: UserED, bitmap: Bitmap?) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val task = async {
-                if (user.photo == null && bitmap != null) {
-                    val url = withContext(Dispatchers.IO) {
-                        val pathString =
-                            "${Collections.USER.collectionName}Photos/${user.email}-photo.jpg"
-                        photoUriService.saveImage(pathString, Converter.bitmapToInputStream(bitmap))
-                    }
+    @Throws(NotificationKeeperException::class)
+    suspend fun updateUser(user: UserED, bitmap: Bitmap?) {
+        val pathString = "${Collections.USER.collectionName}Photos/${user.email}-photo.jpg"
 
+        try {
+            if (user.photo == null && bitmap != null) {
+                withContext(Dispatchers.IO) {
+                    val url =
+                        photoUriService.saveImage(pathString, Converter.bitmapToInputStream(bitmap))
                     user.photo = url.toString()
                 }
             }
-            task.await()
 
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
                 userED.value = userService.updateUserByEmail(user.email!!, user)
             }
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failed user updating $user",
+                e,
+                R.string.error_bad_internet
+            )
         }
     }
 
+    @Throws(NotificationKeeperException::class)
     suspend fun checkApartmentExist(email: String): Boolean {
-
-        return apartmentService.isExist(email)
+        try {
+            return apartmentService.isExist(email)
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failed checking user existence by email: $email",
+                e,
+                R.string.error_bad_internet
+            )
+        }
     }
 
     fun getUser(): LiveData<UserED> = userED

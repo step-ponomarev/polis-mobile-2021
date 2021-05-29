@@ -28,6 +28,7 @@ import kotlinx.coroutines.withContext
 import ru.mail.polis.R
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
+import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.viewModels.SettingsViewModel
 
 class SettingsFragment : Fragment() {
@@ -113,45 +114,53 @@ class SettingsFragment : Fragment() {
             null
         }
 
-        settingsViewModel.updateUser(
-            UserED(
-                email = getEmail(),
-                name = nameEditText.text.toString(),
-                surname = surnameEditText.text.toString(),
-                phone = phoneEditText.text.toString(),
-                age = Integer.parseInt(ageEditText.text.toString()).toLong(),
-                externalAccounts = emptyList(),
-                photo = photo
-            ),
-            bitmap
+        val user = UserED(
+            email = getEmail(),
+            name = nameEditText.text.toString(),
+            surname = surnameEditText.text.toString(),
+            phone = phoneEditText.text.toString(),
+            age = Integer.parseInt(ageEditText.text.toString()).toLong(),
+            externalAccounts = emptyList(),
+            photo = photo
         )
 
-        getToastThatUserChangedInformation().show()
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                settingsViewModel.updateUser(user, bitmap)
+                getToast(getString(R.string.toast_changes_are_saved)).show()
+            } catch (e: NotificationKeeperException) {
+                getToast(getString(e.getResourceStringCode()))
+            }
+        }
     }
 
     private fun onClickApartmentButton(view: View) {
-
         GlobalScope.launch(Dispatchers.Main) {
-            val exist = withContext(Dispatchers.IO) {
-                settingsViewModel.checkApartmentExist(getEmail())
-            }
+            try {
+                val exist = withContext(Dispatchers.IO) {
+                    settingsViewModel.checkApartmentExist(getEmail())
+                }
 
-            if (exist) {
-                findNavController().navigate(R.id.nav_graph__edit_apartment_fragment)
-            } else {
+                if (exist) {
+                    findNavController().navigate(R.id.nav_graph__edit_apartment_fragment)
+                    return@launch
+                }
+
                 val dialogFragment =
                     CustomDialogFragment(
                         getString(R.string.dialog_fragment_title_add_apartment),
                         getString(R.string.dialog_fragment_message_add_apartment),
-                        { dialog, i ->
+                        { dialog, _ ->
                             dialog.cancel()
                             findNavController().navigate(R.id.nav_graph__add_apartment_fragment)
                         },
-                        { dialog, i ->
+                        { dialog, _ ->
                             dialog.cancel()
                         }
                     )
                 dialogFragment.show(parentFragmentManager, "Apartment editing")
+            } catch (e: NotificationKeeperException) {
+                getToast(getString(e.getResourceStringCode())).show()
             }
         }
     }
@@ -177,10 +186,10 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun getToastThatUserChangedInformation(): Toast {
+    private fun getToast(text: String): Toast {
         return Toast.makeText(
             requireContext(),
-            getString(R.string.toast_changes_are_saved),
+            text,
             Toast.LENGTH_SHORT
         )
     }
