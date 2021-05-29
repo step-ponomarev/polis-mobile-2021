@@ -17,6 +17,7 @@ class AdvertCreationViewModel : ViewModel() {
     private val personService: IPersonService = PersonService.getInstance()
     private val userService: IUserService = UserService()
 
+    @Throws(NotificationKeeperException::class)
     suspend fun addPerson(personED: PersonED): PersonED {
         try {
             return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
@@ -30,9 +31,17 @@ class AdvertCreationViewModel : ViewModel() {
         }
     }
 
+    @Throws(NotificationKeeperException::class)
     suspend fun fetchUser(email: String): UserED? {
-        return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
-            userService.findUserByEmail(email)
+        try {
+            return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+                userService.findUserByEmail(email)
+            }
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failed fetching user by email: $email",
+                NotificationKeeperException.NotificationType.DAO_ERROR
+            )
         }
     }
 }

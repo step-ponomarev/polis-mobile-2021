@@ -19,6 +19,8 @@ import ru.mail.polis.auth.AuthenticationService
 import ru.mail.polis.auth.GoogleSingInUtils
 import ru.mail.polis.dao.users.IUserService
 import ru.mail.polis.dao.users.UserService
+import ru.mail.polis.exception.DaoException
+import ru.mail.polis.exception.NotificationKeeperException
 
 class LoginFragment : Fragment() {
     companion object {
@@ -71,6 +73,8 @@ class LoginFragment : Fragment() {
                     findNavController().navigate(R.id.nav_graph__filling_profile_info)
                 }
             }
+        } catch (e: NotificationKeeperException) {
+            Log.e("Auth error", getString(e.getResourceStringCode()), e)
         } catch (e: Exception) {
             Log.e("Auth error", e.message, e)
         }
@@ -86,9 +90,17 @@ class LoginFragment : Fragment() {
             ?.apply()
     }
 
+    @Throws(NotificationKeeperException::class)
     private suspend fun checkIfUserExist(email: String): Boolean {
-        return withContext(Dispatchers.IO) {
-            userService.isExist(email)
+        try {
+            return withContext(Dispatchers.IO) {
+                userService.isExist(email)
+            }
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failed checking user existence by email: $email",
+                NotificationKeeperException.NotificationType.DAO_ERROR
+            )
         }
     }
 }

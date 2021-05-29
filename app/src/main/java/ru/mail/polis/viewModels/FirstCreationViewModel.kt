@@ -19,6 +19,7 @@ class FirstCreationViewModel : ViewModel() {
     private val userService: IUserService = UserService()
     private val photoUriService: IPhotoUriService = PhotoUriService()
 
+    @Throws(NotificationKeeperException::class)
     suspend fun addUser(userED: UserED, bitmap: Bitmap) {
         try {
             val url = withContext(Dispatchers.IO) {

@@ -27,9 +27,18 @@ class ListOfPeopleViewModel : ViewModel() {
         }
     }
 
+    @Throws(NotificationKeeperException::class)
     suspend fun fetchUsers(emailList: Set<String>): List<UserED> {
-        return withContext(Dispatchers.IO) {
-            userService.findUsersByEmails(emailList)
+        try {
+            return withContext(Dispatchers.IO) {
+                userService.findUsersByEmails(emailList)
+            }
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failed fetching users by email list: $emailList",
+                e,
+                NotificationKeeperException.NotificationType.DAO_ERROR
+            )
         }
     }
 }

@@ -75,15 +75,19 @@ class AdvertCreationFragment : Fragment() {
 
         email = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
-            user = viewModel.fetchUser(email)
-                ?: throw IllegalStateException("User not found by email: $email")
+            try {
+                user = viewModel.fetchUser(email)
+                    ?: throw IllegalStateException("User not found by email: $email")
 
-            if (user.photo != null) {
-                Glide.with(avatarImageView).load(user.photo).into(avatarImageView)
+                if (user.photo != null) {
+                    Glide.with(avatarImageView).load(user.photo).into(avatarImageView)
+                }
+
+                nameTextView.text = "${user.name} ${user.surname}"
+                ageTextView.text = user.age.toString()
+            } catch (e: NotificationKeeperException) {
+                getToast(getString(e.getResourceStringCode())).show()
             }
-
-            nameTextView.text = "${user.name} ${user.surname}"
-            ageTextView.text = user.age.toString()
         }
 
         createAdvertFragment.setOnClickListener(this::createAdvert)

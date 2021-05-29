@@ -7,6 +7,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mail.polis.dao.Collections
+import ru.mail.polis.exception.DaoException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -21,16 +22,16 @@ class UserService : IUserService {
 
         return suspendCancellableCoroutine { coroutine ->
             userRef.update(userToMap(user))
+                .addOnSuccessListener {
+                    coroutine.resume(user)
+                }
                 .addOnFailureListener {
                     coroutine.resumeWithException(
-                        RuntimeException(
+                        DaoException(
                             "Failure updating user with email: $email",
                             it
                         )
                     )
-                }
-                .addOnSuccessListener {
-                    coroutine.resume(user)
                 }
         }
     }
@@ -45,7 +46,7 @@ class UserService : IUserService {
                 }
                 .addOnFailureListener {
                     coroutine.resumeWithException(
-                        RuntimeException("Filed fetching user with email: $email", it)
+                        DaoException("Filed fetching user with email: $email", it)
                     )
                 }
         }
@@ -60,7 +61,7 @@ class UserService : IUserService {
                 }
                 .addOnFailureListener {
                     coroutine.resumeWithException(
-                        RuntimeException("Filed fetching users by emails: $emails", it)
+                        DaoException("Filed fetching users by emails: $emails", it)
                     )
                 }
         }
@@ -70,14 +71,6 @@ class UserService : IUserService {
         return suspendCancellableCoroutine { coroutine ->
             userCollection.document(user.email!!)
                 .set(user)
-                .addOnFailureListener {
-                    coroutine.resumeWithException(
-                        RuntimeException(
-                            "Failure adding user with email: ${user.email}",
-                            it
-                        )
-                    )
-                }
                 .addOnSuccessListener {
                     Log.i(
                         this::class.java.name,
@@ -85,6 +78,14 @@ class UserService : IUserService {
                     )
 
                     coroutine.resume(user)
+                }
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        DaoException(
+                            "Failure adding user with email: ${user.email}",
+                            it
+                        )
+                    )
                 }
         }
     }
@@ -94,14 +95,6 @@ class UserService : IUserService {
 
             userCollection.document(email)
                 .get()
-                .addOnFailureListener {
-                    coroutine.resumeWithException(
-                        RuntimeException(
-                            "Failure adding user with email: $email",
-                            it
-                        )
-                    )
-                }
                 .addOnSuccessListener { document ->
                     Log.i(
                         this::class.java.name,
@@ -112,6 +105,14 @@ class UserService : IUserService {
                     } else {
                         coroutine.resume(false)
                     }
+                }
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        DaoException(
+                            "Failure adding user with email: $email",
+                            it
+                        )
+                    )
                 }
         }
     }
