@@ -10,6 +10,8 @@ import ru.mail.polis.dao.apartments.IApartmentService
 import ru.mail.polis.dao.person.IPersonService
 import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.person.PersonService
+import ru.mail.polis.exception.DaoException
+import ru.mail.polis.exception.NotificationKeeperException
 
 class SelfDefinitionViewModel : ViewModel() {
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
@@ -21,9 +23,14 @@ class SelfDefinitionViewModel : ViewModel() {
         }
     }
 
+    @Throws(NotificationKeeperException::class)
     suspend fun fetchPerson(email: String): PersonED? {
-        return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
-            personService.findByEmail(email)
+        try {
+            return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+                personService.findByEmail(email)
+            }
+        } catch (e: DaoException) {
+            throw NotificationKeeperException("Failed fatching person with email $email", e, NotificationKeeperException.NotificationType.DAO_ERROR)
         }
     }
 }

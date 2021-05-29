@@ -1,8 +1,17 @@
 package ru.mail.polis.dao.propose
 
+import ru.mail.polis.exception.DaoException
+
 interface IProposeService {
+    @Throws(DaoException::class)
     suspend fun findOwnerEmail(email: String): List<ProposeED>
+
+    @Throws(DaoException::class)
     suspend fun findRenterEmail(email: String): List<ProposeED>
+
+    @Throws(DaoException::class)
     suspend fun createPropose(proposeED: ProposeED): ProposeED
+
+    @Throws(DaoException::class)
     suspend fun checkProposeExist(ownerEmail: String, renterEmail: String): Boolean
 }

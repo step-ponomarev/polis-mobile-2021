@@ -8,6 +8,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mail.polis.dao.Collections
+import ru.mail.polis.exception.DaoException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -37,7 +38,7 @@ class ProposeService(
                 }
                 .addOnFailureListener {
                     coroutine.resumeWithException(
-                        RuntimeException(
+                        DaoException(
                             "Failed fetching apartment propose by ownerEmail: $email",
                             it
                         )
@@ -55,7 +56,7 @@ class ProposeService(
                 }
                 .addOnFailureListener {
                     coroutine.resumeWithException(
-                        RuntimeException(
+                        DaoException(
                             "Failed fetching apartment propose by renterEmail: $email",
                             it
                         )
@@ -75,7 +76,7 @@ class ProposeService(
                 }
                 .addOnFailureListener {
                     coroutine.resumeWithException(
-                        RuntimeException(
+                        DaoException(
                             "Failed fetching apartment propose by ownerEmail: $ownerEmail and renterEmail: $renterEmail",
                             it
                         )
@@ -88,14 +89,6 @@ class ProposeService(
         return suspendCancellableCoroutine { coroutine ->
             proposeCollection.document()
                 .set(proposeED)
-                .addOnFailureListener {
-                    coroutine.resumeWithException(
-                        RuntimeException(
-                            "Failure crating propose: $proposeED",
-                            it
-                        )
-                    )
-                }
                 .addOnSuccessListener {
                     Log.i(
                         this::class.java.name,
@@ -103,6 +96,14 @@ class ProposeService(
                     )
 
                     coroutine.resume(proposeED)
+                }
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        DaoException(
+                            "Failure crating propose: $proposeED",
+                            it
+                        )
+                    )
                 }
         }
     }

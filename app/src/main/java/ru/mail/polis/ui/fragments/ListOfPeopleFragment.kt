@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.users.UserED
+import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.people.PeopleAdapter
 import ru.mail.polis.list.of.people.Person
@@ -46,24 +48,28 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
         rvList.adapter = adapter
 
         GlobalScope.launch(Dispatchers.Main) {
-            val people = viewModel.fetchPeople().toMutableList()
-            if (people.isEmpty()) {
-                return@launch
+            try {
+                val people = viewModel.fetchPeople().toMutableList()
+                if (people.isEmpty()) {
+                    return@launch
+                }
+
+                val emailSet = people.map { it.email!! }.toSet()
+                val users = viewModel.fetchUsers(emailSet).toMutableList()
+
+                if (users.isEmpty()) {
+                    throw IllegalStateException("There are no owners of adverts $people")
+                }
+
+                if (users.size != people.size) {
+                    filterData(people, users)
+                }
+
+                listOfPeople = toPersonView(people, users)
+                adapter.setData(listOfPeople)
+            } catch (e: NotificationKeeperException) {
+                getToastWithText(getString(e.getResourceStringCode())).show()
             }
-
-            val emailSet = people.map { it.email!! }.toSet()
-            val users = viewModel.fetchUsers(emailSet).toMutableList()
-
-            if (users.isEmpty()) {
-                throw IllegalStateException("There are no owners of adverts $people")
-            }
-
-            if (users.size != people.size) {
-                filterData(people, users)
-            }
-
-            listOfPeople = toPersonView(people, users)
-            adapter.setData(listOfPeople)
         }
     }
 
@@ -107,5 +113,13 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
                 .metro(person.metro!!)
                 .build()
         }
+    }
+
+    private fun getToastWithText(text: String): Toast {
+        return Toast.makeText(
+            requireContext(),
+            text,
+            Toast.LENGTH_SHORT
+        )
     }
 }

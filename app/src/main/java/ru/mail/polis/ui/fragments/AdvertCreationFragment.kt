@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.users.UserED
+import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
 import ru.mail.polis.viewModels.AdvertCreationViewModel
@@ -91,7 +92,7 @@ class AdvertCreationFragment : Fragment() {
     private fun createAdvert(view: View) {
         val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId)
         if (selectedChip == null) {
-            getToastAboutFillAllFields().show()
+            getToast(getString(R.string.toast_fill_all_advert_info)).show()
             return
         }
 
@@ -106,7 +107,7 @@ class AdvertCreationFragment : Fragment() {
             costFrom.isBlank() ||
             costTo.isBlank()
         ) {
-            getToastAboutFillAllFields().show()
+            getToast(getString(R.string.toast_fill_all_advert_info)).show()
             return
         }
 
@@ -119,15 +120,19 @@ class AdvertCreationFragment : Fragment() {
                 .tags(emptyList())
                 .build()
 
-            viewModel.addPerson(person)
-            findNavController().navigate(R.id.nav_graph__list_of_people)
+            try {
+                viewModel.addPerson(person)
+                findNavController().navigate(R.id.nav_graph__list_of_people)
+            } catch (e: NotificationKeeperException) {
+                getToast(getString(e.getResourceStringCode()))
+            }
         }
     }
 
-    private fun getToastAboutFillAllFields(): Toast {
+    private fun getToast(text: String): Toast {
         return Toast.makeText(
             requireContext(),
-            getString(R.string.toast_fill_all_advert_info),
+            text,
             Toast.LENGTH_SHORT
         )
     }

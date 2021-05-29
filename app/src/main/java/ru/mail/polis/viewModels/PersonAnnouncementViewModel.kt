@@ -10,6 +10,7 @@ import ru.mail.polis.dao.propose.IProposeService
 import ru.mail.polis.dao.propose.ProposeED
 import ru.mail.polis.dao.propose.ProposeService
 import ru.mail.polis.dao.propose.ProposeStatus
+import ru.mail.polis.exception.DaoException
 import ru.mail.polis.exception.NotificationKeeperException
 import java.lang.IllegalStateException
 import kotlin.coroutines.resumeWithException
@@ -44,13 +45,21 @@ class PersonAnnouncementViewModel : ViewModel() {
             )
         }
 
-        withContext(Dispatchers.IO) {
-            proposeService.createPropose(
-                ProposeED(
-                    ownerEmail,
-                    renterEmail,
-                    ProposeStatus.PENDING
-                )
+        val propose = ProposeED(
+            ownerEmail,
+            renterEmail,
+            ProposeStatus.PENDING
+        )
+
+        try {
+            withContext(Dispatchers.IO) {
+                proposeService.createPropose(propose)
+            }
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failed propose creation: $propose",
+                null,
+                NotificationKeeperException.NotificationType.DAO_ERROR
             )
         }
     }

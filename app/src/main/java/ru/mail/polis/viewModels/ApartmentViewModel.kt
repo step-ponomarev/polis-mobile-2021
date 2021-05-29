@@ -111,7 +111,8 @@ class ApartmentViewModel : ViewModel() {
             "${Collections.APARTMENT.collectionName}Photos/${getRandomNameForFile()}.jpg"
         for (bitMap in list) {
             try {
-                val url = photoUriService.saveImage(pathString, Converter.bitmapToInputStream(bitMap))
+                val url =
+                    photoUriService.saveImage(pathString, Converter.bitmapToInputStream(bitMap))
                 urlList.add(url.toString())
             } catch (e: DaoException) {
                 Log.w(NAME, "Photo uploading failed path: $pathString")

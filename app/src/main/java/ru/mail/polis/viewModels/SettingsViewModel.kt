@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.mail.polis.R
 import ru.mail.polis.converter.Converter
 import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.apartments.ApartmentService
