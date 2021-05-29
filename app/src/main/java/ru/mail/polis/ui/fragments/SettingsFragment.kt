@@ -75,7 +75,9 @@ class SettingsFragment : Fragment() {
 
         settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
 
-        settingsViewModel.getUserInfo(getEmail())
+        GlobalScope.launch(Dispatchers.IO) {
+            settingsViewModel.getUserInfo(getEmail())
+        }
 
         settingsViewModel.getUser().observe(
             viewLifecycleOwner,

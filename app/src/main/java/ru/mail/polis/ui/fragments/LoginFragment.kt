@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -74,7 +75,7 @@ class LoginFragment : Fragment() {
                 }
             }
         } catch (e: NotificationKeeperException) {
-            Log.e("Auth error", getString(e.getResourceStringCode()), e)
+            getToast(getString(e.getResourceStringCode())).show()
         } catch (e: Exception) {
             Log.e("Auth error", e.message, e)
         }
@@ -102,5 +103,13 @@ class LoginFragment : Fragment() {
                 NotificationKeeperException.NotificationType.DAO_ERROR
             )
         }
+    }
+
+    private fun getToast(text: String): Toast {
+        return Toast.makeText(
+            requireContext(),
+            text,
+            Toast.LENGTH_SHORT
+        )
     }
 }
