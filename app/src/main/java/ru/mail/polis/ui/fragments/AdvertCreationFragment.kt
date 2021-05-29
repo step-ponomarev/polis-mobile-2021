@@ -112,6 +112,7 @@ class AdvertCreationFragment : Fragment() {
 
         GlobalScope.launch(Dispatchers.Main) {
             val person = PersonED.Builder.createBuilder()
+                .email(email)
                 .metro(Metro.from(metro))
                 .description(aboutMe)
                 .money(costFrom.toLong(), costTo.toLong())

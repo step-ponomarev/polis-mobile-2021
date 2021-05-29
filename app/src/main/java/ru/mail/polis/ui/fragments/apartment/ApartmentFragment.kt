@@ -185,4 +185,12 @@ abstract class ApartmentFragment : Fragment() {
         )?.getString(getString(R.string.preference_email_key), null)
             ?: throw IllegalStateException("Email not found")
     }
+
+    protected fun getToastWithText(text: String): Toast {
+        return Toast.makeText(
+            requireContext(),
+            text,
+            Toast.LENGTH_SHORT
+        )
+    }
 }

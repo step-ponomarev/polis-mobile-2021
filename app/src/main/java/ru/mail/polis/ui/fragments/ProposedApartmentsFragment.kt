@@ -49,23 +49,24 @@ class ProposedApartmentsFragment : Fragment(), ApartmentsAdapter.ListItemClickLi
 
         val email: String = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
-            val apartments = viewModel.fetchApartmentsByRenterEmail(email).toMutableList()
-            if (apartments.isEmpty()) {
+            val apartmentsED = viewModel.fetchApartmentsByRenterEmail(email).toMutableList()
+            if (apartmentsED.isEmpty()) {
                 return@launch
             }
 
-            val emailSet = apartments.map { it.email!! }.toSet()
+            val emailSet = apartmentsED.map { it.email!! }.toSet()
             val users = viewModel.fetchUsers(emailSet).toMutableList()
 
             if (users.isEmpty()) {
-                throw IllegalStateException("There are no owners of apartments $apartments")
+                throw IllegalStateException("There are no owners of apartments $apartmentsED")
             }
 
-            if (users.size != apartments.size) {
-                filterData(apartments, users)
+            if (users.size != apartmentsED.size) {
+                filterData(apartmentsED, users)
             }
+            apartments = toApartmentView(apartmentsED, users)
+            adapter.setData(apartments)
 
-            adapter.setData(toApartmentView(apartments, users))
         }
     }
 
@@ -92,14 +93,15 @@ class ProposedApartmentsFragment : Fragment(), ApartmentsAdapter.ListItemClickLi
     }
 
     private fun toApartmentView(
-        apartments: List<ApartmentED>,
+        apartmentsED: List<ApartmentED>,
         users: List<UserED>
     ): List<ApartmentView> {
-        return apartments.filter { it.isValid() }.map { apartment ->
+        return apartmentsED.filter { it.isValid() }.map { apartment ->
             val user = users.find { Objects.equals(apartment.email, it.email) }!!
 
             ApartmentView.Builder.createBuilder()
                 .email(apartment.email!!)
+                .phone(user.phone!!)
                 .apartmentCosts(apartment.apartmentCosts!!)
                 .apartmentSquare(apartment.apartmentSquare!!)
                 .ownerName("${user.name} ${user.surname}")
