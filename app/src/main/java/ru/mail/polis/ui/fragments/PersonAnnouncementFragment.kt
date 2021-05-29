@@ -111,8 +111,7 @@ class PersonAnnouncementFragment : Fragment() {
             try {
                 val emailPerson: String = personView.email
                     ?: throw NotificationKeeperException(
-                        "Advert is not exist",
-                        null,
+                        "Advert with email ${personView.email} is not exist",
                         R.string.toast_advert_unavailable
                     )
 
