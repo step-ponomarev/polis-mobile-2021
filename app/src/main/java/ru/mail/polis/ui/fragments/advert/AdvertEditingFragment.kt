@@ -11,7 +11,6 @@ class AdvertEditingFragment : AdvertFragment() {
 
     private lateinit var editAdvertButton: Button
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,7 +28,6 @@ class AdvertEditingFragment : AdvertFragment() {
     }
 
     private fun onClickEditButton(view: View) {
-
+        return
     }
-
 }

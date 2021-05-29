@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
@@ -49,7 +48,6 @@ abstract class AdvertFragment : Fragment() {
         avatarImageView = view.findViewById(R.id.component_person_header__avatar)
         nameTextView = view.findViewById(R.id.component_person_header__name)
         ageTextView = view.findViewById(R.id.component_person_header__age)
-
     }
 
     protected fun getToastAboutFillAllFields(): Toast {

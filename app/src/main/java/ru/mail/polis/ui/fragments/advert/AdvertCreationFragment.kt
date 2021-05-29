@@ -15,7 +15,7 @@ import ru.mail.polis.R
 import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
-import java.util.*
+import java.util.Collections
 
 class AdvertCreationFragment : AdvertFragment() {
 
