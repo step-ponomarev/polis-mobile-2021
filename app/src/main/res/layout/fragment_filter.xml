@@ -126,7 +126,7 @@
 
 
     <include
-        android:id="@+id/fragment_add_apartment__chips"
+        android:id="@+id/component_apartment_info__chips"
         layout="@layout/component_rooms"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

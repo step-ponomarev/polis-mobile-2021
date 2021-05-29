@@ -2,7 +2,6 @@ package ru.mail.polis.viewModels
 
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.mail.polis.converter.Converter
@@ -16,22 +15,35 @@ import ru.mail.polis.dao.users.IUserService
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.dao.users.UserService
 
-class AddApartmentViewModel : ViewModel() {
+class ApartmentViewModel : ViewModel() {
     private val userService: IUserService = UserService()
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
     private val photoUriService: IPhotoUriService = PhotoUriService()
     val list = LinkedHashSet<Bitmap>()
 
     suspend fun addApartment(apartmentED: ApartmentED): ApartmentED {
-        return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
             apartmentED.photosUrls = getUrlList()
             apartmentService.addApartment(apartmentED)
         }
     }
 
     suspend fun fetchUser(email: String): UserED? {
-        return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
             userService.findUserByEmail(email)
+        }
+    }
+
+    suspend fun updateApartment(apartmentED: ApartmentED): ApartmentED {
+        return withContext(Dispatchers.IO) {
+            apartmentED.photosUrls = getUrlList()
+            apartmentService.updateApartment(apartmentED)
+        }
+    }
+
+    suspend fun getApartmentByEmail(email: String): ApartmentED? {
+        return withContext(Dispatchers.IO) {
+            apartmentService.findByEmail(email)
         }
     }
 
