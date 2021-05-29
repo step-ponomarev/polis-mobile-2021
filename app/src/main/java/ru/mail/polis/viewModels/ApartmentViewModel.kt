@@ -27,7 +27,7 @@ class ApartmentViewModel : ViewModel() {
     private val list = LinkedHashSet<Bitmap>()
 
     companion object {
-        const val NAME = "ApartmentViewModel"
+        private const val NAME = "ApartmentViewModel"
     }
 
     fun addImage(image: Bitmap) {

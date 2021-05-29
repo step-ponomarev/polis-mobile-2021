@@ -17,20 +17,33 @@ class SelfDefinitionViewModel : ViewModel() {
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
     private val personService: IPersonService = PersonService.getInstance()
 
+    @Throws(NotificationKeeperException::class)
     suspend fun fetchApartment(email: String): ApartmentED? {
-        return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
-            apartmentService.findByEmail(email)
+        try {
+            return withContext(Dispatchers.IO) {
+                apartmentService.findByEmail(email)
+            }
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failed fetching apartment by email $email",
+                e,
+                NotificationKeeperException.NotificationType.DAO_ERROR
+            )
         }
     }
 
     @Throws(NotificationKeeperException::class)
     suspend fun fetchPerson(email: String): PersonED? {
         try {
-            return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+            return withContext(Dispatchers.IO) {
                 personService.findByEmail(email)
             }
         } catch (e: DaoException) {
-            throw NotificationKeeperException("Failed fatching person with email $email", e, NotificationKeeperException.NotificationType.DAO_ERROR)
+            throw NotificationKeeperException(
+                "Failed fetching person with email $email",
+                e,
+                NotificationKeeperException.NotificationType.DAO_ERROR
+            )
         }
     }
 }

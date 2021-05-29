@@ -20,7 +20,7 @@ class AdvertCreationViewModel : ViewModel() {
     @Throws(NotificationKeeperException::class)
     suspend fun addPerson(personED: PersonED): PersonED {
         try {
-            return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+            return withContext(Dispatchers.IO) {
                 personService.addPerson(personED)
             }
         } catch (e: DaoException) {
@@ -34,7 +34,7 @@ class AdvertCreationViewModel : ViewModel() {
     @Throws(NotificationKeeperException::class)
     suspend fun fetchUser(email: String): UserED? {
         try {
-            return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+            return withContext(Dispatchers.IO) {
                 userService.findUserByEmail(email)
             }
         } catch (e: DaoException) {
