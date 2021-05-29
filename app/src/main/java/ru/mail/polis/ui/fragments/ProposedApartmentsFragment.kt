@@ -19,7 +19,7 @@ import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.apartments.ApartmentView
 import ru.mail.polis.list.of.apartments.ApartmentsAdapter
-import ru.mail.polis.notification.NotificationService
+import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.viewModels.ProposedApartmentsViewModel
 import java.util.Objects
 
@@ -67,7 +67,7 @@ class ProposedApartmentsFragment : Fragment() {
 
                 adapter.setData(toApartmentView(apartments, users))
             } catch (e: NotificationKeeperException) {
-                NotificationService.showDefaultToast(
+                NotificationCenter.showDefaultToast(
                     requireContext(),
                     getString(e.getResourceStringCode())
                 )

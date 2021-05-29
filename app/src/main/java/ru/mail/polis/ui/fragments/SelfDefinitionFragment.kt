@@ -13,7 +13,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.exception.NotificationKeeperException
-import ru.mail.polis.notification.NotificationService
+import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.viewModels.SelfDefinitionViewModel
 
 class SelfDefinitionFragment : Fragment() {
@@ -42,7 +42,7 @@ class SelfDefinitionFragment : Fragment() {
                     findNavController().navigate(R.id.nav_graph__list_of_people)
                 }
             } catch (e: NotificationKeeperException) {
-                NotificationService.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
+                NotificationCenter.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
             }
         }
 

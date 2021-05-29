@@ -22,7 +22,7 @@ import ru.mail.polis.R
 import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.helpers.getAgeString
 import ru.mail.polis.list.of.people.Person
-import ru.mail.polis.notification.NotificationService
+import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.viewModels.PersonAnnouncementViewModel
 
 class PersonAnnouncementFragment : Fragment() {
@@ -115,12 +115,12 @@ class PersonAnnouncementFragment : Fragment() {
                     emailPerson
                 )
 
-                NotificationService.showDefaultToast(
+                NotificationCenter.showDefaultToast(
                     requireContext(),
                     "Вы предложили квартиру человеку с именем ${person.name}"
                 )
             } catch (e: NotificationKeeperException) {
-                NotificationService.showDefaultToast(
+                NotificationCenter.showDefaultToast(
                     requireContext(),
                     getString(e.getResourceStringCode())
                 )

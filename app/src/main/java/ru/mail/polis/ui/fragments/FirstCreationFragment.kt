@@ -26,7 +26,7 @@ import ru.mail.polis.R
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
 import ru.mail.polis.exception.NotificationKeeperException
-import ru.mail.polis.notification.NotificationService
+import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.viewModels.FirstCreationViewModel
 
 class FirstCreationFragment : Fragment() {
@@ -81,7 +81,7 @@ class FirstCreationFragment : Fragment() {
     private fun onContinueButton(view: View) {
 
         if (!checkField()) {
-            NotificationService.showDefaultToast(
+            NotificationCenter.showDefaultToast(
                 requireContext(),
                 getString(R.string.toast_fill_all_information_about_user)
             )
@@ -103,7 +103,7 @@ class FirstCreationFragment : Fragment() {
                 firstCreationViewModel.addUser(user, avatar.drawable.toBitmap())
                 findNavController().navigate(R.id.nav_graph__self_definition_fragment)
             } catch (e: NotificationKeeperException) {
-                NotificationService.showDefaultToast(
+                NotificationCenter.showDefaultToast(
                     requireContext(),
                     getString(R.string.error_dao)
                 )

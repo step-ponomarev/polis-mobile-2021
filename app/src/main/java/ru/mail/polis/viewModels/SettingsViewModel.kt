@@ -32,7 +32,9 @@ class SettingsViewModel : ViewModel() {
             userService.findUserByEmail(email)
         } ?: throw IllegalStateException("Fetched user is null")
 
-        userED.value = user
+        withContext(Dispatchers.Main) {
+            userED.value = user
+        }
     }
 
     @Throws(NotificationKeeperException::class)
@@ -51,7 +53,10 @@ class SettingsViewModel : ViewModel() {
             val updatedUser = withContext(Dispatchers.IO) {
                 userService.updateUserByEmail(user.email!!, user)
             } ?: throw IllegalStateException("Updated user is null")
-            userED.value = updatedUser
+
+            withContext(Dispatchers.Main) {
+                userED.value = updatedUser
+            }
         } catch (e: DaoException) {
             throw NotificationKeeperException(
                 "Failed user updating $user",

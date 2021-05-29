@@ -19,7 +19,7 @@ import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.people.PeopleAdapter
 import ru.mail.polis.list.of.people.Person
-import ru.mail.polis.notification.NotificationService
+import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.viewModels.ListOfPeopleViewModel
 import java.util.Objects
 
@@ -68,7 +68,7 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
                 listOfPeople = toPersonView(people, users)
                 adapter.setData(listOfPeople)
             } catch (e: NotificationKeeperException) {
-                NotificationService.showDefaultToast(
+                NotificationCenter.showDefaultToast(
                     requireContext(),
                     getString(e.getResourceStringCode())
                 )

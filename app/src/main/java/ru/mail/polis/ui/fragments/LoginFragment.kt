@@ -21,7 +21,7 @@ import ru.mail.polis.dao.users.IUserService
 import ru.mail.polis.dao.users.UserService
 import ru.mail.polis.exception.DaoException
 import ru.mail.polis.exception.NotificationKeeperException
-import ru.mail.polis.notification.NotificationService
+import ru.mail.polis.notification.NotificationCenter
 
 class LoginFragment : Fragment() {
     companion object {
@@ -75,7 +75,7 @@ class LoginFragment : Fragment() {
                 }
             }
         } catch (e: NotificationKeeperException) {
-            NotificationService.showDefaultToast(
+            NotificationCenter.showDefaultToast(
                 requireContext(),
                 getString(e.getResourceStringCode())
             )

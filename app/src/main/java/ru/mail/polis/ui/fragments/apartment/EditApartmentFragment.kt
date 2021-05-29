@@ -17,7 +17,7 @@ import ru.mail.polis.R
 import ru.mail.polis.dao.apartments.ApartmentED
 import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.metro.Metro
-import ru.mail.polis.notification.NotificationService
+import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.room.RoomCount
 
 class EditApartmentFragment : ApartmentFragment() {
@@ -48,13 +48,13 @@ class EditApartmentFragment : ApartmentFragment() {
                 if (apartmentED != null) {
                     fillFields(apartmentED)
                 } else {
-                    NotificationService.showDefaultToast(
+                    NotificationCenter.showDefaultToast(
                         requireContext(),
                         getString(R.string.toast_there_are_no_apartment_to_edit)
                     )
                 }
             } catch (e: NotificationKeeperException) {
-                NotificationService.showDefaultToast(
+                NotificationCenter.showDefaultToast(
                     requireContext(),
                     getString(e.getResourceStringCode())
                 )
@@ -66,7 +66,7 @@ class EditApartmentFragment : ApartmentFragment() {
         val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId)
 
         if (selectedChip == null) {
-            NotificationService.showDefaultToast(
+            NotificationCenter.showDefaultToast(
                 requireContext(),
                 getString(R.string.toast_fill_all_information_about_apartment)
             )
@@ -79,7 +79,7 @@ class EditApartmentFragment : ApartmentFragment() {
         val square = squareEditText.text.toString()
 
         if (metro.isEmpty() || rooms.isBlank() || cost.isBlank() || square.isBlank()) {
-            NotificationService.showDefaultToast(
+            NotificationCenter.showDefaultToast(
                 requireContext(),
                 getString(R.string.toast_fill_all_information_about_apartment)
             )
@@ -103,7 +103,7 @@ class EditApartmentFragment : ApartmentFragment() {
 
                 apartmentViewModel.updateApartment(apartmentED)
             } catch (e: NotificationKeeperException) {
-                NotificationService.showDefaultToast(
+                NotificationCenter.showDefaultToast(
                     requireContext(),
                     getString(e.getResourceStringCode())
                 )

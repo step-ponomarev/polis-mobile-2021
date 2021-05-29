@@ -24,7 +24,7 @@ import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.metro.Metro
-import ru.mail.polis.notification.NotificationService
+import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.room.RoomCount
 import ru.mail.polis.viewModels.AdvertCreationViewModel
 import java.util.Collections
@@ -86,7 +86,7 @@ class AdvertCreationFragment : Fragment() {
                 nameTextView.text = "${user.name} ${user.surname}"
                 ageTextView.text = user.age.toString()
             } catch (e: NotificationKeeperException) {
-                NotificationService.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_advert_info))
+                NotificationCenter.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_advert_info))
             }
         }
 
@@ -97,7 +97,7 @@ class AdvertCreationFragment : Fragment() {
         val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId)
         if (selectedChip == null) {
 
-            NotificationService.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_advert_info))
+            NotificationCenter.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_advert_info))
             return
         }
 
@@ -112,7 +112,7 @@ class AdvertCreationFragment : Fragment() {
             costFrom.isBlank() ||
             costTo.isBlank()
         ) {
-            NotificationService.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_advert_info))
+            NotificationCenter.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_advert_info))
             return
         }
 
@@ -129,7 +129,7 @@ class AdvertCreationFragment : Fragment() {
                 viewModel.addPerson(person)
                 findNavController().navigate(R.id.nav_graph__list_of_people)
             } catch (e: NotificationKeeperException) {
-                NotificationService.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
+                NotificationCenter.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
             }
         }
     }

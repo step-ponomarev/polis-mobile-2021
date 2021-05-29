@@ -28,7 +28,7 @@ import ru.mail.polis.R
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
 import ru.mail.polis.exception.NotificationKeeperException
-import ru.mail.polis.notification.NotificationService
+import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.viewModels.SettingsViewModel
 
 class SettingsFragment : Fragment() {
@@ -128,9 +128,9 @@ class SettingsFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 settingsViewModel.updateUser(user, bitmap)
-                NotificationService.showDefaultToast(requireContext(), getString(R.string.toast_changes_are_saved))
+                NotificationCenter.showDefaultToast(requireContext(), getString(R.string.toast_changes_are_saved))
             } catch (e: NotificationKeeperException) {
-                NotificationService.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
+                NotificationCenter.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
             }
         }
     }
@@ -161,7 +161,7 @@ class SettingsFragment : Fragment() {
                     )
                 dialogFragment.show(parentFragmentManager, "Apartment editing")
             } catch (e: NotificationKeeperException) {
-                NotificationService.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
+                NotificationCenter.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
             }
         }
     }
