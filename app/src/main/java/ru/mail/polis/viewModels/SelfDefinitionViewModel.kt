@@ -1,7 +1,6 @@
 package ru.mail.polis.viewModels
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.mail.polis.dao.apartments.ApartmentED
