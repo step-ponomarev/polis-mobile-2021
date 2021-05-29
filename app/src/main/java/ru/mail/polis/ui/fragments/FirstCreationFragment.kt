@@ -20,9 +20,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.imageview.ShapeableImageView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
+import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.viewModels.FirstCreationViewModel
 
 class FirstCreationFragment : Fragment() {
@@ -77,12 +81,12 @@ class FirstCreationFragment : Fragment() {
     private fun onContinueButton(view: View) {
 
         if (!checkField()) {
-            getToastAboutFillAllFields().show()
+            getToast(getString(R.string.toast_fill_all_information_about_user)).show()
             return
         }
 
-        firstCreationViewModel.addUser(
-            UserED(
+        GlobalScope.launch(Dispatchers.IO) {
+            val user = UserED(
                 email = getEmail(),
                 name = nameEditText.text.toString(),
                 surname = surnameEditText.text.toString(),
@@ -90,11 +94,15 @@ class FirstCreationFragment : Fragment() {
                 phone = phoneEditText.text.toString(),
                 photo = null,
                 externalAccounts = emptyList()
-            ),
-            avatar.drawable.toBitmap()
-        )
+            )
 
-        findNavController().navigate(R.id.nav_graph__self_definition_fragment)
+            try {
+                firstCreationViewModel.addUser(user, avatar.drawable.toBitmap())
+                findNavController().navigate(R.id.nav_graph__self_definition_fragment)
+            } catch (e: NotificationKeeperException) {
+                getToast(getString(R.string.error_bad_internet)).show()
+            }
+        }
     }
 
     private fun handleResult(result: ActivityResult) {
@@ -119,10 +127,10 @@ class FirstCreationFragment : Fragment() {
         return true
     }
 
-    private fun getToastAboutFillAllFields(): Toast {
+    private fun getToast(text: String): Toast {
         return Toast.makeText(
             requireContext(),
-            getString(R.string.toast_fill_all_information_about_user),
+            text,
             Toast.LENGTH_SHORT
         )
     }

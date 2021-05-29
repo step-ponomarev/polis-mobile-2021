@@ -1,63 +1,122 @@
 package ru.mail.polis.viewModels
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ru.mail.polis.R
 import ru.mail.polis.converter.Converter
 import ru.mail.polis.dao.Collections
-import ru.mail.polis.dao.IPhotoUriService
-import ru.mail.polis.dao.PhotoUriService
 import ru.mail.polis.dao.apartments.ApartmentED
 import ru.mail.polis.dao.apartments.ApartmentService
 import ru.mail.polis.dao.apartments.IApartmentService
+import ru.mail.polis.dao.photo.IPhotoUriService
+import ru.mail.polis.dao.photo.PhotoUriService
 import ru.mail.polis.dao.users.IUserService
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.dao.users.UserService
+import ru.mail.polis.exception.DaoException
+import ru.mail.polis.exception.NotificationKeeperException
+import kotlin.jvm.Throws
+import kotlin.random.Random
 
 class ApartmentViewModel : ViewModel() {
     private val userService: IUserService = UserService()
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
     private val photoUriService: IPhotoUriService = PhotoUriService()
-    val list = LinkedHashSet<Bitmap>()
+    private val list = LinkedHashSet<Bitmap>()
 
+    companion object {
+        const val NAME = "ApartmentViewModel"
+    }
+
+    fun addImage(image: Bitmap) {
+        this.list.add(image)
+    }
+
+    fun removeImage(bitmap: Bitmap) {
+        this.list.remove(bitmap)
+    }
+
+    fun getImageList(): Collection<Bitmap> {
+        return this.list
+    }
+
+    @Throws(NotificationKeeperException::class)
     suspend fun addApartment(apartmentED: ApartmentED): ApartmentED {
-        return withContext(Dispatchers.IO) {
-            apartmentED.photosUrls = getUrlList()
-            apartmentService.addApartment(apartmentED)
+        try {
+            return withContext(Dispatchers.IO) {
+                apartmentED.photosUrls = getUrlList()
+                apartmentService.addApartment(apartmentED)
+            }
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failure adding apartment: $apartmentED",
+                e,
+                R.string.error_bad_internet
+            )
         }
     }
 
+    @Throws(NotificationKeeperException::class)
     suspend fun fetchUser(email: String): UserED? {
-        return withContext(Dispatchers.IO) {
-            userService.findUserByEmail(email)
+        try {
+            return withContext(Dispatchers.IO) {
+                userService.findUserByEmail(email)
+            }
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failure fetching user with email: $email",
+                e,
+                R.string.error_bad_internet
+            )
         }
     }
 
+    @Throws(NotificationKeeperException::class)
     suspend fun updateApartment(apartmentED: ApartmentED): ApartmentED {
-        return withContext(Dispatchers.IO) {
-            apartmentED.photosUrls = getUrlList()
-            apartmentService.updateApartment(apartmentED)
+        try {
+            return withContext(Dispatchers.IO) {
+                apartmentED.photosUrls = getUrlList()
+                apartmentService.updateApartment(apartmentED)
+            }
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failure updating apartment: $apartmentED",
+                e,
+                R.string.error_bad_internet
+            )
         }
     }
 
+    @Throws(NotificationKeeperException::class)
     suspend fun getApartmentByEmail(email: String): ApartmentED? {
-        return withContext(Dispatchers.IO) {
-            apartmentService.findByEmail(email)
+        try {
+            return withContext(Dispatchers.IO) {
+                apartmentService.findByEmail(email)
+            }
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failure fetching apartment with email: $email",
+                e,
+                R.string.error_bad_internet
+            )
         }
     }
 
     private suspend fun getUrlList(): List<String> {
         val urlList = ArrayList<String>()
 
-        list.forEach {
-
-            val pathString =
-                "${Collections.APARTMENT.collectionName}Photos/${getRandomNameForFile()}.jpg"
-
-            val url =
-                photoUriService.saveImage(pathString, Converter.bitmapToInputStream(it))
-            urlList.add(url.toString())
+        val pathString =
+            "${Collections.APARTMENT.collectionName}Photos/${getRandomNameForFile()}.jpg"
+        for (bitMap in list) {
+            try {
+                val url = photoUriService.saveImage(pathString, Converter.bitmapToInputStream(bitMap))
+                urlList.add(url.toString())
+            } catch (e: DaoException) {
+                Log.w(NAME, "Photo uploading failed path: $pathString")
+            }
         }
 
         return urlList
@@ -65,10 +124,9 @@ class ApartmentViewModel : ViewModel() {
 
     private fun getRandomNameForFile(): String {
         val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
-        val randomString = (1..50)
-            .map { kotlin.random.Random.nextInt(0, charPool.size) }
+        return (1..50)
+            .map { Random.nextInt(0, charPool.size) }
             .map(charPool::get)
             .joinToString("")
-        return randomString
     }
 }

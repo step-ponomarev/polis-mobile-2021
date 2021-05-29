@@ -60,12 +60,10 @@ abstract class ApartmentFragment : Fragment() {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-
-        if (apartmentViewModel.list.isNotEmpty()) {
-            apartmentViewModel.list.forEach { bitmap ->
+        apartmentViewModel.getImageList()
+            .forEach { bitmap ->
                 photoLinearLayout.addView(createImageComponent(bitmap))
             }
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -145,7 +143,7 @@ abstract class ApartmentFragment : Fragment() {
         val imageButtonDeletePhoto = view.findViewById<ImageButton>(R.id.photo_component__ib)
 
         imageButtonDeletePhoto.setOnClickListener {
-            apartmentViewModel.list.remove(imageViewPhoto.drawable.toBitmap())
+            apartmentViewModel.removeImage(imageViewPhoto.drawable.toBitmap())
             photoLinearLayout.removeView(constraintLayoutPhotoComponent)
         }
 
@@ -168,7 +166,7 @@ abstract class ApartmentFragment : Fragment() {
         imageViewPhoto.scaleType = ImageView.ScaleType.CENTER_CROP
         imageViewPhoto.setImageBitmap(bitmap)
 
-        apartmentViewModel.list.add(bitmap)
+        apartmentViewModel.addImage(bitmap)
 
         return constraintLayoutPhotoComponent
     }

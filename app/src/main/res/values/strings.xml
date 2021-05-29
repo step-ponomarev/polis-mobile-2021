@@ -73,6 +73,7 @@
     <string name="toast_there_are_no_apartment_to_edit">У вас нет квартиры для редактирования</string>
     <string name="dialog_fragment_add_button_text">Добавить</string>
     <string name="dialog_fragment_cancel_button_text">Отмена</string>
+    <string name="error_bad_internet">Что-то пошло не так, проверьте интернет соединение</string>
 
 
     <string-array name="genders_filter">

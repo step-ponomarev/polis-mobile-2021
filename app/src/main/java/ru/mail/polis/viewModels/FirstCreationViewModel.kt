@@ -2,26 +2,26 @@ package ru.mail.polis.viewModels
 
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.mail.polis.R
 import ru.mail.polis.converter.Converter
 import ru.mail.polis.dao.Collections
-import ru.mail.polis.dao.IPhotoUriService
-import ru.mail.polis.dao.PhotoUriService
+import ru.mail.polis.dao.photo.IPhotoUriService
+import ru.mail.polis.dao.photo.PhotoUriService
 import ru.mail.polis.dao.users.IUserService
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.dao.users.UserService
+import ru.mail.polis.exception.DaoException
+import ru.mail.polis.exception.NotificationKeeperException
 
 class FirstCreationViewModel : ViewModel() {
 
     private val userService: IUserService = UserService()
     private val photoUriService: IPhotoUriService = PhotoUriService()
 
-    fun addUser(userED: UserED, bitmap: Bitmap) {
-        viewModelScope.launch(Dispatchers.IO) {
-
+    suspend fun addUser(userED: UserED, bitmap: Bitmap) {
+        try {
             val url = withContext(Dispatchers.IO) {
                 val pathString =
                     "${Collections.USER.collectionName}Photos/${userED.email}-photo.jpg"
@@ -32,6 +32,12 @@ class FirstCreationViewModel : ViewModel() {
                 userED.photo = url.toString()
                 userService.addUser(userED)
             }
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "User was not added: $userED",
+                e,
+                R.string.error_bad_internet
+            )
         }
     }
 }

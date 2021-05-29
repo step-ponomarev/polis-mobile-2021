@@ -12,11 +12,11 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.apartments.ApartmentED
+import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
 
 class AddApartmentFragment : ApartmentFragment() {
-
     private lateinit var addApartmentButton: Button
 
     override fun onCreateView(
@@ -35,7 +35,6 @@ class AddApartmentFragment : ApartmentFragment() {
     }
 
     private fun onClickAddApartment(view: View) {
-
         val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId)
 
         if (selectedChip == null) {
@@ -55,21 +54,24 @@ class AddApartmentFragment : ApartmentFragment() {
 
         val email = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
-            val user = apartmentViewModel.fetchUser(email)
-                ?: throw java.lang.IllegalStateException("Null user by email: $email")
+            try {
+                apartmentViewModel.fetchUser(email)
+                    ?: throw IllegalStateException("Null user by email: $email")
 
-            val apartmentED = ApartmentED.Builder
-                .createBuilder()
-                .email(email)
-                .metro(Metro.from(metro))
-                .roomCount(RoomCount.from(rooms))
-                .apartmentCosts(cost.toLong())
-                .apartmentSquare(square.toLong())
-                .build()
+                val apartmentED = ApartmentED.Builder
+                    .createBuilder()
+                    .email(email)
+                    .metro(Metro.from(metro))
+                    .roomCount(RoomCount.from(rooms))
+                    .apartmentCosts(cost.toLong())
+                    .apartmentSquare(square.toLong())
+                    .build()
 
-            apartmentViewModel.addApartment(apartmentED)
+                apartmentViewModel.addApartment(apartmentED)
+                findNavController().navigate(R.id.nav_graph__list_of_people)
+            } catch (e: NotificationKeeperException) {
+                getToastWithText(getString(e.getResourceStringCode())).show()
+            }
         }
-
-        findNavController().navigate(R.id.nav_graph__list_of_people)
     }
 }

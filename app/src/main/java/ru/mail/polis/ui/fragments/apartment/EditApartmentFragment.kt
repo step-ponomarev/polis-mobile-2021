@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.mail.polis.R
 import ru.mail.polis.dao.apartments.ApartmentED
+import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
 
@@ -38,21 +39,23 @@ class EditApartmentFragment : ApartmentFragment() {
 
         val email = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
-            val user = apartmentViewModel.fetchUser(email)
-                ?: throw IllegalStateException("Null user by email: $email")
+            try {
+                apartmentViewModel.fetchUser(email)
+                    ?: throw IllegalStateException("Null user by email: $email")
 
-            val apartmentED = apartmentViewModel.getApartmentByEmail(email)
-
-            if (apartmentED != null) {
-                fillFields(apartmentED)
-            } else {
-                getToastWithText(getString(R.string.toast_there_are_no_apartment_to_edit))
+                val apartmentED = apartmentViewModel.getApartmentByEmail(email)
+                if (apartmentED != null) {
+                    fillFields(apartmentED)
+                } else {
+                    getToastWithText(getString(R.string.toast_there_are_no_apartment_to_edit)).show()
+                }
+            } catch (e: NotificationKeeperException) {
+                getToastWithText(getString(e.getResourceStringCode())).show()
             }
         }
     }
 
     private fun onClickEditApartment(view: View) {
-
         val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId)
 
         if (selectedChip == null) {
@@ -72,26 +75,27 @@ class EditApartmentFragment : ApartmentFragment() {
 
         val email = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
-            val user = apartmentViewModel.fetchUser(email)
-                ?: throw IllegalStateException("Null user by email: $email")
+            try {
+                apartmentViewModel.fetchUser(email)
+                    ?: throw IllegalStateException("Null user by email: $email")
 
-            val apartmentED = ApartmentED.Builder
-                .createBuilder()
-                .email(getEmail())
-                .metro(Metro.from(metro))
-                .roomCount(RoomCount.from(rooms))
-                .apartmentCosts(cost.toLong())
-                .apartmentSquare(square.toLong())
-                .build()
+                val apartmentED = ApartmentED.Builder
+                    .createBuilder()
+                    .email(getEmail())
+                    .metro(Metro.from(metro))
+                    .roomCount(RoomCount.from(rooms))
+                    .apartmentCosts(cost.toLong())
+                    .apartmentSquare(square.toLong())
+                    .build()
 
-            GlobalScope.launch(Dispatchers.Main) {
                 apartmentViewModel.updateApartment(apartmentED)
+            } catch (e: NotificationKeeperException) {
+                getToastWithText(getString(e.getResourceStringCode())).show()
             }
         }
     }
 
     private fun fillFields(apartmentED: ApartmentED) {
-
         spinner.setSelection(Metro.values().indexOf(apartmentED.metro))
 
         chipGroup.forEach { view ->
@@ -105,10 +109,10 @@ class EditApartmentFragment : ApartmentFragment() {
         costEditText.setText(apartmentED.apartmentCosts.toString())
         squareEditText.setText(apartmentED.apartmentSquare.toString())
 
-        apartmentED.photosUrls.forEach {
-            GlobalScope.launch(Dispatchers.Main) {
+        GlobalScope.launch(Dispatchers.Main) {
+            for (url in apartmentED.photosUrls) {
                 val drawable = withContext(Dispatchers.IO) {
-                    Glide.with(requireContext()).load(it).submit().get()
+                    Glide.with(requireContext()).load(url).submit().get()
                 }
 
                 photoLinearLayout.addView(createImageComponent(drawable.toBitmap()))
