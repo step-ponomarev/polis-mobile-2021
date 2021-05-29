@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -22,6 +21,7 @@ import ru.mail.polis.dao.users.IUserService
 import ru.mail.polis.dao.users.UserService
 import ru.mail.polis.exception.DaoException
 import ru.mail.polis.exception.NotificationKeeperException
+import ru.mail.polis.notification.NotificationService
 
 class LoginFragment : Fragment() {
     companion object {
@@ -75,7 +75,10 @@ class LoginFragment : Fragment() {
                 }
             }
         } catch (e: NotificationKeeperException) {
-            getToast(getString(e.getResourceStringCode())).show()
+            NotificationService.showDefaultToast(
+                requireContext(),
+                getString(e.getResourceStringCode())
+            )
         } catch (e: Exception) {
             Log.e("Auth error", e.message, e)
         }
@@ -103,13 +106,5 @@ class LoginFragment : Fragment() {
                 NotificationKeeperException.NotificationType.DAO_ERROR
             )
         }
-    }
-
-    private fun getToast(text: String): Toast {
-        return Toast.makeText(
-            requireContext(),
-            text,
-            Toast.LENGTH_SHORT
-        )
     }
 }

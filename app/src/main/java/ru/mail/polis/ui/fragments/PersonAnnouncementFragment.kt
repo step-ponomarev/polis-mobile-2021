@@ -9,7 +9,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -23,6 +22,7 @@ import ru.mail.polis.R
 import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.helpers.getAgeString
 import ru.mail.polis.list.of.people.Person
+import ru.mail.polis.notification.NotificationService
 import ru.mail.polis.viewModels.PersonAnnouncementViewModel
 
 class PersonAnnouncementFragment : Fragment() {
@@ -115,9 +115,15 @@ class PersonAnnouncementFragment : Fragment() {
                     emailPerson
                 )
 
-                getToastWithText("Вы предложили квартиру человеку с именем ${person.name}").show()
+                NotificationService.showDefaultToast(
+                    requireContext(),
+                    "Вы предложили квартиру человеку с именем ${person.name}"
+                )
             } catch (e: NotificationKeeperException) {
-                getToastWithText(getString(e.getResourceStringCode())).show()
+                NotificationService.showDefaultToast(
+                    requireContext(),
+                    getString(e.getResourceStringCode())
+                )
             }
         }
     }
@@ -151,13 +157,5 @@ class PersonAnnouncementFragment : Fragment() {
             Context.MODE_PRIVATE
         )?.getString(getString(R.string.preference_email_key), null)
             ?: throw IllegalStateException("Email not found")
-    }
-
-    private fun getToastWithText(text: String): Toast {
-        return Toast.makeText(
-            requireContext(),
-            text,
-            Toast.LENGTH_SHORT
-        )
     }
 }

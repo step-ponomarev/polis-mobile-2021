@@ -17,7 +17,6 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -177,13 +176,5 @@ abstract class ApartmentFragment : Fragment() {
             Context.MODE_PRIVATE
         )?.getString(getString(R.string.preference_email_key), null)
             ?: throw IllegalStateException("Email not found")
-    }
-
-    protected fun getToastWithText(text: String): Toast {
-        return Toast.makeText(
-            requireContext(),
-            text,
-            Toast.LENGTH_SHORT
-        )
     }
 }

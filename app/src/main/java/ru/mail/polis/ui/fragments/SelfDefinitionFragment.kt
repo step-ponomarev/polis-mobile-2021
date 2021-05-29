@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
@@ -14,6 +13,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.exception.NotificationKeeperException
+import ru.mail.polis.notification.NotificationService
 import ru.mail.polis.viewModels.SelfDefinitionViewModel
 
 class SelfDefinitionFragment : Fragment() {
@@ -42,7 +42,7 @@ class SelfDefinitionFragment : Fragment() {
                     findNavController().navigate(R.id.nav_graph__list_of_people)
                 }
             } catch (e: NotificationKeeperException) {
-                getToastWithText(getString(e.getResourceStringCode())).show()
+                NotificationService.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
             }
         }
 
@@ -69,13 +69,5 @@ class SelfDefinitionFragment : Fragment() {
             Context.MODE_PRIVATE
         )?.getString(getString(R.string.preference_email_key), null)
             ?: throw IllegalStateException("Email not found")
-    }
-
-    private fun getToastWithText(text: String): Toast {
-        return Toast.makeText(
-            requireContext(),
-            text,
-            Toast.LENGTH_SHORT
-        )
     }
 }

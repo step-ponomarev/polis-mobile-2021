@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.drawable.toBitmap
@@ -27,6 +26,7 @@ import ru.mail.polis.R
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
 import ru.mail.polis.exception.NotificationKeeperException
+import ru.mail.polis.notification.NotificationService
 import ru.mail.polis.viewModels.FirstCreationViewModel
 
 class FirstCreationFragment : Fragment() {
@@ -81,7 +81,10 @@ class FirstCreationFragment : Fragment() {
     private fun onContinueButton(view: View) {
 
         if (!checkField()) {
-            getToast(getString(R.string.toast_fill_all_information_about_user)).show()
+            NotificationService.showDefaultToast(
+                requireContext(),
+                getString(R.string.toast_fill_all_information_about_user)
+            )
             return
         }
 
@@ -100,7 +103,10 @@ class FirstCreationFragment : Fragment() {
                 firstCreationViewModel.addUser(user, avatar.drawable.toBitmap())
                 findNavController().navigate(R.id.nav_graph__self_definition_fragment)
             } catch (e: NotificationKeeperException) {
-                getToast(getString(R.string.error_dao)).show()
+                NotificationService.showDefaultToast(
+                    requireContext(),
+                    getString(R.string.error_dao)
+                )
             }
         }
     }
@@ -125,14 +131,6 @@ class FirstCreationFragment : Fragment() {
         }
 
         return true
-    }
-
-    private fun getToast(text: String): Toast {
-        return Toast.makeText(
-            requireContext(),
-            text,
-            Toast.LENGTH_SHORT
-        )
     }
 
     private fun getEmail(): String {

@@ -12,8 +12,8 @@ abstract class NetworkUtils {
     }
 
     companion object {
-        fun getNetworkStatus(context: Context?): NetworkState {
-            val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        fun getNetworkStatus(context: Context): NetworkState {
+            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
             val networkInfo: NetworkInfo = cm.activeNetworkInfo ?: return NetworkState.UNAVAILABLE
 

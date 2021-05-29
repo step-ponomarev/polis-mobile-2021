@@ -14,6 +14,7 @@ import ru.mail.polis.R
 import ru.mail.polis.dao.apartments.ApartmentED
 import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.metro.Metro
+import ru.mail.polis.notification.NotificationService
 import ru.mail.polis.room.RoomCount
 
 class AddApartmentFragment : ApartmentFragment() {
@@ -38,7 +39,7 @@ class AddApartmentFragment : ApartmentFragment() {
         val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId)
 
         if (selectedChip == null) {
-            getToastWithText(getString(R.string.toast_fill_all_information_about_apartment)).show()
+            NotificationService.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_information_about_apartment))
             return
         }
 
@@ -48,7 +49,7 @@ class AddApartmentFragment : ApartmentFragment() {
         val square = squareEditText.text.toString()
 
         if (metro.isEmpty() || rooms.isBlank() || cost.isBlank() || square.isBlank()) {
-            getToastWithText(getString(R.string.toast_fill_all_information_about_apartment)).show()
+            NotificationService.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_information_about_apartment))
             return
         }
 
@@ -70,7 +71,7 @@ class AddApartmentFragment : ApartmentFragment() {
                 apartmentViewModel.addApartment(apartmentED)
                 findNavController().navigate(R.id.nav_graph__list_of_people)
             } catch (e: NotificationKeeperException) {
-                getToastWithText(getString(e.getResourceStringCode())).show()
+                NotificationService.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
             }
         }
     }

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +19,7 @@ import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.apartments.ApartmentView
 import ru.mail.polis.list.of.apartments.ApartmentsAdapter
+import ru.mail.polis.notification.NotificationService
 import ru.mail.polis.viewModels.ProposedApartmentsViewModel
 import java.util.Objects
 
@@ -67,7 +67,10 @@ class ProposedApartmentsFragment : Fragment() {
 
                 adapter.setData(toApartmentView(apartments, users))
             } catch (e: NotificationKeeperException) {
-                getToastWithText(getString(e.getResourceStringCode())).show()
+                NotificationService.showDefaultToast(
+                    requireContext(),
+                    getString(e.getResourceStringCode())
+                )
             }
         }
     }
@@ -113,13 +116,5 @@ class ProposedApartmentsFragment : Fragment() {
                 .photosUrls(apartment.photosUrls)
                 .build()
         }
-    }
-
-    private fun getToastWithText(text: String): Toast {
-        return Toast.makeText(
-            requireContext(),
-            text,
-            Toast.LENGTH_SHORT
-        )
     }
 }

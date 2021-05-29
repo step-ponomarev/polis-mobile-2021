@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -20,6 +19,7 @@ import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.people.PeopleAdapter
 import ru.mail.polis.list.of.people.Person
+import ru.mail.polis.notification.NotificationService
 import ru.mail.polis.viewModels.ListOfPeopleViewModel
 import java.util.Objects
 
@@ -68,7 +68,10 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
                 listOfPeople = toPersonView(people, users)
                 adapter.setData(listOfPeople)
             } catch (e: NotificationKeeperException) {
-                getToastWithText(getString(e.getResourceStringCode())).show()
+                NotificationService.showDefaultToast(
+                    requireContext(),
+                    getString(e.getResourceStringCode())
+                )
             }
         }
     }
@@ -113,13 +116,5 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
                 .metro(person.metro!!)
                 .build()
         }
-    }
-
-    private fun getToastWithText(text: String): Toast {
-        return Toast.makeText(
-            requireContext(),
-            text,
-            Toast.LENGTH_SHORT
-        )
     }
 }

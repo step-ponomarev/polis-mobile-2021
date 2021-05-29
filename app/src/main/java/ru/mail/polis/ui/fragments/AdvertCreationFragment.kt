@@ -11,7 +11,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -25,6 +24,7 @@ import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.metro.Metro
+import ru.mail.polis.notification.NotificationService
 import ru.mail.polis.room.RoomCount
 import ru.mail.polis.viewModels.AdvertCreationViewModel
 import java.util.Collections
@@ -86,7 +86,7 @@ class AdvertCreationFragment : Fragment() {
                 nameTextView.text = "${user.name} ${user.surname}"
                 ageTextView.text = user.age.toString()
             } catch (e: NotificationKeeperException) {
-                getToast(getString(e.getResourceStringCode())).show()
+                NotificationService.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_advert_info))
             }
         }
 
@@ -96,7 +96,8 @@ class AdvertCreationFragment : Fragment() {
     private fun createAdvert(view: View) {
         val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId)
         if (selectedChip == null) {
-            getToast(getString(R.string.toast_fill_all_advert_info)).show()
+
+            NotificationService.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_advert_info))
             return
         }
 
@@ -111,7 +112,7 @@ class AdvertCreationFragment : Fragment() {
             costFrom.isBlank() ||
             costTo.isBlank()
         ) {
-            getToast(getString(R.string.toast_fill_all_advert_info)).show()
+            NotificationService.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_advert_info))
             return
         }
 
@@ -128,17 +129,9 @@ class AdvertCreationFragment : Fragment() {
                 viewModel.addPerson(person)
                 findNavController().navigate(R.id.nav_graph__list_of_people)
             } catch (e: NotificationKeeperException) {
-                getToast(getString(e.getResourceStringCode()))
+                NotificationService.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
             }
         }
-    }
-
-    private fun getToast(text: String): Toast {
-        return Toast.makeText(
-            requireContext(),
-            text,
-            Toast.LENGTH_SHORT
-        )
     }
 
     private fun getEmail(): String {
