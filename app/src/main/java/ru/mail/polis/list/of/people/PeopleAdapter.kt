@@ -16,7 +16,7 @@ import ru.mail.polis.helpers.getAgeString
 import ru.mail.polis.tags.Tags
 
 class PeopleAdapter(
-    private var people: List<Person>,
+    private var personViews: List<PersonView>,
     listener: ListItemClickListener
 ) : RecyclerView.Adapter<PeopleAdapter.PeopleViewHolder>() {
 
@@ -27,11 +27,11 @@ class PeopleAdapter(
     }
 
     override fun onBindViewHolder(holder: PeopleViewHolder, position: Int) {
-        holder.bind(people[position])
+        holder.bind(personViews[position])
     }
 
-    fun setData(listOfPeople: List<Person>) {
-        this.people = listOfPeople
+    fun setData(listOfPersonViews: List<PersonView>) {
+        this.personViews = listOfPersonViews
         notifyDataSetChanged()
     }
 
@@ -40,7 +40,7 @@ class PeopleAdapter(
     }
 
     override fun getItemCount(): Int {
-        return people.size
+        return personViews.size
     }
 
     inner class PeopleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -67,43 +67,43 @@ class PeopleAdapter(
         private val tvDescription: TextView =
             itemView.findViewById(R.id.people_item__tv_description)
 
-        fun bind(person: Person) {
-            if (person.photo != null) {
-                urlToMyImageView(ivPhoto, person.photo!!)
+        fun bind(personView: PersonView) {
+            if (personView.photo != null) {
+                urlToMyImageView(ivPhoto, personView.photo!!)
             }
 
-            tvName.text = person.name
-            tvAge.text = person.age?.let { getAgeString(it) }
-            val tags: List<ImageView> = person.tags.map { tag ->
+            tvName.text = personView.name
+            tvAge.text = personView.age?.let { getAgeString(it) }
+            val tags: List<ImageView> = personView.tags.map { tag ->
                 tagToImageView(itemView.context, tag)
             }
             tags.forEach(llIvTags::addView)
 
-            if (person.metro != null) {
-                tvMetro.text = person.metro!!.stationName
+            if (personView.metro != null) {
+                tvMetro.text = personView.metro!!.stationName
                 ivBranchColor.background.setTint(
                     ContextCompat.getColor(
                         itemView.context,
-                        person.metro!!.branchColor
+                        personView.metro!!.branchColor
                     )
                 )
             }
-            if (person.moneyFrom == 0L && person.moneyTo == 0L) {
+            if (personView.moneyFrom == 0L && personView.moneyTo == 0L) {
                 tvMoney.setText(R.string.money_default_value)
             } else {
                 tvMoney.text =
-                    itemView.context.getString(R.string.money, person.moneyFrom, person.moneyTo)
+                    itemView.context.getString(R.string.money, personView.moneyFrom, personView.moneyTo)
             }
 
-            for (i in 0..3.coerceAtMost(person.rooms.size - 1)) {
+            for (i in 0..3.coerceAtMost(personView.rooms.size - 1)) {
                 cvRooms[i].visibility = View.VISIBLE
-                tvRooms[i].text = person.rooms[i].label
+                tvRooms[i].text = personView.rooms[i].label
             }
             cardView.setOnClickListener {
                 val clickedPosition = adapterPosition
                 mOnClickListener.onListItemClick(clickedPosition)
             }
-            tvDescription.text = person.description
+            tvDescription.text = personView.description
         }
     }
 

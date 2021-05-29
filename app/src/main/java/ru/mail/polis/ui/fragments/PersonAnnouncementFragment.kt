@@ -22,12 +22,12 @@ import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.helpers.getAgeString
-import ru.mail.polis.list.of.people.Person
+import ru.mail.polis.list.of.people.PersonView
 import ru.mail.polis.tags.Tags
 import ru.mail.polis.viewModels.PersonAnnouncementViewModel
 
 class PersonAnnouncementFragment : Fragment() {
-    private lateinit var person: Person
+    private lateinit var personView: PersonView
     private lateinit var offerApartmentButton: Button
     private lateinit var viewModel: PersonAnnouncementViewModel
 
@@ -67,40 +67,41 @@ class PersonAnnouncementFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
         val args: PersonAnnouncementFragmentArgs by navArgs()
-        person = args.person
-        if (person.photo != null) {
-            urlToMyImageView(ivPhoto, person.photo!!)
+        personView = args.person
+        if (personView.photo != null) {
+            urlToMyImageView(ivPhoto, personView.photo!!)
         }
-        tvName.text = person.name
-        if (person.age != null)
-            tvAge.text = getAgeString(person.age!!)
+        tvName.text = personView.name
+        if (personView.age != null) {
+            tvAge.text = getAgeString(personView.age!!)
+        }
 
-        val tags: List<ImageView> = person.tags.map { tag ->
-            tagToImageView(view.context, tag)
+        val tags: List<ImageView> = personView.tags.map { tag ->
+            tagToImageView(tag)
         }
         tags.forEach(llIvTags::addView)
 
-        if (person.metro != null) {
-            tvMetro.text = person.metro!!.stationName
+        if (personView.metro != null) {
+            tvMetro.text = personView.metro!!.stationName
             ivBranchColor.background.setTint(
                 ContextCompat.getColor(
                     view.context,
-                    person.metro!!.branchColor
+                    personView.metro!!.branchColor
                 )
             )
         }
 
-        if (person.moneyFrom == 0L && person.moneyTo == 0L) {
+        if (personView.moneyFrom == 0L && personView.moneyTo == 0L) {
             tvMoney.setText(R.string.money_default_value)
         } else {
-            tvMoney.text = view.context.getString(R.string.money, person.moneyFrom, person.moneyTo)
+            tvMoney.text = view.context.getString(R.string.money, personView.moneyFrom, personView.moneyTo)
         }
 
-        for (i in 0..3.coerceAtMost(person.rooms.size - 1)) {
+        for (i in 0..3.coerceAtMost(personView.rooms.size - 1)) {
             cvRooms[i].visibility = View.VISIBLE
-            tvRooms[i].text = person.rooms[i].label
+            tvRooms[i].text = personView.rooms[i].label
         }
-        tvDescription.text = person.description
+        tvDescription.text = personView.description
 
         offerApartmentButton.setOnClickListener(this::onOfferApartment)
     }
@@ -108,7 +109,7 @@ class PersonAnnouncementFragment : Fragment() {
     private fun onOfferApartment(view: View) {
         GlobalScope.launch(Dispatchers.Main) {
             try {
-                val emailPerson: String = person.email
+                val emailPerson: String = personView.email
                     ?: throw NotificationKeeperException(
                         "Advert is not exist",
                         null,
@@ -120,15 +121,15 @@ class PersonAnnouncementFragment : Fragment() {
                     emailPerson
                 )
 
-                getToastWithText("Вы предложили квартиру человеку с именем ${person.name}").show()
+                getToastWithText("Вы предложили квартиру человеку с именем ${personView.name}").show()
             } catch (e: NotificationKeeperException) {
                 getToastWithText(getString(e.getResourceStringCode())).show()
             }
         }
     }
 
-    private fun tagToImageView(context: Context, tag: Tags): ImageView {
-        val iv = ImageView(context)
+    private fun tagToImageView(tag: Tags): ImageView {
+        val iv = ImageView(view?.context)
 
         iv.layoutParams = ViewGroup.MarginLayoutParams(
             60,

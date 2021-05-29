@@ -7,7 +7,7 @@ import ru.mail.polis.room.RoomCount
 import ru.mail.polis.tags.Tags
 
 @Parcelize
-data class Person(
+data class PersonView(
     var email: String? = null,
     var photo: String? = null,
     var name: String? = null,
@@ -87,8 +87,8 @@ data class Person(
             return this
         }
 
-        fun build(): Person {
-            return Person(
+        fun build(): PersonView {
+            return PersonView(
                 email,
                 photo,
                 name,
