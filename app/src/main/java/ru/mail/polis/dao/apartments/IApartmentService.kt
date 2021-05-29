@@ -7,4 +7,5 @@ interface IApartmentService {
     suspend fun addApartment(apartment: ApartmentED): ApartmentED
     suspend fun updateApartment(apartment: ApartmentED): ApartmentED
     suspend fun deleteApartmentByEmail(email: String)
+    suspend fun isExist(email: String): Boolean
 }

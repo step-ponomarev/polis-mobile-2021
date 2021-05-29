@@ -5,29 +5,29 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/fragment_add_apartment__add_apartment_tv"
+        android:id="@+id/fragment_edit_apartment__edit_apartment_tv"
         style="@style/App.Headers.Style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/add_apartment_text"
+        android:text="@string/edit_apartment_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <include
-        android:id="@+id/fragment_add_apartment__apartment_component"
+        android:id="@+id/fragment_edit_apartment__apartment_component"
         layout="@layout/component_apartment_info"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_add_apartment__add_apartment_tv" />
+        app:layout_constraintTop_toBottomOf="@id/fragment_edit_apartment__edit_apartment_tv" />
 
     <include
-        android:id="@+id/activity_add_apartment__add_button"
-        layout="@layout/add_button"
+        android:id="@+id/activity_edit_apartment__edit_button"
+        layout="@layout/edit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
