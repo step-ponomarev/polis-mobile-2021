@@ -6,4 +6,5 @@ interface IPersonService {
     suspend fun addPerson(person: PersonED): PersonED
     suspend fun updatePerson(person: PersonED): PersonED
     suspend fun deletePersonByEmail(email: String)
+    suspend fun isExist(email: String): Boolean
 }

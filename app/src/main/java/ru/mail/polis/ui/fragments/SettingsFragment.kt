@@ -89,6 +89,7 @@ class SettingsFragment : Fragment() {
         )
 
         apartmentButton.setOnClickListener(this::onClickApartmentButton)
+        personButton.setOnClickListener(this::onClockPersonButton)
         editButton.setOnClickListener(this::onClickEditUser)
         changePhotoButton.setOnClickListener(this::onClickChangePhoto)
     }
@@ -141,17 +142,43 @@ class SettingsFragment : Fragment() {
             } else {
                 val dialogFragment =
                     CustomDialogFragment(
-                        getString(R.string.dialog_fragment_title_add_apartment),
-                        getString(R.string.dialog_fragment_message_add_apartment),
-                        { dialog, i ->
+                        title = getString(R.string.dialog_fragment_title_add_apartment),
+                        message = getString(R.string.dialog_fragment_message_add_apartment),
+                        positive = { dialog, _ ->
                             dialog.cancel()
                             findNavController().navigate(R.id.nav_graph__add_apartment_fragment)
                         },
-                        { dialog, i ->
+                        negative = { dialog, _ ->
                             dialog.cancel()
                         }
                     )
                 dialogFragment.show(parentFragmentManager, "Apartment editing")
+            }
+        }
+    }
+
+    private fun onClockPersonButton(view: View) {
+        GlobalScope.launch(Dispatchers.Main) {
+            val exist = withContext(Dispatchers.IO) {
+                settingsViewModel.checkAdvertExist(getEmail())
+            }
+
+            if (exist) {
+                findNavController().navigate(R.id.nav_graph__advert_editing_fragment)
+            } else {
+                val dialogFragment =
+                    CustomDialogFragment(
+                        title = getString(R.string.dialog_fragment_title_add_advert),
+                        message = getString(R.string.dialog_fragment_message_add_advert),
+                        positive = { dialog, _ ->
+                            dialog.cancel()
+                            findNavController().navigate(R.id.nav_graph__advert_creation_fragment)
+                        },
+                        negative = { dialog, _ ->
+                            dialog.cancel()
+                        }
+                    )
+                dialogFragment.show(parentFragmentManager, "Advert editing")
             }
         }
     }

@@ -7,7 +7,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mail.polis.dao.Collections
-import java.lang.RuntimeException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -114,6 +113,33 @@ class PersonService private constructor() : IPersonService {
                             it
                         )
                     )
+                }
+        }
+    }
+
+    override suspend fun isExist(email: String): Boolean {
+        return suspendCancellableCoroutine { coroutine ->
+
+            personCollection.document(email)
+                .get()
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        RuntimeException(
+                            "Failure to find person with email: $email",
+                            it
+                        )
+                    )
+                }
+                .addOnSuccessListener { document ->
+                    Log.i(
+                        this::class.java.name,
+                        "Successfully finding person with email: $email"
+                    )
+                    if (document.exists()) {
+                        coroutine.resume(true)
+                    } else {
+                        coroutine.resume(false)
+                    }
                 }
         }
     }
