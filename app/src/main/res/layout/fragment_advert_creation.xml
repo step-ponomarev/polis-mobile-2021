@@ -198,21 +198,23 @@
     <HorizontalScrollView
         android:id="@+id/fragment_advert_creation__hsv_tags"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginVertical="10dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/fragment_advert_creation__hv_features"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_advert_creation__features"
-        app:layout_constraintVertical_chainStyle="packed">
+        app:layout_constraintVertical_chainStyle="packed"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
+        >
 
         <LinearLayout
             android:id="@+id/fragment_advert_creation__ll_tags"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingHorizontal="10dp"
             />
 
     </HorizontalScrollView>
