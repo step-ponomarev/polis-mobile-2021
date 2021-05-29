@@ -15,7 +15,7 @@ enum class Tags(val imageOnClick: Int, val imageNotClick: Int) {
                     return it
                 }
             }
-            throw IllegalArgumentException("No enum")
+            throw IllegalArgumentException("There is no tag with such resource image code $image")
         }
     }
 }

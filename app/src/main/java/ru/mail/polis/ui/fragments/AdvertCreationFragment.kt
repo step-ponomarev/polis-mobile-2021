@@ -79,20 +79,7 @@ class AdvertCreationFragment : Fragment() {
         llTags = view.findViewById(R.id.fragment_advert_creation__ll_tags)
 
         val tags: List<ImageView> = Tags.values().map { tag ->
-            tagToImageButton(view.context, tag.imageNotClick)
-        }
-
-        tags.forEach { i ->
-            i.setOnClickListener {
-                val tag = Tags.from(i.tag as Int)
-                if (tag in tagsForPerson) {
-                    i.setImageResource(tag.imageNotClick)
-                    tagsForPerson.remove(tag)
-                } else {
-                    i.setImageResource(tag.imageOnClick)
-                    tagsForPerson.add(tag)
-                }
-            }
+            tagToImageButton(tag)
         }
         tags.forEach(llTags::addView)
 
@@ -136,6 +123,7 @@ class AdvertCreationFragment : Fragment() {
 
         GlobalScope.launch(Dispatchers.Main) {
             val person = PersonED.Builder.createBuilder()
+                .email(email)
                 .metro(Metro.from(metro))
                 .description(aboutMe)
                 .money(costFrom.toLong(), costTo.toLong())
@@ -164,8 +152,8 @@ class AdvertCreationFragment : Fragment() {
             ?: throw IllegalStateException("Email not found")
     }
 
-    private fun tagToImageButton(context: Context, tags: Int): ImageButton {
-        val ib = ImageButton(context)
+    private fun tagToImageButton(tag: Tags): ImageButton {
+        val ib = ImageButton(view?.context)
         ib.layoutParams = ViewGroup.LayoutParams(
             60,
             60
@@ -173,8 +161,16 @@ class AdvertCreationFragment : Fragment() {
         ib.adjustViewBounds = true
         ib.background = null
         ib.setPadding(5, 5, 5, 5)
-        ib.setImageResource(tags)
-        ib.tag = tags
+        ib.setImageResource(tag.imageNotClick)
+        ib.setOnClickListener {
+            if (tag in tagsForPerson) {
+                ib.setImageResource(tag.imageNotClick)
+                tagsForPerson.remove(tag)
+            } else {
+                ib.setImageResource(tag.imageOnClick)
+                tagsForPerson.add(tag)
+            }
+        }
         return ib
     }
 }

@@ -17,13 +17,13 @@ import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.people.PeopleAdapter
-import ru.mail.polis.list.of.people.Person
+import ru.mail.polis.list.of.people.PersonView
 import ru.mail.polis.viewModels.ListOfPeopleViewModel
 import java.util.Objects
 
 class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
 
-    private lateinit var listOfPeople: List<Person>
+    private lateinit var listOfPersonViews: List<PersonView>
     private lateinit var viewModel: ListOfPeopleViewModel
 
     override fun onCreateView(
@@ -62,16 +62,16 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
                 filterData(people, users)
             }
 
-            listOfPeople = toPersonView(people, users)
-            adapter.setData(listOfPeople)
+            listOfPersonViews = toPersonView(people, users)
+            adapter.setData(listOfPersonViews)
         }
     }
 
     override fun onListItemClick(clickedItemIndex: Int) {
-        val person: Person = listOfPeople[clickedItemIndex]
+        val personView: PersonView = listOfPersonViews[clickedItemIndex]
         val action =
             ListOfPeopleFragmentDirections.actionNavGraphListOfPeopleToPersonAnnouncementFragment(
-                person
+                personView
             )
         findNavController().navigate(action)
     }
@@ -90,11 +90,11 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
         }
     }
 
-    private fun toPersonView(people: List<PersonED>, users: List<UserED>): List<Person> {
+    private fun toPersonView(people: List<PersonED>, users: List<UserED>): List<PersonView> {
         return people.filter { it.isValid() }.map { person ->
             val user = users.find { Objects.equals(person.email, it.email) }!!
 
-            Person.Builder.createBuilder()
+            PersonView.Builder.createBuilder()
                 .email(person.email!!)
                 .photo(user.photo)
                 .name("${user.name} ${user.surname}")

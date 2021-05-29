@@ -61,7 +61,7 @@
         android:label="PersonAnnouncementFragment" >
         <argument
             android:name="person"
-            app:argType="ru.mail.polis.list.of.people.Person" />
+            app:argType="ru.mail.polis.list.of.people.PersonView" />
     </fragment>
 
     <fragment

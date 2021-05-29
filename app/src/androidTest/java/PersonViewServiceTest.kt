@@ -7,7 +7,7 @@ import ru.mail.polis.dao.person.PersonService
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
 
-class PersonServiceTest {
+class PersonViewServiceTest {
     private val personService: IPersonService = PersonService.getInstance()
 
     @Test
@@ -58,7 +58,7 @@ class PersonServiceTest {
     private fun createTestPerson(): PersonED {
         return PersonED.Builder.createBuilder()
             .email("test@test.test")
-            .tags(listOf(1L))
+            .tags(listOf())
             .metro(Metro.PARNASSUS)
             .money(0L, 0L)
             .rooms(listOf(RoomCount.ONE))
