@@ -87,7 +87,7 @@
         android:layout_marginBottom="29dp"
         app:layout_constraintBottom_toTopOf="@+id/fragment_advert__creation__prices"
         app:layout_constraintTop_toBottomOf="@+id/fragment_advert_creation__spinner"
-        tools:layout_editor_absoluteX="0dp" />
+        />
 
     <TextView
         android:id="@+id/fragment_advert_creation__prices"
