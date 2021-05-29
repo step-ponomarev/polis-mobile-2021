@@ -60,7 +60,7 @@ class SettingsViewModel : ViewModel() {
             throw NotificationKeeperException(
                 "Failed user updating $user",
                 e,
-                R.string.error_bad_internet
+                NotificationKeeperException.NotificationType.DAO_ERROR
             )
         }
     }
@@ -73,7 +73,7 @@ class SettingsViewModel : ViewModel() {
             throw NotificationKeeperException(
                 "Failed checking user existence by email: $email",
                 e,
-                R.string.error_bad_internet
+                NotificationKeeperException.NotificationType.DAO_ERROR
             )
         }
     }

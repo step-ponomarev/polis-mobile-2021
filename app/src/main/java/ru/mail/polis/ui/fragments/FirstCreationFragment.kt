@@ -100,7 +100,7 @@ class FirstCreationFragment : Fragment() {
                 firstCreationViewModel.addUser(user, avatar.drawable.toBitmap())
                 findNavController().navigate(R.id.nav_graph__self_definition_fragment)
             } catch (e: NotificationKeeperException) {
-                getToast(getString(R.string.error_bad_internet)).show()
+                getToast(getString(R.string.error_dao)).show()
             }
         }
     }

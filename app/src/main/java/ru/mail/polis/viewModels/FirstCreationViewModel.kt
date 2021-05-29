@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import ru.mail.polis.R
 import ru.mail.polis.converter.Converter
 import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.photo.IPhotoUriService
@@ -36,7 +35,7 @@ class FirstCreationViewModel : ViewModel() {
             throw NotificationKeeperException(
                 "User was not added: $userED",
                 e,
-                R.string.error_bad_internet
+                NotificationKeeperException.NotificationType.DAO_ERROR
             )
         }
     }

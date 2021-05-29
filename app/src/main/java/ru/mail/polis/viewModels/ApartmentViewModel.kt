@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import ru.mail.polis.R
 import ru.mail.polis.converter.Converter
 import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.apartments.ApartmentED
@@ -54,7 +53,7 @@ class ApartmentViewModel : ViewModel() {
             throw NotificationKeeperException(
                 "Failure adding apartment: $apartmentED",
                 e,
-                R.string.error_bad_internet
+                NotificationKeeperException.NotificationType.DAO_ERROR
             )
         }
     }
@@ -69,7 +68,7 @@ class ApartmentViewModel : ViewModel() {
             throw NotificationKeeperException(
                 "Failure fetching user with email: $email",
                 e,
-                R.string.error_bad_internet
+                NotificationKeeperException.NotificationType.DAO_ERROR
             )
         }
     }
@@ -85,7 +84,7 @@ class ApartmentViewModel : ViewModel() {
             throw NotificationKeeperException(
                 "Failure updating apartment: $apartmentED",
                 e,
-                R.string.error_bad_internet
+                NotificationKeeperException.NotificationType.DAO_ERROR
             )
         }
     }
@@ -100,7 +99,7 @@ class ApartmentViewModel : ViewModel() {
             throw NotificationKeeperException(
                 "Failure fetching apartment with email: $email",
                 e,
-                R.string.error_bad_internet
+                NotificationKeeperException.NotificationType.DAO_ERROR
             )
         }
     }
