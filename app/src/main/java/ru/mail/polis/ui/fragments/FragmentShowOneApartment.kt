@@ -16,14 +16,13 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import ru.mail.polis.R
-import ru.mail.polis.list.of.apartments.ApartmentViewModel
-import ru.mail.polis.viewModels.PersonAnnouncementViewModel
+import ru.mail.polis.list.of.apartments.ApartmentView
 
 class FragmentShowOneApartment : Fragment() {
 
 
     private lateinit var showPhoneButton: Button
-    private lateinit var apartment: ApartmentViewModel
+    private lateinit var apartment: ApartmentView
     private lateinit var userAvatar: ImageView
     private lateinit var apartmentOwnerName: TextView
     private lateinit var apartmentOwnerAge: TextView

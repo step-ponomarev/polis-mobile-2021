@@ -36,7 +36,7 @@ class ApartmentsAdapter(
         fun onListItemClick(clickedItemIndex: Int)
     }
 
-    fun setData(apartmentViewModels: List<ApartmentViewModel>) {
+    fun setData(apartmentViewModels: List<ApartmentView>) {
         this.apartmentViews = apartmentViewModels
         notifyDataSetChanged()
     }

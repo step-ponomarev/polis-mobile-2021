@@ -26,7 +26,7 @@ import java.util.Objects
 class ProposedApartmentsFragment : Fragment(), ApartmentsAdapter.ListItemClickListener {
 
     private lateinit var viewModel: ProposedApartmentsViewModel
-    private lateinit var apartments: List<ApartmentViewModel>
+    private lateinit var apartments: List<ApartmentView>
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
