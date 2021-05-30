@@ -118,9 +118,8 @@ class PersonAnnouncementFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val emailPerson: String = personView.email
-                    ?: throw NotificationKeeperException(
-                        "Advert with email ${personView.email} is not exist",
-                        R.string.toast_advert_unavailable
+                    ?: throw IllegalStateException(
+                        "Advert with email ${personView.email} is not exist"
                     )
 
                 viewModel.offerApartment(
