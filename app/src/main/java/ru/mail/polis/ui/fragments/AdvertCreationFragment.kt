@@ -153,7 +153,7 @@ class AdvertCreationFragment : Fragment() {
     }
 
     private fun tagToImageButton(tag: Tags): ImageButton {
-        val ib = ImageButton(view?.context)
+        val ib = ImageButton(requireContext())
         ib.layoutParams = ViewGroup.LayoutParams(
             60,
             60
