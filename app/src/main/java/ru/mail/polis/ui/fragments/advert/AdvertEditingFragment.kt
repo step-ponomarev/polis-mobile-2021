@@ -16,7 +16,7 @@ import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
-import java.util.*
+import java.util.Collections
 
 class AdvertEditingFragment : AdvertFragment() {
 
@@ -48,7 +48,7 @@ class AdvertEditingFragment : AdvertFragment() {
             if (personED != null) {
                 fillFields(personED, user)
             } else {
-                getToastWithText(getString(R.string.toast_there_are_no_apartment_to_edit))
+                getToastWithText(getString(R.string.toast_there_are_no_advert_to_edit))
             }
         }
     }
