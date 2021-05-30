@@ -17,7 +17,7 @@ class NotificationKeeperException : Exception {
         DAO_ERROR(R.string.error_dao);
 
         fun getResourceStringCode(): Int {
-            return this.resourceStringCode
+            return resourceStringCode
         }
     }
 
@@ -42,6 +42,6 @@ class NotificationKeeperException : Exception {
     }
 
     fun getResourceStringCode(): Int {
-        return this.notificationType.getResourceStringCode()
+        return notificationType.getResourceStringCode()
     }
 }

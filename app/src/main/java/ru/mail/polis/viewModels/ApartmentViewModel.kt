@@ -31,15 +31,15 @@ class ApartmentViewModel : ViewModel() {
     }
 
     fun addImage(image: Bitmap) {
-        this.list.add(image)
+        list.add(image)
     }
 
     fun removeImage(bitmap: Bitmap) {
-        this.list.remove(bitmap)
+        list.remove(bitmap)
     }
 
     fun getImageList(): Collection<Bitmap> {
-        return this.list
+        return list
     }
 
     @Throws(NotificationKeeperException::class)
