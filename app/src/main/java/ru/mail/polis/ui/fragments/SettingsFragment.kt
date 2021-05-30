@@ -24,6 +24,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.mail.polis.R
+import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
 import ru.mail.polis.notification.NotificationCenter
@@ -102,37 +103,52 @@ class SettingsFragment : Fragment() {
     }
 
     private fun onClickEditUser(view: View) {
+        val bitmap: Bitmap? = getBitmap()
 
-        val photo: String? = if (currentPhotoUrl == null) {
-            null
-        } else {
-            currentPhotoUrl
-        }
-
-        val bitmap: Bitmap? = if (currentPhotoUrl == null) {
-            avatar.drawable.toBitmap()
-        } else {
-            null
-        }
-
-        val user = UserED(
-            email = StorageUtils.getCurrentUserEmail(requireContext()),
-            name = nameEditText.text.toString(),
-            surname = surnameEditText.text.toString(),
-            phone = phoneEditText.text.toString(),
-            age = Integer.parseInt(ageEditText.text.toString()).toLong(),
-            externalAccounts = emptyList(),
-            photo = photo
-        )
-
+        val email = StorageUtils.getCurrentUserEmail(requireContext())
         GlobalScope.launch(Dispatchers.Main) {
+            val photoSrc = "${Collections.USER.collectionName}Photos/$email-photo.jpg"
+
             try {
-                settingsViewModel.updateUser(user, bitmap)
-                NotificationCenter.showDefaultToast(requireContext(), getString(R.string.toast_changes_are_saved))
+                val photo = uploadPhoto(photoSrc, bitmap)
+                val user = UserED(
+                    email = StorageUtils.getCurrentUserEmail(requireContext()),
+                    name = nameEditText.text.toString(),
+                    surname = surnameEditText.text.toString(),
+                    phone = phoneEditText.text.toString(),
+                    age = Integer.parseInt(ageEditText.text.toString()).toLong(),
+                    externalAccounts = emptyList(),
+                    photo = photo
+                )
+
+                settingsViewModel.updateUser(user)
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(R.string.toast_changes_are_saved)
+                )
             } catch (e: NotificationKeeperException) {
-                NotificationCenter.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(e.getResourceStringCode())
+                )
             }
         }
+    }
+
+    private suspend fun uploadPhoto(path: String, bitmap: Bitmap?): String? {
+        return if (currentPhotoUrl == null && bitmap != null) {
+            withContext(Dispatchers.IO) {
+                settingsViewModel.uploadPhoto(path, bitmap)
+            }
+        } else currentPhotoUrl
+    }
+
+    private fun getBitmap(): Bitmap? {
+        if (currentPhotoUrl != null) {
+            return null
+        }
+
+        return avatar.drawable.toBitmap()
     }
 
     private fun onClickApartmentButton(view: View) {

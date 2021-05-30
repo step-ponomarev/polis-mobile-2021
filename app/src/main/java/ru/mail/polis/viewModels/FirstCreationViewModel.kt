@@ -19,7 +19,7 @@ class FirstCreationViewModel : ViewModel() {
     private val photoUriService: IPhotoUriService = PhotoUriService()
 
     @Throws(NotificationKeeperException::class)
-    suspend fun uploadUserPhoto(path: String, bitmap: Bitmap): String {
+    suspend fun uploadPhoto(path: String, bitmap: Bitmap): String {
         try {
             return withContext(Dispatchers.IO) {
                 photoUriService.saveImage(path, Converter.bitmapToInputStream(bitmap))

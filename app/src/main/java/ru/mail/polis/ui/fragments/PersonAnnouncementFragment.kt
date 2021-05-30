@@ -74,9 +74,7 @@ class PersonAnnouncementFragment : Fragment() {
             urlToMyImageView(ivPhoto, personView.photo!!)
         }
         tvName.text = personView.name
-        if (personView.age != null) {
-            tvAge.text = getAgeString(personView.age!!)
-        }
+        tvAge.text = getAgeString(personView.age)
 
         val tags: List<ImageView> = personView.tags.map { tag ->
             tagToImageView(tag)
@@ -88,15 +86,13 @@ class PersonAnnouncementFragment : Fragment() {
             tags.forEach(llIvTags::addView)
         }
 
-        if (personView.metro != null) {
-            tvMetro.text = personView.metro!!.stationName
-            ivBranchColor.background.setTint(
-                ContextCompat.getColor(
-                    view.context,
-                    personView.metro!!.branchColor
-                )
+        tvMetro.text = personView.metro.stationName
+        ivBranchColor.background.setTint(
+            ContextCompat.getColor(
+                view.context,
+                personView.metro.branchColor
             )
-        }
+        )
 
         if (personView.moneyFrom == 0L && personView.moneyTo == 0L) {
             tvMoney.setText(R.string.money_default_value)
@@ -118,10 +114,6 @@ class PersonAnnouncementFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val emailPerson: String = personView.email
-                    ?: throw IllegalStateException(
-                        "Advert with email ${personView.email} is not exist"
-                    )
-
                 viewModel.offerApartment(
                     StorageUtils.getCurrentUserEmail(requireContext()),
                     emailPerson

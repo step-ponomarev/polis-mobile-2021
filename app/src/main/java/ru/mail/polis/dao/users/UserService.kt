@@ -5,6 +5,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.DaoException
@@ -19,9 +20,11 @@ class UserService : IUserService {
 
     override suspend fun updateUserByEmail(email: String, user: UserED): UserED {
         val userRef = userCollection.document(email)
+        val data = Gson().toJson(user)
+        val userUpdate = Gson().fromJson(data, Map::class.java) as Map<String, Any?>
 
         return suspendCancellableCoroutine { coroutine ->
-            userRef.update(userToMap(user))
+            userRef.update(userUpdate)
                 .addOnSuccessListener {
                     coroutine.resume(user)
                 }
@@ -115,17 +118,5 @@ class UserService : IUserService {
                     )
                 }
         }
-    }
-
-    private fun userToMap(user: UserED): Map<String, Any?> {
-        return mapOf(
-            "email" to user.email,
-            "name" to user.name,
-            "surname" to user.surname,
-            "age" to user.age,
-            "phone" to user.phone,
-            "photo" to user.photo,
-            "externalAccounts" to user.externalAccounts
-        )
     }
 }

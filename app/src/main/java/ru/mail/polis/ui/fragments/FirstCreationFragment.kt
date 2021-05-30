@@ -91,11 +91,12 @@ class FirstCreationFragment : Fragment() {
 
         val email = StorageUtils.getCurrentUserEmail(requireContext())
         GlobalScope.launch(Dispatchers.IO) {
-            val pathString = "${Collections.USER.collectionName}Photos/$email-photo.jpg"
-            val photo = firstCreationViewModel.uploadUserPhoto(
-                pathString,
+            val photoSrc = "${Collections.USER.collectionName}Photos/$email-photo.jpg"
+            val photo = firstCreationViewModel.uploadPhoto(
+                photoSrc,
                 avatar.drawable.toBitmap()
             )
+
             try {
                 val user = UserED(
                     email = email,

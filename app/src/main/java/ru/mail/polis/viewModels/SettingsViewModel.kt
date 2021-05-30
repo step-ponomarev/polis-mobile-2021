@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.mail.polis.converter.Converter
-import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.DaoException
 import ru.mail.polis.dao.apartments.ApartmentService
 import ru.mail.polis.dao.apartments.IApartmentService
@@ -38,20 +37,25 @@ class SettingsViewModel : ViewModel() {
     }
 
     @Throws(NotificationKeeperException::class)
-    suspend fun updateUser(user: UserED, bitmap: Bitmap?) {
-        val pathString = "${Collections.USER.collectionName}Photos/${user.email}-photo.jpg"
-
+    suspend fun uploadPhoto(path: String, bitmap: Bitmap): String {
         try {
-            if (user.photo == null && bitmap != null) {
-                withContext(Dispatchers.IO) {
-                    val url =
-                        photoUriService.saveImage(pathString, Converter.bitmapToInputStream(bitmap))
-                    user.photo = url.toString()
-                }
-            }
+            return withContext(Dispatchers.IO) {
+                photoUriService.saveImage(path, Converter.bitmapToInputStream(bitmap))
+            }.toString()
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Photo was not uploaded path: $path",
+                e,
+                NotificationKeeperException.NotificationType.DAO_ERROR
+            )
+        }
+    }
 
+    @Throws(NotificationKeeperException::class)
+    suspend fun updateUser(user: UserED) {
+        try {
             val updatedUser = withContext(Dispatchers.IO) {
-                userService.updateUserByEmail(user.email!!, user)
+                userService.updateUserByEmail(user.email, user)
             } ?: throw IllegalStateException("Updated user is null")
 
             withContext(Dispatchers.Main) {
