@@ -6,6 +6,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.DaoException
@@ -86,9 +87,12 @@ class ProposeService(
     }
 
     override suspend fun createPropose(proposeED: ProposeED): ProposeED {
+        val data = Gson().toJson(proposeED)
+        val addMap = Gson().fromJson(data, Map::class.java) as Map<String, Any?>
+
         return suspendCancellableCoroutine { coroutine ->
             proposeCollection.document()
-                .set(proposeED)
+                .set(addMap)
                 .addOnSuccessListener {
                     Log.i(
                         this::class.java.name,

@@ -31,7 +31,6 @@ import ru.mail.polis.utils.StorageUtils
 import ru.mail.polis.viewModels.FirstCreationViewModel
 
 class FirstCreationFragment : Fragment() {
-
     private lateinit var changePhotoButton: Button
     private lateinit var continueButton: Button
     private lateinit var nameEditText: EditText

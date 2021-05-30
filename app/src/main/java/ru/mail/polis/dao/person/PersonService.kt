@@ -64,10 +64,11 @@ class PersonService private constructor() : IPersonService {
     @Throws(DaoException::class)
     override suspend fun addPerson(person: PersonED): PersonED {
         val data = Gson().toJson(person)
+        val personMap = Gson().fromJson(data, Map::class.java) as Map<String, Any?>
 
         return suspendCancellableCoroutine { coroutine ->
             personCollection.document(person.email)
-                .set(data)
+                .set(personMap)
                 .addOnSuccessListener {
                     Log.i(
                         this::class.java.name,
@@ -91,10 +92,10 @@ class PersonService private constructor() : IPersonService {
     override suspend fun updatePerson(person: PersonED): PersonED {
         val personRef = personCollection.document(person.email)
         val data = Gson().toJson(person)
-        val personUpdate = Gson().fromJson(data, Map::class.java) as Map<String, Any?>
+        val personMap = Gson().fromJson(data, Map::class.java) as Map<String, Any?>
 
         return suspendCancellableCoroutine { coroutine ->
-            personRef.update(personUpdate)
+            personRef.update(personMap)
                 .addOnSuccessListener {
                     coroutine.resume(person)
                 }

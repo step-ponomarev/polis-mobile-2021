@@ -21,10 +21,10 @@ class UserService : IUserService {
     override suspend fun updateUserByEmail(email: String, user: UserED): UserED {
         val userRef = userCollection.document(email)
         val data = Gson().toJson(user)
-        val userUpdate = Gson().fromJson(data, Map::class.java) as Map<String, Any?>
+        val userMap = Gson().fromJson(data, Map::class.java) as Map<String, Any?>
 
         return suspendCancellableCoroutine { coroutine ->
-            userRef.update(userUpdate)
+            userRef.update(userMap)
                 .addOnSuccessListener {
                     coroutine.resume(user)
                 }
@@ -71,9 +71,12 @@ class UserService : IUserService {
     }
 
     override suspend fun addUser(user: UserED): UserED {
+        val data = Gson().toJson(user)
+        val userMap = Gson().fromJson(data, Map::class.java) as Map<String, Any?>
+
         return suspendCancellableCoroutine { coroutine ->
             userCollection.document(user.email)
-                .set(user)
+                .set(userMap)
                 .addOnSuccessListener {
                     Log.i(
                         this::class.java.name,
@@ -95,7 +98,6 @@ class UserService : IUserService {
 
     override suspend fun isExist(email: String): Boolean {
         return suspendCancellableCoroutine { coroutine ->
-
             userCollection.document(email)
                 .get()
                 .addOnSuccessListener { document ->

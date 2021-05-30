@@ -80,9 +80,12 @@ class ApartmentService private constructor() : IApartmentService {
 
     @Throws(DaoException::class)
     override suspend fun addApartment(apartment: ApartmentED): ApartmentED {
+        val data = Gson().toJson(apartment)
+        val addApartment = Gson().fromJson(data, Map::class.java) as Map<String, Any?>
+
         return suspendCancellableCoroutine { coroutine ->
             apartmentCollection.document(apartment.email)
-                .set(apartment)
+                .set(addApartment)
                 .addOnSuccessListener {
                     Log.i(
                         this::class.java.name,
