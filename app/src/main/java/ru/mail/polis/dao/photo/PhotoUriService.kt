@@ -3,7 +3,7 @@ package ru.mail.polis.dao.photo
 import android.net.Uri
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.suspendCancellableCoroutine
-import ru.mail.polis.exception.DaoException
+import ru.mail.polis.dao.DaoException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 

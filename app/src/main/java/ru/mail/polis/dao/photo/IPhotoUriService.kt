@@ -1,7 +1,7 @@
 package ru.mail.polis.dao.photo
 
 import android.net.Uri
-import ru.mail.polis.exception.DaoException
+import ru.mail.polis.dao.DaoException
 
 interface IPhotoUriService {
     @Throws(DaoException::class)

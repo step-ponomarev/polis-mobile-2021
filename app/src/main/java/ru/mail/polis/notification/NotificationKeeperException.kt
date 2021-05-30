@@ -1,4 +1,4 @@
-package ru.mail.polis.exception
+package ru.mail.polis.notification
 
 import ru.mail.polis.R
 

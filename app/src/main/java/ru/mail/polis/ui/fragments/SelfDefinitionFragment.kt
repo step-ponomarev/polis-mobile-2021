@@ -12,8 +12,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
-import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.notification.NotificationCenter
+import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.viewModels.SelfDefinitionViewModel
 
 class SelfDefinitionFragment : Fragment() {

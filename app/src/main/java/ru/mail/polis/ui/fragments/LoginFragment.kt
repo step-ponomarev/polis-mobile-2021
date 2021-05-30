@@ -17,11 +17,11 @@ import kotlinx.coroutines.withContext
 import ru.mail.polis.R
 import ru.mail.polis.auth.AuthenticationService
 import ru.mail.polis.auth.GoogleSingInUtils
+import ru.mail.polis.dao.DaoException
 import ru.mail.polis.dao.users.IUserService
 import ru.mail.polis.dao.users.UserService
-import ru.mail.polis.exception.DaoException
-import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.notification.NotificationCenter
+import ru.mail.polis.notification.NotificationKeeperException
 
 class LoginFragment : Fragment() {
     companion object {

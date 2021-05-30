@@ -19,10 +19,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
-import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.helpers.getAgeString
 import ru.mail.polis.list.of.people.Person
 import ru.mail.polis.notification.NotificationCenter
+import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.viewModels.PersonAnnouncementViewModel
 
 class PersonAnnouncementFragment : Fragment() {

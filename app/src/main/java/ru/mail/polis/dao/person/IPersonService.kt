@@ -1,6 +1,6 @@
 package ru.mail.polis.dao.person
 
-import ru.mail.polis.exception.DaoException
+import ru.mail.polis.dao.DaoException
 import kotlin.jvm.Throws
 
 interface IPersonService {

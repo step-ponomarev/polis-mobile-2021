@@ -1,6 +1,6 @@
 package ru.mail.polis.dao.propose
 
-import ru.mail.polis.exception.DaoException
+import ru.mail.polis.dao.DaoException
 
 interface IProposeService {
     @Throws(DaoException::class)

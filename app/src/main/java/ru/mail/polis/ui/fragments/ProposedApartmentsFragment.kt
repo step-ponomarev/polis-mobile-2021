@@ -15,11 +15,11 @@ import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.apartments.ApartmentED
 import ru.mail.polis.dao.users.UserED
-import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.apartments.ApartmentView
 import ru.mail.polis.list.of.apartments.ApartmentsAdapter
 import ru.mail.polis.notification.NotificationCenter
+import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.viewModels.ProposedApartmentsViewModel
 import java.util.Objects
 

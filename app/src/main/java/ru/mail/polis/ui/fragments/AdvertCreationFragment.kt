@@ -22,9 +22,9 @@ import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.users.UserED
-import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.notification.NotificationCenter
+import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.room.RoomCount
 import ru.mail.polis.viewModels.AdvertCreationViewModel
 import java.util.Collections

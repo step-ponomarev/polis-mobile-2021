@@ -7,7 +7,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mail.polis.dao.Collections
-import ru.mail.polis.exception.DaoException
+import ru.mail.polis.dao.DaoException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
