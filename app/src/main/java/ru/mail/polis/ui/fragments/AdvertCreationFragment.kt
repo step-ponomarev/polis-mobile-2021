@@ -161,13 +161,13 @@ class AdvertCreationFragment : Fragment() {
         ib.adjustViewBounds = true
         ib.background = null
         ib.setPadding(5, 5, 5, 5)
-        ib.setImageResource(tag.imageNotClick)
+        ib.setImageResource(tag.defaultImage)
         ib.setOnClickListener {
             if (tag in tagsForPerson) {
-                ib.setImageResource(tag.imageNotClick)
+                ib.setImageResource(tag.defaultImage)
                 tagsForPerson.remove(tag)
             } else {
-                ib.setImageResource(tag.imageOnClick)
+                ib.setImageResource(tag.activeImage)
                 tagsForPerson.add(tag)
             }
         }

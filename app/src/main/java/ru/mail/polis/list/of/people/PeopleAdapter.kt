@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginRight
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.mail.polis.R
@@ -53,6 +54,7 @@ class PeopleAdapter(
         private val ivBranchColor: ImageView =
             itemView.findViewById(R.id.people_item__metro_branch_color)
         private val tvMoney: TextView = itemView.findViewById(R.id.people_item__tv_money)
+        private val tagBottomLineDivider: View = itemView.findViewById(R.id.people_item__tag_line_divider)
 
         private val cvRooms: List<CardView> = listOf(
             itemView.findViewById(R.id.people_item__ll_cv_rooms1),
@@ -77,7 +79,12 @@ class PeopleAdapter(
             val tags: List<ImageView> = personView.tags.map { tag ->
                 tagToImageView(itemView.context, tag)
             }
-            tags.forEach(llIvTags::addView)
+
+            if (tags.isEmpty()) {
+                tagBottomLineDivider.visibility = View.GONE
+            } else {
+                tags.forEach(llIvTags::addView)
+            }
 
             if (personView.metro != null) {
                 tvMetro.text = personView.metro!!.stationName
@@ -110,13 +117,16 @@ class PeopleAdapter(
     private fun tagToImageView(context: Context, tag: Tags): ImageView {
         val iv = ImageView(context)
 
-        iv.layoutParams = ViewGroup.MarginLayoutParams(
+        val marginLayoutParams = ViewGroup.MarginLayoutParams(
             60,
-            60
+            60,
         )
+
+        marginLayoutParams.setMargins(0, 0, 20, 0)
+
+        iv.layoutParams = marginLayoutParams
         iv.adjustViewBounds = true
-        iv.setPadding(5, 5, 5, 5)
-        iv.setImageResource(tag.imageOnClick)
+        iv.setImageResource(tag.activeImage)
         return iv
     }
 

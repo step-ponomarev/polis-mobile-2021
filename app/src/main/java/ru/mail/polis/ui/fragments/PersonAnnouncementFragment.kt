@@ -50,6 +50,7 @@ class PersonAnnouncementFragment : Fragment() {
         val ivBranchColor: ImageView =
             view.findViewById(R.id.fragment_person_announcement__metro_branch_color)
         val tvMoney: TextView = view.findViewById(R.id.fragment_person_announcement__tv_money)
+        val tagBottomLineDivider: View = view.findViewById(R.id.fragment_person_announcement__tag_line_divider)
         viewModel = ViewModelProvider(this).get(PersonAnnouncementViewModel::class.java)
 
         val cvRooms: List<CardView> = listOf(
@@ -79,7 +80,12 @@ class PersonAnnouncementFragment : Fragment() {
         val tags: List<ImageView> = personView.tags.map { tag ->
             tagToImageView(tag)
         }
-        tags.forEach(llIvTags::addView)
+
+        if (tags.isEmpty()) {
+            tagBottomLineDivider.visibility = View.GONE
+        } else {
+            tags.forEach(llIvTags::addView)
+        }
 
         if (personView.metro != null) {
             tvMetro.text = personView.metro!!.stationName
@@ -130,13 +136,16 @@ class PersonAnnouncementFragment : Fragment() {
     private fun tagToImageView(tag: Tags): ImageView {
         val iv = ImageView(view?.context)
 
-        iv.layoutParams = ViewGroup.MarginLayoutParams(
+        val marginLayoutParams = ViewGroup.MarginLayoutParams(
             60,
-            60
+            60,
         )
+
+        marginLayoutParams.setMargins(0, 0, 20, 0)
+
+        iv.layoutParams = marginLayoutParams
         iv.adjustViewBounds = true
-        iv.setPadding(5, 5, 5, 5)
-        iv.setImageResource(tag.imageOnClick)
+        iv.setImageResource(tag.activeImage)
 
         return iv
     }

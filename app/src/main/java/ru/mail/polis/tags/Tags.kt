@@ -2,7 +2,7 @@ package ru.mail.polis.tags
 
 import ru.mail.polis.R
 
-enum class Tags(val imageOnClick: Int, val imageNotClick: Int) {
+enum class Tags(val activeImage: Int, val defaultImage: Int) {
     PETS(R.drawable.ic_paw, R.drawable.ic_paw_not_click),
     NOISE(R.drawable.ic_drum, R.drawable.ic_drum_not_click),
     KIDS(R.drawable.ic_kid, R.drawable.ic_kid_not_click),
@@ -11,7 +11,7 @@ enum class Tags(val imageOnClick: Int, val imageNotClick: Int) {
     companion object {
         fun from(image: Int): Tags {
             values().forEach {
-                if (it.imageNotClick == image || it.imageOnClick == image) {
+                if (it.activeImage == image || it.defaultImage == image) {
                     return it
                 }
             }
