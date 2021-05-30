@@ -19,6 +19,7 @@ import ru.mail.polis.metro.Metro
 import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.room.RoomCount
+import ru.mail.polis.utils.StorageUtils
 
 class EditApartmentFragment : ApartmentFragment() {
 
@@ -38,7 +39,7 @@ class EditApartmentFragment : ApartmentFragment() {
         editApartmentButton = view.findViewById(R.id.edit_button)
         editApartmentButton.setOnClickListener(this::onClickEditApartment)
 
-        val email = getEmail()
+        val email = StorageUtils.getCurrentUserEmail(requireContext())
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 apartmentViewModel.fetchUser(email)
@@ -86,7 +87,7 @@ class EditApartmentFragment : ApartmentFragment() {
             return
         }
 
-        val email = getEmail()
+        val email = StorageUtils.getCurrentUserEmail(requireContext())
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 apartmentViewModel.fetchUser(email)
@@ -94,7 +95,7 @@ class EditApartmentFragment : ApartmentFragment() {
 
                 val apartmentED = ApartmentED.Builder
                     .createBuilder()
-                    .email(getEmail())
+                    .email(email)
                     .metro(Metro.from(metro))
                     .roomCount(RoomCount.from(rooms))
                     .apartmentCosts(cost.toLong())

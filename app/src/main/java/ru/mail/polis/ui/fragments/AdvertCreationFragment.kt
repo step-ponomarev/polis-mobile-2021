@@ -1,6 +1,5 @@
 package ru.mail.polis.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +28,7 @@ import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.room.RoomCount
 import ru.mail.polis.tags.Tags
+import ru.mail.polis.utils.StorageUtils
 import ru.mail.polis.viewModels.AdvertCreationViewModel
 import java.util.Collections
 
@@ -84,7 +84,7 @@ class AdvertCreationFragment : Fragment() {
         }
         tags.forEach(llTags::addView)
 
-        email = getEmail()
+        email = StorageUtils.getCurrentUserEmail(requireContext())
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 user = viewModel.fetchUser(email)
@@ -144,14 +144,6 @@ class AdvertCreationFragment : Fragment() {
                 NotificationCenter.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
             }
         }
-    }
-
-    private fun getEmail(): String {
-        return activity?.getSharedPreferences(
-            getString(R.string.preference_file_key),
-            Context.MODE_PRIVATE
-        )?.getString(getString(R.string.preference_email_key), null)
-            ?: throw IllegalStateException("Email not found")
     }
 
     private fun tagToImageButton(tag: Tags): ImageButton {

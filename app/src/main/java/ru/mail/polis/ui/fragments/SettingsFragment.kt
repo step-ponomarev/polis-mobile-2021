@@ -1,7 +1,6 @@
 package ru.mail.polis.ui.fragments
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -29,6 +28,7 @@ import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
 import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
+import ru.mail.polis.utils.StorageUtils
 import ru.mail.polis.viewModels.SettingsViewModel
 
 class SettingsFragment : Fragment() {
@@ -75,7 +75,7 @@ class SettingsFragment : Fragment() {
         settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
 
         GlobalScope.launch(Dispatchers.IO) {
-            settingsViewModel.getUserInfo(getEmail())
+            settingsViewModel.getUserInfo(StorageUtils.getCurrentUserEmail(requireContext()))
         }
 
         settingsViewModel.getUser().observe(
@@ -116,7 +116,7 @@ class SettingsFragment : Fragment() {
         }
 
         val user = UserED(
-            email = getEmail(),
+            email = StorageUtils.getCurrentUserEmail(requireContext()),
             name = nameEditText.text.toString(),
             surname = surnameEditText.text.toString(),
             phone = phoneEditText.text.toString(),
@@ -139,7 +139,7 @@ class SettingsFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val exist = withContext(Dispatchers.IO) {
-                    settingsViewModel.checkApartmentExist(getEmail())
+                    settingsViewModel.checkApartmentExist(StorageUtils.getCurrentUserEmail(requireContext()))
                 }
 
                 if (exist) {
@@ -164,14 +164,6 @@ class SettingsFragment : Fragment() {
                 NotificationCenter.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
             }
         }
-    }
-
-    private fun getEmail(): String {
-        return activity?.getSharedPreferences(
-            getString(R.string.preference_file_key),
-            Context.MODE_PRIVATE
-        )?.getString(getString(R.string.preference_email_key), null)
-            ?: throw IllegalStateException("Email not found")
     }
 
     private fun handleResult(result: ActivityResult) {

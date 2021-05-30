@@ -22,6 +22,7 @@ import ru.mail.polis.dao.users.IUserService
 import ru.mail.polis.dao.users.UserService
 import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
+import ru.mail.polis.utils.StorageUtils
 
 class LoginFragment : Fragment() {
     companion object {
@@ -65,7 +66,7 @@ class LoginFragment : Fragment() {
     private fun handleResult(result: ActivityResult) {
         try {
             val email = googleAuthentication.handleResult(result.data)
-            saveEmail(email)
+            StorageUtils.setValue(requireContext(), StorageUtils.StorageKey.EMAIL, email)
 
             GlobalScope.launch(Dispatchers.Main) {
                 if (checkIfUserExist(email)) {
@@ -82,16 +83,6 @@ class LoginFragment : Fragment() {
         } catch (e: Exception) {
             Log.e("Auth error", e.message, e)
         }
-    }
-
-    private fun saveEmail(email: String) {
-        activity?.getSharedPreferences(
-            getString(R.string.preference_file_key),
-            Context.MODE_PRIVATE
-        )
-            ?.edit()
-            ?.putString(getString(R.string.preference_email_key), email)
-            ?.apply()
     }
 
     @Throws(NotificationKeeperException::class)

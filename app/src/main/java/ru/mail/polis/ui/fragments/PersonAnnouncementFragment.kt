@@ -1,6 +1,5 @@
 package ru.mail.polis.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +23,7 @@ import ru.mail.polis.list.of.people.PersonView
 import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.tags.Tags
+import ru.mail.polis.utils.StorageUtils
 import ru.mail.polis.viewModels.PersonAnnouncementViewModel
 
 class PersonAnnouncementFragment : Fragment() {
@@ -123,7 +123,7 @@ class PersonAnnouncementFragment : Fragment() {
                     )
 
                 viewModel.offerApartment(
-                    getEmail(),
+                    StorageUtils.getCurrentUserEmail(requireContext()),
                     emailPerson
                 )
 
@@ -157,13 +157,5 @@ class PersonAnnouncementFragment : Fragment() {
         Glide.with(iv)
             .load(url)
             .into(iv)
-    }
-
-    private fun getEmail(): String {
-        return activity?.getSharedPreferences(
-            getString(R.string.preference_file_key),
-            Context.MODE_PRIVATE
-        )?.getString(getString(R.string.preference_email_key), null)
-            ?: throw IllegalStateException("Email not found")
     }
 }

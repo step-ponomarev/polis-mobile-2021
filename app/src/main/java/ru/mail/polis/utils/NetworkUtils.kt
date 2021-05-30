@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 
-abstract class NetworkUtils {
+class NetworkUtils private constructor() {
     enum class NetworkState {
         UNAVAILABLE,
         WIFI,

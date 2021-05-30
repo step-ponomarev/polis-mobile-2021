@@ -1,7 +1,6 @@
 package ru.mail.polis.ui.fragments.apartment
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -168,13 +167,5 @@ abstract class ApartmentFragment : Fragment() {
         apartmentViewModel.addImage(bitmap)
 
         return constraintLayoutPhotoComponent
-    }
-
-    protected fun getEmail(): String {
-        return activity?.getSharedPreferences(
-            getString(R.string.preference_file_key),
-            Context.MODE_PRIVATE
-        )?.getString(getString(R.string.preference_email_key), null)
-            ?: throw IllegalStateException("Email not found")
     }
 }

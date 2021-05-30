@@ -16,6 +16,7 @@ import ru.mail.polis.metro.Metro
 import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.room.RoomCount
+import ru.mail.polis.utils.StorageUtils
 
 class AddApartmentFragment : ApartmentFragment() {
     private lateinit var addApartmentButton: Button
@@ -53,7 +54,7 @@ class AddApartmentFragment : ApartmentFragment() {
             return
         }
 
-        val email = getEmail()
+        val email = StorageUtils.getCurrentUserEmail(requireContext())
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 apartmentViewModel.fetchUser(email)

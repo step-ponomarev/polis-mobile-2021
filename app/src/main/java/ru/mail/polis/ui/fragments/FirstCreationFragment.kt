@@ -1,7 +1,6 @@
 package ru.mail.polis.ui.fragments
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -27,6 +26,7 @@ import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
 import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
+import ru.mail.polis.utils.StorageUtils
 import ru.mail.polis.viewModels.FirstCreationViewModel
 
 class FirstCreationFragment : Fragment() {
@@ -90,7 +90,7 @@ class FirstCreationFragment : Fragment() {
 
         GlobalScope.launch(Dispatchers.IO) {
             val user = UserED(
-                email = getEmail(),
+                email = StorageUtils.getCurrentUserEmail(requireContext()),
                 name = nameEditText.text.toString(),
                 surname = surnameEditText.text.toString(),
                 age = Integer.parseInt(ageEditText.text.toString()).toLong(),
@@ -131,13 +131,5 @@ class FirstCreationFragment : Fragment() {
         }
 
         return true
-    }
-
-    private fun getEmail(): String {
-        return activity?.getSharedPreferences(
-            getString(R.string.preference_file_key),
-            Context.MODE_PRIVATE
-        )?.getString(getString(R.string.preference_email_key), null)
-            ?: throw IllegalStateException("Email not found")
     }
 }

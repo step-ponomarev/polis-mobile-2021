@@ -22,6 +22,7 @@ class GoogleAuthenticationService(private val singInClient: GoogleSignInClient) 
         return singInClient.signInIntent
     }
 
+    @Throws(AuthenticatorException::class)
     override fun handleResult(data: Intent?): String {
         val task = GoogleSignIn.getSignedInAccountFromIntent(data)
 
