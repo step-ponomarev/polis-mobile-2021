@@ -17,7 +17,7 @@ import ru.mail.polis.dao.users.IUserService
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.dao.users.UserService
 import ru.mail.polis.notification.NotificationKeeperException
-import kotlin.jvm.Throws
+import kotlin.Throws
 import kotlin.random.Random
 
 class ApartmentViewModel : ViewModel() {
@@ -46,7 +46,6 @@ class ApartmentViewModel : ViewModel() {
     suspend fun addApartment(apartmentED: ApartmentED): ApartmentED {
         try {
             return withContext(Dispatchers.IO) {
-                apartmentED.photosUrls = getUrlList()
                 apartmentService.addApartment(apartmentED)
             }
         } catch (e: DaoException) {
@@ -77,7 +76,6 @@ class ApartmentViewModel : ViewModel() {
     suspend fun updateApartment(apartmentED: ApartmentED): ApartmentED {
         try {
             return withContext(Dispatchers.IO) {
-                apartmentED.photosUrls = getUrlList()
                 apartmentService.updateApartment(apartmentED)
             }
         } catch (e: DaoException) {
@@ -104,22 +102,29 @@ class ApartmentViewModel : ViewModel() {
         }
     }
 
-    private suspend fun getUrlList(): List<String> {
-        val urlList = ArrayList<String>()
-
+    @Throws(NotificationKeeperException::class)
+    suspend fun getApartmentPhotoUrls(): List<String> {
         val pathString =
             "${Collections.APARTMENT.collectionName}Photos/${getRandomNameForFile()}.jpg"
-        for (bitMap in list) {
-            try {
-                val url =
-                    photoUriService.saveImage(pathString, Converter.bitmapToInputStream(bitMap))
-                urlList.add(url.toString())
-            } catch (e: DaoException) {
-                Log.w(NAME, "Photo uploading failed path: $pathString")
-            }
-        }
+        try {
+            return withContext(Dispatchers.IO) {
+                val urlList = ArrayList<String>()
 
-        return urlList
+                for (bitMap in list) {
+                    val url =
+                        photoUriService.saveImage(pathString, Converter.bitmapToInputStream(bitMap))
+                    urlList.add(url.toString())
+                }
+                urlList
+            }
+        } catch (e: DaoException) {
+            Log.w(NAME, "Photo uploading failed path: $pathString")
+            throw NotificationKeeperException(
+                "Failure fetching photos by path: $pathString",
+                e,
+                NotificationKeeperException.NotificationType.DAO_ERROR
+            )
+        }
     }
 
     private fun getRandomNameForFile(): String {

@@ -54,7 +54,7 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
                     return@launch
                 }
 
-                val emailSet = people.map { it.email!! }.toSet()
+                val emailSet = people.map { it.email }.toSet()
                 val users = viewModel.fetchUsers(emailSet).toMutableList()
 
                 if (users.isEmpty()) {
@@ -89,8 +89,8 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
         val filterPeople: Boolean = people.size > users.size
 
         val emails = if (filterPeople)
-            users.map { it.email!! }
-        else people.map { it.email!! }
+            users.map { it.email }
+        else people.map { it.email }
 
         if (filterPeople) {
             people.removeAll { !emails.contains(it.email) }
@@ -100,21 +100,21 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
     }
 
     private fun toPersonView(people: List<PersonED>, users: List<UserED>): List<PersonView> {
-        return people.filter { it.isValid() }.map { person ->
+        return people.map { person ->
             val user = users.find { Objects.equals(person.email, it.email) }!!
 
-            PersonView.Builder.createBuilder()
-                .email(person.email!!)
-                .photo(user.photo)
-                .name("${user.name} ${user.surname}")
-                .age(user.age!!)
-                .tags(person.tags)
-                .moneyFrom(person.moneyFrom)
-                .moneyTo(person.moneyTo)
-                .rooms(person.rooms)
-                .description(person.description!!)
-                .metro(person.metro!!)
-                .build()
+            PersonView(
+                email = person.email,
+                photo = user.photo,
+                name = "${user.name} ${user.surname}",
+                age = user.age,
+                tags = person.tags,
+                moneyTo = person.moneyTo,
+                moneyFrom = person.moneyFrom,
+                rooms = person.rooms,
+                description = person.description,
+                metro = person.metro
+            )
         }
     }
 }

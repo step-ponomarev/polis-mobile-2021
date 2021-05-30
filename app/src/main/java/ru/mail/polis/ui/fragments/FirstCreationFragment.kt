@@ -22,6 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
+import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
 import ru.mail.polis.notification.NotificationCenter
@@ -88,19 +89,25 @@ class FirstCreationFragment : Fragment() {
             return
         }
 
+        val email = StorageUtils.getCurrentUserEmail(requireContext())
         GlobalScope.launch(Dispatchers.IO) {
-            val user = UserED(
-                email = StorageUtils.getCurrentUserEmail(requireContext()),
-                name = nameEditText.text.toString(),
-                surname = surnameEditText.text.toString(),
-                age = Integer.parseInt(ageEditText.text.toString()).toLong(),
-                phone = phoneEditText.text.toString(),
-                photo = null,
-                externalAccounts = emptyList()
+            val pathString = "${Collections.USER.collectionName}Photos/$email-photo.jpg"
+            val photo = firstCreationViewModel.uploadUserPhoto(
+                pathString,
+                avatar.drawable.toBitmap()
             )
-
             try {
-                firstCreationViewModel.addUser(user, avatar.drawable.toBitmap())
+                val user = UserED(
+                    email = email,
+                    name = nameEditText.text.toString(),
+                    surname = surnameEditText.text.toString(),
+                    age = Integer.parseInt(ageEditText.text.toString()).toLong(),
+                    phone = phoneEditText.text.toString(),
+                    photo = photo,
+                    externalAccounts = emptyList()
+                )
+
+                firstCreationViewModel.addUser(user)
                 findNavController().navigate(R.id.nav_graph__self_definition_fragment)
             } catch (e: NotificationKeeperException) {
                 NotificationCenter.showDefaultToast(

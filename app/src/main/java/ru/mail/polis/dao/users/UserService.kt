@@ -69,7 +69,7 @@ class UserService : IUserService {
 
     override suspend fun addUser(user: UserED): UserED {
         return suspendCancellableCoroutine { coroutine ->
-            userCollection.document(user.email!!)
+            userCollection.document(user.email)
                 .set(user)
                 .addOnSuccessListener {
                     Log.i(

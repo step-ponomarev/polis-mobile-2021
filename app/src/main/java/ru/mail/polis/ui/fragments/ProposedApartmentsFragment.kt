@@ -54,7 +54,7 @@ class ProposedApartmentsFragment : Fragment() {
                     return@launch
                 }
 
-                val emailSet = apartments.map { it.email!! }.toSet()
+                val emailSet = apartments.map { it.email }.toSet()
                 val users = viewModel.fetchUsers(emailSet).toMutableList()
 
                 if (users.isEmpty()) {
@@ -79,8 +79,8 @@ class ProposedApartmentsFragment : Fragment() {
         val filterApartments: Boolean = apartments.size > users.size
 
         val emails = if (filterApartments)
-            users.map { it.email!! }
-        else apartments.map { it.email!! }
+            users.map { it.email }
+        else apartments.map { it.email }
 
         if (filterApartments) {
             apartments.removeAll() { !emails.contains(it.email) }
@@ -93,20 +93,20 @@ class ProposedApartmentsFragment : Fragment() {
         apartments: List<ApartmentED>,
         users: List<UserED>
     ): List<ApartmentView> {
-        return apartments.filter { it.isValid() }.map { apartment ->
+        return apartments.map { apartment ->
             val user = users.find { Objects.equals(apartment.email, it.email) }!!
 
-            ApartmentView.Builder.createBuilder()
-                .email(apartment.email!!)
-                .apartmentCosts(apartment.apartmentCosts!!)
-                .apartmentSquare(apartment.apartmentSquare!!)
-                .ownerName("${user.name} ${user.surname}")
-                .ownerAge(user.age!!)
-                .ownerAvatar(user.photo)
-                .metro(apartment.metro!!)
-                .roomCount(apartment.roomCount!!)
-                .photosUrls(apartment.photosUrls)
-                .build()
+            ApartmentView(
+                email = apartment.email,
+                apartmentCosts = apartment.apartmentCosts,
+                apartmentSquare = apartment.apartmentSquare,
+                ownerName = "${user.name} ${user.surname}",
+                ownerAge = user.age,
+                ownerAvatar = user.photo,
+                metro = apartment.metro,
+                roomCount = apartment.roomCount,
+                photosUrls = apartment.photosUrls
+            )
         }
     }
 }

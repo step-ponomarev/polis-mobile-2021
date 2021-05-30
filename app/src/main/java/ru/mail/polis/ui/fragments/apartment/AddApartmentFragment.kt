@@ -59,15 +59,15 @@ class AddApartmentFragment : ApartmentFragment() {
             try {
                 apartmentViewModel.fetchUser(email)
                     ?: throw IllegalStateException("Null user by email: $email")
-
-                val apartmentED = ApartmentED.Builder
-                    .createBuilder()
-                    .email(email)
-                    .metro(Metro.from(metro))
-                    .roomCount(RoomCount.from(rooms))
-                    .apartmentCosts(cost.toLong())
-                    .apartmentSquare(square.toLong())
-                    .build()
+                val photoUrls = apartmentViewModel.getApartmentPhotoUrls()
+                val apartmentED = ApartmentED(
+                    email = email,
+                    metro = Metro.from(metro),
+                    roomCount = RoomCount.from(rooms),
+                    apartmentCosts = cost.toLong(),
+                    apartmentSquare = square.toLong(),
+                    photosUrls = photoUrls
+                )
 
                 apartmentViewModel.addApartment(apartmentED)
                 findNavController().navigate(R.id.nav_graph__list_of_people)

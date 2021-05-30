@@ -23,6 +23,7 @@ import ru.mail.polis.dao.users.UserService
 import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.utils.StorageUtils
+import java.lang.NullPointerException
 
 class LoginFragment : Fragment() {
     companion object {
@@ -66,6 +67,8 @@ class LoginFragment : Fragment() {
     private fun handleResult(result: ActivityResult) {
         try {
             val email = googleAuthentication.handleResult(result.data)
+                ?: throw NullPointerException("Null email after auth")
+
             StorageUtils.setValue(requireContext(), StorageUtils.StorageKey.EMAIL, email)
 
             GlobalScope.launch(Dispatchers.Main) {

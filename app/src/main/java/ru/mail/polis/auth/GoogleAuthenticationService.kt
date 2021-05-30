@@ -23,14 +23,14 @@ class GoogleAuthenticationService(private val singInClient: GoogleSignInClient) 
     }
 
     @Throws(AuthenticatorException::class)
-    override fun handleResult(data: Intent?): String {
+    override fun handleResult(data: Intent?): String? {
         val task = GoogleSignIn.getSignedInAccountFromIntent(data)
 
         try {
-            val account = task.getResult(ApiException::class.java)!!
-            firebaseAuthWithGoogle(account.idToken!!)
+            val account = task.getResult(ApiException::class.java)
+            firebaseAuthWithGoogle(account?.idToken)
 
-            return account.email!!
+            return account?.email
         } catch (e: ApiException) {
             Log.w(TAG, "Google sign in failed", e)
 
@@ -42,7 +42,7 @@ class GoogleAuthenticationService(private val singInClient: GoogleSignInClient) 
         firebaseAuth.signOut()
     }
 
-    private fun firebaseAuthWithGoogle(idToken: String) {
+    private fun firebaseAuthWithGoogle(idToken: String?) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
 
         firebaseAuth.signInWithCredential(credential)

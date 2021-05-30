@@ -128,20 +128,24 @@ class AdvertCreationFragment : Fragment() {
         }
 
         GlobalScope.launch(Dispatchers.Main) {
-            val person = PersonED.Builder.createBuilder()
-                .email(email)
-                .metro(Metro.from(metro))
-                .description(aboutMe)
-                .money(costFrom.toLong(), costTo.toLong())
-                .rooms(Collections.singletonList(RoomCount.from(roomCount)))
-                .tags(tagsForPerson)
-                .build()
+            val person = PersonED(
+                email = email,
+                metro = Metro.from(metro),
+                description = aboutMe,
+                moneyFrom = costFrom.toLong(),
+                moneyTo = costTo.toLong(),
+                rooms = Collections.singletonList(RoomCount.from(roomCount)),
+                tags = tagsForPerson
+            )
 
             try {
                 viewModel.addPerson(person)
                 findNavController().navigate(R.id.nav_graph__list_of_people)
             } catch (e: NotificationKeeperException) {
-                NotificationCenter.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(e.getResourceStringCode())
+                )
             }
         }
     }

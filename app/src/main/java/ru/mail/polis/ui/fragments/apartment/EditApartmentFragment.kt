@@ -93,14 +93,15 @@ class EditApartmentFragment : ApartmentFragment() {
                 apartmentViewModel.fetchUser(email)
                     ?: throw IllegalStateException("Null user by email: $email")
 
-                val apartmentED = ApartmentED.Builder
-                    .createBuilder()
-                    .email(email)
-                    .metro(Metro.from(metro))
-                    .roomCount(RoomCount.from(rooms))
-                    .apartmentCosts(cost.toLong())
-                    .apartmentSquare(square.toLong())
-                    .build()
+                val photoUrls = apartmentViewModel.getApartmentPhotoUrls()
+                val apartmentED = ApartmentED(
+                    email = email,
+                    metro = Metro.from(metro),
+                    roomCount = RoomCount.from(rooms),
+                    apartmentSquare = square.toLong(),
+                    apartmentCosts = cost.toLong(),
+                    photosUrls = photoUrls
+                )
 
                 apartmentViewModel.updateApartment(apartmentED)
             } catch (e: NotificationKeeperException) {
@@ -117,7 +118,7 @@ class EditApartmentFragment : ApartmentFragment() {
 
         chipGroup.forEach { view ->
             if (view is Chip) {
-                if (view.text == apartmentED.roomCount?.label) {
+                if (view.text == apartmentED.roomCount.label) {
                     view.isChecked = true
                 }
             }

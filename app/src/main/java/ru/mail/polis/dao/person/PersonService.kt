@@ -5,6 +5,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.DaoException
@@ -62,9 +63,11 @@ class PersonService private constructor() : IPersonService {
 
     @Throws(DaoException::class)
     override suspend fun addPerson(person: PersonED): PersonED {
+        val data = Gson().toJson(person)
+
         return suspendCancellableCoroutine { coroutine ->
-            personCollection.document(person.email!!)
-                .set(personToMap(person))
+            personCollection.document(person.email)
+                .set(data)
                 .addOnSuccessListener {
                     Log.i(
                         this::class.java.name,
@@ -86,10 +89,12 @@ class PersonService private constructor() : IPersonService {
 
     @Throws(DaoException::class)
     override suspend fun updatePerson(person: PersonED): PersonED {
-        val personRef = personCollection.document(person.email!!)
+        val personRef = personCollection.document(person.email)
+        val data = Gson().toJson(person)
+        val personUpdate = Gson().fromJson(data, Map::class.java) as Map<String, Any?>
 
         return suspendCancellableCoroutine { coroutine ->
-            personRef.update(personToMap(person))
+            personRef.update(personUpdate)
                 .addOnSuccessListener {
                     coroutine.resume(person)
                 }
@@ -122,17 +127,5 @@ class PersonService private constructor() : IPersonService {
                     )
                 }
         }
-    }
-
-    private fun personToMap(person: PersonED): Map<String, Any?> {
-        return mapOf(
-            "email" to person.email,
-            "tags" to person.tags,
-            "metro" to person.metro,
-            "moneyFrom" to person.moneyFrom,
-            "moneyTo" to person.moneyTo,
-            "rooms" to person.rooms,
-            "description" to person.description
-        )
     }
 }
