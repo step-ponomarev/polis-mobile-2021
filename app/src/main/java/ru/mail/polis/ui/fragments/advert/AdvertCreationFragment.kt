@@ -72,8 +72,14 @@ class AdvertCreationFragment : AdvertFragment() {
             return
         }
 
+        val email = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
+
+            val user = viewModel.fetchUser(email)
+                ?: throw IllegalStateException("Null user by email: $email")
+
             val person = PersonED.Builder.createBuilder()
+                .email(email)
                 .metro(Metro.from(metro))
                 .description(aboutMe)
                 .money(costFrom.toLong(), costTo.toLong())
