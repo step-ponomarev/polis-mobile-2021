@@ -18,6 +18,8 @@ import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.people.PeopleAdapter
 import ru.mail.polis.list.of.people.PersonView
+import ru.mail.polis.notification.NotificationCenter
+import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.viewModels.ListOfPeopleViewModel
 import java.util.Objects
 
@@ -46,24 +48,31 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
         rvList.adapter = adapter
 
         GlobalScope.launch(Dispatchers.Main) {
-            val people = viewModel.fetchPeople().toMutableList()
-            if (people.isEmpty()) {
-                return@launch
+            try {
+                val people = viewModel.fetchPeople().toMutableList()
+                if (people.isEmpty()) {
+                    return@launch
+                }
+
+                val emailSet = people.map { it.email!! }.toSet()
+                val users = viewModel.fetchUsers(emailSet).toMutableList()
+
+                if (users.isEmpty()) {
+                    throw IllegalStateException("There are no owners of adverts $people")
+                }
+
+                if (users.size != people.size) {
+                    filterData(people, users)
+                }
+
+                listOfPersonViews = toPersonView(people, users)
+                adapter.setData(listOfPersonViews)
+            } catch (e: NotificationKeeperException) {
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(e.getResourceStringCode())
+                )
             }
-
-            val emailSet = people.map { it.email!! }.toSet()
-            val users = viewModel.fetchUsers(emailSet).toMutableList()
-
-            if (users.isEmpty()) {
-                throw IllegalStateException("There are no owners of adverts $people")
-            }
-
-            if (users.size != people.size) {
-                filterData(people, users)
-            }
-
-            listOfPersonViews = toPersonView(people, users)
-            adapter.setData(listOfPersonViews)
         }
     }
 

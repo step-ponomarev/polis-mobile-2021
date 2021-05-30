@@ -4,14 +4,16 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
-import ru.mail.polis.R
+import ru.mail.polis.dao.DaoException
 import ru.mail.polis.dao.apartments.ApartmentService
 import ru.mail.polis.dao.apartments.IApartmentService
 import ru.mail.polis.dao.propose.IProposeService
 import ru.mail.polis.dao.propose.ProposeED
 import ru.mail.polis.dao.propose.ProposeService
 import ru.mail.polis.dao.propose.ProposeStatus
-import ru.mail.polis.exception.NotificationKeeperException
+import ru.mail.polis.notification.NotificationKeeperException
+import java.lang.IllegalStateException
+import kotlin.coroutines.resumeWithException
 
 class PersonAnnouncementViewModel : ViewModel() {
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
@@ -22,14 +24,11 @@ class PersonAnnouncementViewModel : ViewModel() {
         val exist = withContext(Dispatchers.IO) {
             proposeService.checkProposeExist(ownerEmail, renterEmail)
         }
+
         if (exist) {
             return suspendCancellableCoroutine { coroutine ->
-                coroutine.cancel(
-                    NotificationKeeperException(
-                        "Apartments proposed already",
-                        null,
-                        R.string.toast_apartment_already_proposed
-                    )
+                coroutine.resumeWithException(
+                    IllegalStateException("Apartments proposed already ownerId: $ownerEmail, $renterEmail")
                 )
             }
         }
@@ -37,23 +36,30 @@ class PersonAnnouncementViewModel : ViewModel() {
         withContext(Dispatchers.IO) {
             apartmentService.findByEmail(ownerEmail)
         } ?: return suspendCancellableCoroutine { coroutine ->
-
-            coroutine.cancel(
+            coroutine.resumeWithException(
                 NotificationKeeperException(
-                    "Apartment is not exist",
+                    "Apartment is not exist email: $ownerEmail",
                     null,
-                    R.string.toast_no_apartments_yet
+                    NotificationKeeperException.NotificationType.DAO_ERROR
                 )
             )
         }
 
-        withContext(Dispatchers.IO) {
-            proposeService.createPropose(
-                ProposeED(
-                    ownerEmail,
-                    renterEmail,
-                    ProposeStatus.PENDING
-                )
+        val propose = ProposeED(
+            ownerEmail,
+            renterEmail,
+            ProposeStatus.PENDING
+        )
+
+        try {
+            withContext(Dispatchers.IO) {
+                proposeService.createPropose(propose)
+            }
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failed propose creation: $propose",
+                null,
+                NotificationKeeperException.NotificationType.DAO_ERROR
             )
         }
     }
