@@ -58,6 +58,14 @@ abstract class AdvertFragment : Fragment() {
         )
     }
 
+    protected fun getToastWithText(text: String): Toast {
+        return Toast.makeText(
+            requireContext(),
+            text,
+            Toast.LENGTH_SHORT
+        )
+    }
+
     protected fun getEmail(): String {
         return activity?.getSharedPreferences(
             getString(R.string.preference_file_key),

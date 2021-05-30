@@ -1,7 +1,6 @@
 package ru.mail.polis.viewModels
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.mail.polis.dao.person.IPersonService
@@ -16,13 +15,25 @@ class AdvertViewModel : ViewModel() {
     private val userService: IUserService = UserService()
 
     suspend fun addPerson(personED: PersonED) {
-        withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        withContext(Dispatchers.IO) {
             personService.addPerson(personED)
         }
     }
 
+    suspend fun updatePerson(person: PersonED): PersonED {
+        return withContext(Dispatchers.IO) {
+            personService.updatePerson(person)
+        }
+    }
+
+    suspend fun getPersonByEmail(email: String): PersonED? {
+        return withContext(Dispatchers.IO) {
+            personService.findByEmail(email)
+        }
+    }
+
     suspend fun fetchUser(email: String): UserED? {
-        return withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
             userService.findUserByEmail(email)
         }
     }
