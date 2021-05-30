@@ -51,14 +51,6 @@ abstract class AdvertFragment : Fragment() {
         chipGroup.isSingleSelection = false
     }
 
-    protected fun getToastAboutFillAllFields(): Toast {
-        return Toast.makeText(
-            requireContext(),
-            getString(R.string.toast_fill_all_advert_info),
-            Toast.LENGTH_SHORT
-        )
-    }
-
     protected fun getToastWithText(text: String): Toast {
         return Toast.makeText(
             requireContext(),

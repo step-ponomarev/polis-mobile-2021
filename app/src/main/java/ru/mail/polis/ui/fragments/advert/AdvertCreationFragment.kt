@@ -70,7 +70,7 @@ class AdvertCreationFragment : AdvertFragment() {
             costFrom.isBlank() ||
             costTo.isBlank()
         ) {
-            getToastAboutFillAllFields().show()
+            getToastWithText(getString(R.string.toast_fill_all_advert_info)).show()
             return
         }
 

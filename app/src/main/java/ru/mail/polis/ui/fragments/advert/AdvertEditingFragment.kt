@@ -73,7 +73,7 @@ class AdvertEditingFragment : AdvertFragment() {
             costFrom.isBlank() ||
             costTo.isBlank()
         ) {
-            getToastAboutFillAllFields().show()
+            getToastWithText(getString(R.string.toast_fill_all_advert_info)).show()
             return
         }
 
@@ -93,6 +93,8 @@ class AdvertEditingFragment : AdvertFragment() {
                 .build()
 
             viewModel.updatePerson(person)
+
+            getToastWithText(getString(R.string.toasts_user_changed_advert_info)).show()
         }
     }
 

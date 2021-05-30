@@ -84,9 +84,9 @@ class EditApartmentFragment : ApartmentFragment() {
                 .apartmentSquare(square.toLong())
                 .build()
 
-            GlobalScope.launch(Dispatchers.Main) {
-                apartmentViewModel.updateApartment(apartmentED)
-            }
+            apartmentViewModel.updateApartment(apartmentED)
+
+            getToastWithText(getString(R.string.toast_user_changed_apartment_info)).show()
         }
     }
 
