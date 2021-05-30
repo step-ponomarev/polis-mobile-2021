@@ -20,13 +20,14 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.helpers.getAgeString
-import ru.mail.polis.list.of.people.Person
+import ru.mail.polis.list.of.people.PersonView
 import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
+import ru.mail.polis.tags.Tags
 import ru.mail.polis.viewModels.PersonAnnouncementViewModel
 
 class PersonAnnouncementFragment : Fragment() {
-    private lateinit var person: Person
+    private lateinit var personView: PersonView
     private lateinit var offerApartmentButton: Button
     private lateinit var viewModel: PersonAnnouncementViewModel
 
@@ -49,6 +50,8 @@ class PersonAnnouncementFragment : Fragment() {
         val ivBranchColor: ImageView =
             view.findViewById(R.id.fragment_person_announcement__metro_branch_color)
         val tvMoney: TextView = view.findViewById(R.id.fragment_person_announcement__tv_money)
+        val tagBottomLineDivider: View =
+            view.findViewById(R.id.fragment_person_announcement__tag_line_divider)
         viewModel = ViewModelProvider(this).get(PersonAnnouncementViewModel::class.java)
 
         val cvRooms: List<CardView> = listOf(
@@ -66,40 +69,47 @@ class PersonAnnouncementFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
         val args: PersonAnnouncementFragmentArgs by navArgs()
-        person = args.person
-        if (person.photo != null) {
-            urlToMyImageView(ivPhoto, person.photo!!)
+        personView = args.person
+        if (personView.photo != null) {
+            urlToMyImageView(ivPhoto, personView.photo!!)
         }
-        tvName.text = person.name
-        if (person.age != null)
-            tvAge.text = getAgeString(person.age!!)
-
-        val tags: List<ImageView> = person.tags.map { url ->
-            urlToImageView(view.context, url)
+        tvName.text = personView.name
+        if (personView.age != null) {
+            tvAge.text = getAgeString(personView.age!!)
         }
-        tags.forEach(llIvTags::addView)
 
-        if (person.metro != null) {
-            tvMetro.text = person.metro!!.stationName
+        val tags: List<ImageView> = personView.tags.map { tag ->
+            tagToImageView(tag)
+        }
+
+        if (tags.isEmpty()) {
+            tagBottomLineDivider.visibility = View.GONE
+        } else {
+            tags.forEach(llIvTags::addView)
+        }
+
+        if (personView.metro != null) {
+            tvMetro.text = personView.metro!!.stationName
             ivBranchColor.background.setTint(
                 ContextCompat.getColor(
                     view.context,
-                    person.metro!!.branchColor
+                    personView.metro!!.branchColor
                 )
             )
         }
 
-        if (person.moneyFrom == 0L && person.moneyTo == 0L) {
+        if (personView.moneyFrom == 0L && personView.moneyTo == 0L) {
             tvMoney.setText(R.string.money_default_value)
         } else {
-            tvMoney.text = view.context.getString(R.string.money, person.moneyFrom, person.moneyTo)
+            tvMoney.text =
+                view.context.getString(R.string.money, personView.moneyFrom, personView.moneyTo)
         }
 
-        for (i in 0..3.coerceAtMost(person.rooms.size - 1)) {
+        for (i in 0..3.coerceAtMost(personView.rooms.size - 1)) {
             cvRooms[i].visibility = View.VISIBLE
-            tvRooms[i].text = person.rooms[i].label
+            tvRooms[i].text = personView.rooms[i].label
         }
-        tvDescription.text = person.description
+        tvDescription.text = personView.description
 
         offerApartmentButton.setOnClickListener(this::onOfferApartment)
     }
@@ -107,8 +117,10 @@ class PersonAnnouncementFragment : Fragment() {
     private fun onOfferApartment(view: View) {
         GlobalScope.launch(Dispatchers.Main) {
             try {
-                val emailPerson: String = person.email
-                    ?: throw IllegalStateException("Advert is not exist")
+                val emailPerson: String = personView.email
+                    ?: throw IllegalStateException(
+                        "Advert with email ${personView.email} is not exist"
+                    )
 
                 viewModel.offerApartment(
                     getEmail(),
@@ -117,7 +129,7 @@ class PersonAnnouncementFragment : Fragment() {
 
                 NotificationCenter.showDefaultToast(
                     requireContext(),
-                    "Вы предложили квартиру человеку с именем ${person.name}"
+                    "Вы предложили квартиру человеку с именем ${personView.name}"
                 )
             } catch (e: NotificationKeeperException) {
                 NotificationCenter.showDefaultToast(
@@ -128,19 +140,15 @@ class PersonAnnouncementFragment : Fragment() {
         }
     }
 
-    private fun urlToImageView(context: Context, url: Long): ImageView {
-        val iv = ImageView(context)
+    private fun tagToImageView(tag: Tags): ImageView {
+        val iv = ImageView(view?.context)
 
-        iv.layoutParams = ViewGroup.MarginLayoutParams(
-            ViewGroup.MarginLayoutParams.WRAP_CONTENT,
-            ViewGroup.MarginLayoutParams.WRAP_CONTENT
-        )
+        val marginLayoutParams = ViewGroup.MarginLayoutParams(45, 45)
+        marginLayoutParams.setMargins(0, 0, 20, 0)
+
+        iv.layoutParams = marginLayoutParams
         iv.adjustViewBounds = true
-        iv.setPadding(5, 5, 10, 5)
-
-        Glide.with(iv)
-            .load(url)
-            .into(iv)
+        iv.setImageResource(tag.activeImage)
 
         return iv
     }
