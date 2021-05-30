@@ -391,7 +391,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.841"
-        app:srcCompat="@drawable/ic_ciggarete" />
+        app:srcCompat="@drawable/ic_cigarette" />
 
     <ImageView
         android:id="@+id/fragment_filter__paw_ic"
