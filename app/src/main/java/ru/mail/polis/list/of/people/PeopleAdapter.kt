@@ -121,11 +121,7 @@ class PeopleAdapter(
     private fun tagToImageView(context: Context, tag: Tags): ImageView {
         val iv = ImageView(context)
 
-        val marginLayoutParams = ViewGroup.MarginLayoutParams(
-            60,
-            60,
-        )
-
+        val marginLayoutParams = ViewGroup.MarginLayoutParams(60, 60)
         marginLayoutParams.setMargins(0, 0, 20, 0)
 
         iv.layoutParams = marginLayoutParams

@@ -138,11 +138,7 @@ class PersonAnnouncementFragment : Fragment() {
     private fun tagToImageView(tag: Tags): ImageView {
         val iv = ImageView(view?.context)
 
-        val marginLayoutParams = ViewGroup.MarginLayoutParams(
-            60,
-            60,
-        )
-
+        val marginLayoutParams = ViewGroup.MarginLayoutParams(60, 60)
         marginLayoutParams.setMargins(0, 0, 20, 0)
 
         iv.layoutParams = marginLayoutParams
