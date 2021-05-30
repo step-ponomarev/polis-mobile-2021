@@ -53,7 +53,8 @@ class PeopleAdapter(
         private val ivBranchColor: ImageView =
             itemView.findViewById(R.id.people_item__metro_branch_color)
         private val tvMoney: TextView = itemView.findViewById(R.id.people_item__tv_money)
-        private val tagBottomLineDivider: View = itemView.findViewById(R.id.people_item__tag_line_divider)
+        private val tagBottomLineDivider: View =
+            itemView.findViewById(R.id.people_item__tag_line_divider)
 
         private val cvRooms: List<CardView> = listOf(
             itemView.findViewById(R.id.people_item__ll_cv_rooms1),
@@ -98,7 +99,11 @@ class PeopleAdapter(
                 tvMoney.setText(R.string.money_default_value)
             } else {
                 tvMoney.text =
-                    itemView.context.getString(R.string.money, personView.moneyFrom, personView.moneyTo)
+                    itemView.context.getString(
+                        R.string.money,
+                        personView.moneyFrom,
+                        personView.moneyTo
+                    )
             }
 
             for (i in 0..3.coerceAtMost(personView.rooms.size - 1)) {

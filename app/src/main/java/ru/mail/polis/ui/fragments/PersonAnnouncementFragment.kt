@@ -50,7 +50,8 @@ class PersonAnnouncementFragment : Fragment() {
         val ivBranchColor: ImageView =
             view.findViewById(R.id.fragment_person_announcement__metro_branch_color)
         val tvMoney: TextView = view.findViewById(R.id.fragment_person_announcement__tv_money)
-        val tagBottomLineDivider: View = view.findViewById(R.id.fragment_person_announcement__tag_line_divider)
+        val tagBottomLineDivider: View =
+            view.findViewById(R.id.fragment_person_announcement__tag_line_divider)
         viewModel = ViewModelProvider(this).get(PersonAnnouncementViewModel::class.java)
 
         val cvRooms: List<CardView> = listOf(
@@ -100,7 +101,8 @@ class PersonAnnouncementFragment : Fragment() {
         if (personView.moneyFrom == 0L && personView.moneyTo == 0L) {
             tvMoney.setText(R.string.money_default_value)
         } else {
-            tvMoney.text = view.context.getString(R.string.money, personView.moneyFrom, personView.moneyTo)
+            tvMoney.text =
+                view.context.getString(R.string.money, personView.moneyFrom, personView.moneyTo)
         }
 
         for (i in 0..3.coerceAtMost(personView.rooms.size - 1)) {
