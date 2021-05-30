@@ -16,9 +16,8 @@ import ru.mail.polis.R
 
 class ApartmentsAdapter(
     private var apartmentViews: List<ApartmentView> = emptyList(),
-    listener: ListItemClickListener
+    private val onClickItemListener: ListItemClickListener
 ) : RecyclerView.Adapter<ApartmentsAdapter.PeopleViewHolder>() {
-    private val onClickItemListener: ListItemClickListener = listener
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeopleViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.component_proposed_apartment_item, parent, false)
