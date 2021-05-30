@@ -24,7 +24,8 @@ class ApartmentsAdapter(
             .inflate(R.layout.component_proposed_apartment_item, parent, false)
         return PeopleViewHolder(view)
     }
-    interface ListItemClickListener {
+
+    fun interface ListItemClickListener {
         fun onListItemClick(clickedItemIndex: Int)
     }
 
