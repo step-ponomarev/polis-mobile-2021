@@ -3,9 +3,12 @@ package ru.mail.polis.ui.fragments.advert
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -14,6 +17,7 @@ import com.google.android.material.chip.ChipGroup
 import ru.mail.polis.R
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.metro.Metro
+import ru.mail.polis.tags.Tags
 import ru.mail.polis.viewModels.AdvertViewModel
 
 abstract class AdvertFragment : Fragment() {
@@ -28,6 +32,9 @@ abstract class AdvertFragment : Fragment() {
     protected lateinit var costFromEditText: EditText
     protected lateinit var costToEditText: EditText
     protected lateinit var aboutMeEditText: EditText
+    protected lateinit var llTags: LinearLayout
+    protected var tagsForPerson: MutableList<Tags> = mutableListOf()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,6 +56,13 @@ abstract class AdvertFragment : Fragment() {
         ageTextView = view.findViewById(R.id.component_person_header__age)
 
         chipGroup.isSingleSelection = false
+
+        llTags = view.findViewById(R.id.fragment_advert_creation__ll_tags)
+
+        val tags: List<ImageView> = Tags.values().map { tag ->
+            tagToImageButton(tag)
+        }
+        tags.forEach(llTags::addView)
     }
 
     protected fun getToastWithText(text: String): Toast {
@@ -65,5 +79,27 @@ abstract class AdvertFragment : Fragment() {
             Context.MODE_PRIVATE
         )?.getString(getString(R.string.preference_email_key), null)
             ?: throw IllegalStateException("Email not found")
+    }
+
+    protected fun tagToImageButton(tag: Tags): ImageButton {
+        val ib = ImageButton(requireContext())
+        ib.layoutParams = ViewGroup.LayoutParams(
+            60,
+            60
+        )
+        ib.adjustViewBounds = true
+        ib.background = null
+        ib.setPadding(5, 5, 5, 5)
+        ib.setImageResource(tag.defaultImage)
+        ib.setOnClickListener {
+            if (tag in tagsForPerson) {
+                ib.setImageResource(tag.defaultImage)
+                tagsForPerson.remove(tag)
+            } else {
+                ib.setImageResource(tag.activeImage)
+                tagsForPerson.add(tag)
+            }
+        }
+        return ib
     }
 }

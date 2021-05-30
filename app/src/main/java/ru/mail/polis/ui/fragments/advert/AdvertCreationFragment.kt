@@ -86,7 +86,7 @@ class AdvertCreationFragment : AdvertFragment() {
                 .description(aboutMe)
                 .money(costFrom.toLong(), costTo.toLong())
                 .rooms(roomList)
-                .tags(emptyList())
+                .tags(tagsForPerson)
                 .build()
 
             viewModel.addPerson(person)
