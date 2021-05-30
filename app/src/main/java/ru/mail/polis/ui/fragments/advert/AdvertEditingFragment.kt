@@ -16,7 +16,6 @@ import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
-import java.util.Collections
 
 class AdvertEditingFragment : AdvertFragment() {
 
@@ -55,20 +54,22 @@ class AdvertEditingFragment : AdvertFragment() {
 
     private fun onClickEditButton(view: View) {
 
-        val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId)
-        if (selectedChip == null) {
-            getToastAboutFillAllFields().show()
-            return
+        val checkedChips = chipGroup.checkedChipIds
+
+        val roomList = mutableListOf<RoomCount>()
+
+        checkedChips.forEach { chipId ->
+            val selectedChip = chipGroup.findViewById<Chip>(chipId)
+            roomList.add(RoomCount.from(selectedChip.text.toString()))
         }
 
         val metro = spinner.selectedItem.toString()
-        val roomCount = selectedChip.text.toString()
         val costFrom = costFromEditText.text.toString()
         val costTo = costToEditText.text.toString()
         val aboutMe = aboutMeEditText.text.toString()
 
         if (metro.isBlank() ||
-            roomCount.isBlank() ||
+            roomList.isEmpty() ||
             costFrom.isBlank() ||
             costTo.isBlank()
         ) {
@@ -87,7 +88,7 @@ class AdvertEditingFragment : AdvertFragment() {
                 .metro(Metro.from(metro))
                 .description(aboutMe)
                 .money(costFrom.toLong(), costTo.toLong())
-                .rooms(Collections.singletonList(RoomCount.from(roomCount)))
+                .rooms(roomList)
                 .tags(emptyList())
                 .build()
 

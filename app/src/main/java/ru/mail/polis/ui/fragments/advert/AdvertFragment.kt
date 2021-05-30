@@ -20,7 +20,6 @@ abstract class AdvertFragment : Fragment() {
     protected val viewModel = AdvertViewModel()
 
     protected lateinit var user: UserED
-
     protected lateinit var spinner: Spinner
     protected lateinit var chipGroup: ChipGroup
     protected lateinit var avatarImageView: ImageView
@@ -48,6 +47,8 @@ abstract class AdvertFragment : Fragment() {
         avatarImageView = view.findViewById(R.id.component_person_header__avatar)
         nameTextView = view.findViewById(R.id.component_person_header__name)
         ageTextView = view.findViewById(R.id.component_person_header__age)
+
+        chipGroup.isSingleSelection = false
     }
 
     protected fun getToastAboutFillAllFields(): Toast {
