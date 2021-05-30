@@ -58,7 +58,8 @@ class ApartmentsAdapter(
             itemView.findViewById(R.id.component_proposed_apartment_item__cost_text)
         private val photoContainer: LinearLayout =
             itemView.findViewById(R.id.component_proposed_apartment_item__photos_container)
-        private val cardView: CardView = itemView.findViewById(R.id.component_proposed_apartment_item__card_view)
+        private val cardView: CardView =
+            itemView.findViewById(R.id.component_proposed_apartment_item__card_view)
 
         fun bind(apartments: ApartmentView) {
             if (apartments.ownerAvatar != null) {
