@@ -22,7 +22,7 @@ import ru.mail.polis.list.of.apartments.ApartmentsAdapter
 import ru.mail.polis.viewModels.ProposedApartmentsViewModel
 import java.util.Objects
 
-class ProposedApartmentsFragment : Fragment(), ApartmentsAdapter.ListItemClickListener {
+class ProposedApartmentsFragment : Fragment() {
 
     private lateinit var viewModel: ProposedApartmentsViewModel
     private lateinit var apartments: List<ApartmentView>
@@ -39,7 +39,7 @@ class ProposedApartmentsFragment : Fragment(), ApartmentsAdapter.ListItemClickLi
 
         viewModel = ViewModelProvider(this).get(ProposedApartmentsViewModel::class.java)
 
-        val adapter = ApartmentsAdapter(emptyList(), this)
+        val adapter = ApartmentsAdapter(emptyList())
         val rvList: RecyclerView = view.findViewById(R.id.fragment_proposed_apartments__list)
 
         rvList.addItemDecoration(RecyclerViewListDecoration())
@@ -110,11 +110,5 @@ class ProposedApartmentsFragment : Fragment(), ApartmentsAdapter.ListItemClickLi
                 .photosUrls(apartment.photosUrls)
                 .build()
         }
-    }
-
-    override fun onListItemClick(clickedItemIndex: Int) {
-        val apartment: ApartmentView = apartments[clickedItemIndex]
-        val action = ProposedApartmentsFragmentDirections.actionNavGraphProposedApartmentsFragmentToFragmentShowOneApartment(apartment)
-        findNavController().navigate(action)
     }
 }

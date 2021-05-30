@@ -9,6 +9,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
@@ -16,9 +18,7 @@ import ru.mail.polis.R
 
 class ApartmentsAdapter(
     private var apartmentViews: List<ApartmentView> = emptyList(),
-    listener: ListItemClickListener
 ) : RecyclerView.Adapter<ApartmentsAdapter.PeopleViewHolder>() {
-    private val mOnClickListener: ListItemClickListener = listener
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeopleViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.component_proposed_apartment_item, parent, false)
@@ -90,7 +90,7 @@ class ApartmentsAdapter(
 
             cardView.setOnClickListener {
                 val clickedPosition = adapterPosition
-                mOnClickListener.onListItemClick(clickedPosition)
+                onListItemClick(clickedPosition)
             }
         }
 
@@ -107,5 +107,10 @@ class ApartmentsAdapter(
 
             return Glide.with(itemView).load(url).into(iv).view
         }
+    }
+     fun onListItemClick(clickedItemIndex: Int) {
+        val apartment: ApartmentView = apartmentViews[clickedItemIndex]
+        val action = ProposedApartmentsFragmentDirections.actionNavGraphProposedApartmentsFragmentToFragmentShowOneApartment(apartment)
+        findNavController().navigate(action)
     }
 }

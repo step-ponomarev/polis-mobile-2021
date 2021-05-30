@@ -21,7 +21,7 @@ import ru.mail.polis.list.of.people.Person
 import ru.mail.polis.viewModels.ListOfPeopleViewModel
 import java.util.Objects
 
-class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
+class ListOfPeopleFragment : Fragment() {
 
     private lateinit var listOfPeople: List<Person>
     private lateinit var viewModel: ListOfPeopleViewModel
@@ -39,7 +39,7 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
 
         viewModel = ViewModelProvider(this).get(ListOfPeopleViewModel::class.java)
 
-        val adapter = PeopleAdapter(emptyList(), this)
+        val adapter = PeopleAdapter(emptyList())
         val rvList: RecyclerView = view.findViewById(R.id.list_of_people__rv_list)
         rvList.layoutManager = LinearLayoutManager(this.context)
         rvList.addItemDecoration(RecyclerViewListDecoration())
@@ -65,15 +65,6 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
             listOfPeople = toPersonView(people, users)
             adapter.setData(listOfPeople)
         }
-    }
-
-    override fun onListItemClick(clickedItemIndex: Int) {
-        val person: Person = listOfPeople[clickedItemIndex]
-        val action =
-            ListOfPeopleFragmentDirections.actionNavGraphListOfPeopleToPersonAnnouncementFragment(
-                person
-            )
-        findNavController().navigate(action)
     }
 
     private fun filterData(people: MutableList<PersonED>, users: MutableList<UserED>) {

@@ -9,6 +9,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.mail.polis.R
@@ -16,10 +18,8 @@ import ru.mail.polis.helpers.getAgeString
 
 class PeopleAdapter(
     private var people: List<Person>,
-    listener: ListItemClickListener
 ) : RecyclerView.Adapter<PeopleAdapter.PeopleViewHolder>() {
 
-    private val mOnClickListener: ListItemClickListener = listener
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeopleViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.people_item, parent, false)
         return PeopleViewHolder(view)
@@ -100,7 +100,7 @@ class PeopleAdapter(
             }
             cardView.setOnClickListener {
                 val clickedPosition = adapterPosition
-                mOnClickListener.onListItemClick(clickedPosition)
+                onListItemClick(clickedPosition)
             }
             tvDescription.text = person.description
         }
@@ -116,4 +116,11 @@ class PeopleAdapter(
     private fun urlToMyImageView(iv: ImageView, url: String) {
         Glide.with(iv).load(url).into(iv)
     }
+
+    fun onListItemClick(clickedItemIndex: Int) {
+        val person: Person = people[clickedItemIndex]
+        val action = ListOfPeopleFragmentDirections.actionNavGraphListOfPeopleToPersonAnnouncementFragment(person)
+        findNavController().navigate(action)
+    }
+
 }
