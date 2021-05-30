@@ -2,10 +2,11 @@ package ru.mail.polis.dao.person
 
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
+import ru.mail.polis.tags.Tags
 
 class PersonED(
     var email: String? = null,
-    var tags: List<Long> = emptyList(),
+    var tags: List<Tags> = emptyList(),
     var metro: Metro? = null,
     var moneyTo: Long = 0,
     var moneyFrom: Long = 0,
@@ -20,7 +21,7 @@ class PersonED(
 
     class Builder private constructor() {
         private var email: String? = null
-        private var tags: List<Long> = emptyList()
+        private var tags: List<Tags> = emptyList()
         private var metro: Metro? = null
         private var moneyTo: Long = 0
         private var moneyFrom: Long = 0
@@ -38,7 +39,7 @@ class PersonED(
             return this
         }
 
-        fun tags(tags: List<Long>): Builder {
+        fun tags(tags: List<Tags>): Builder {
             this.tags = tags
             return this
         }

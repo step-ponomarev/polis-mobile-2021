@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -25,6 +27,7 @@ import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
+import ru.mail.polis.tags.Tags
 import ru.mail.polis.viewModels.AdvertCreationViewModel
 import java.util.Collections
 
@@ -43,6 +46,8 @@ class AdvertCreationFragment : Fragment() {
     private lateinit var costToEditText: EditText
     private lateinit var aboutMeEditText: EditText
     private lateinit var createAdvertFragment: Button
+    private lateinit var llTags: LinearLayout
+    private var tagsForPerson: MutableList<Tags> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,6 +76,12 @@ class AdvertCreationFragment : Fragment() {
         avatarImageView = view.findViewById(R.id.component_person_header__avatar)
         nameTextView = view.findViewById(R.id.component_person_header__name)
         ageTextView = view.findViewById(R.id.component_person_header__age)
+        llTags = view.findViewById(R.id.fragment_advert_creation__ll_tags)
+
+        val tags: List<ImageView> = Tags.values().map { tag ->
+            tagToImageButton(tag)
+        }
+        tags.forEach(llTags::addView)
 
         email = getEmail()
         GlobalScope.launch(Dispatchers.Main) {
@@ -117,7 +128,7 @@ class AdvertCreationFragment : Fragment() {
                 .description(aboutMe)
                 .money(costFrom.toLong(), costTo.toLong())
                 .rooms(Collections.singletonList(RoomCount.from(roomCount)))
-                .tags(emptyList())
+                .tags(tagsForPerson)
                 .build()
 
             viewModel.addPerson(person)
@@ -139,5 +150,27 @@ class AdvertCreationFragment : Fragment() {
             Context.MODE_PRIVATE
         )?.getString(getString(R.string.preference_email_key), null)
             ?: throw IllegalStateException("Email not found")
+    }
+
+    private fun tagToImageButton(tag: Tags): ImageButton {
+        val ib = ImageButton(requireContext())
+        ib.layoutParams = ViewGroup.LayoutParams(
+            60,
+            60
+        )
+        ib.adjustViewBounds = true
+        ib.background = null
+        ib.setPadding(5, 5, 5, 5)
+        ib.setImageResource(tag.defaultImage)
+        ib.setOnClickListener {
+            if (tag in tagsForPerson) {
+                ib.setImageResource(tag.defaultImage)
+                tagsForPerson.remove(tag)
+            } else {
+                ib.setImageResource(tag.activeImage)
+                tagsForPerson.add(tag)
+            }
+        }
+        return ib
     }
 }
