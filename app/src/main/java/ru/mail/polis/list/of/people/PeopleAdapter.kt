@@ -13,14 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.mail.polis.R
 import ru.mail.polis.helpers.getAgeString
+import ru.mail.polis.list.ListItemClickListener
 import ru.mail.polis.tags.Tags
 
 class PeopleAdapter(
     private var personViews: List<PersonView>,
-    listener: ListItemClickListener
+    private val mOnClickListener: ListItemClickListener
 ) : RecyclerView.Adapter<PeopleAdapter.PeopleViewHolder>() {
-
-    private val mOnClickListener: ListItemClickListener = listener
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeopleViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.people_item, parent, false)
         return PeopleViewHolder(view)
@@ -33,10 +32,6 @@ class PeopleAdapter(
     fun setData(listOfPersonViews: List<PersonView>) {
         this.personViews = listOfPersonViews
         notifyDataSetChanged()
-    }
-
-    interface ListItemClickListener {
-        fun onListItemClick(clickedItemIndex: Int)
     }
 
     override fun getItemCount(): Int {

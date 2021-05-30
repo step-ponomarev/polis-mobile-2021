@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.apartments.ApartmentED
 import ru.mail.polis.dao.users.UserED
+import ru.mail.polis.list.ListItemClickListener
 import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.apartments.ApartmentView
 import ru.mail.polis.list.of.apartments.ApartmentsAdapter
@@ -26,7 +27,7 @@ class ProposedApartmentsFragment : Fragment() {
     private lateinit var viewModel: ProposedApartmentsViewModel
     private lateinit var apartments: List<ApartmentView>
 
-    private val onListItemClick = ApartmentsAdapter.ListItemClickListener {
+    private val onListItemClick = ListItemClickListener {
         val apartment: ApartmentView = apartments[it]
         val action =
             ProposedApartmentsFragmentDirections.actionNavGraphProposedApartmentsFragmentToFragmentShowOneApartment(

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import ru.mail.polis.R
+import ru.mail.polis.list.ListItemClickListener
 
 class ApartmentsAdapter(
     private var apartmentViews: List<ApartmentView> = emptyList(),
@@ -22,10 +23,6 @@ class ApartmentsAdapter(
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.component_proposed_apartment_item, parent, false)
         return PeopleViewHolder(view)
-    }
-
-    fun interface ListItemClickListener {
-        fun onListItemClick(clickedItemIndex: Int)
     }
 
     override fun getItemCount(): Int = apartmentViews.size
