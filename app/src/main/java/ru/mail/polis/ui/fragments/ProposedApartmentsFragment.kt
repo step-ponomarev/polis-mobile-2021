@@ -22,7 +22,7 @@ import ru.mail.polis.list.of.apartments.ApartmentsAdapter
 import ru.mail.polis.viewModels.ProposedApartmentsViewModel
 import java.util.Objects
 
-class ProposedApartmentsFragment : Fragment(),  ApartmentsAdapter.ListItemClickListener {
+class ProposedApartmentsFragment : Fragment(), ApartmentsAdapter.ListItemClickListener {
 
     private lateinit var viewModel: ProposedApartmentsViewModel
     private lateinit var apartments: List<ApartmentView>

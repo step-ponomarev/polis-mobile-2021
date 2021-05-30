@@ -28,13 +28,11 @@ class ApartmentsAdapter(
         fun onListItemClick(clickedItemIndex: Int)
     }
 
-
     override fun getItemCount(): Int = apartmentViews.size
 
     override fun onBindViewHolder(holder: PeopleViewHolder, position: Int) {
         holder.bind(apartmentViews[position])
     }
-
 
     fun setData(apartmentViewModels: List<ApartmentView>) {
         this.apartmentViews = apartmentViewModels
@@ -109,5 +107,4 @@ class ApartmentsAdapter(
             return Glide.with(itemView).load(url).into(iv).view
         }
     }
-
 }
