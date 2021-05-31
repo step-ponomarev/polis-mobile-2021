@@ -61,23 +61,24 @@ class ProposedApartmentsFragment : Fragment() {
         val email: String = StorageUtils.getCurrentUserEmail(requireContext())
         GlobalScope.launch(Dispatchers.Main) {
             try {
-                val apartments = viewModel.fetchApartmentsByRenterEmail(email).toMutableList()
-                if (apartments.isEmpty()) {
+                val apartmentsMutable = viewModel.fetchApartmentsByRenterEmail(email).toMutableList()
+                if (apartmentsMutable.isEmpty()) {
                     return@launch
                 }
 
-                val emailSet = apartments.map { it.email!! }.toSet()
+                val emailSet = apartmentsMutable.map { it.email!! }.toSet()
                 val users = viewModel.fetchUsers(emailSet).toMutableList()
 
                 if (users.isEmpty()) {
-                    throw IllegalStateException("There are no owners of apartments $apartments")
+                    throw IllegalStateException("There are no owners of apartments $apartmentsMutable")
                 }
 
-                if (users.size != apartments.size) {
-                    filterData(apartments, users)
+                if (users.size != apartmentsMutable.size) {
+                    filterData(apartmentsMutable, users)
                 }
 
-                adapter.setData(toApartmentView(apartments, users))
+                apartments = toApartmentView(apartmentsMutable, users)
+                adapter.setData(apartments)
             } catch (e: NotificationKeeperException) {
                 NotificationCenter.showDefaultToast(
                     requireContext(),
