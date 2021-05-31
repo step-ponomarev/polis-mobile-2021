@@ -26,11 +26,7 @@ class PersonAnnouncementViewModel : ViewModel() {
         }
 
         if (exist) {
-            return suspendCancellableCoroutine { coroutine ->
-                coroutine.resumeWithException(
-                    IllegalStateException("Apartments proposed already ownerId: $ownerEmail, $renterEmail")
-                )
-            }
+            return
         }
 
         withContext(Dispatchers.IO) {
