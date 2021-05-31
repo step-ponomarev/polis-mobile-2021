@@ -14,8 +14,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.helpers.getAgeString
@@ -27,6 +28,8 @@ import ru.mail.polis.utils.StorageUtils
 import ru.mail.polis.viewModels.PersonAnnouncementViewModel
 
 class PersonAnnouncementFragment : Fragment() {
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
+
     private lateinit var personView: PersonView
     private lateinit var offerApartmentButton: Button
     private lateinit var viewModel: PersonAnnouncementViewModel
@@ -74,9 +77,7 @@ class PersonAnnouncementFragment : Fragment() {
             urlToMyImageView(ivPhoto, personView.photo!!)
         }
         tvName.text = personView.name
-        if (personView.age != null) {
-            tvAge.text = getAgeString(personView.age!!)
-        }
+        tvAge.text = getAgeString(personView.age)
 
         val tags: List<ImageView> = personView.tags.map { tag ->
             tagToImageView(tag)
@@ -88,15 +89,13 @@ class PersonAnnouncementFragment : Fragment() {
             tags.forEach(llIvTags::addView)
         }
 
-        if (personView.metro != null) {
-            tvMetro.text = personView.metro!!.stationName
-            ivBranchColor.background.setTint(
-                ContextCompat.getColor(
-                    view.context,
-                    personView.metro!!.branchColor
-                )
+        tvMetro.text = personView.metro.stationName
+        ivBranchColor.background.setTint(
+            ContextCompat.getColor(
+                view.context,
+                personView.metro.branchColor
             )
-        }
+        )
 
         if (personView.moneyFrom == 0L && personView.moneyTo == 0L) {
             tvMoney.setText(R.string.money_default_value)
@@ -114,14 +113,15 @@ class PersonAnnouncementFragment : Fragment() {
         offerApartmentButton.setOnClickListener(this::onOfferApartment)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.coroutineContext.cancelChildren()
+    }
+
     private fun onOfferApartment(view: View) {
-        GlobalScope.launch(Dispatchers.Main) {
+        scope.launch(Dispatchers.Main) {
             try {
                 val emailPerson: String = personView.email
-                    ?: throw IllegalStateException(
-                        "Advert with email ${personView.email} is not exist"
-                    )
-
                 viewModel.offerApartment(
                     StorageUtils.getCurrentUserEmail(requireContext()),
                     emailPerson

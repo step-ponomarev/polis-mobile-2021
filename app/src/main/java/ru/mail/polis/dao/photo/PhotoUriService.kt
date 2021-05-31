@@ -14,9 +14,7 @@ class PhotoUriService : IPhotoUriService {
     @Throws(DaoException::class)
     override suspend fun saveImage(pathString: String, byteArray: ByteArray): Uri {
         return suspendCancellableCoroutine { coroutine ->
-
             val ref = storage.reference.child(pathString)
-
             val uploadTask = ref.putBytes(byteArray)
 
             uploadTask.continueWithTask { ref.downloadUrl }

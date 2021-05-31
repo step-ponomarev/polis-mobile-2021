@@ -17,13 +17,17 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.mail.polis.R
+import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
 import ru.mail.polis.notification.NotificationCenter
@@ -32,6 +36,8 @@ import ru.mail.polis.utils.StorageUtils
 import ru.mail.polis.viewModels.SettingsViewModel
 
 class SettingsFragment : Fragment() {
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
+
     private lateinit var editButton: Button
     private lateinit var changePhotoButton: Button
     private lateinit var nameEditText: EditText
@@ -74,13 +80,9 @@ class SettingsFragment : Fragment() {
 
         settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
 
-        GlobalScope.launch(Dispatchers.IO) {
-            settingsViewModel.getUserInfo(StorageUtils.getCurrentUserEmail(requireContext()))
-        }
-
-        settingsViewModel.getUser().observe(
-            viewLifecycleOwner,
-            { userED ->
+        settingsViewModel.fetchUser(StorageUtils.getCurrentUserEmail(requireContext()))
+        settingsViewModel.user
+            .onEach { userED ->
                 nameEditText.setText(userED.name)
                 surnameEditText.setText(userED.surname)
                 phoneEditText.setText(userED.phone)
@@ -88,7 +90,7 @@ class SettingsFragment : Fragment() {
                 Glide.with(avatar).load(userED.photo).into(avatar)
                 currentPhotoUrl = userED.photo
             }
-        )
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         apartmentButton.setOnClickListener(this::onClickApartmentButton)
         editButton.setOnClickListener(this::onClickEditUser)
@@ -102,41 +104,56 @@ class SettingsFragment : Fragment() {
     }
 
     private fun onClickEditUser(view: View) {
+        val bitmap: Bitmap? = getBitmap()
 
-        val photo: String? = if (currentPhotoUrl == null) {
-            null
-        } else {
-            currentPhotoUrl
-        }
+        val email = StorageUtils.getCurrentUserEmail(requireContext())
+        scope.launch(Dispatchers.Main) {
+            val photoSrc = "${Collections.USER.collectionName}Photos/$email-photo.jpg"
 
-        val bitmap: Bitmap? = if (currentPhotoUrl == null) {
-            avatar.drawable.toBitmap()
-        } else {
-            null
-        }
-
-        val user = UserED(
-            email = StorageUtils.getCurrentUserEmail(requireContext()),
-            name = nameEditText.text.toString(),
-            surname = surnameEditText.text.toString(),
-            phone = phoneEditText.text.toString(),
-            age = Integer.parseInt(ageEditText.text.toString()).toLong(),
-            externalAccounts = emptyList(),
-            photo = photo
-        )
-
-        GlobalScope.launch(Dispatchers.Main) {
             try {
-                settingsViewModel.updateUser(user, bitmap)
-                NotificationCenter.showDefaultToast(requireContext(), getString(R.string.toast_changes_are_saved))
+                val photo = uploadPhoto(photoSrc, bitmap)
+                val user = UserED(
+                    email = StorageUtils.getCurrentUserEmail(requireContext()),
+                    name = nameEditText.text.toString(),
+                    surname = surnameEditText.text.toString(),
+                    phone = phoneEditText.text.toString(),
+                    age = Integer.parseInt(ageEditText.text.toString()).toLong(),
+                    externalAccounts = emptyList(),
+                    photo = photo
+                )
+
+                settingsViewModel.updateUser(user)
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(R.string.toast_changes_are_saved)
+                )
             } catch (e: NotificationKeeperException) {
-                NotificationCenter.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(e.getResourceStringCode())
+                )
             }
         }
     }
 
+    private suspend fun uploadPhoto(path: String, bitmap: Bitmap?): String? {
+        return if (currentPhotoUrl == null && bitmap != null) {
+            withContext(Dispatchers.IO) {
+                settingsViewModel.uploadPhoto(path, bitmap)
+            }
+        } else currentPhotoUrl
+    }
+
+    private fun getBitmap(): Bitmap? {
+        if (currentPhotoUrl != null) {
+            return null
+        }
+
+        return avatar.drawable.toBitmap()
+    }
+
     private fun onClickApartmentButton(view: View) {
-        GlobalScope.launch(Dispatchers.Main) {
+        scope.launch(Dispatchers.Main) {
             try {
                 val exist = withContext(Dispatchers.IO) {
                     settingsViewModel.checkApartmentExist(StorageUtils.getCurrentUserEmail(requireContext()))

@@ -5,9 +5,11 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.DaoException
+import ru.mail.polis.dao.DaoResult
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -19,9 +21,11 @@ class UserService : IUserService {
 
     override suspend fun updateUserByEmail(email: String, user: UserED): UserED {
         val userRef = userCollection.document(email)
+        val data = Gson().toJson(user)
+        val userMap = Gson().fromJson(data, Map::class.java) as Map<String, Any?>
 
         return suspendCancellableCoroutine { coroutine ->
-            userRef.update(userToMap(user))
+            userRef.update(userMap)
                 .addOnSuccessListener {
                     coroutine.resume(user)
                 }
@@ -36,17 +40,22 @@ class UserService : IUserService {
         }
     }
 
-    override suspend fun findUserByEmail(email: String): UserED? {
+    override suspend fun findUserByEmail(email: String): DaoResult<UserED?> {
         val userRef = userCollection.document(email)
 
         return suspendCancellableCoroutine { coroutine ->
             userRef.get()
                 .addOnSuccessListener {
-                    coroutine.resume(it.toObject(UserED::class.java))
+                    coroutine.resume(DaoResult.Success(it.toObject(UserED::class.java)))
                 }
                 .addOnFailureListener {
-                    coroutine.resumeWithException(
-                        DaoException("Filed fetching user with email: $email", it)
+                    coroutine.resume(
+                        DaoResult.Error(
+                            DaoException(
+                                "Filed fetching user with email: $email",
+                                it
+                            )
+                        )
                     )
                 }
         }
@@ -68,9 +77,12 @@ class UserService : IUserService {
     }
 
     override suspend fun addUser(user: UserED): UserED {
+        val data = Gson().toJson(user)
+        val userMap = Gson().fromJson(data, Map::class.java) as Map<String, Any?>
+
         return suspendCancellableCoroutine { coroutine ->
-            userCollection.document(user.email!!)
-                .set(user)
+            userCollection.document(user.email)
+                .set(userMap)
                 .addOnSuccessListener {
                     Log.i(
                         this::class.java.name,
@@ -92,7 +104,6 @@ class UserService : IUserService {
 
     override suspend fun isExist(email: String): Boolean {
         return suspendCancellableCoroutine { coroutine ->
-
             userCollection.document(email)
                 .get()
                 .addOnSuccessListener { document ->
@@ -115,17 +126,5 @@ class UserService : IUserService {
                     )
                 }
         }
-    }
-
-    private fun userToMap(user: UserED): Map<String, Any?> {
-        return mapOf(
-            "email" to user.email,
-            "name" to user.name,
-            "surname" to user.surname,
-            "age" to user.age,
-            "phone" to user.phone,
-            "photo" to user.photo,
-            "externalAccounts" to user.externalAccounts
-        )
     }
 }

@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.mail.polis.converter.Converter
-import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.DaoException
 import ru.mail.polis.dao.photo.IPhotoUriService
 import ru.mail.polis.dao.photo.PhotoUriService
@@ -20,16 +19,24 @@ class FirstCreationViewModel : ViewModel() {
     private val photoUriService: IPhotoUriService = PhotoUriService()
 
     @Throws(NotificationKeeperException::class)
-    suspend fun addUser(userED: UserED, bitmap: Bitmap) {
+    suspend fun uploadPhoto(path: String, bitmap: Bitmap): String {
         try {
-            val url = withContext(Dispatchers.IO) {
-                val pathString =
-                    "${Collections.USER.collectionName}Photos/${userED.email}-photo.jpg"
-                photoUriService.saveImage(pathString, Converter.bitmapToInputStream(bitmap))
-            }
+            return withContext(Dispatchers.IO) {
+                photoUriService.saveImage(path, Converter.bitmapToInputStream(bitmap))
+            }.toString()
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Photo was not uploaded path: $path",
+                e,
+                NotificationKeeperException.NotificationType.DAO_ERROR
+            )
+        }
+    }
 
+    @Throws(NotificationKeeperException::class)
+    suspend fun addUser(userED: UserED) {
+        try {
             withContext(Dispatchers.IO) {
-                userED.photo = url.toString()
                 userService.addUser(userED)
             }
         } catch (e: DaoException) {

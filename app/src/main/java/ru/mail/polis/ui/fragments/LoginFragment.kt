@@ -10,8 +10,9 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.mail.polis.R
@@ -23,11 +24,14 @@ import ru.mail.polis.dao.users.UserService
 import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.utils.StorageUtils
+import java.lang.NullPointerException
 
 class LoginFragment : Fragment() {
     companion object {
         const val NAME = "LoginFragment"
     }
+
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 
     private val loginForResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult(),
@@ -59,6 +63,11 @@ class LoginFragment : Fragment() {
         singInButton.setOnClickListener(this::onClickSignIn)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.coroutineContext.cancelChildren()
+    }
+
     private fun onClickSignIn(view: View) {
         loginForResult.launch(googleAuthentication.getSignInIntent())
     }
@@ -66,9 +75,11 @@ class LoginFragment : Fragment() {
     private fun handleResult(result: ActivityResult) {
         try {
             val email = googleAuthentication.handleResult(result.data)
+                ?: throw NullPointerException("Null email after auth")
+
             StorageUtils.setValue(requireContext(), StorageUtils.StorageKey.EMAIL, email)
 
-            GlobalScope.launch(Dispatchers.Main) {
+            scope.launch(Dispatchers.Main) {
                 if (checkIfUserExist(email)) {
                     findNavController().navigate(R.id.nav_graph__self_definition_fragment)
                 } else {

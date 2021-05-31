@@ -5,6 +5,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.DaoException
@@ -79,9 +80,12 @@ class ApartmentService private constructor() : IApartmentService {
 
     @Throws(DaoException::class)
     override suspend fun addApartment(apartment: ApartmentED): ApartmentED {
+        val data = Gson().toJson(apartment)
+        val addApartment = Gson().fromJson(data, Map::class.java) as Map<String, Any?>
+
         return suspendCancellableCoroutine { coroutine ->
-            apartmentCollection.document(apartment.email!!)
-                .set(apartment)
+            apartmentCollection.document(apartment.email)
+                .set(addApartment)
                 .addOnSuccessListener {
                     Log.i(
                         this::class.java.name,
@@ -103,10 +107,12 @@ class ApartmentService private constructor() : IApartmentService {
 
     @Throws(DaoException::class)
     override suspend fun updateApartment(apartment: ApartmentED): ApartmentED {
-        val apartmentRef = apartmentCollection.document(apartment.email!!)
+        val apartmentRef = apartmentCollection.document(apartment.email)
+        val data = Gson().toJson(apartment)
+        val apartmentUpdate = Gson().fromJson(data, Map::class.java) as Map<String, Any?>
 
         return suspendCancellableCoroutine { coroutine ->
-            apartmentRef.update(apartmentToMap(apartment))
+            apartmentRef.update(apartmentUpdate)
                 .addOnFailureListener {
                     coroutine.resumeWithException(
                         DaoException(
@@ -167,16 +173,5 @@ class ApartmentService private constructor() : IApartmentService {
                     )
                 }
         }
-    }
-
-    private fun apartmentToMap(apartment: ApartmentED): Map<String, Any?> {
-        return mapOf(
-            "email" to apartment.email,
-            "metro" to apartment.metro,
-            "roomCount" to apartment.roomCount,
-            "apartmentSquare" to apartment.apartmentSquare,
-            "apartmentCosts" to apartment.apartmentCosts,
-            "photosUrls" to apartment.photosUrls
-        )
     }
 }

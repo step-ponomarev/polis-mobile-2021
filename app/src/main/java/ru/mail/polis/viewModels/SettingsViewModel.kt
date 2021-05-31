@@ -1,14 +1,16 @@
 package ru.mail.polis.viewModels
 
 import android.graphics.Bitmap
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.mail.polis.converter.Converter
-import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.DaoException
+import ru.mail.polis.dao.DaoResult
 import ru.mail.polis.dao.apartments.ApartmentService
 import ru.mail.polis.dao.apartments.IApartmentService
 import ru.mail.polis.dao.photo.IPhotoUriService
@@ -23,35 +25,43 @@ class SettingsViewModel : ViewModel() {
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
     private val userService: IUserService = UserService()
     private val photoUriService: IPhotoUriService = PhotoUriService()
+    private val userED: MutableStateFlow<UserED> = MutableStateFlow(UserED())
+    val user: StateFlow<UserED> = userED
 
-    private var userED = MutableLiveData<UserED>()
-
-    @Throws(NotificationKeeperException::class)
-    suspend fun getUserInfo(email: String) {
-        val user = withContext(Dispatchers.IO) {
-            userService.findUserByEmail(email)
-        } ?: throw IllegalStateException("Fetched user is null")
-
-        withContext(Dispatchers.Main) {
-            userED.value = user
+    fun fetchUser(email: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = userService.findUserByEmail(email)) {
+                is DaoResult.Success ->
+                    userED.value = result.data
+                        ?: throw IllegalStateException("Null user by email: $email")
+                is DaoResult.Error -> throw IllegalStateException(
+                    "Null user by email: $email",
+                    result.e
+                )
+            }
         }
     }
 
     @Throws(NotificationKeeperException::class)
-    suspend fun updateUser(user: UserED, bitmap: Bitmap?) {
-        val pathString = "${Collections.USER.collectionName}Photos/${user.email}-photo.jpg"
-
+    suspend fun uploadPhoto(path: String, bitmap: Bitmap): String {
         try {
-            if (user.photo == null && bitmap != null) {
-                withContext(Dispatchers.IO) {
-                    val url =
-                        photoUriService.saveImage(pathString, Converter.bitmapToInputStream(bitmap))
-                    user.photo = url.toString()
-                }
-            }
+            return withContext(Dispatchers.IO) {
+                photoUriService.saveImage(path, Converter.bitmapToInputStream(bitmap))
+            }.toString()
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Photo was not uploaded path: $path",
+                e,
+                NotificationKeeperException.NotificationType.DAO_ERROR
+            )
+        }
+    }
 
+    @Throws(NotificationKeeperException::class)
+    suspend fun updateUser(user: UserED) {
+        try {
             val updatedUser = withContext(Dispatchers.IO) {
-                userService.updateUserByEmail(user.email!!, user)
+                userService.updateUserByEmail(user.email, user)
             } ?: throw IllegalStateException("Updated user is null")
 
             withContext(Dispatchers.Main) {
@@ -78,6 +88,4 @@ class SettingsViewModel : ViewModel() {
             )
         }
     }
-
-    fun getUser(): LiveData<UserED> = userED
 }

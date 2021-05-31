@@ -9,8 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.person.PersonED
@@ -24,6 +25,7 @@ import ru.mail.polis.viewModels.ListOfPeopleViewModel
 import java.util.Objects
 
 class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 
     private lateinit var listOfPersonViews: List<PersonView>
     private lateinit var viewModel: ListOfPeopleViewModel
@@ -47,14 +49,14 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
         rvList.addItemDecoration(RecyclerViewListDecoration())
         rvList.adapter = adapter
 
-        GlobalScope.launch(Dispatchers.Main) {
+        scope.launch(Dispatchers.Main) {
             try {
                 val people = viewModel.fetchPeople().toMutableList()
                 if (people.isEmpty()) {
                     return@launch
                 }
 
-                val emailSet = people.map { it.email!! }.toSet()
+                val emailSet = people.map { it.email }.toSet()
                 val users = viewModel.fetchUsers(emailSet).toMutableList()
 
                 if (users.isEmpty()) {
@@ -76,6 +78,11 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.coroutineContext.cancelChildren()
+    }
+
     override fun onListItemClick(clickedItemIndex: Int) {
         val personView: PersonView = listOfPersonViews[clickedItemIndex]
         val action =
@@ -89,8 +96,8 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
         val filterPeople: Boolean = people.size > users.size
 
         val emails = if (filterPeople)
-            users.map { it.email!! }
-        else people.map { it.email!! }
+            users.map { it.email }
+        else people.map { it.email }
 
         if (filterPeople) {
             people.removeAll { !emails.contains(it.email) }
@@ -100,21 +107,21 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
     }
 
     private fun toPersonView(people: List<PersonED>, users: List<UserED>): List<PersonView> {
-        return people.filter { it.isValid() }.map { person ->
+        return people.map { person ->
             val user = users.find { Objects.equals(person.email, it.email) }!!
 
-            PersonView.Builder.createBuilder()
-                .email(person.email!!)
-                .photo(user.photo)
-                .name("${user.name} ${user.surname}")
-                .age(user.age!!)
-                .tags(person.tags)
-                .moneyFrom(person.moneyFrom)
-                .moneyTo(person.moneyTo)
-                .rooms(person.rooms)
-                .description(person.description!!)
-                .metro(person.metro!!)
-                .build()
+            PersonView(
+                email = person.email,
+                photo = user.photo,
+                name = "${user.name} ${user.surname}",
+                age = user.age,
+                tags = person.tags,
+                moneyTo = person.moneyTo,
+                moneyFrom = person.moneyFrom,
+                rooms = person.rooms,
+                description = person.description,
+                metro = person.metro
+            )
         }
     }
 }

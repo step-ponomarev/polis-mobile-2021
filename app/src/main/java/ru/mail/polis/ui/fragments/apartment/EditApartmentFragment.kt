@@ -9,8 +9,9 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.forEach
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.mail.polis.R
@@ -22,6 +23,7 @@ import ru.mail.polis.room.RoomCount
 import ru.mail.polis.utils.StorageUtils
 
 class EditApartmentFragment : ApartmentFragment() {
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 
     private lateinit var editApartmentButton: Button
 
@@ -40,11 +42,8 @@ class EditApartmentFragment : ApartmentFragment() {
         editApartmentButton.setOnClickListener(this::onClickEditApartment)
 
         val email = StorageUtils.getCurrentUserEmail(requireContext())
-        GlobalScope.launch(Dispatchers.Main) {
+        scope.launch(Dispatchers.Main) {
             try {
-                apartmentViewModel.fetchUser(email)
-                    ?: throw IllegalStateException("Null user by email: $email")
-
                 val apartmentED = apartmentViewModel.getApartmentByEmail(email)
                 if (apartmentED != null) {
                     fillFields(apartmentED)
@@ -61,6 +60,11 @@ class EditApartmentFragment : ApartmentFragment() {
                 )
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.coroutineContext.cancelChildren()
     }
 
     private fun onClickEditApartment(view: View) {
@@ -88,19 +92,17 @@ class EditApartmentFragment : ApartmentFragment() {
         }
 
         val email = StorageUtils.getCurrentUserEmail(requireContext())
-        GlobalScope.launch(Dispatchers.Main) {
+        scope.launch(Dispatchers.Main) {
             try {
-                apartmentViewModel.fetchUser(email)
-                    ?: throw IllegalStateException("Null user by email: $email")
-
-                val apartmentED = ApartmentED.Builder
-                    .createBuilder()
-                    .email(email)
-                    .metro(Metro.from(metro))
-                    .roomCount(RoomCount.from(rooms))
-                    .apartmentCosts(cost.toLong())
-                    .apartmentSquare(square.toLong())
-                    .build()
+                val photoUrls = apartmentViewModel.getApartmentPhotoUrls()
+                val apartmentED = ApartmentED(
+                    email = email,
+                    metro = Metro.from(metro),
+                    roomCount = RoomCount.from(rooms),
+                    apartmentSquare = square.toLong(),
+                    apartmentCosts = cost.toLong(),
+                    photosUrls = photoUrls
+                )
 
                 apartmentViewModel.updateApartment(apartmentED)
             } catch (e: NotificationKeeperException) {
@@ -117,7 +119,7 @@ class EditApartmentFragment : ApartmentFragment() {
 
         chipGroup.forEach { view ->
             if (view is Chip) {
-                if (view.text == apartmentED.roomCount?.label) {
+                if (view.text == apartmentED.roomCount.label) {
                     view.isChecked = true
                 }
             }
@@ -126,7 +128,7 @@ class EditApartmentFragment : ApartmentFragment() {
         costEditText.setText(apartmentED.apartmentCosts.toString())
         squareEditText.setText(apartmentED.apartmentSquare.toString())
 
-        GlobalScope.launch(Dispatchers.Main) {
+        scope.launch(Dispatchers.Main) {
             for (url in apartmentED.photosUrls) {
                 val drawable = withContext(Dispatchers.IO) {
                     Glide.with(requireContext()).load(url).submit().get()

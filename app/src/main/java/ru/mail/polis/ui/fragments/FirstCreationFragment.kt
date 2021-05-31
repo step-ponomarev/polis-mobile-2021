@@ -18,10 +18,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.imageview.ShapeableImageView
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
+import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
 import ru.mail.polis.notification.NotificationCenter
@@ -30,6 +32,7 @@ import ru.mail.polis.utils.StorageUtils
 import ru.mail.polis.viewModels.FirstCreationViewModel
 
 class FirstCreationFragment : Fragment() {
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 
     private lateinit var changePhotoButton: Button
     private lateinit var continueButton: Button
@@ -72,6 +75,11 @@ class FirstCreationFragment : Fragment() {
         continueButton.setOnClickListener(this::onContinueButton)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.coroutineContext.cancelChildren()
+    }
+
     private fun onChangePhotoButton(view: View) {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
@@ -88,19 +96,26 @@ class FirstCreationFragment : Fragment() {
             return
         }
 
-        GlobalScope.launch(Dispatchers.IO) {
-            val user = UserED(
-                email = StorageUtils.getCurrentUserEmail(requireContext()),
-                name = nameEditText.text.toString(),
-                surname = surnameEditText.text.toString(),
-                age = Integer.parseInt(ageEditText.text.toString()).toLong(),
-                phone = phoneEditText.text.toString(),
-                photo = null,
-                externalAccounts = emptyList()
+        val email = StorageUtils.getCurrentUserEmail(requireContext())
+        scope.launch(Dispatchers.IO) {
+            val photoSrc = "${Collections.USER.collectionName}Photos/$email-photo.jpg"
+            val photo = firstCreationViewModel.uploadPhoto(
+                photoSrc,
+                avatar.drawable.toBitmap()
             )
 
             try {
-                firstCreationViewModel.addUser(user, avatar.drawable.toBitmap())
+                val user = UserED(
+                    email = email,
+                    name = nameEditText.text.toString(),
+                    surname = surnameEditText.text.toString(),
+                    age = Integer.parseInt(ageEditText.text.toString()).toLong(),
+                    phone = phoneEditText.text.toString(),
+                    photo = photo,
+                    externalAccounts = emptyList()
+                )
+
+                firstCreationViewModel.addUser(user)
                 findNavController().navigate(R.id.nav_graph__self_definition_fragment)
             } catch (e: NotificationKeeperException) {
                 NotificationCenter.showDefaultToast(

@@ -7,6 +7,6 @@ interface AuthenticationService {
     fun getSignInIntent(): Intent
 
     @Throws(AuthenticatorException::class)
-    fun handleResult(data: Intent?): String
+    fun handleResult(data: Intent?): String?
     fun signOut()
 }

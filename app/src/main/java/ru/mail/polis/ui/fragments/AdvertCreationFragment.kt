@@ -13,16 +13,19 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.person.PersonED
-import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
@@ -31,13 +34,13 @@ import ru.mail.polis.tags.Tags
 import ru.mail.polis.utils.StorageUtils
 import ru.mail.polis.viewModels.AdvertCreationViewModel
 import java.util.Collections
+import ru.mail.polis.dao.DaoResult
 
 class AdvertCreationFragment : Fragment() {
     private val viewModel = AdvertCreationViewModel()
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 
     private lateinit var email: String
-    private lateinit var user: UserED
-
     private lateinit var spinner: Spinner
     private lateinit var chipGroup: ChipGroup
     private lateinit var avatarImageView: ImageView
@@ -85,30 +88,45 @@ class AdvertCreationFragment : Fragment() {
         tags.forEach(llTags::addView)
 
         email = StorageUtils.getCurrentUserEmail(requireContext())
-        GlobalScope.launch(Dispatchers.Main) {
-            try {
-                user = viewModel.fetchUser(email)
-                    ?: throw IllegalStateException("User not found by email: $email")
 
-                if (user.photo != null) {
-                    Glide.with(avatarImageView).load(user.photo).into(avatarImageView)
+        viewModel.fetchUser(email)
+        viewModel.useResult
+            .onEach {
+                when (it) {
+                    is DaoResult.Success -> {
+                        val user = it.data
+                            ?: //TODO: Сообщить юзеру что что-то не так
+                            return@onEach
+
+                        if (user.photo != null) {
+                            Glide.with(avatarImageView).load(user.photo).into(avatarImageView)
+                        }
+
+                        nameTextView.text = "${user.name} ${user.surname}"
+                        ageTextView.text = user.age.toString()
+                    }
+                    is DaoResult.Error -> {
+                        //TODO: Сообщить юзеру что что-то не так
+                    }
                 }
-
-                nameTextView.text = "${user.name} ${user.surname}"
-                ageTextView.text = user.age.toString()
-            } catch (e: NotificationKeeperException) {
-                NotificationCenter.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_advert_info))
-            }
-        }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         createAdvertFragment.setOnClickListener(this::createAdvert)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.coroutineContext.cancelChildren()
     }
 
     private fun createAdvert(view: View) {
         val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId)
         if (selectedChip == null) {
 
-            NotificationCenter.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_advert_info))
+            NotificationCenter.showDefaultToast(
+                requireContext(),
+                getString(R.string.toast_fill_all_advert_info)
+            )
             return
         }
 
@@ -123,25 +141,32 @@ class AdvertCreationFragment : Fragment() {
             costFrom.isBlank() ||
             costTo.isBlank()
         ) {
-            NotificationCenter.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_advert_info))
+            NotificationCenter.showDefaultToast(
+                requireContext(),
+                getString(R.string.toast_fill_all_advert_info)
+            )
             return
         }
 
-        GlobalScope.launch(Dispatchers.Main) {
-            val person = PersonED.Builder.createBuilder()
-                .email(email)
-                .metro(Metro.from(metro))
-                .description(aboutMe)
-                .money(costFrom.toLong(), costTo.toLong())
-                .rooms(Collections.singletonList(RoomCount.from(roomCount)))
-                .tags(tagsForPerson)
-                .build()
+        scope.launch(Dispatchers.Main) {
+            val person = PersonED(
+                email = email,
+                metro = Metro.from(metro),
+                description = aboutMe,
+                moneyFrom = costFrom.toLong(),
+                moneyTo = costTo.toLong(),
+                rooms = Collections.singletonList(RoomCount.from(roomCount)),
+                tags = tagsForPerson
+            )
 
             try {
                 viewModel.addPerson(person)
                 findNavController().navigate(R.id.nav_graph__list_of_people)
             } catch (e: NotificationKeeperException) {
-                NotificationCenter.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(e.getResourceStringCode())
+                )
             }
         }
     }
