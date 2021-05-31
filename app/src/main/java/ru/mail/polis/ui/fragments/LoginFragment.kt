@@ -10,8 +10,9 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.mail.polis.R
@@ -29,6 +30,8 @@ class LoginFragment : Fragment() {
     companion object {
         const val NAME = "LoginFragment"
     }
+
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 
     private val loginForResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult(),
@@ -60,6 +63,11 @@ class LoginFragment : Fragment() {
         singInButton.setOnClickListener(this::onClickSignIn)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.coroutineContext.cancelChildren()
+    }
+
     private fun onClickSignIn(view: View) {
         loginForResult.launch(googleAuthentication.getSignInIntent())
     }
@@ -71,7 +79,7 @@ class LoginFragment : Fragment() {
 
             StorageUtils.setValue(requireContext(), StorageUtils.StorageKey.EMAIL, email)
 
-            GlobalScope.launch(Dispatchers.Main) {
+            scope.launch(Dispatchers.Main) {
                 if (checkIfUserExist(email)) {
                     findNavController().navigate(R.id.nav_graph__self_definition_fragment)
                 } else {

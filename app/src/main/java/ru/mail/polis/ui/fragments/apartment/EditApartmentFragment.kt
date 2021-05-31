@@ -9,8 +9,9 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.forEach
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.mail.polis.R
@@ -22,6 +23,7 @@ import ru.mail.polis.room.RoomCount
 import ru.mail.polis.utils.StorageUtils
 
 class EditApartmentFragment : ApartmentFragment() {
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 
     private lateinit var editApartmentButton: Button
 
@@ -40,7 +42,7 @@ class EditApartmentFragment : ApartmentFragment() {
         editApartmentButton.setOnClickListener(this::onClickEditApartment)
 
         val email = StorageUtils.getCurrentUserEmail(requireContext())
-        GlobalScope.launch(Dispatchers.Main) {
+        scope.launch(Dispatchers.Main) {
             try {
                 apartmentViewModel.fetchUser(email)
                     ?: throw IllegalStateException("Null user by email: $email")
@@ -61,6 +63,11 @@ class EditApartmentFragment : ApartmentFragment() {
                 )
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.coroutineContext.cancelChildren()
     }
 
     private fun onClickEditApartment(view: View) {
@@ -88,7 +95,7 @@ class EditApartmentFragment : ApartmentFragment() {
         }
 
         val email = StorageUtils.getCurrentUserEmail(requireContext())
-        GlobalScope.launch(Dispatchers.Main) {
+        scope.launch(Dispatchers.Main) {
             try {
                 apartmentViewModel.fetchUser(email)
                     ?: throw IllegalStateException("Null user by email: $email")
@@ -127,7 +134,7 @@ class EditApartmentFragment : ApartmentFragment() {
         costEditText.setText(apartmentED.apartmentCosts.toString())
         squareEditText.setText(apartmentED.apartmentSquare.toString())
 
-        GlobalScope.launch(Dispatchers.Main) {
+        scope.launch(Dispatchers.Main) {
             for (url in apartmentED.photosUrls) {
                 val drawable = withContext(Dispatchers.IO) {
                     Glide.with(requireContext()).load(url).submit().get()

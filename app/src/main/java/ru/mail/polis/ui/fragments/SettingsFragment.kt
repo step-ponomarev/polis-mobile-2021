@@ -19,8 +19,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.mail.polis.R
@@ -33,6 +33,8 @@ import ru.mail.polis.utils.StorageUtils
 import ru.mail.polis.viewModels.SettingsViewModel
 
 class SettingsFragment : Fragment() {
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
+
     private lateinit var editButton: Button
     private lateinit var changePhotoButton: Button
     private lateinit var nameEditText: EditText
@@ -75,7 +77,7 @@ class SettingsFragment : Fragment() {
 
         settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
 
-        GlobalScope.launch(Dispatchers.IO) {
+        scope.launch(Dispatchers.IO) {
             settingsViewModel.getUserInfo(StorageUtils.getCurrentUserEmail(requireContext()))
         }
 
@@ -106,7 +108,7 @@ class SettingsFragment : Fragment() {
         val bitmap: Bitmap? = getBitmap()
 
         val email = StorageUtils.getCurrentUserEmail(requireContext())
-        GlobalScope.launch(Dispatchers.Main) {
+        scope.launch(Dispatchers.Main) {
             val photoSrc = "${Collections.USER.collectionName}Photos/$email-photo.jpg"
 
             try {
@@ -152,7 +154,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun onClickApartmentButton(view: View) {
-        GlobalScope.launch(Dispatchers.Main) {
+        scope.launch(Dispatchers.Main) {
             try {
                 val exist = withContext(Dispatchers.IO) {
                     settingsViewModel.checkApartmentExist(StorageUtils.getCurrentUserEmail(requireContext()))

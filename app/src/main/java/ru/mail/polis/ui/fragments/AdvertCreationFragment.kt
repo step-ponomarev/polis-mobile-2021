@@ -17,8 +17,9 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.person.PersonED
@@ -34,6 +35,7 @@ import java.util.Collections
 
 class AdvertCreationFragment : Fragment() {
     private val viewModel = AdvertCreationViewModel()
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 
     private lateinit var email: String
     private lateinit var user: UserED
@@ -85,7 +87,7 @@ class AdvertCreationFragment : Fragment() {
         tags.forEach(llTags::addView)
 
         email = StorageUtils.getCurrentUserEmail(requireContext())
-        GlobalScope.launch(Dispatchers.Main) {
+        scope.launch(Dispatchers.Main) {
             try {
                 user = viewModel.fetchUser(email)
                     ?: throw IllegalStateException("User not found by email: $email")
@@ -97,18 +99,29 @@ class AdvertCreationFragment : Fragment() {
                 nameTextView.text = "${user.name} ${user.surname}"
                 ageTextView.text = user.age.toString()
             } catch (e: NotificationKeeperException) {
-                NotificationCenter.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_advert_info))
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(R.string.toast_fill_all_advert_info)
+                )
             }
         }
 
         createAdvertFragment.setOnClickListener(this::createAdvert)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.coroutineContext.cancelChildren()
+    }
+
     private fun createAdvert(view: View) {
         val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId)
         if (selectedChip == null) {
 
-            NotificationCenter.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_advert_info))
+            NotificationCenter.showDefaultToast(
+                requireContext(),
+                getString(R.string.toast_fill_all_advert_info)
+            )
             return
         }
 
@@ -123,11 +136,14 @@ class AdvertCreationFragment : Fragment() {
             costFrom.isBlank() ||
             costTo.isBlank()
         ) {
-            NotificationCenter.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_advert_info))
+            NotificationCenter.showDefaultToast(
+                requireContext(),
+                getString(R.string.toast_fill_all_advert_info)
+            )
             return
         }
 
-        GlobalScope.launch(Dispatchers.Main) {
+        scope.launch(Dispatchers.Main) {
             val person = PersonED(
                 email = email,
                 metro = Metro.from(metro),

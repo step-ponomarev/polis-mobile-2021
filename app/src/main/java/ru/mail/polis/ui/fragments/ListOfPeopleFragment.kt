@@ -9,8 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.person.PersonED
@@ -24,6 +25,7 @@ import ru.mail.polis.viewModels.ListOfPeopleViewModel
 import java.util.Objects
 
 class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 
     private lateinit var listOfPersonViews: List<PersonView>
     private lateinit var viewModel: ListOfPeopleViewModel
@@ -47,7 +49,7 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
         rvList.addItemDecoration(RecyclerViewListDecoration())
         rvList.adapter = adapter
 
-        GlobalScope.launch(Dispatchers.Main) {
+        scope.launch(Dispatchers.Main) {
             try {
                 val people = viewModel.fetchPeople().toMutableList()
                 if (people.isEmpty()) {
@@ -74,6 +76,11 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
                 )
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.coroutineContext.cancelChildren()
     }
 
     override fun onListItemClick(clickedItemIndex: Int) {

@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.apartments.ApartmentED
@@ -19,6 +20,7 @@ import ru.mail.polis.room.RoomCount
 import ru.mail.polis.utils.StorageUtils
 
 class AddApartmentFragment : ApartmentFragment() {
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
     private lateinit var addApartmentButton: Button
 
     override fun onCreateView(
@@ -36,11 +38,19 @@ class AddApartmentFragment : ApartmentFragment() {
         addApartmentButton.setOnClickListener(this::onClickAddApartment)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.coroutineContext.cancelChildren()
+    }
+
     private fun onClickAddApartment(view: View) {
         val selectedChip = chipGroup.findViewById<Chip>(chipGroup.checkedChipId)
 
         if (selectedChip == null) {
-            NotificationCenter.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_information_about_apartment))
+            NotificationCenter.showDefaultToast(
+                requireContext(),
+                getString(R.string.toast_fill_all_information_about_apartment)
+            )
             return
         }
 
@@ -50,12 +60,15 @@ class AddApartmentFragment : ApartmentFragment() {
         val square = squareEditText.text.toString()
 
         if (metro.isEmpty() || rooms.isBlank() || cost.isBlank() || square.isBlank()) {
-            NotificationCenter.showDefaultToast(requireContext(), getString(R.string.toast_fill_all_information_about_apartment))
+            NotificationCenter.showDefaultToast(
+                requireContext(),
+                getString(R.string.toast_fill_all_information_about_apartment)
+            )
             return
         }
 
         val email = StorageUtils.getCurrentUserEmail(requireContext())
-        GlobalScope.launch(Dispatchers.Main) {
+        scope.launch(Dispatchers.Main) {
             try {
                 apartmentViewModel.fetchUser(email)
                     ?: throw IllegalStateException("Null user by email: $email")
@@ -72,7 +85,10 @@ class AddApartmentFragment : ApartmentFragment() {
                 apartmentViewModel.addApartment(apartmentED)
                 findNavController().navigate(R.id.nav_graph__list_of_people)
             } catch (e: NotificationKeeperException) {
-                NotificationCenter.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(e.getResourceStringCode())
+                )
             }
         }
     }

@@ -18,8 +18,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.imageview.ShapeableImageView
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.Collections
@@ -31,6 +32,8 @@ import ru.mail.polis.utils.StorageUtils
 import ru.mail.polis.viewModels.FirstCreationViewModel
 
 class FirstCreationFragment : Fragment() {
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
+
     private lateinit var changePhotoButton: Button
     private lateinit var continueButton: Button
     private lateinit var nameEditText: EditText
@@ -72,6 +75,11 @@ class FirstCreationFragment : Fragment() {
         continueButton.setOnClickListener(this::onContinueButton)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.coroutineContext.cancelChildren()
+    }
+
     private fun onChangePhotoButton(view: View) {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
@@ -89,7 +97,7 @@ class FirstCreationFragment : Fragment() {
         }
 
         val email = StorageUtils.getCurrentUserEmail(requireContext())
-        GlobalScope.launch(Dispatchers.IO) {
+        scope.launch(Dispatchers.IO) {
             val photoSrc = "${Collections.USER.collectionName}Photos/$email-photo.jpg"
             val photo = firstCreationViewModel.uploadPhoto(
                 photoSrc,

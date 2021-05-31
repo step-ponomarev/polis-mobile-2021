@@ -8,8 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.apartments.ApartmentED
@@ -24,6 +25,8 @@ import ru.mail.polis.viewModels.ProposedApartmentsViewModel
 import java.util.Objects
 
 class ProposedApartmentsFragment : Fragment() {
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
+
     private lateinit var viewModel: ProposedApartmentsViewModel
 
     override fun onCreateView(
@@ -47,7 +50,7 @@ class ProposedApartmentsFragment : Fragment() {
         rvList.adapter = adapter
 
         val email: String = StorageUtils.getCurrentUserEmail(requireContext())
-        GlobalScope.launch(Dispatchers.Main) {
+        scope.launch(Dispatchers.Main) {
             try {
                 val apartments = viewModel.fetchApartmentsByRenterEmail(email).toMutableList()
                 if (apartments.isEmpty()) {
@@ -73,6 +76,11 @@ class ProposedApartmentsFragment : Fragment() {
                 )
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.coroutineContext.cancelChildren()
     }
 
     private fun filterData(apartments: MutableList<ApartmentED>, users: MutableList<UserED>) {

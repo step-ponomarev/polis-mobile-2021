@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -15,8 +14,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.helpers.getAgeString
@@ -28,6 +28,8 @@ import ru.mail.polis.utils.StorageUtils
 import ru.mail.polis.viewModels.PersonAnnouncementViewModel
 
 class PersonAnnouncementFragment : Fragment() {
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
+
     private lateinit var personView: PersonView
     private lateinit var offerApartmentButton: Button
     private lateinit var viewModel: PersonAnnouncementViewModel
@@ -111,8 +113,13 @@ class PersonAnnouncementFragment : Fragment() {
         offerApartmentButton.setOnClickListener(this::onOfferApartment)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.coroutineContext.cancelChildren()
+    }
+
     private fun onOfferApartment(view: View) {
-        GlobalScope.launch(Dispatchers.Main) {
+        scope.launch(Dispatchers.Main) {
             try {
                 val emailPerson: String = personView.email
                 viewModel.offerApartment(
