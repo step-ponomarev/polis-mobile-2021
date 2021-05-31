@@ -19,7 +19,7 @@ import ru.mail.polis.notification.NotificationKeeperException
 
 class AdvertCreationViewModel : ViewModel() {
     private var userED = MutableStateFlow<DaoResult<UserED?>>(DaoResult.Success(UserED()))
-    val user: StateFlow<DaoResult<UserED?>> = userED
+    val useResult: StateFlow<DaoResult<UserED?>> = userED
 
     private val personService: IPersonService = PersonService.getInstance()
     private val userService: IUserService = UserService()

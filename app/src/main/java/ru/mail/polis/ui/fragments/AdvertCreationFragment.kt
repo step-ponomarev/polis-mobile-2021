@@ -90,7 +90,7 @@ class AdvertCreationFragment : Fragment() {
         email = StorageUtils.getCurrentUserEmail(requireContext())
 
         viewModel.fetchUser(email)
-        viewModel.user
+        viewModel.useResult
             .onEach {
                 when (it) {
                     is DaoResult.Success -> {
@@ -109,7 +109,6 @@ class AdvertCreationFragment : Fragment() {
                         //TODO: Сообщить юзеру что что-то не так
                     }
                 }
-
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         createAdvertFragment.setOnClickListener(this::createAdvert)

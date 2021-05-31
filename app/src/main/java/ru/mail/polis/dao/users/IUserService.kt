@@ -7,7 +7,6 @@ interface IUserService {
     @Throws(DaoException::class)
     suspend fun updateUserByEmail(email: String, user: UserED): UserED?
 
-    @Throws(DaoException::class)
     suspend fun findUserByEmail(email: String): DaoResult<UserED?>
 
     @Throws(DaoException::class)
