@@ -31,6 +31,7 @@ class FragmentShowOneApartment : Fragment() {
     private lateinit var apartmentCost: TextView
     private lateinit var photoContainer: LinearLayout
     private lateinit var phoneText: TextView
+    private lateinit var rejectButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +44,7 @@ class FragmentShowOneApartment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val args: FragmentShowOneApartmentArgs by navArgs()
         apartment = args.apartment
+        rejectButton = view.findViewById(R.id.fragment_show_one_apartment__reject)
         showPhoneButton = view.findViewById(R.id.fragment_show_one_apartment__btn_show_phone)
         userAvatar = view.findViewById(R.id.component_person_header__avatar)
         apartmentOwnerName = view.findViewById(R.id.component_person_header__name)
@@ -85,8 +87,10 @@ class FragmentShowOneApartment : Fragment() {
         showPhoneButton.setOnClickListener {
             phoneText.text = apartment.phone
             it.visibility = View.INVISIBLE
+            rejectButton.visibility = View.INVISIBLE
             phoneText.visibility = View.VISIBLE
         }
+
     }
 
     private fun urlToImageView(context: Context, url: String): ImageView {

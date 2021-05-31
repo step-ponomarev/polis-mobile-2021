@@ -13,14 +13,14 @@
 
     <Button
         android:id="@+id/fragment_show_one_apartment__btn_show_phone"
-        android:layout_width="330dp"
+        android:layout_width="170dp"
         android:layout_height="65dp"
         android:layout_marginBottom="10dp"
-        android:backgroundTint="#18ccd4"
+        android:backgroundTint="#8818CCD4"
         android:text="@string/show_phone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fragment_show_one_apartment__reject"
         android:visibility="visible"
         />
 
@@ -28,12 +28,23 @@
         android:id="@+id/fragment_show_one_apartment__phone"
         android:layout_width="330dp"
         android:layout_height="65dp"
-        android:background="@null"
         android:layout_marginBottom="10dp"
+        android:background="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:visibility="invisible"
+        />
+
+    <Button
+        android:id="@+id/fragment_show_one_apartment__reject"
+        android:layout_width="170dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="#6FF44336"
+        android:text="@string/reject"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
