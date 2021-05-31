@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.users.UserED
+import ru.mail.polis.list.ListItemClickListener
 import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.people.PeopleAdapter
 import ru.mail.polis.list.of.people.PersonView
@@ -23,10 +24,18 @@ import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.viewModels.ListOfPeopleViewModel
 import java.util.Objects
 
-class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
-
+class ListOfPeopleFragment : Fragment() {
     private lateinit var listOfPersonViews: List<PersonView>
     private lateinit var viewModel: ListOfPeopleViewModel
+
+    private val onListItemClick = ListItemClickListener {
+        val personView: PersonView = listOfPersonViews[it]
+        val action =
+            ListOfPeopleFragmentDirections.actionNavGraphListOfPeopleToPersonAnnouncementFragment(
+                personView
+            )
+        findNavController().navigate(action)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,7 +50,7 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
 
         viewModel = ViewModelProvider(this).get(ListOfPeopleViewModel::class.java)
 
-        val adapter = PeopleAdapter(emptyList(), this)
+        val adapter = PeopleAdapter(emptyList(), onListItemClick)
         val rvList: RecyclerView = view.findViewById(R.id.list_of_people__rv_list)
         rvList.layoutManager = LinearLayoutManager(this.context)
         rvList.addItemDecoration(RecyclerViewListDecoration())
@@ -74,15 +83,6 @@ class ListOfPeopleFragment : Fragment(), PeopleAdapter.ListItemClickListener {
                 )
             }
         }
-    }
-
-    override fun onListItemClick(clickedItemIndex: Int) {
-        val personView: PersonView = listOfPersonViews[clickedItemIndex]
-        val action =
-            ListOfPeopleFragmentDirections.actionNavGraphListOfPeopleToPersonAnnouncementFragment(
-                personView
-            )
-        findNavController().navigate(action)
     }
 
     private fun filterData(people: MutableList<PersonED>, users: MutableList<UserED>) {

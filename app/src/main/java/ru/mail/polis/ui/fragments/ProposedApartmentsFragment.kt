@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.apartments.ApartmentED
 import ru.mail.polis.dao.users.UserED
+import ru.mail.polis.list.ListItemClickListener
 import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.apartments.ApartmentView
 import ru.mail.polis.list.of.apartments.ApartmentsAdapter
@@ -25,6 +27,16 @@ import java.util.Objects
 
 class ProposedApartmentsFragment : Fragment() {
     private lateinit var viewModel: ProposedApartmentsViewModel
+    private lateinit var apartments: List<ApartmentView>
+
+    private val onListItemClick = ListItemClickListener {
+        val apartment: ApartmentView = apartments[it]
+        val action =
+            ProposedApartmentsFragmentDirections.actionNavGraphProposedApartmentsFragmentToFragmentShowOneApartment(
+                apartment
+            )
+        findNavController().navigate(action)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +51,7 @@ class ProposedApartmentsFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(ProposedApartmentsViewModel::class.java)
 
-        val adapter = ApartmentsAdapter()
+        val adapter = ApartmentsAdapter(emptyList(), onListItemClick)
         val rvList: RecyclerView = view.findViewById(R.id.fragment_proposed_apartments__list)
 
         rvList.addItemDecoration(RecyclerViewListDecoration())
@@ -90,14 +102,15 @@ class ProposedApartmentsFragment : Fragment() {
     }
 
     private fun toApartmentView(
-        apartments: List<ApartmentED>,
+        apartmentsED: List<ApartmentED>,
         users: List<UserED>
     ): List<ApartmentView> {
-        return apartments.filter { it.isValid() }.map { apartment ->
+        return apartmentsED.filter { it.isValid() }.map { apartment ->
             val user = users.find { Objects.equals(apartment.email, it.email) }!!
 
             ApartmentView.Builder.createBuilder()
                 .email(apartment.email!!)
+                .phone(user.phone!!)
                 .apartmentCosts(apartment.apartmentCosts!!)
                 .apartmentSquare(apartment.apartmentSquare!!)
                 .ownerName("${user.name} ${user.surname}")

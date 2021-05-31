@@ -5,6 +5,7 @@ import ru.mail.polis.room.RoomCount
 
 class ApartmentED(
     var email: String? = null,
+    var phone: String? = null,
     var metro: Metro? = null,
     var roomCount: RoomCount? = null,
     var apartmentSquare: Long? = null,
@@ -21,6 +22,7 @@ class ApartmentED(
 
     class Builder private constructor() {
         private var email: String? = null
+        private var phone: String? = null
         private var metro: Metro? = null
         private var roomCount: RoomCount? = null
         private var apartmentSquare: Long? = null
@@ -47,6 +49,10 @@ class ApartmentED(
             this.roomCount = roomCount
             return this
         }
+        fun phone(phone: String): Builder {
+            this.phone = phone
+            return this
+        }
 
         fun apartmentSquare(apartmentSquare: Long): Builder {
             this.apartmentSquare = apartmentSquare
@@ -66,6 +72,7 @@ class ApartmentED(
         fun build(): ApartmentED {
             return ApartmentED(
                 email!!,
+                phone,
                 metro!!,
                 roomCount!!,
                 apartmentSquare!!,
@@ -82,6 +89,7 @@ class ApartmentED(
         other as ApartmentED
 
         if (email != other.email) return false
+        if (phone != other.phone) return false
         if (metro != other.metro) return false
         if (roomCount != other.roomCount) return false
         if (apartmentSquare != other.apartmentSquare) return false
@@ -93,6 +101,7 @@ class ApartmentED(
 
     override fun hashCode(): Int {
         var result = email.hashCode()
+        result = 31 * result + (phone?.hashCode() ?: 0)
         result = 31 * result + (metro?.hashCode() ?: 0)
         result = 31 * result + (roomCount?.hashCode() ?: 0)
         result = 31 * result + (apartmentSquare?.hashCode() ?: 0)

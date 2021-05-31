@@ -65,6 +65,7 @@
     </string-array>
 
     <string name="money">от %1$d до %2$d</string>
+    <string name="show_phone">Показать телефон</string>
     <string name="edit_apartment_text">Изменить квартиру</string>
     <string name="dialog_fragment_title_add_apartment">Добавление квартиры</string>
     <string name="dialog_fragment_message_add_apartment">У вас нет квартиры, хотите ее добавить?</string>

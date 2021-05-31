@@ -1,5 +1,4 @@
 package ru.mail.polis.ui.fragments.apartment
-
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap

@@ -172,6 +172,7 @@ class ApartmentService private constructor() : IApartmentService {
     private fun apartmentToMap(apartment: ApartmentED): Map<String, Any?> {
         return mapOf(
             "email" to apartment.email,
+            "phone" to apartment.phone,
             "metro" to apartment.metro,
             "roomCount" to apartment.roomCount,
             "apartmentSquare" to apartment.apartmentSquare,
