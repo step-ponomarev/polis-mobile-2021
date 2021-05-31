@@ -1,6 +1,5 @@
 package ru.mail.polis.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
+import ru.mail.polis.notification.NotificationCenter
+import ru.mail.polis.notification.NotificationKeeperException
+import ru.mail.polis.utils.StorageUtils
 import ru.mail.polis.viewModels.SelfDefinitionViewModel
 
 class SelfDefinitionFragment : Fragment() {
@@ -30,13 +32,17 @@ class SelfDefinitionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val email = getEmail()
+        val email = StorageUtils.getCurrentUserEmail(requireContext())
         GlobalScope.launch(Dispatchers.Main) {
-            val apartments = selfDefinitionViewModel.fetchApartment(email)
-            val person = selfDefinitionViewModel.fetchPerson(email)
+            try {
+                val apartments = selfDefinitionViewModel.fetchApartment(email)
+                val person = selfDefinitionViewModel.fetchPerson(email)
 
-            if (person != null || apartments != null) {
-                findNavController().navigate(R.id.nav_graph__list_of_people)
+                if (person != null || apartments != null) {
+                    findNavController().navigate(R.id.nav_graph__list_of_people)
+                }
+            } catch (e: NotificationKeeperException) {
+                NotificationCenter.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
             }
         }
 
@@ -55,13 +61,5 @@ class SelfDefinitionFragment : Fragment() {
 
     private fun onClickFindApartment(view: View) {
         findNavController().navigate(R.id.nav_graph__advert_creation_fragment)
-    }
-
-    private fun getEmail(): String {
-        return activity?.getSharedPreferences(
-            getString(R.string.preference_file_key),
-            Context.MODE_PRIVATE
-        )?.getString(getString(R.string.preference_email_key), null)
-            ?: throw IllegalStateException("Email not found")
     }
 }
