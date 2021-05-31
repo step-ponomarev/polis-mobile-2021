@@ -28,8 +28,7 @@ class SettingsViewModel : ViewModel() {
     private val userED: MutableStateFlow<UserED> = MutableStateFlow(UserED())
     val user: StateFlow<UserED> = userED
 
-    @Throws(NotificationKeeperException::class)
-    fun init(email: String) {
+    fun fetchUser(email: String) {
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = userService.findUserByEmail(email)) {
                 is DaoResult.Success ->

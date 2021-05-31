@@ -38,7 +38,6 @@ class AdvertCreationViewModel : ViewModel() {
         }
     }
 
-    @Throws(NotificationKeeperException::class)
     fun fetchUser(email: String) {
         viewModelScope.launch(Dispatchers.IO) {
             userED.value = userService.findUserByEmail(email)

@@ -80,7 +80,7 @@ class SettingsFragment : Fragment() {
 
         settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
 
-        settingsViewModel.init(StorageUtils.getCurrentUserEmail(requireContext()))
+        settingsViewModel.fetchUser(StorageUtils.getCurrentUserEmail(requireContext()))
         settingsViewModel.user
             .onEach { userED ->
                 nameEditText.setText(userED.name)
