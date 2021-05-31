@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
@@ -15,6 +16,7 @@ import ru.mail.polis.R
 import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
+import ru.mail.polis.tags.Tags
 
 class AdvertCreationFragment : AdvertFragment() {
 

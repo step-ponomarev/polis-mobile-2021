@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import androidx.core.view.forEach
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
@@ -16,6 +17,7 @@ import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.room.RoomCount
+import ru.mail.polis.tags.Tags
 
 class AdvertEditingFragment : AdvertFragment() {
 
@@ -89,7 +91,7 @@ class AdvertEditingFragment : AdvertFragment() {
                 .description(aboutMe)
                 .money(costFrom.toLong(), costTo.toLong())
                 .rooms(roomList)
-                .tags(emptyList())
+                .tags(tagsForPerson)
                 .build()
 
             viewModel.updatePerson(person)
@@ -115,6 +117,16 @@ class AdvertEditingFragment : AdvertFragment() {
                 }
             }
         }
+
+
+        val tags: List<ImageView> = Tags.values().map { tag ->
+            if (tag in personED.tags) {
+                tagToImageButton(tag, false)
+            } else {
+                tagToImageButton(tag)
+            }
+        }
+        tags.forEach(llTags::addView)
 
         costFromEditText.setText(personED.moneyFrom.toString())
         costToEditText.setText(personED.moneyTo.toString())

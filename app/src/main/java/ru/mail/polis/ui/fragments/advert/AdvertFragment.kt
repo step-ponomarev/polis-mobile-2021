@@ -58,11 +58,6 @@ abstract class AdvertFragment : Fragment() {
         chipGroup.isSingleSelection = false
 
         llTags = view.findViewById(R.id.fragment_advert_creation__ll_tags)
-
-        val tags: List<ImageView> = Tags.values().map { tag ->
-            tagToImageButton(tag)
-        }
-        tags.forEach(llTags::addView)
     }
 
     protected fun getToastWithText(text: String): Toast {
@@ -81,7 +76,7 @@ abstract class AdvertFragment : Fragment() {
             ?: throw IllegalStateException("Email not found")
     }
 
-    protected fun tagToImageButton(tag: Tags): ImageButton {
+    protected fun tagToImageButton(tag: Tags, defaultTagImage: Boolean = true): ImageButton {
         val ib = ImageButton(requireContext())
         ib.layoutParams = ViewGroup.LayoutParams(
             60,
@@ -90,7 +85,12 @@ abstract class AdvertFragment : Fragment() {
         ib.adjustViewBounds = true
         ib.background = null
         ib.setPadding(5, 5, 5, 5)
-        ib.setImageResource(tag.defaultImage)
+        if (!defaultTagImage) {
+            ib.setImageResource(tag.activeImage)
+            tagsForPerson.add(tag)
+        } else {
+            ib.setImageResource(tag.defaultImage)
+        }
         ib.setOnClickListener {
             if (tag in tagsForPerson) {
                 ib.setImageResource(tag.defaultImage)
