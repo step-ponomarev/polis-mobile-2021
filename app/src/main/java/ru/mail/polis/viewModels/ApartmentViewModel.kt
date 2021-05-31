@@ -3,11 +3,16 @@ package ru.mail.polis.viewModels
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.mail.polis.converter.Converter
 import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.DaoException
+import ru.mail.polis.dao.DaoResult
 import ru.mail.polis.dao.apartments.ApartmentED
 import ru.mail.polis.dao.apartments.ApartmentService
 import ru.mail.polis.dao.apartments.IApartmentService
@@ -24,6 +29,14 @@ class ApartmentViewModel : ViewModel() {
     private val userService: IUserService = UserService()
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
     private val photoUriService: IPhotoUriService = PhotoUriService()
+
+    private val userResult: MutableStateFlow<DaoResult<UserED?>> = MutableStateFlow(
+        DaoResult.Success(
+            UserED()
+        )
+    )
+    val user: StateFlow<DaoResult<UserED?>> = userResult
+
     private val list = LinkedHashSet<Bitmap>()
 
     companion object {
@@ -51,21 +64,6 @@ class ApartmentViewModel : ViewModel() {
         } catch (e: DaoException) {
             throw NotificationKeeperException(
                 "Failure adding apartment: $apartmentED",
-                e,
-                NotificationKeeperException.NotificationType.DAO_ERROR
-            )
-        }
-    }
-
-    @Throws(NotificationKeeperException::class)
-    suspend fun fetchUser(email: String): UserED? {
-        try {
-            return withContext(Dispatchers.IO) {
-                userService.findUserByEmail(email)
-            }
-        } catch (e: DaoException) {
-            throw NotificationKeeperException(
-                "Failure fetching user with email: $email",
                 e,
                 NotificationKeeperException.NotificationType.DAO_ERROR
             )

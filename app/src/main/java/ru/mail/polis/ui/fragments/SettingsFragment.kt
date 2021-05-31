@@ -17,10 +17,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.mail.polis.R
@@ -77,13 +80,9 @@ class SettingsFragment : Fragment() {
 
         settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
 
-        scope.launch(Dispatchers.IO) {
-            settingsViewModel.getUserInfo(StorageUtils.getCurrentUserEmail(requireContext()))
-        }
-
-        settingsViewModel.getUser().observe(
-            viewLifecycleOwner,
-            { userED ->
+        settingsViewModel.init(StorageUtils.getCurrentUserEmail(requireContext()))
+        settingsViewModel.user
+            .onEach { userED ->
                 nameEditText.setText(userED.name)
                 surnameEditText.setText(userED.surname)
                 phoneEditText.setText(userED.phone)
@@ -91,7 +90,7 @@ class SettingsFragment : Fragment() {
                 Glide.with(avatar).load(userED.photo).into(avatar)
                 currentPhotoUrl = userED.photo
             }
-        )
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         apartmentButton.setOnClickListener(this::onClickApartmentButton)
         editButton.setOnClickListener(this::onClickEditUser)

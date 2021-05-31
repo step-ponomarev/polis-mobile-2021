@@ -70,8 +70,6 @@ class AddApartmentFragment : ApartmentFragment() {
         val email = StorageUtils.getCurrentUserEmail(requireContext())
         scope.launch(Dispatchers.Main) {
             try {
-                apartmentViewModel.fetchUser(email)
-                    ?: throw IllegalStateException("Null user by email: $email")
                 val photoUrls = apartmentViewModel.getApartmentPhotoUrls()
                 val apartmentED = ApartmentED(
                     email = email,

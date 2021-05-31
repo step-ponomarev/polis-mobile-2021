@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.DaoException
+import ru.mail.polis.dao.DaoResult
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -39,17 +40,22 @@ class UserService : IUserService {
         }
     }
 
-    override suspend fun findUserByEmail(email: String): UserED? {
+    override suspend fun findUserByEmail(email: String): DaoResult<UserED?> {
         val userRef = userCollection.document(email)
 
         return suspendCancellableCoroutine { coroutine ->
             userRef.get()
                 .addOnSuccessListener {
-                    coroutine.resume(it.toObject(UserED::class.java))
+                    coroutine.resume(DaoResult.Success(it.toObject(UserED::class.java)))
                 }
                 .addOnFailureListener {
-                    coroutine.resumeWithException(
-                        DaoException("Filed fetching user with email: $email", it)
+                    coroutine.resume(
+                        DaoResult.Error(
+                            DaoException(
+                                "Filed fetching user with email: $email",
+                                it
+                            )
+                        )
                     )
                 }
         }

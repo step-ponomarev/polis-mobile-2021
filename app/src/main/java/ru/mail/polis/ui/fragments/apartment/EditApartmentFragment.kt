@@ -44,9 +44,6 @@ class EditApartmentFragment : ApartmentFragment() {
         val email = StorageUtils.getCurrentUserEmail(requireContext())
         scope.launch(Dispatchers.Main) {
             try {
-                apartmentViewModel.fetchUser(email)
-                    ?: throw IllegalStateException("Null user by email: $email")
-
                 val apartmentED = apartmentViewModel.getApartmentByEmail(email)
                 if (apartmentED != null) {
                     fillFields(apartmentED)
@@ -97,9 +94,6 @@ class EditApartmentFragment : ApartmentFragment() {
         val email = StorageUtils.getCurrentUserEmail(requireContext())
         scope.launch(Dispatchers.Main) {
             try {
-                apartmentViewModel.fetchUser(email)
-                    ?: throw IllegalStateException("Null user by email: $email")
-
                 val photoUrls = apartmentViewModel.getApartmentPhotoUrls()
                 val apartmentED = ApartmentED(
                     email = email,
