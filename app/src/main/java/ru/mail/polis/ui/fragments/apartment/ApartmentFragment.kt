@@ -1,6 +1,5 @@
 package ru.mail.polis.ui.fragments.apartment
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -16,7 +15,6 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -59,12 +57,10 @@ abstract class ApartmentFragment : Fragment() {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-
-        if (apartmentViewModel.list.isNotEmpty()) {
-            apartmentViewModel.list.forEach { bitmap ->
+        apartmentViewModel.getImageList()
+            .forEach { bitmap ->
                 photoLinearLayout.addView(createImageComponent(bitmap))
             }
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -144,7 +140,7 @@ abstract class ApartmentFragment : Fragment() {
         val imageButtonDeletePhoto = view.findViewById<ImageButton>(R.id.photo_component__ib)
 
         imageButtonDeletePhoto.setOnClickListener {
-            apartmentViewModel.list.remove(imageViewPhoto.drawable.toBitmap())
+            apartmentViewModel.removeImage(imageViewPhoto.drawable.toBitmap())
             photoLinearLayout.removeView(constraintLayoutPhotoComponent)
         }
 
@@ -167,24 +163,8 @@ abstract class ApartmentFragment : Fragment() {
         imageViewPhoto.scaleType = ImageView.ScaleType.CENTER_CROP
         imageViewPhoto.setImageBitmap(bitmap)
 
-        apartmentViewModel.list.add(bitmap)
+        apartmentViewModel.addImage(bitmap)
 
         return constraintLayoutPhotoComponent
-    }
-
-    protected fun getEmail(): String {
-        return activity?.getSharedPreferences(
-            getString(R.string.preference_file_key),
-            Context.MODE_PRIVATE
-        )?.getString(getString(R.string.preference_email_key), null)
-            ?: throw IllegalStateException("Email not found")
-    }
-
-    protected fun getToastWithText(text: String): Toast {
-        return Toast.makeText(
-            requireContext(),
-            text,
-            Toast.LENGTH_SHORT
-        )
     }
 }

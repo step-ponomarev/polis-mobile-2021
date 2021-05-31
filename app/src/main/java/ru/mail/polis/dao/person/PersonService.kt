@@ -7,9 +7,10 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mail.polis.dao.Collections
-import java.lang.RuntimeException
+import ru.mail.polis.dao.DaoException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import kotlin.jvm.Throws
 
 class PersonService private constructor() : IPersonService {
     private val db: FirebaseFirestore = Firebase.firestore
@@ -28,6 +29,7 @@ class PersonService private constructor() : IPersonService {
         }
     }
 
+    @Throws(DaoException::class)
     override suspend fun findByEmail(email: String): PersonED? {
         val personRef = personCollection.document(email)
 
@@ -38,12 +40,13 @@ class PersonService private constructor() : IPersonService {
                 }
                 .addOnFailureListener {
                     coroutine.resumeWithException(
-                        RuntimeException("Filed fetching person with email: $email", it)
+                        DaoException("Filed fetching person with email: $email", it)
                     )
                 }
         }
     }
 
+    @Throws(DaoException::class)
     override suspend fun findAll(): List<PersonED> {
         return suspendCancellableCoroutine { coroutine ->
             personCollection.get()
@@ -51,24 +54,17 @@ class PersonService private constructor() : IPersonService {
                     coroutine.resume(it.toObjects(PersonED::class.java))
                 }.addOnFailureListener {
                     coroutine.resumeWithException(
-                        RuntimeException("Filed fetching person list", it)
+                        DaoException("Filed fetching all people", it)
                     )
                 }
         }
     }
 
+    @Throws(DaoException::class)
     override suspend fun addPerson(person: PersonED): PersonED {
         return suspendCancellableCoroutine { coroutine ->
             personCollection.document(person.email!!)
                 .set(personToMap(person))
-                .addOnFailureListener {
-                    coroutine.resumeWithException(
-                        RuntimeException(
-                            "Failure adding person with email: ${person.email}",
-                            it
-                        )
-                    )
-                }
                 .addOnSuccessListener {
                     Log.i(
                         this::class.java.name,
@@ -77,28 +73,38 @@ class PersonService private constructor() : IPersonService {
 
                     coroutine.resume(person)
                 }
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        DaoException(
+                            "Failure adding person with email: ${person.email}",
+                            it
+                        )
+                    )
+                }
         }
     }
 
+    @Throws(DaoException::class)
     override suspend fun updatePerson(person: PersonED): PersonED {
         val personRef = personCollection.document(person.email!!)
 
         return suspendCancellableCoroutine { coroutine ->
             personRef.update(personToMap(person))
+                .addOnSuccessListener {
+                    coroutine.resume(person)
+                }
                 .addOnFailureListener {
                     coroutine.resumeWithException(
-                        RuntimeException(
+                        DaoException(
                             "Failure updating person with email: ${person.email}",
                             it
                         )
                     )
                 }
-                .addOnSuccessListener {
-                    coroutine.resume(person)
-                }
         }
     }
 
+    @Throws(DaoException::class)
     override suspend fun deletePersonByEmail(email: String) {
         val personRef = personCollection.document(email)
 
@@ -109,7 +115,7 @@ class PersonService private constructor() : IPersonService {
                 }
                 .addOnFailureListener {
                     coroutine.resumeWithException(
-                        RuntimeException(
+                        DaoException(
                             "Failure deleting person with email: $email",
                             it
                         )

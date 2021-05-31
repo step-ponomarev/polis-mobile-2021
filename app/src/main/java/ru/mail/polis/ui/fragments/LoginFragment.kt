@@ -17,8 +17,12 @@ import kotlinx.coroutines.withContext
 import ru.mail.polis.R
 import ru.mail.polis.auth.AuthenticationService
 import ru.mail.polis.auth.GoogleSingInUtils
+import ru.mail.polis.dao.DaoException
 import ru.mail.polis.dao.users.IUserService
 import ru.mail.polis.dao.users.UserService
+import ru.mail.polis.notification.NotificationCenter
+import ru.mail.polis.notification.NotificationKeeperException
+import ru.mail.polis.utils.StorageUtils
 
 class LoginFragment : Fragment() {
     companion object {
@@ -62,7 +66,7 @@ class LoginFragment : Fragment() {
     private fun handleResult(result: ActivityResult) {
         try {
             val email = googleAuthentication.handleResult(result.data)
-            saveEmail(email)
+            StorageUtils.setValue(requireContext(), StorageUtils.StorageKey.EMAIL, email)
 
             GlobalScope.launch(Dispatchers.Main) {
                 if (checkIfUserExist(email)) {
@@ -71,24 +75,27 @@ class LoginFragment : Fragment() {
                     findNavController().navigate(R.id.nav_graph__filling_profile_info)
                 }
             }
+        } catch (e: NotificationKeeperException) {
+            NotificationCenter.showDefaultToast(
+                requireContext(),
+                getString(e.getResourceStringCode())
+            )
         } catch (e: Exception) {
             Log.e("Auth error", e.message, e)
         }
     }
 
-    private fun saveEmail(email: String) {
-        activity?.getSharedPreferences(
-            getString(R.string.preference_file_key),
-            Context.MODE_PRIVATE
-        )
-            ?.edit()
-            ?.putString(getString(R.string.preference_email_key), email)
-            ?.apply()
-    }
-
+    @Throws(NotificationKeeperException::class)
     private suspend fun checkIfUserExist(email: String): Boolean {
-        return withContext(Dispatchers.IO) {
-            userService.isExist(email)
+        try {
+            return withContext(Dispatchers.IO) {
+                userService.isExist(email)
+            }
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failed checking user existence by email: $email",
+                NotificationKeeperException.NotificationType.DAO_ERROR
+            )
         }
     }
 }
