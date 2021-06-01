@@ -107,15 +107,16 @@ class ApartmentViewModel : ViewModel() {
     private suspend fun getUrlList(): List<String> {
         val urlList = ArrayList<String>()
 
-        val pathString =
-            "${Collections.APARTMENT.collectionName}Photos/${getRandomNameForFile()}.jpg"
         for (bitMap in list) {
             try {
+                val pathString =
+                    "${Collections.APARTMENT.collectionName}Photos/${getRandomNameForFile()}.jpg"
+
                 val url =
                     photoUriService.saveImage(pathString, Converter.bitmapToInputStream(bitMap))
                 urlList.add(url.toString())
             } catch (e: DaoException) {
-                Log.w(NAME, "Photo uploading failed path: $pathString")
+                Log.w(NAME, "Photo uploading failed: $e")
             }
         }
 
