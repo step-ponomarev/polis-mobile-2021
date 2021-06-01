@@ -90,14 +90,11 @@ class AdvertCreationFragment : Fragment() {
         email = StorageUtils.getCurrentUserEmail(requireContext())
 
         viewModel.fetchUser(email)
-        viewModel.useResult
+        viewModel.userResult
             .onEach {
                 when (it) {
                     is DaoResult.Success -> {
                         val user = it.data
-                            ?: //TODO: Сообщить юзеру что что-то не так
-                            return@onEach
-
                         if (user.photo != null) {
                             Glide.with(avatarImageView).load(user.photo).into(avatarImageView)
                         }
@@ -105,9 +102,8 @@ class AdvertCreationFragment : Fragment() {
                         nameTextView.text = "${user.name} ${user.surname}"
                         ageTextView.text = user.age.toString()
                     }
-                    is DaoResult.Error -> {
-                        //TODO: Сообщить юзеру что что-то не так
-                    }
+                    is DaoResult.Error -> {}
+                    is DaoResult.EmptyData -> {}
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 

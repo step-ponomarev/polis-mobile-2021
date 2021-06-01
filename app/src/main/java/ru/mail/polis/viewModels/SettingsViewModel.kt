@@ -20,26 +20,20 @@ import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.dao.users.UserService
 import ru.mail.polis.notification.NotificationKeeperException
 import java.lang.IllegalStateException
+import kotlinx.coroutines.flow.onEach
 
 class SettingsViewModel : ViewModel() {
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
     private val userService: IUserService = UserService()
     private val photoUriService: IPhotoUriService = PhotoUriService()
-    private val userED: MutableStateFlow<UserED> = MutableStateFlow(UserED())
-    val user: StateFlow<UserED> = userED
+    private val userED: MutableStateFlow<DaoResult<UserED>> = MutableStateFlow(DaoResult.EmptyData)
+    val user: StateFlow<DaoResult<UserED>> = userED
 
     fun fetchUser(email: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            when (val result = userService.findUserByEmail(email)) {
-                is DaoResult.Success ->
-                    userED.value = result.data
-                        ?: throw IllegalStateException("Null user by email: $email")
-                is DaoResult.Error -> throw IllegalStateException(
-                    "Null user by email: $email",
-                    result.e
-                )
+        userService.findUserByEmail(email)
+            .onEach {
+                userED.value = it
             }
-        }
     }
 
     @Throws(NotificationKeeperException::class)
@@ -65,7 +59,8 @@ class SettingsViewModel : ViewModel() {
             } ?: throw IllegalStateException("Updated user is null")
 
             withContext(Dispatchers.Main) {
-                userED.value = updatedUser
+                //TODO: убрать этот мок сделать на флоу все
+                userED.value = DaoResult.Success(updatedUser)
             }
         } catch (e: DaoException) {
             throw NotificationKeeperException(

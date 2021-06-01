@@ -1,11 +1,10 @@
 package ru.mail.polis.viewModels
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import ru.mail.polis.dao.DaoException
 import ru.mail.polis.dao.DaoResult
@@ -18,8 +17,8 @@ import ru.mail.polis.dao.users.UserService
 import ru.mail.polis.notification.NotificationKeeperException
 
 class AdvertCreationViewModel : ViewModel() {
-    private var userED = MutableStateFlow<DaoResult<UserED?>>(DaoResult.Success(UserED()))
-    val useResult: StateFlow<DaoResult<UserED?>> = userED
+    private var userED = MutableStateFlow<DaoResult<UserED>>(DaoResult.EmptyData)
+    val userResult: StateFlow<DaoResult<UserED>> = userED
 
     private val personService: IPersonService = PersonService.getInstance()
     private val userService: IUserService = UserService()
@@ -39,8 +38,8 @@ class AdvertCreationViewModel : ViewModel() {
     }
 
     fun fetchUser(email: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            userED.value = userService.findUserByEmail(email)
+        userService.findUserByEmail(email).onEach {
+            userED.value = it
         }
     }
 }

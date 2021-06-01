@@ -28,6 +28,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.mail.polis.R
 import ru.mail.polis.dao.Collections
+import ru.mail.polis.dao.DaoResult
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
 import ru.mail.polis.notification.NotificationCenter
@@ -82,13 +83,19 @@ class SettingsFragment : Fragment() {
 
         settingsViewModel.fetchUser(StorageUtils.getCurrentUserEmail(requireContext()))
         settingsViewModel.user
-            .onEach { userED ->
-                nameEditText.setText(userED.name)
-                surnameEditText.setText(userED.surname)
-                phoneEditText.setText(userED.phone)
-                ageEditText.setText(userED.age.toString())
-                Glide.with(avatar).load(userED.photo).into(avatar)
-                currentPhotoUrl = userED.photo
+            .onEach {
+                when (it) {
+                    is DaoResult.Success -> {
+                        val userED = it.data
+
+                        nameEditText.setText(userED.name)
+                        surnameEditText.setText(userED.surname)
+                        phoneEditText.setText(userED.phone)
+                        ageEditText.setText(userED.age.toString())
+                        Glide.with(avatar).load(userED.photo).into(avatar)
+                        currentPhotoUrl = userED.photo
+                    }
+                }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 

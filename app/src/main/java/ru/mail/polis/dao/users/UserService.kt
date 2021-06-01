@@ -6,7 +6,15 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.DaoException
 import ru.mail.polis.dao.DaoResult
@@ -14,10 +22,10 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 class UserService : IUserService {
-
     private val db: FirebaseFirestore = Firebase.firestore
     private val userCollection: CollectionReference =
         db.collection(Collections.USER.collectionName)
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     override suspend fun updateUserByEmail(email: String, user: UserED): UserED {
         val userRef = userCollection.document(email)
@@ -40,23 +48,34 @@ class UserService : IUserService {
         }
     }
 
-    override suspend fun findUserByEmail(email: String): DaoResult<UserED?> {
+    override fun findUserByEmail(email: String): Flow<DaoResult<UserED>> {
         val userRef = userCollection.document(email)
 
-        return suspendCancellableCoroutine { coroutine ->
+        return flow {
             userRef.get()
                 .addOnSuccessListener {
-                    coroutine.resume(DaoResult.Success(it.toObject(UserED::class.java)))
+                    scope.launch {
+                        val user = it.toObject(UserED::class.java)
+
+                        if (user != null) {
+                            emit(DaoResult.Success(user))
+                        } else {
+                            emit(DaoResult.EmptyData)
+                        }
+
+                    }
                 }
                 .addOnFailureListener {
-                    coroutine.resume(
-                        DaoResult.Error(
-                            DaoException(
-                                "Filed fetching user with email: $email",
-                                it
+                    scope.launch {
+                        emit(
+                            DaoResult.Error<UserED>(
+                                DaoException(
+                                    "Filed fetching user with email: $email",
+                                    it
+                                )
                             )
                         )
-                    )
+                    }
                 }
         }
     }
