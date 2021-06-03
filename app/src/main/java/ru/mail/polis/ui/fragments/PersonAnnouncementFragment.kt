@@ -112,11 +112,11 @@ class PersonAnnouncementFragment : Fragment() {
     private fun createRoomCardView(
         context: Context,
         room: RoomCount,
-        linearLayout: LinearLayout
+        root: ViewGroup
     ): CardView {
         val view: View =
             LayoutInflater.from(context)
-                .inflate(R.layout.component_card_view_room, linearLayout, false)
+                .inflate(R.layout.component_card_view_room, root, false)
         val cardView: CardView = view.findViewById(R.id.component_card_view_room__card_view)
         val textView: TextView = view.findViewById(R.id.component_card_view_room__text_view)
 
