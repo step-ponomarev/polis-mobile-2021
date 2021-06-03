@@ -1,12 +1,14 @@
 package ru.mail.polis.list.of.people
 
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +29,7 @@ class PeopleAdapter(
         return PeopleViewHolder(view)
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onBindViewHolder(holder: PeopleViewHolder, position: Int) {
         holder.bind(personViews[position])
     }
@@ -62,6 +65,7 @@ class PeopleAdapter(
         private val tvDescription: TextView =
             itemView.findViewById(R.id.people_item__tv_description)
 
+        @RequiresApi(Build.VERSION_CODES.P)
         fun bind(personView: PersonView) {
             if (personView.photo != null) {
                 urlToMyImageView(ivPhoto, personView.photo!!)
@@ -100,7 +104,7 @@ class PeopleAdapter(
             }
 
             personView.rooms.forEach { room ->
-                val cardView = createRoomCardView(itemView.context, room)
+                val cardView = createRoomCardView(itemView.context, room, linearLayoutRooms)
                 linearLayoutRooms.addView(cardView)
             }
             cardView.setOnClickListener {
@@ -111,8 +115,10 @@ class PeopleAdapter(
         }
     }
 
-    private fun createRoomCardView(context: Context, room: RoomCount): CardView {
-        val view: View = LayoutInflater.from(context).inflate(R.layout.component_card_view_room, null)
+    @RequiresApi(Build.VERSION_CODES.P)
+    private fun createRoomCardView(context: Context, room: RoomCount, linearLayout: LinearLayout): CardView {
+        val view: View =
+            LayoutInflater.from(context).inflate(R.layout.component_card_view_room,  linearLayout, false)
         val cardView: CardView = view.findViewById(R.id.component_card_view_room__card_view)
         val textView: TextView = view.findViewById(R.id.component_card_view_room__text_view)
 
