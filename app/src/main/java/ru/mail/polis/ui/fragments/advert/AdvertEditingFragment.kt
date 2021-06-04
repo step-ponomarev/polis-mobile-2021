@@ -17,6 +17,7 @@ import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.notification.NotificationCenter
+import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.room.RoomCount
 import ru.mail.polis.tags.Tags
 import ru.mail.polis.utils.StorageUtils
@@ -43,17 +44,25 @@ class AdvertEditingFragment : AdvertFragment() {
         val email = StorageUtils.getCurrentUserEmail(requireContext())
 
         GlobalScope.launch(Dispatchers.Main) {
-            val user = viewModel.fetchUser(email)
-                ?: throw IllegalStateException("Null user by email: $email")
+            try {
+                val user = viewModel.fetchUser(email)
+                    ?: throw IllegalStateException("Null user by email: $email")
 
-            val personED: PersonED? = viewModel.getPersonByEmail(email)
+                val personED: PersonED? = viewModel.getPersonByEmail(email)
 
-            if (personED != null) {
-                fillFields(personED, user)
-            } else {
+                if (personED != null) {
+                    fillFields(personED, user)
+                } else {
+                    NotificationCenter.showDefaultToast(
+                        requireContext(),
+                        getString(R.string.toast_there_are_no_advert_to_edit)
+                    )
+                }
+                // TODO надо ли ловить?
+            } catch (e: NotificationKeeperException) {
                 NotificationCenter.showDefaultToast(
                     requireContext(),
-                    getString(R.string.toast_there_are_no_advert_to_edit)
+                    ""
                 )
             }
         }
@@ -102,7 +111,14 @@ class AdvertEditingFragment : AdvertFragment() {
                 .tags(tagsForPerson)
                 .build()
 
-            viewModel.updatePerson(person)
+            try {
+                viewModel.updatePerson(person)
+            } catch (e: NotificationKeeperException) {
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(e.getResourceStringCode())
+                )
+            }
 
             NotificationCenter.showDefaultToast(
                 requireContext(),

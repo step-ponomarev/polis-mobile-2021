@@ -124,6 +124,7 @@ class PersonService private constructor() : IPersonService {
         }
     }
 
+    @Throws(DaoException::class)
     override suspend fun isExist(email: String): Boolean {
         return suspendCancellableCoroutine { coroutine ->
 
@@ -131,7 +132,7 @@ class PersonService private constructor() : IPersonService {
                 .get()
                 .addOnFailureListener {
                     coroutine.resumeWithException(
-                        RuntimeException(
+                        DaoException(
                             "Failure to find person with email: $email",
                             it
                         )

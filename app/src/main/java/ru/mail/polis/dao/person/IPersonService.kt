@@ -1,7 +1,6 @@
 package ru.mail.polis.dao.person
 
 import ru.mail.polis.dao.DaoException
-import kotlin.jvm.Throws
 
 interface IPersonService {
     @Throws(DaoException::class)
@@ -18,5 +17,7 @@ interface IPersonService {
 
     @Throws(DaoException::class)
     suspend fun deletePersonByEmail(email: String)
+
+    @Throws(DaoException::class)
     suspend fun isExist(email: String): Boolean
 }

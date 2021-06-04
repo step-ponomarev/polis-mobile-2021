@@ -30,15 +30,31 @@ class AdvertViewModel : ViewModel() {
         }
     }
 
-    suspend fun updatePerson(person: PersonED): PersonED {
-        return withContext(Dispatchers.IO) {
-            personService.updatePerson(person)
+    @Throws(NotificationKeeperException::class)
+    suspend fun updatePerson(personED: PersonED): PersonED {
+        try {
+            return withContext(Dispatchers.IO) {
+                personService.updatePerson(personED)
+            }
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failed to update person $personED",
+                NotificationKeeperException.NotificationType.DAO_ERROR
+            )
         }
     }
 
+    @Throws(NotificationKeeperException::class)
     suspend fun getPersonByEmail(email: String): PersonED? {
-        return withContext(Dispatchers.IO) {
-            personService.findByEmail(email)
+        try {
+            return withContext(Dispatchers.IO) {
+                personService.findByEmail(email)
+            }
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failed to get person with email: $email",
+                NotificationKeeperException.NotificationType.DAO_ERROR
+            )
         }
     }
 

@@ -48,10 +48,11 @@ class AdvertCreationFragment : AdvertFragment() {
 
                 nameTextView.text = "${user.name} ${user.surname}"
                 ageTextView.text = user.age.toString()
+                // TODO надо ли ловить?
             } catch (e: NotificationKeeperException) {
                 NotificationCenter.showDefaultToast(
                     requireContext(),
-                    getString(R.string.toast_fill_all_advert_info)
+                    ""
                 )
             }
         }
