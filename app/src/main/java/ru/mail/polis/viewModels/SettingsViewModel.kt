@@ -19,7 +19,6 @@ import ru.mail.polis.dao.users.IUserService
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.dao.users.UserService
 import ru.mail.polis.notification.NotificationKeeperException
-import java.lang.IllegalStateException
 
 class SettingsViewModel : ViewModel() {
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
@@ -82,8 +81,17 @@ class SettingsViewModel : ViewModel() {
         }
     }
 
+    @Throws(NotificationKeeperException::class)
     suspend fun checkAdvertExist(email: String): Boolean {
-        return personService.isExist(email)
+        try {
+            return personService.isExist(email)
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failed to find advert with email: $email",
+                e,
+                NotificationKeeperException.NotificationType.DAO_ERROR
+            )
+        }
     }
 
     fun getUser(): LiveData<UserED> = userED
