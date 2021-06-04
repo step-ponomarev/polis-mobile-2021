@@ -103,7 +103,7 @@ class PeopleAdapter(
 
             for (i in 0..3.coerceAtMost(personView.rooms.size - 1)) {
                 cvRooms[i].visibility = View.VISIBLE
-                tvRooms[i].text = personView.rooms[i].label
+                tvRooms[i].text = itemView.context.getString(personView.rooms[i].stringId)
             }
             cardView.setOnClickListener {
                 val clickedPosition = adapterPosition

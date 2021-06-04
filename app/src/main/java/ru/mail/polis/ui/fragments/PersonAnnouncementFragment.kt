@@ -107,7 +107,7 @@ class PersonAnnouncementFragment : Fragment() {
 
         for (i in 0..3.coerceAtMost(personView.rooms.size - 1)) {
             cvRooms[i].visibility = View.VISIBLE
-            tvRooms[i].text = personView.rooms[i].label
+            tvRooms[i].text = getString(personView.rooms[i].stringId)
         }
         tvDescription.text = personView.description
 
