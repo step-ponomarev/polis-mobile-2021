@@ -73,6 +73,8 @@
     <string name="dialog_fragment_add_button_text">Добавить</string>
     <string name="dialog_fragment_cancel_button_text">Отмена</string>
     <string name="error_dao">Что-то пошло не так, приходите по-позже</string>
+    <string name="my_apartment_text">Моя квартира</string>
+    <string name="my_announcement">Мое объявление</string>
 
 
     <string-array name="genders_filter">
