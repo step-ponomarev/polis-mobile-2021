@@ -77,9 +77,9 @@
     <string name="my_apartment_text">My apartment</string>
     <string name="my_announcement">My announcement</string>
     <string name="text_you_offer_apartment_to">You offer apartment to person with name </string>
-    <string name="age_advert_let">age</string>
-    <string name="age_advert_god">age</string>
-    <string name="age_advert_goda">age</string>
+    <string name="age_advert_let">years</string>
+    <string name="age_advert_god">years</string>
+    <string name="age_advert_goda">years old</string>
 
 
     <string-array name="genders_filter">

@@ -52,7 +52,7 @@
     <string name="filters">Фильтры</string>
     <string name="menu_title_list_of_people_text">Объявления</string>
     <string name="menu_title_list_of_apartments">Список квартир</string>
-    <string name="menu_title_settings">Найстройки</string>
+    <string name="menu_title_settings">Настройки</string>
     <string name="toast_fill_all_information_about_user">Укажите всю информацию о себе</string>
     <string name="toast_changes_are_saved">Изменения сохранены</string>
     <string name="toast_fill_all_advert_info">Заполните обязательные поля</string>
