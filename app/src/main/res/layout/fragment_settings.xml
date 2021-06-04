@@ -50,64 +50,124 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/fragment_settings_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.13" />
+
                 <include
                     android:id="@+id/fragment_settings__change_avatar_component"
                     layout="@layout/change_avatar_component"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toTopOf="@id/fragment_settings__et_name"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed" />
+                    app:layout_constraintVertical_chainStyle="spread" />
+
+                <TextView
+                    android:id="@+id/fragment_settings__tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Имя"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@id/fragment_settings__et_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/fragment_settings_guideline"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__change_avatar_component" />
 
                 <EditText
                     android:id="@+id/fragment_settings__et_name"
                     android:layout_width="300dp"
                     android:layout_height="65dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:hint="@string/name_text"
                     android:inputType="text"
+                    app:layout_constraintBottom_toTopOf="@id/fragment_settings__tv_surname"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/fragment_settings_guideline"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__tv_name" />
+
+                <TextView
+                    android:id="@+id/fragment_settings__tv_surname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Фамилия"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@id/fragment_settings__et_surname"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__change_avatar_component" />
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/fragment_settings_guideline"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__et_name" />
 
                 <EditText
                     android:id="@+id/fragment_settings__et_surname"
                     android:layout_width="300dp"
                     android:layout_height="65dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:hint="@string/surname_text"
                     android:inputType="text"
+                    app:layout_constraintBottom_toTopOf="@id/fragment_settings__tv_phone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/fragment_settings_guideline"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__tv_surname" />
+
+                <TextView
+                    android:id="@+id/fragment_settings__tv_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Телефон"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@id/fragment_settings__et_phone"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__et_name" />
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/fragment_settings_guideline"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__et_surname" />
 
                 <EditText
                     android:id="@+id/fragment_settings__et_phone"
                     android:layout_width="300dp"
                     android:layout_height="65dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:hint="@string/phone_number_text"
                     android:inputType="phone"
+                    app:layout_constraintBottom_toTopOf="@id/fragment_settings__tv_age"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/fragment_settings_guideline"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__tv_phone" />
+
+                <TextView
+                    android:id="@+id/fragment_settings__tv_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Возраст"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@id/fragment_settings__et_age"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__et_surname" />
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/fragment_settings_guideline"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__et_phone" />
 
                 <EditText
                     android:id="@+id/fragment_settings__et_age"
                     android:layout_width="300dp"
                     android:layout_height="65dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:hint="@string/age_text"
                     android:inputType="number"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__et_phone" />
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/fragment_settings_guideline"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__tv_age" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
