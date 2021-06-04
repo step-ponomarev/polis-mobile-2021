@@ -85,7 +85,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/fragment_settings__et_name" />
 
-                <EditText
+                <com.github.pinball83.maskededittext.MaskedEditText
                     android:id="@+id/fragment_settings__et_phone"
                     android:layout_width="300dp"
                     android:layout_height="65dp"
@@ -95,7 +95,9 @@
                     app:layout_constraintBottom_toTopOf="@id/fragment_settings__et_age"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__et_surname" />
+                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__et_surname"
+                    app:mask="8 (***) ***-**-**"
+                    app:notMaskedSymbol="*" />
 
                 <EditText
                     android:id="@+id/fragment_settings__et_age"
