@@ -76,6 +76,10 @@
     <string name="error_dao">Something went wrong, come back later </string>
     <string name="my_apartment_text">My apartment</string>
     <string name="my_announcement">My announcement</string>
+    <string name="text_you_offer_apartment_to">You offer apartment to person with name </string>
+    <string name="age_advert_let">age</string>
+    <string name="age_advert_god">age</string>
+    <string name="age_advert_goda">age</string>
 
 
     <string-array name="genders_filter">

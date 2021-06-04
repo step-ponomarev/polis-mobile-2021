@@ -75,6 +75,10 @@
     <string name="error_dao">Что-то пошло не так, приходите по-позже</string>
     <string name="my_apartment_text">Моя квартира</string>
     <string name="my_announcement">Мое объявление</string>
+    <string name="text_you_offer_apartment_to">Вы предложили квартиру человеку с именем</string>
+    <string name="age_advert_let">лет</string>
+    <string name="age_advert_god">год</string>
+    <string name="age_advert_goda">года</string>
 
 
     <string-array name="genders_filter">
