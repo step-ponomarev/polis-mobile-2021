@@ -7,8 +7,10 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mail.polis.dao.Collections
+import ru.mail.polis.dao.DaoException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import kotlin.jvm.Throws
 
 class ApartmentService private constructor() : IApartmentService {
     private val db: FirebaseFirestore = Firebase.firestore
@@ -27,6 +29,7 @@ class ApartmentService private constructor() : IApartmentService {
         }
     }
 
+    @Throws(DaoException::class)
     override suspend fun findByEmail(email: String): ApartmentED? {
         val apartmentRef = apartmentCollection.document(email)
 
@@ -37,12 +40,13 @@ class ApartmentService private constructor() : IApartmentService {
                 }
                 .addOnFailureListener {
                     coroutine.resumeWithException(
-                        RuntimeException("Filed fetching apartment with email: $email", it)
+                        DaoException("Filed fetching apartment with email: $email", it)
                     )
                 }
         }
     }
 
+    @Throws(DaoException::class)
     override suspend fun findByEmails(emailList: Set<String>): List<ApartmentED> {
         return suspendCancellableCoroutine { coroutine ->
             apartmentCollection.whereIn("email", emailList.toList())
@@ -52,12 +56,13 @@ class ApartmentService private constructor() : IApartmentService {
                 }
                 .addOnFailureListener {
                     coroutine.resumeWithException(
-                        RuntimeException("Filed fetching apartment by email: $emailList", it)
+                        DaoException("Filed fetching apartments by emails: $emailList", it)
                     )
                 }
         }
     }
 
+    @Throws(DaoException::class)
     override suspend fun findAll(): List<ApartmentED> {
         return suspendCancellableCoroutine { coroutine ->
             apartmentCollection.get()
@@ -66,24 +71,17 @@ class ApartmentService private constructor() : IApartmentService {
                 }
                 .addOnFailureListener {
                     coroutine.resumeWithException(
-                        RuntimeException("Filed fetching apartment list", it)
+                        DaoException("Filed fetching apartment list", it)
                     )
                 }
         }
     }
 
+    @Throws(DaoException::class)
     override suspend fun addApartment(apartment: ApartmentED): ApartmentED {
         return suspendCancellableCoroutine { coroutine ->
             apartmentCollection.document(apartment.email!!)
                 .set(apartment)
-                .addOnFailureListener {
-                    coroutine.resumeWithException(
-                        RuntimeException(
-                            "Failure adding apartments with email: ${apartment.email}",
-                            it
-                        )
-                    )
-                }
                 .addOnSuccessListener {
                     Log.i(
                         this::class.java.name,
@@ -92,9 +90,18 @@ class ApartmentService private constructor() : IApartmentService {
 
                     coroutine.resume(apartment)
                 }
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        DaoException(
+                            "Failure adding apartments with email: ${apartment.email}",
+                            it
+                        )
+                    )
+                }
         }
     }
 
+    @Throws(DaoException::class)
     override suspend fun updateApartment(apartment: ApartmentED): ApartmentED {
         val apartmentRef = apartmentCollection.document(apartment.email!!)
 
@@ -102,7 +109,7 @@ class ApartmentService private constructor() : IApartmentService {
             apartmentRef.update(apartmentToMap(apartment))
                 .addOnFailureListener {
                     coroutine.resumeWithException(
-                        RuntimeException(
+                        DaoException(
                             "Failure updating person with email: ${apartment.email}",
                             it
                         )
@@ -114,6 +121,7 @@ class ApartmentService private constructor() : IApartmentService {
         }
     }
 
+    @Throws(DaoException::class)
     override suspend fun deleteApartmentByEmail(email: String) {
         val apartmentRef = apartmentCollection.document(email)
 
@@ -124,7 +132,7 @@ class ApartmentService private constructor() : IApartmentService {
                 }
                 .addOnFailureListener {
                     coroutine.resumeWithException(
-                        RuntimeException(
+                        DaoException(
                             "Failure deleting apartment with email: $email",
                             it
                         )
@@ -133,19 +141,12 @@ class ApartmentService private constructor() : IApartmentService {
         }
     }
 
+    @Throws(DaoException::class)
     override suspend fun isExist(email: String): Boolean {
         return suspendCancellableCoroutine { coroutine ->
 
             apartmentCollection.document(email)
                 .get()
-                .addOnFailureListener {
-                    coroutine.resumeWithException(
-                        RuntimeException(
-                            "Failure to find apartment with email: $email",
-                            it
-                        )
-                    )
-                }
                 .addOnSuccessListener { document ->
                     Log.i(
                         this::class.java.name,
@@ -157,12 +158,21 @@ class ApartmentService private constructor() : IApartmentService {
                         coroutine.resume(false)
                     }
                 }
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        DaoException(
+                            "Failure to find apartment with email: $email",
+                            it
+                        )
+                    )
+                }
         }
     }
 
     private fun apartmentToMap(apartment: ApartmentED): Map<String, Any?> {
         return mapOf(
             "email" to apartment.email,
+            "phone" to apartment.phone,
             "metro" to apartment.metro,
             "roomCount" to apartment.roomCount,
             "apartmentSquare" to apartment.apartmentSquare,

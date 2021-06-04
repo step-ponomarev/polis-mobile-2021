@@ -1,7 +1,6 @@
 package ru.mail.polis.ui.fragments
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -12,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.drawable.toBitmap
@@ -20,9 +18,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.imageview.ShapeableImageView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
+import ru.mail.polis.notification.NotificationCenter
+import ru.mail.polis.notification.NotificationKeeperException
+import ru.mail.polis.utils.StorageUtils
 import ru.mail.polis.viewModels.FirstCreationViewModel
 
 class FirstCreationFragment : Fragment() {
@@ -77,24 +81,34 @@ class FirstCreationFragment : Fragment() {
     private fun onContinueButton(view: View) {
 
         if (!checkField()) {
-            getToastAboutFillAllFields().show()
+            NotificationCenter.showDefaultToast(
+                requireContext(),
+                getString(R.string.toast_fill_all_information_about_user)
+            )
             return
         }
 
-        firstCreationViewModel.addUser(
-            UserED(
-                email = getEmail(),
+        GlobalScope.launch(Dispatchers.IO) {
+            val user = UserED(
+                email = StorageUtils.getCurrentUserEmail(requireContext()),
                 name = nameEditText.text.toString(),
                 surname = surnameEditText.text.toString(),
                 age = Integer.parseInt(ageEditText.text.toString()).toLong(),
                 phone = phoneEditText.text.toString(),
                 photo = null,
                 externalAccounts = emptyList()
-            ),
-            avatar.drawable.toBitmap()
-        )
+            )
 
-        findNavController().navigate(R.id.nav_graph__self_definition_fragment)
+            try {
+                firstCreationViewModel.addUser(user, avatar.drawable.toBitmap())
+                findNavController().navigate(R.id.nav_graph__self_definition_fragment)
+            } catch (e: NotificationKeeperException) {
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(R.string.error_dao)
+                )
+            }
+        }
     }
 
     private fun handleResult(result: ActivityResult) {
@@ -117,21 +131,5 @@ class FirstCreationFragment : Fragment() {
         }
 
         return true
-    }
-
-    private fun getToastAboutFillAllFields(): Toast {
-        return Toast.makeText(
-            requireContext(),
-            getString(R.string.toast_fill_all_information_about_user),
-            Toast.LENGTH_SHORT
-        )
-    }
-
-    private fun getEmail(): String {
-        return activity?.getSharedPreferences(
-            getString(R.string.preference_file_key),
-            Context.MODE_PRIVATE
-        )?.getString(getString(R.string.preference_email_key), null)
-            ?: throw IllegalStateException("Email not found")
     }
 }

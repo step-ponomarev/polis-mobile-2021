@@ -16,8 +16,10 @@ import ru.mail.polis.R
 import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.metro.Metro
+import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.room.RoomCount
 import ru.mail.polis.tags.Tags
+import ru.mail.polis.utils.StorageUtils
 
 class AdvertEditingFragment : AdvertFragment() {
 
@@ -38,7 +40,7 @@ class AdvertEditingFragment : AdvertFragment() {
 
         editAdvertButton.setOnClickListener(this::onClickEditButton)
 
-        val email = getEmail()
+        val email = StorageUtils.getCurrentUserEmail(requireContext())
 
         GlobalScope.launch(Dispatchers.Main) {
             val user = viewModel.fetchUser(email)
@@ -49,7 +51,10 @@ class AdvertEditingFragment : AdvertFragment() {
             if (personED != null) {
                 fillFields(personED, user)
             } else {
-                getToastWithText(getString(R.string.toast_there_are_no_advert_to_edit))
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(R.string.toast_there_are_no_advert_to_edit)
+                )
             }
         }
     }
@@ -75,11 +80,14 @@ class AdvertEditingFragment : AdvertFragment() {
             costFrom.isBlank() ||
             costTo.isBlank()
         ) {
-            getToastWithText(getString(R.string.toast_fill_all_advert_info)).show()
+            NotificationCenter.showDefaultToast(
+                requireContext(),
+                getString(R.string.toast_fill_all_advert_info)
+            )
             return
         }
 
-        val email = getEmail()
+        val email = StorageUtils.getCurrentUserEmail(requireContext())
         GlobalScope.launch(Dispatchers.Main) {
 
             val user = viewModel.fetchUser(email)
@@ -96,7 +104,10 @@ class AdvertEditingFragment : AdvertFragment() {
 
             viewModel.updatePerson(person)
 
-            getToastWithText(getString(R.string.toasts_user_changed_advert_info)).show()
+            NotificationCenter.showDefaultToast(
+                requireContext(),
+                getString(R.string.toasts_user_changed_advert_info)
+            )
         }
     }
 
@@ -117,7 +128,6 @@ class AdvertEditingFragment : AdvertFragment() {
                 }
             }
         }
-
 
         val tags: List<ImageView> = Tags.values().map { tag ->
             if (tag in personED.tags) {

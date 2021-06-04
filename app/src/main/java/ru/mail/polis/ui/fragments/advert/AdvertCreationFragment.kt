@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
@@ -15,8 +14,10 @@ import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.metro.Metro
+import ru.mail.polis.notification.NotificationCenter
+import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.room.RoomCount
-import ru.mail.polis.tags.Tags
+import ru.mail.polis.utils.StorageUtils
 
 class AdvertCreationFragment : AdvertFragment() {
 
@@ -35,17 +36,24 @@ class AdvertCreationFragment : AdvertFragment() {
 
         addAdvertButton = view.findViewById(R.id.fragment_advert_creation__continue_btn)
 
-        val email = getEmail()
+        val email = StorageUtils.getCurrentUserEmail(requireContext())
         GlobalScope.launch(Dispatchers.Main) {
-            user = viewModel.fetchUser(email)
-                ?: throw IllegalStateException("User not found by email: $email")
+            try {
+                user = viewModel.fetchUser(email)
+                    ?: throw IllegalStateException("User not found by email: $email")
 
-            if (user.photo != null) {
-                Glide.with(avatarImageView).load(user.photo).into(avatarImageView)
+                if (user.photo != null) {
+                    Glide.with(avatarImageView).load(user.photo).into(avatarImageView)
+                }
+
+                nameTextView.text = "${user.name} ${user.surname}"
+                ageTextView.text = user.age.toString()
+            } catch (e: NotificationKeeperException) {
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(R.string.toast_fill_all_advert_info)
+                )
             }
-
-            nameTextView.text = "${user.name} ${user.surname}"
-            ageTextView.text = user.age.toString()
         }
 
         addAdvertButton.setOnClickListener(this::onClickAddAdvert)
@@ -72,16 +80,15 @@ class AdvertCreationFragment : AdvertFragment() {
             costFrom.isBlank() ||
             costTo.isBlank()
         ) {
-            getToastWithText(getString(R.string.toast_fill_all_advert_info)).show()
+            NotificationCenter.showDefaultToast(
+                requireContext(),
+                getString(R.string.toast_fill_all_advert_info)
+            )
             return
         }
 
-        val email = getEmail()
+        val email = StorageUtils.getCurrentUserEmail(requireContext())
         GlobalScope.launch(Dispatchers.Main) {
-
-            val user = viewModel.fetchUser(email)
-                ?: throw IllegalStateException("Null user by email: $email")
-
             val person = PersonED.Builder.createBuilder()
                 .email(email)
                 .metro(Metro.from(metro))
@@ -91,8 +98,15 @@ class AdvertCreationFragment : AdvertFragment() {
                 .tags(tagsForPerson)
                 .build()
 
-            viewModel.addPerson(person)
-            findNavController().navigate(R.id.nav_graph__list_of_people)
+            try {
+                viewModel.addPerson(person)
+                findNavController().navigate(R.id.nav_graph__list_of_people)
+            } catch (e: NotificationKeeperException) {
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(e.getResourceStringCode())
+                )
+            }
         }
     }
 }

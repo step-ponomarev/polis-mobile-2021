@@ -83,7 +83,11 @@
     <fragment
         android:id="@+id/nav_graph__proposed_apartments_fragment"
         android:name="ru.mail.polis.ui.fragments.ProposedApartmentsFragment"
-        android:label="ProposedApartmentsFragment" />
+        android:label="ProposedApartmentsFragment" >
+        <action
+            android:id="@+id/action_nav_graph__proposed_apartments_fragment_to_fragmentShowOneApartment"
+            app:destination="@id/fragmentShowOneApartment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_graph__advert_creation_fragment"
@@ -99,4 +103,12 @@
         android:id="@+id/nav_graph__edit_apartment_fragment"
         android:name="ru.mail.polis.ui.fragments.apartment.EditApartmentFragment"
         android:label="EditApartmentFragment" />
+    <fragment
+        android:id="@+id/fragmentShowOneApartment"
+        android:name="ru.mail.polis.ui.fragments.FragmentShowOneApartment"
+        android:label="FragmentShowOneApartment" >
+        <argument
+            android:name="apartment"
+            app:argType="ru.mail.polis.list.of.apartments.ApartmentView" />
+    </fragment>
 </navigation>

@@ -1,7 +1,6 @@
 package ru.mail.polis.ui.fragments
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -13,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.drawable.toBitmap
@@ -28,10 +26,12 @@ import kotlinx.coroutines.withContext
 import ru.mail.polis.R
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
+import ru.mail.polis.notification.NotificationCenter
+import ru.mail.polis.notification.NotificationKeeperException
+import ru.mail.polis.utils.StorageUtils
 import ru.mail.polis.viewModels.SettingsViewModel
 
 class SettingsFragment : Fragment() {
-
     private lateinit var editButton: Button
     private lateinit var changePhotoButton: Button
     private lateinit var nameEditText: EditText
@@ -74,7 +74,9 @@ class SettingsFragment : Fragment() {
 
         settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
 
-        settingsViewModel.getUserInfo(getEmail())
+        GlobalScope.launch(Dispatchers.IO) {
+            settingsViewModel.getUserInfo(StorageUtils.getCurrentUserEmail(requireContext()))
+        }
 
         settingsViewModel.getUser().observe(
             viewLifecycleOwner,
@@ -114,32 +116,38 @@ class SettingsFragment : Fragment() {
             null
         }
 
-        settingsViewModel.updateUser(
-            UserED(
-                email = getEmail(),
-                name = nameEditText.text.toString(),
-                surname = surnameEditText.text.toString(),
-                phone = phoneEditText.text.toString(),
-                age = Integer.parseInt(ageEditText.text.toString()).toLong(),
-                externalAccounts = emptyList(),
-                photo = photo
-            ),
-            bitmap
+        val user = UserED(
+            email = StorageUtils.getCurrentUserEmail(requireContext()),
+            name = nameEditText.text.toString(),
+            surname = surnameEditText.text.toString(),
+            phone = phoneEditText.text.toString(),
+            age = Integer.parseInt(ageEditText.text.toString()).toLong(),
+            externalAccounts = emptyList(),
+            photo = photo
         )
 
-        getToastThatUserChangedInformation().show()
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                settingsViewModel.updateUser(user, bitmap)
+                NotificationCenter.showDefaultToast(requireContext(), getString(R.string.toast_changes_are_saved))
+            } catch (e: NotificationKeeperException) {
+                NotificationCenter.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
+            }
+        }
     }
 
     private fun onClickApartmentButton(view: View) {
-
         GlobalScope.launch(Dispatchers.Main) {
-            val exist = withContext(Dispatchers.IO) {
-                settingsViewModel.checkApartmentExist(getEmail())
-            }
+            try {
+                val exist = withContext(Dispatchers.IO) {
+                    settingsViewModel.checkApartmentExist(StorageUtils.getCurrentUserEmail(requireContext()))
+                }
 
-            if (exist) {
-                findNavController().navigate(R.id.nav_graph__edit_apartment_fragment)
-            } else {
+                if (exist) {
+                    findNavController().navigate(R.id.nav_graph__edit_apartment_fragment)
+                    return@launch
+                }
+
                 val dialogFragment =
                     CustomDialogFragment(
                         title = getString(R.string.dialog_fragment_title_add_apartment),
@@ -153,6 +161,8 @@ class SettingsFragment : Fragment() {
                         }
                     )
                 dialogFragment.show(parentFragmentManager, "Apartment editing")
+            } catch (e: NotificationKeeperException) {
+                NotificationCenter.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
             }
         }
     }
@@ -160,7 +170,7 @@ class SettingsFragment : Fragment() {
     private fun onClockPersonButton(view: View) {
         GlobalScope.launch(Dispatchers.Main) {
             val exist = withContext(Dispatchers.IO) {
-                settingsViewModel.checkAdvertExist(getEmail())
+                settingsViewModel.checkAdvertExist(StorageUtils.getCurrentUserEmail(requireContext()))
             }
 
             if (exist) {
@@ -183,14 +193,6 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun getEmail(): String {
-        return activity?.getSharedPreferences(
-            getString(R.string.preference_file_key),
-            Context.MODE_PRIVATE
-        )?.getString(getString(R.string.preference_email_key), null)
-            ?: throw IllegalStateException("Email not found")
-    }
-
     private fun handleResult(result: ActivityResult) {
         if (result.resultCode == Activity.RESULT_OK) {
 
@@ -202,13 +204,5 @@ class SettingsFragment : Fragment() {
             avatar.setImageBitmap(bitmap)
             currentPhotoUrl = null
         }
-    }
-
-    private fun getToastThatUserChangedInformation(): Toast {
-        return Toast.makeText(
-            requireContext(),
-            getString(R.string.toast_changes_are_saved),
-            Toast.LENGTH_SHORT
-        )
     }
 }

@@ -9,7 +9,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -20,11 +19,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
-import ru.mail.polis.exception.NotificationKeeperException
 import ru.mail.polis.helpers.getAgeString
 import ru.mail.polis.list.of.people.PersonView
+import ru.mail.polis.notification.NotificationCenter
+import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.room.RoomCount
 import ru.mail.polis.tags.Tags
+import ru.mail.polis.utils.StorageUtils
 import ru.mail.polis.viewModels.PersonAnnouncementViewModel
 
 class PersonAnnouncementFragment : Fragment() {
@@ -133,13 +134,19 @@ class PersonAnnouncementFragment : Fragment() {
                     )
 
                 viewModel.offerApartment(
-                    getEmail(),
+                    StorageUtils.getCurrentUserEmail(requireContext()),
                     emailPerson
                 )
 
-                getToastWithText("Вы предложили квартиру человеку с именем ${personView.name}").show()
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    "Вы предложили квартиру человеку с именем ${personView.name}"
+                )
             } catch (e: NotificationKeeperException) {
-                getToastWithText(getString(e.getResourceStringCode())).show()
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(e.getResourceStringCode())
+                )
             }
         }
     }
@@ -161,21 +168,5 @@ class PersonAnnouncementFragment : Fragment() {
         Glide.with(iv)
             .load(url)
             .into(iv)
-    }
-
-    private fun getEmail(): String {
-        return activity?.getSharedPreferences(
-            getString(R.string.preference_file_key),
-            Context.MODE_PRIVATE
-        )?.getString(getString(R.string.preference_email_key), null)
-            ?: throw IllegalStateException("Email not found")
-    }
-
-    private fun getToastWithText(text: String): Toast {
-        return Toast.makeText(
-            requireContext(),
-            text,
-            Toast.LENGTH_SHORT
-        )
     }
 }

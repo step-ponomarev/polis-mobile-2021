@@ -1,6 +1,5 @@
 package ru.mail.polis.ui.fragments.advert
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.ChipGroup
 import ru.mail.polis.R
@@ -34,7 +32,6 @@ abstract class AdvertFragment : Fragment() {
     protected lateinit var aboutMeEditText: EditText
     protected lateinit var llTags: LinearLayout
     protected var tagsForPerson: MutableList<Tags> = mutableListOf()
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,22 +57,6 @@ abstract class AdvertFragment : Fragment() {
         llTags = view.findViewById(R.id.fragment_advert_creation__ll_tags)
     }
 
-    protected fun getToastWithText(text: String): Toast {
-        return Toast.makeText(
-            requireContext(),
-            text,
-            Toast.LENGTH_SHORT
-        )
-    }
-
-    protected fun getEmail(): String {
-        return activity?.getSharedPreferences(
-            getString(R.string.preference_file_key),
-            Context.MODE_PRIVATE
-        )?.getString(getString(R.string.preference_email_key), null)
-            ?: throw IllegalStateException("Email not found")
-    }
-
     protected fun tagToImageButton(tag: Tags, defaultTagImage: Boolean = true): ImageButton {
         val ib = ImageButton(requireContext())
         ib.layoutParams = ViewGroup.LayoutParams(
@@ -85,12 +66,14 @@ abstract class AdvertFragment : Fragment() {
         ib.adjustViewBounds = true
         ib.background = null
         ib.setPadding(5, 5, 5, 5)
+
         if (!defaultTagImage) {
             ib.setImageResource(tag.activeImage)
             tagsForPerson.add(tag)
         } else {
             ib.setImageResource(tag.defaultImage)
         }
+
         ib.setOnClickListener {
             if (tag in tagsForPerson) {
                 ib.setImageResource(tag.defaultImage)
