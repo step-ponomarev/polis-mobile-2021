@@ -12,7 +12,6 @@ import ru.mail.polis.dao.propose.ProposeED
 import ru.mail.polis.dao.propose.ProposeService
 import ru.mail.polis.dao.propose.ProposeStatus
 import ru.mail.polis.notification.NotificationKeeperException
-import java.lang.IllegalStateException
 import kotlin.coroutines.resumeWithException
 
 class PersonAnnouncementViewModel : ViewModel() {
