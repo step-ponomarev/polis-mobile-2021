@@ -17,5 +17,4 @@ interface IProposeService {
 
     @Throws(DaoException::class)
     suspend fun updatePropose(proposeED: ProposeED): ProposeED
-
 }

@@ -9,7 +9,7 @@ import ru.mail.polis.dao.propose.ProposeED
 import ru.mail.polis.dao.propose.ProposeService
 import ru.mail.polis.notification.NotificationKeeperException
 
-class ShowOneApartmentViewModel: ViewModel() {
+class ShowOneApartmentViewModel : ViewModel() {
     private val proposeService: IProposeService = ProposeService.getInstance()
 
     @Throws(NotificationKeeperException::class)

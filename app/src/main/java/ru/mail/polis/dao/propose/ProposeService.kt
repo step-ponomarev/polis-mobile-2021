@@ -3,17 +3,12 @@ package ru.mail.polis.dao.propose
 import android.util.Log
 import com.google.android.gms.common.util.CollectionUtils
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.DaoException
-import ru.mail.polis.dao.apartments.ApartmentED
-import ru.mail.polis.dao.person.PersonED
-import java.lang.IllegalArgumentException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -69,8 +64,6 @@ class ProposeService(
                 }
         }
     }
-
-
 
     override suspend fun checkProposeExist(ownerEmail: String, renterEmail: String): Boolean {
         return suspendCancellableCoroutine { coroutine ->
@@ -143,5 +136,4 @@ class ProposeService(
             "status" to proposeED.status
         )
     }
-
 }

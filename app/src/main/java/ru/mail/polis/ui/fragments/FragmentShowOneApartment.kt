@@ -3,7 +3,6 @@ package ru.mail.polis.ui.fragments
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -31,7 +30,6 @@ import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.utils.StorageUtils
 import ru.mail.polis.viewModels.ShowOneApartmentViewModel
-
 
 class FragmentShowOneApartment : Fragment() {
 
@@ -78,7 +76,6 @@ class FragmentShowOneApartment : Fragment() {
         apartmentCost = view.findViewById(R.id.component_proposed_apartment_item__cost_text)
         photoContainer = view.findViewById(R.id.component_proposed_apartment_item__photos_container)
 
-
         if (apartment.ownerAvatar != null) {
             Glide.with(view).load(apartment.ownerAvatar).into(userAvatar)
         } else {
@@ -105,7 +102,7 @@ class FragmentShowOneApartment : Fragment() {
 
         photos.forEach(photoContainer::addView)
 
-        if(propose.status == ProposeStatus.ACCEPTED) {
+        if (propose.status == ProposeStatus.ACCEPTED) {
             phoneButton.text = apartment.phone
             phoneContainer.visibility = View.VISIBLE
         } else {
@@ -136,7 +133,6 @@ class FragmentShowOneApartment : Fragment() {
                             ProposeStatus.ACCEPTED
                         )
                     )
-
                 } catch (e: NotificationKeeperException) {
                     NotificationCenter.showDefaultToast(
                         requireContext(),
@@ -159,7 +155,6 @@ class FragmentShowOneApartment : Fragment() {
                             ProposeStatus.REJECTED
                         )
                     )
-
                 } catch (e: NotificationKeeperException) {
                     NotificationCenter.showDefaultToast(
                         requireContext(),

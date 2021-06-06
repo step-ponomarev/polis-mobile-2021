@@ -48,7 +48,6 @@ class ProposedApartmentsViewModel : ViewModel() {
         }
     }
 
-
     @Throws(NotificationKeeperException::class)
     suspend fun fetchProposeByRenterEmail(email: String): List<ProposeED> {
         try {

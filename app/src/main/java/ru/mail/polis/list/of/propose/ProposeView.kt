@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 import ru.mail.polis.dao.propose.ProposeStatus
 
 @Parcelize
-class ProposeView (
+class ProposeView(
     var ownerEmail: String?,
     var renterEmail: String?,
     var status: ProposeStatus?
@@ -15,7 +15,6 @@ class ProposeView (
         var ownerEmail: String? = null
         var renterEmail: String? = null
         var status: ProposeStatus? = null
-
 
         companion object {
             fun createBuilder(): Builder {
