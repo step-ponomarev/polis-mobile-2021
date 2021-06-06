@@ -1,6 +1,9 @@
 package ru.mail.polis.ui.fragments
 
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,8 +17,18 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import ru.mail.polis.R
+import ru.mail.polis.dao.propose.ProposeED
+import ru.mail.polis.dao.propose.ProposeStatus
 import ru.mail.polis.list.of.apartments.ApartmentView
+import ru.mail.polis.notification.NotificationCenter
+import ru.mail.polis.notification.NotificationKeeperException
+import ru.mail.polis.utils.StorageUtils
+import ru.mail.polis.viewModels.ShowOneApartmentViewModel
+
 
 class FragmentShowOneApartment : Fragment() {
 
@@ -30,9 +43,9 @@ class FragmentShowOneApartment : Fragment() {
     private lateinit var apartmentSquare: TextView
     private lateinit var apartmentCost: TextView
     private lateinit var photoContainer: LinearLayout
-    private lateinit var phoneText: TextView
     private lateinit var rejectButton: Button
-
+    private lateinit var phoneButton: Button
+    private var viewModel = ShowOneApartmentViewModel()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,6 +59,7 @@ class FragmentShowOneApartment : Fragment() {
         apartment = args.apartment
         rejectButton = view.findViewById(R.id.fragment_show_one_apartment__reject)
         showPhoneButton = view.findViewById(R.id.fragment_show_one_apartment__btn_show_phone)
+        phoneButton = view.findViewById(R.id.fragment_show_one_apartment__phone)
         userAvatar = view.findViewById(R.id.component_person_header__avatar)
         apartmentOwnerName = view.findViewById(R.id.component_person_header__name)
         apartmentOwnerAge = view.findViewById(R.id.component_person_header__age)
@@ -56,7 +70,6 @@ class FragmentShowOneApartment : Fragment() {
         apartmentSquare = view.findViewById(R.id.component_proposed_apartment_item__square_text)
         apartmentCost = view.findViewById(R.id.component_proposed_apartment_item__cost_text)
         photoContainer = view.findViewById(R.id.component_proposed_apartment_item__photos_container)
-        phoneText = view.findViewById(R.id.fragment_show_one_apartment__phone)
 
         if (apartment.ownerAvatar != null) {
             Glide.with(view).load(apartment.ownerAvatar).into(userAvatar)
@@ -84,13 +97,61 @@ class FragmentShowOneApartment : Fragment() {
 
         photos.forEach(photoContainer::addView)
 
-        showPhoneButton.setOnClickListener {
-            phoneText.text = apartment.phone
-            it.visibility = View.INVISIBLE
-            rejectButton.visibility = View.INVISIBLE
-            phoneText.visibility = View.VISIBLE
+        phoneButton.setOnClickListener {
+            val number = Uri.parse("tel:" + apartment.phone)
+            val callIntent: Intent = Intent(Intent.ACTION_DIAL, number)
+
+            val packageManager: PackageManager = requireActivity().packageManager
+            val activities = packageManager.queryIntentActivities(callIntent, 0)
+            val isIntentSafe = activities.size > 0
+            if (isIntentSafe) {
+                startActivity(callIntent)
+            }
         }
 
+        showPhoneButton.setOnClickListener {
+            phoneButton.text = apartment.phone
+            GlobalScope.launch(Dispatchers.Main) {
+                try {
+                    viewModel.updateProposeED(
+                        ProposeED(
+                            apartment.email,
+                            apartment.email,
+                            ProposeStatus.ACCEPTED
+                        )
+                    )
+
+                } catch (e: NotificationKeeperException) {
+                    NotificationCenter.showDefaultToast(
+                        requireContext(),
+                        getString(e.getResourceStringCode())
+                    )
+                }
+            }
+            it.visibility = View.INVISIBLE
+            rejectButton.visibility = View.INVISIBLE
+            phoneButton.visibility = View.VISIBLE
+        }
+
+        rejectButton.setOnClickListener {
+            GlobalScope.launch(Dispatchers.Main) {
+
+                val propose = ProposeED(
+                    StorageUtils.getCurrentUserEmail(requireContext()),
+                    apartment.email,
+                    ProposeStatus.REJECTED
+                )
+
+                try {
+                    viewModel.updateProposeED(propose)
+                } catch (e: NotificationKeeperException) {
+                    NotificationCenter.showDefaultToast(
+                        requireContext(),
+                        getString(e.getResourceStringCode())
+                    )
+                }
+            }
+        }
     }
 
     private fun urlToImageView(context: Context, url: String): ImageView {

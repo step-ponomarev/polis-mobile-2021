@@ -14,4 +14,8 @@ interface IProposeService {
 
     @Throws(DaoException::class)
     suspend fun checkProposeExist(ownerEmail: String, renterEmail: String): Boolean
+
+    @Throws(DaoException::class)
+    suspend fun updatePropose(proposeED: ProposeED): ProposeED
+
 }

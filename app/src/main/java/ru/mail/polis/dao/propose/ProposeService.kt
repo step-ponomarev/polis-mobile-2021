@@ -3,12 +3,16 @@ package ru.mail.polis.dao.propose
 import android.util.Log
 import com.google.android.gms.common.util.CollectionUtils
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.DaoException
+import ru.mail.polis.dao.apartments.ApartmentED
+import ru.mail.polis.dao.person.PersonED
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -65,6 +69,8 @@ class ProposeService(
         }
     }
 
+
+
     override suspend fun checkProposeExist(ownerEmail: String, renterEmail: String): Boolean {
         return suspendCancellableCoroutine { coroutine ->
             proposeCollection.whereEqualTo("ownerEmail", ownerEmail)
@@ -78,6 +84,26 @@ class ProposeService(
                     coroutine.resumeWithException(
                         DaoException(
                             "Failed fetching apartment propose by ownerEmail: $ownerEmail and renterEmail: $renterEmail",
+                            it
+                        )
+                    )
+                }
+        }
+    }
+
+    override suspend fun updatePropose(proposeED: ProposeED): ProposeED {
+        val proposeRef = proposeCollection.document(proposeED.renterEmail!!)
+
+        return suspendCancellableCoroutine { coroutine ->
+            proposeRef
+                .update(proposeToMap(proposeED))
+                .addOnSuccessListener {
+                    coroutine.resume(proposeED)
+                }
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        DaoException(
+                            "Failure updating propose with emails: ${proposeED.ownerEmail}, ${proposeED.renterEmail}",
                             it
                         )
                     )
@@ -107,4 +133,12 @@ class ProposeService(
                 }
         }
     }
+    private fun proposeToMap(proposeED: ProposeED): Map<String, Any?> {
+        return mapOf(
+            "ownerEmail" to proposeED.ownerEmail,
+            "renterEmail" to proposeED.renterEmail,
+            "status" to proposeED.status
+        )
+    }
+
 }
