@@ -20,7 +20,7 @@
 
 ​	[Илья Сачук](https://github.com/IlyaAAAA)
 
-​	[Виктория Пеутина](https://github.com/NickPeut)
+​	[Ника Пеутина](https://github.com/NickPeut)
 
 *Проект выполнен в рамках дисциплины "Мобильная разработка" [Технополис](https://polis.mail.ru/).*
 
