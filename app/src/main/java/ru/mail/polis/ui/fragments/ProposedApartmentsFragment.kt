@@ -14,11 +14,13 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.apartments.ApartmentED
+import ru.mail.polis.dao.propose.ProposeED
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.list.ListItemClickListener
 import ru.mail.polis.list.RecyclerViewListDecoration
 import ru.mail.polis.list.of.apartments.ApartmentView
 import ru.mail.polis.list.of.apartments.ApartmentsAdapter
+import ru.mail.polis.list.of.propose.ProposeView
 import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.utils.StorageUtils
@@ -28,12 +30,15 @@ import java.util.Objects
 class ProposedApartmentsFragment : Fragment() {
     private lateinit var viewModel: ProposedApartmentsViewModel
     private lateinit var apartments: List<ApartmentView>
+    private lateinit var proposes: List<ProposeView>
 
     private val onListItemClick = ListItemClickListener {
         val apartment: ApartmentView = apartments[it]
+        val propose: ProposeView = proposes.find { pr -> pr.ownerEmail == apartment.email }!!
         val action =
             ProposedApartmentsFragmentDirections.actionNavGraphProposedApartmentsFragmentToFragmentShowOneApartment(
-                apartment
+                apartment,
+                propose
             )
         findNavController().navigate(action)
     }
@@ -61,6 +66,7 @@ class ProposedApartmentsFragment : Fragment() {
         val email: String = StorageUtils.getCurrentUserEmail(requireContext())
         GlobalScope.launch(Dispatchers.Main) {
             try {
+                proposes = toProposeView(viewModel.fetchProposeByRenterEmail(email))
                 val apartmentsMutable = viewModel.fetchApartmentsByRenterEmail(email).toMutableList()
                 if (apartmentsMutable.isEmpty()) {
                     return@launch
@@ -120,6 +126,18 @@ class ProposedApartmentsFragment : Fragment() {
                 .metro(apartment.metro!!)
                 .roomCount(apartment.roomCount!!)
                 .photosUrls(apartment.photosUrls)
+                .build()
+        }
+    }
+
+    private fun toProposeView(
+        proposeED: List<ProposeED>
+    ): List<ProposeView> {
+        return proposeED.map { propose ->
+            ProposeView.Builder.createBuilder()
+                .ownerEmail(propose.ownerEmail!!)
+                .renterEmail(propose.renterEmail!!)
+                .status(propose.status!!)
                 .build()
         }
     }

@@ -13,6 +13,7 @@ import ru.mail.polis.dao.Collections
 import ru.mail.polis.dao.DaoException
 import ru.mail.polis.dao.apartments.ApartmentED
 import ru.mail.polis.dao.person.PersonED
+import java.lang.IllegalArgumentException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -92,18 +93,20 @@ class ProposeService(
     }
 
     override suspend fun updatePropose(proposeED: ProposeED): ProposeED {
-        val proposeRef = proposeCollection.document(proposeED.renterEmail!!)
-
         return suspendCancellableCoroutine { coroutine ->
-            proposeRef
-                .update(proposeToMap(proposeED))
+            proposeCollection.whereEqualTo("ownerEmail", proposeED.ownerEmail)
+                .whereEqualTo("renterEmail", proposeED.renterEmail)
+                .get()
                 .addOnSuccessListener {
-                    coroutine.resume(proposeED)
+                    if (it.documents.size == 1) {
+                        it.documents[0].reference.update(proposeToMap(proposeED))
+                        coroutine.resume(it.toObjects(ProposeED::class.java)[0])
+                    }
                 }
                 .addOnFailureListener {
                     coroutine.resumeWithException(
                         DaoException(
-                            "Failure updating propose with emails: ${proposeED.ownerEmail}, ${proposeED.renterEmail}",
+                            "Failed apdate propose by ownerEmail: ${proposeED.ownerEmail} and renterEmail: $proposeED.renterEmail",
                             it
                         )
                     )

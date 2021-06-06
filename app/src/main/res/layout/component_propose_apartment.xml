@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp">
+
+    <include
+        android:id="@+id/component_proposed_apartment_item__userHeader"
+        layout="@layout/component_person_header"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/component_proposed_apartment_item__metro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/component_proposed_apartment_item__userHeader">
+
+        <ImageView
+            android:id="@+id/component_proposed_apartment_item__metro_icon"
+            style="@style/icon"
+            android:src="@drawable/ic_train" />
+
+        <TextView
+            android:id="@+id/component_proposed_apartment_item__metro_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:textAlignment="center" />
+
+        <ImageView
+            android:id="@+id/component_proposed_apartment_item__metro_branch_color"
+            style="@style/metroCircle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/shape_metro_circle"
+            android:contentDescription="branch color" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/component_proposed_apartment_item__cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/component_proposed_apartment_item__metro">
+
+        <ImageView
+            android:id="@+id/component_proposed_apartment_item__cost_icon"
+            style="@style/icon"
+            android:src="@drawable/ic_wallet" />
+
+        <TextView
+            android:id="@+id/component_proposed_apartment_item__cost_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/component_proposed_apartment_item__square"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/component_proposed_apartment_item__cost">
+
+        <ImageView
+            android:id="@+id/component_proposed_apartment_item__square_icon"
+            style="@style/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_squared_m" />
+
+        <TextView
+            android:id="@+id/component_proposed_apartment_item__square_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/component_proposed_apartment_item__photos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/component_proposed_apartment_item__square">
+
+        <ImageView
+            android:id="@+id/component_proposed_apartment_item__photos_icon"
+            style="@style/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_img" />
+
+        <TextView
+            android:id="@+id/component_proposed_apartment_item__photos_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/photos_label"
+            android:textAlignment="center"
+
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/component_proposed_apartment_item__photos">
+
+        <LinearLayout
+            android:id="@+id/component_proposed_apartment_item__photos_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"></LinearLayout>
+    </HorizontalScrollView>
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/component_proposed_apartment_item__room_count_chip"
+        style="@style/Widget.MaterialComponents.Chip.Choice"
+        android:layout_width="112dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:checkable="false"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:theme="@style/Theme.MaterialComponents.Light"
+        app:layout_constraintLeft_toRightOf="@id/component_proposed_apartment_item__metro"
+        app:layout_constraintTop_toBottomOf="@id/component_proposed_apartment_item__userHeader" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
