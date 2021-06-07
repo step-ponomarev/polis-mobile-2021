@@ -24,20 +24,25 @@ class ProposedApartmentsViewModel : ViewModel() {
     @Throws(NotificationKeeperException::class)
     suspend fun fetchApartmentsByRenterEmail(email: String): List<ApartmentED> {
         try {
-            val proposeList = withContext(Dispatchers.IO) {
+            var proposeList = withContext(Dispatchers.IO) {
                 proposeService.findRenterEmail(email)
             }
 
             if (proposeList.isEmpty()) {
                 return emptyList()
             }
-
-            return withContext(Dispatchers.IO) {
-                apartmentService.findByEmails(
-                    proposeList.filter { proposeED -> proposeED.status != ProposeStatus.REJECTED }
-                        .map { proposeED -> proposeED.ownerEmail!! }
-                        .toSet()
-                )
+            proposeList =
+                proposeList.filter { proposeED -> proposeED.status != ProposeStatus.REJECTED }
+            if (proposeList.isNotEmpty()) {
+                return withContext(Dispatchers.IO) {
+                    apartmentService.findByEmails(
+                        proposeList.filter { proposeED -> proposeED.status != ProposeStatus.REJECTED }
+                            .map { proposeED -> proposeED.ownerEmail!! }
+                            .toSet()
+                    )
+                }
+            } else {
+                return emptyList()
             }
         } catch (e: DaoException) {
             throw NotificationKeeperException(
