@@ -1,5 +1,6 @@
 package ru.mail.polis.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ import ru.mail.polis.helpers.getAgeString
 import ru.mail.polis.list.of.people.PersonView
 import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
+import ru.mail.polis.room.RoomCount
 import ru.mail.polis.tags.Tags
 import ru.mail.polis.utils.StorageUtils
 import ru.mail.polis.viewModels.PersonAnnouncementViewModel
@@ -53,17 +55,9 @@ class PersonAnnouncementFragment : Fragment() {
         val tagBottomLineDivider: View =
             view.findViewById(R.id.fragment_person_announcement__tag_line_divider)
         viewModel = ViewModelProvider(this).get(PersonAnnouncementViewModel::class.java)
+        val roomLinearLayout: LinearLayout =
+            view.findViewById(R.id.fragment_person_announcement__ll_rooms)
 
-        val cvRooms: List<CardView> = listOf(
-            view.findViewById(R.id.fragment_person_announcement__ll_cv_rooms1),
-            view.findViewById(R.id.fragment_person_announcement__ll_cv_rooms2),
-            view.findViewById(R.id.fragment_person_announcement__ll_cv_rooms3)
-        )
-        val tvRooms: List<TextView> = listOf(
-            view.findViewById(R.id.fragment_person_announcement__ll_tv_rooms1),
-            view.findViewById(R.id.fragment_person_announcement__ll_tv_rooms2),
-            view.findViewById(R.id.fragment_person_announcement__ll_tv_rooms3)
-        )
         val tvDescription: TextView =
             view.findViewById(R.id.fragment_person_announcement__tv_description)
 
@@ -105,13 +99,30 @@ class PersonAnnouncementFragment : Fragment() {
                 view.context.getString(R.string.money, personView.moneyFrom, personView.moneyTo)
         }
 
-        for (i in 0..3.coerceAtMost(personView.rooms.size - 1)) {
-            cvRooms[i].visibility = View.VISIBLE
-            tvRooms[i].text = getString(personView.rooms[i].stringId)
+        personView.rooms.forEach { room ->
+            val cardView = createRoomCardView(requireContext(), room, roomLinearLayout)
+
+            roomLinearLayout.addView(cardView)
         }
+
         tvDescription.text = personView.description
 
         offerApartmentButton.setOnClickListener(this::onOfferApartment)
+    }
+
+    private fun createRoomCardView(
+        context: Context,
+        room: RoomCount,
+        root: ViewGroup
+    ): CardView {
+        val view: View =
+            LayoutInflater.from(context)
+                .inflate(R.layout.component_card_view_room, root, false)
+        val cardView: CardView = view.findViewById(R.id.component_card_view_room__card_view)
+        val textView: TextView = view.findViewById(R.id.component_card_view_room__text_view)
+
+        textView.text = room.label
+        return cardView
     }
 
     private fun onOfferApartment(view: View) {

@@ -71,7 +71,9 @@
         <action
             android:id="@+id/action_nav_graph__settings_fragment_to_edit_apartment_fragment"
             app:destination="@id/nav_graph__edit_apartment_fragment" />
-        <action android:id="@+id/action_nav_graph__settings_fragment_to_edit_person_announcement_fragment" />
+        <action
+            android:id="@+id/action_nav_graph__settings_fragment_to_edit_person_advert_fragment"
+            app:destination="@id/nav_graph__advert_editing_fragment" />
     </fragment>
 
     <fragment
@@ -89,8 +91,13 @@
 
     <fragment
         android:id="@+id/nav_graph__advert_creation_fragment"
-        android:name="ru.mail.polis.ui.fragments.AdvertCreationFragment"
+        android:name="ru.mail.polis.ui.fragments.advert.AdvertCreationFragment"
         android:label="AdvertCreationFragment" />
+
+    <fragment
+        android:id="@+id/nav_graph__advert_editing_fragment"
+        android:name="ru.mail.polis.ui.fragments.advert.AdvertEditingFragment"
+        android:label="AdvertEditingFragment" />
 
     <fragment
         android:id="@+id/nav_graph__edit_apartment_fragment"

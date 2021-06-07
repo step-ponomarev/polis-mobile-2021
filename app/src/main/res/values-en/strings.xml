@@ -81,6 +81,11 @@
     <string name="age_advert_god">years</string>
     <string name="age_advert_goda">years old</string>
     <string name="reject">Reject</string>
+    <string name="dialog_fragment_title_add_advert">Add advert</string>
+    <string name="dialog_fragment_message_add_advert">You do not have advert, want to add it?</string>
+    <string name="toast_there_are_no_advert_to_edit">You do not have advert to edit</string>
+    <string name="toasts_user_changed_advert_info">You changed information about advert</string>
+    <string name="toast_user_changed_apartment_info">You changed information about apartment</string>
 
 
     <string-array name="genders_filter">

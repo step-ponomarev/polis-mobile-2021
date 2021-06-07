@@ -55,7 +55,7 @@
     <string name="menu_title_settings">Настройки</string>
     <string name="toast_fill_all_information_about_user">Укажите всю информацию о себе</string>
     <string name="toast_changes_are_saved">Изменения сохранены</string>
-    <string name="toast_fill_all_advert_info">Заполните обязательные поля</string>
+    <string name="toast_fill_all_advert_info">Укажие всю информацию о квартире</string>
     <string name="toast_advert_unavailable">Объявление больше не доступно</string>
     <string name="toast_apartment_already_proposed">Вы уже предложили квартиру этому человеку</string>
     <string name="toast_no_apartments_yet">У вас нет доступных квартир</string>
@@ -69,10 +69,15 @@
     <string name="edit_apartment_text">Изменить квартиру</string>
     <string name="dialog_fragment_title_add_apartment">Добавление квартиры</string>
     <string name="dialog_fragment_message_add_apartment">У вас нет квартиры, хотите ее добавить?</string>
+    <string name="dialog_fragment_title_add_advert">Добавление объявления</string>
+    <string name="dialog_fragment_message_add_advert">У вас нет объявления, хотите его добавить?</string>
     <string name="toast_there_are_no_apartment_to_edit">У вас нет квартиры для редактирования</string>
     <string name="dialog_fragment_add_button_text">Добавить</string>
     <string name="dialog_fragment_cancel_button_text">Отмена</string>
     <string name="error_dao">Что-то пошло не так, приходите по-позже</string>
+    <string name="toast_there_are_no_advert_to_edit">У вас нет объявления для редактирования</string>
+    <string name="toasts_user_changed_advert_info">Вы изменили информацию объявления</string>
+    <string name="toast_user_changed_apartment_info">Вы изменили информацию о квартире</string>
     <string name="my_apartment_text">Моя квартира</string>
     <string name="my_announcement">Мое объявление</string>
     <string name="text_you_offer_apartment_to">Вы предложили квартиру человеку с именем</string>

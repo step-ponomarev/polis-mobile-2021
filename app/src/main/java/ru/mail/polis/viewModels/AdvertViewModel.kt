@@ -12,7 +12,7 @@ import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.dao.users.UserService
 import ru.mail.polis.notification.NotificationKeeperException
 
-class AdvertCreationViewModel : ViewModel() {
+class AdvertViewModel : ViewModel() {
     private val personService: IPersonService = PersonService.getInstance()
     private val userService: IUserService = UserService()
 
@@ -25,6 +25,34 @@ class AdvertCreationViewModel : ViewModel() {
         } catch (e: DaoException) {
             throw NotificationKeeperException(
                 "Failed adding person: $personED",
+                NotificationKeeperException.NotificationType.DAO_ERROR
+            )
+        }
+    }
+
+    @Throws(NotificationKeeperException::class)
+    suspend fun updatePerson(personED: PersonED): PersonED {
+        try {
+            return withContext(Dispatchers.IO) {
+                personService.updatePerson(personED)
+            }
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failed to update person $personED",
+                NotificationKeeperException.NotificationType.DAO_ERROR
+            )
+        }
+    }
+
+    @Throws(NotificationKeeperException::class)
+    suspend fun getPersonByEmail(email: String): PersonED? {
+        try {
+            return withContext(Dispatchers.IO) {
+                personService.findByEmail(email)
+            }
+        } catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failed to get person with email: $email",
                 NotificationKeeperException.NotificationType.DAO_ERROR
             )
         }

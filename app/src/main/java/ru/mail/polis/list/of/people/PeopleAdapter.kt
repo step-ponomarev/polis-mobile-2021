@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import ru.mail.polis.R
 import ru.mail.polis.helpers.getAgeString
 import ru.mail.polis.list.ListItemClickListener
+import ru.mail.polis.room.RoomCount
 import ru.mail.polis.tags.Tags
 
 class PeopleAdapter(
@@ -40,6 +41,8 @@ class PeopleAdapter(
 
     inner class PeopleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var cardView: CardView = itemView.findViewById(R.id.people_item__card_view)
+        private var linearLayoutRooms: LinearLayout =
+            itemView.findViewById(R.id.people_item__ll_rooms)
         private val ivPhoto: ImageView = itemView.findViewById(R.id.component_person_header__avatar)
         private val tvName: TextView = itemView.findViewById(R.id.component_person_header__name)
         private val tvAge: TextView = itemView.findViewById(R.id.component_person_header__age)
@@ -51,16 +54,6 @@ class PeopleAdapter(
         private val tagBottomLineDivider: View =
             itemView.findViewById(R.id.people_item__tag_line_divider)
 
-        private val cvRooms: List<CardView> = listOf(
-            itemView.findViewById(R.id.people_item__ll_cv_rooms1),
-            itemView.findViewById(R.id.people_item__ll_cv_rooms2),
-            itemView.findViewById(R.id.people_item__ll_cv_rooms3)
-        )
-        private val tvRooms: List<TextView> = listOf(
-            itemView.findViewById(R.id.people_item__ll_tv_rooms1),
-            itemView.findViewById(R.id.people_item__ll_tv_rooms2),
-            itemView.findViewById(R.id.people_item__ll_tv_rooms3)
-        )
         private val tvDescription: TextView =
             itemView.findViewById(R.id.people_item__tv_description)
 
@@ -101,9 +94,9 @@ class PeopleAdapter(
                     )
             }
 
-            for (i in 0..3.coerceAtMost(personView.rooms.size - 1)) {
-                cvRooms[i].visibility = View.VISIBLE
-                tvRooms[i].text = itemView.context.getString(personView.rooms[i].stringId)
+            personView.rooms.forEach { room ->
+                val cardView = createRoomCardView(itemView.context, room, linearLayoutRooms)
+                linearLayoutRooms.addView(cardView)
             }
             cardView.setOnClickListener {
                 val clickedPosition = adapterPosition
@@ -111,6 +104,21 @@ class PeopleAdapter(
             }
             tvDescription.text = personView.description
         }
+    }
+
+    private fun createRoomCardView(
+        context: Context,
+        room: RoomCount,
+        root: ViewGroup
+    ): CardView {
+        val view: View =
+            LayoutInflater.from(context)
+                .inflate(R.layout.component_card_view_room, root, false)
+        val cardView: CardView = view.findViewById(R.id.component_card_view_room__card_view)
+        val textView: TextView = view.findViewById(R.id.component_card_view_room__text_view)
+
+        textView.text = room.label
+        return cardView
     }
 
     private fun tagToImageView(context: Context, tag: Tags): ImageView {

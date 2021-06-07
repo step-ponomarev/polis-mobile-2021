@@ -92,6 +92,7 @@ class SettingsFragment : Fragment() {
         )
 
         apartmentButton.setOnClickListener(this::onClickApartmentButton)
+        personButton.setOnClickListener(this::onClickPersonButton)
         editButton.setOnClickListener(this::onClickEditUser)
         changePhotoButton.setOnClickListener(this::onClickChangePhoto)
     }
@@ -160,18 +161,59 @@ class SettingsFragment : Fragment() {
 
                 val dialogFragment =
                     CustomDialogFragment(
-                        getString(R.string.dialog_fragment_title_add_apartment),
-                        getString(R.string.dialog_fragment_message_add_apartment),
-                        { dialog, _ ->
+                        title = getString(R.string.dialog_fragment_title_add_apartment),
+                        message = getString(R.string.dialog_fragment_message_add_apartment),
+                        positive = { dialog, _ ->
                             dialog.cancel()
                             findNavController().navigate(R.id.nav_graph__add_apartment_fragment)
                         },
-                        { dialog, _ ->
+                        negative = { dialog, _ ->
                             dialog.cancel()
                         }
                     )
                 dialogFragment.show(parentFragmentManager, "Apartment editing")
             } catch (e: NotificationKeeperException) {
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(e.getResourceStringCode())
+                )
+            }
+        }
+    }
+
+    private fun onClickPersonButton(view: View) {
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                val exist = withContext(Dispatchers.IO) {
+                    settingsViewModel.checkAdvertExist(
+                        StorageUtils.getCurrentUserEmail(
+                            requireContext()
+                        )
+                    )
+                }
+
+                if (exist) {
+                    findNavController().navigate(R.id.nav_graph__advert_editing_fragment)
+                } else {
+                    val dialogFragment =
+                        CustomDialogFragment(
+                            title = getString(R.string.dialog_fragment_title_add_advert),
+                            message = getString(R.string.dialog_fragment_message_add_advert),
+                            positive = { dialog, _ ->
+                                dialog.cancel()
+                                findNavController().navigate(R.id.nav_graph__advert_creation_fragment)
+                            },
+                            negative = { dialog, _ ->
+                                dialog.cancel()
+                            }
+                        )
+                    dialogFragment.show(parentFragmentManager, "Advert editing")
+                }
+            } catch (e: NotificationKeeperException) {
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(e.getResourceStringCode())
+                )
                 NotificationCenter.showDefaultToast(
                     requireContext(),
                     getString(e.getResourceStringCode())

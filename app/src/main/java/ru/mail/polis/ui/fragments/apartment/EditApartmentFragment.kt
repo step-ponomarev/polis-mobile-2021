@@ -103,6 +103,11 @@ class EditApartmentFragment : ApartmentFragment() {
                     .build()
 
                 apartmentViewModel.updateApartment(apartmentED)
+
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(R.string.toast_user_changed_apartment_info)
+                )
             } catch (e: NotificationKeeperException) {
                 NotificationCenter.showDefaultToast(
                     requireContext(),

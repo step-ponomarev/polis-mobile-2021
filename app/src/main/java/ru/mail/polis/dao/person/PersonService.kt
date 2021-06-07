@@ -124,6 +124,34 @@ class PersonService private constructor() : IPersonService {
         }
     }
 
+    @Throws(DaoException::class)
+    override suspend fun isExist(email: String): Boolean {
+        return suspendCancellableCoroutine { coroutine ->
+
+            personCollection.document(email)
+                .get()
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        DaoException(
+                            "Failure to find person with email: $email",
+                            it
+                        )
+                    )
+                }
+                .addOnSuccessListener { document ->
+                    Log.i(
+                        this::class.java.name,
+                        "Successfully finding person with email: $email"
+                    )
+                    if (document.exists()) {
+                        coroutine.resume(true)
+                    } else {
+                        coroutine.resume(false)
+                    }
+                }
+        }
+    }
+
     private fun personToMap(person: PersonED): Map<String, Any?> {
         return mapOf(
             "email" to person.email,

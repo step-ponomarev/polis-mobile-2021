@@ -5,28 +5,28 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/fragment_advert_creation__person_info"
+        android:id="@+id/fragment_advert_editing__person_info"
         layout="@layout/component_person_advert_info"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/fragment_advert_creation__continue_btn"
+        app:layout_constraintBottom_toTopOf="@id/fragment_advert_editing__continue_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/fragment_advert_creation__continue_btn"
+        android:id="@+id/fragment_advert_editing__continue_btn"
         android:layout_width="225dp"
         android:layout_height="46dp"
         android:background="@color/main"
         android:fontFamily="sans-serif-light"
-        android:text="@string/publish"
+        android:text="@string/edit_button_text"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_advert_creation__person_info"
+        app:layout_constraintTop_toBottomOf="@id/fragment_advert_editing__person_info"
         app:layout_constraintVertical_bias="0.941" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
