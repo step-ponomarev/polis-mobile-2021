@@ -58,11 +58,10 @@ class AdvertEditingFragment : AdvertFragment() {
                         getString(R.string.toast_there_are_no_advert_to_edit)
                     )
                 }
-                // TODO надо ли ловить?
             } catch (e: NotificationKeeperException) {
                 NotificationCenter.showDefaultToast(
                     requireContext(),
-                    ""
+                    getString(e.getResourceStringCode())
                 )
             }
         }
