@@ -72,7 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Имя"
+                    android:text="@string/name"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@id/fragment_settings__et_name"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +97,7 @@
                     android:id="@+id/fragment_settings__tv_surname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Фамилия"
+                    android:text="@string/surname"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@id/fragment_settings__et_surname"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -122,7 +122,7 @@
                     android:id="@+id/fragment_settings__tv_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Телефон"
+                    android:text="@string/phone_number_text"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@id/fragment_settings__et_phone"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -130,11 +130,10 @@
                     app:layout_constraintStart_toEndOf="@id/fragment_settings_guideline"
                     app:layout_constraintTop_toBottomOf="@id/fragment_settings__et_surname" />
 
-                <EditText
+                <com.github.pinball83.maskededittext.MaskedEditText
                     android:id="@+id/fragment_settings__et_phone"
                     android:layout_width="300dp"
                     android:layout_height="65dp"
-                    android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     android:hint="@string/phone_number_text"
                     android:inputType="phone"
@@ -142,13 +141,15 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toEndOf="@id/fragment_settings_guideline"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__tv_phone" />
+                    app:layout_constraintTop_toBottomOf="@id/fragment_settings__tv_phone"
+                    app:mask="8 (***) ***-**-**"
+                    app:notMaskedSymbol="*"/>
 
                 <TextView
                     android:id="@+id/fragment_settings__tv_age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Возраст"
+                    android:text="@string/age_text"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@id/fragment_settings__et_age"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -197,7 +198,7 @@
                     style="@style/App.Buttons.Style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Моя квартира"
+                    android:text="@string/my_apartment_text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/fragment_settings__edit_person"
                     app:layout_constraintStart_toStartOf="parent"
@@ -208,7 +209,7 @@
                     style="@style/App.Buttons.Style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Мое объявление"
+                    android:text="@string/my_announcement"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/fragment_settings__edit_apartment"
