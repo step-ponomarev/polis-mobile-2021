@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.apartments.ApartmentED
 import ru.mail.polis.dao.propose.ProposeED
+import ru.mail.polis.dao.propose.ProposeStatus
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.list.ListItemClickListener
 import ru.mail.polis.list.RecyclerViewListDecoration
@@ -66,7 +67,7 @@ class ProposedApartmentsFragment : Fragment() {
         val email: String = StorageUtils.getCurrentUserEmail(requireContext())
         GlobalScope.launch(Dispatchers.Main) {
             try {
-                proposes = toProposeView(viewModel.fetchProposeByRenterEmail(email))
+                proposes = toProposeView(viewModel.fetchProposeByRenterEmail(email).filter { proposeED -> proposeED.status != ProposeStatus.REJECTED })
                 val apartmentsMutable = viewModel.fetchApartmentsByRenterEmail(email).toMutableList()
                 if (apartmentsMutable.isEmpty()) {
                     return@launch
