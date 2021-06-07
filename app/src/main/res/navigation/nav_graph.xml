@@ -103,5 +103,7 @@
         <argument
             android:name="apartment"
             app:argType="ru.mail.polis.list.of.apartments.ApartmentView" />
+        <argument android:name="propose"
+            app:argType="ru.mail.polis.list.of.propose.ProposeView" />
     </fragment>
 </navigation>
