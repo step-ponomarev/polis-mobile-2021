@@ -63,7 +63,7 @@ class PeopleAdapter(
             }
 
             tvName.text = personView.name
-            tvAge.text = personView.age?.let { getAgeString(it) }
+            tvAge.text = personView.age?.let { getAgeString(it, itemView.context) }
             val tags: List<ImageView> = personView.tags.map { tag ->
                 tagToImageView(itemView.context, tag)
             }

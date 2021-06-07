@@ -85,6 +85,28 @@ class ProposeService(
         }
     }
 
+    override suspend fun updatePropose(proposeED: ProposeED): ProposeED {
+        return suspendCancellableCoroutine { coroutine ->
+            proposeCollection.whereEqualTo("ownerEmail", proposeED.ownerEmail)
+                .whereEqualTo("renterEmail", proposeED.renterEmail)
+                .get()
+                .addOnSuccessListener {
+                    if (it.documents.size == 1) {
+                        it.documents[0].reference.update(proposeToMap(proposeED))
+                        coroutine.resume(it.toObjects(ProposeED::class.java)[0])
+                    }
+                }
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        DaoException(
+                            "Failed apdate propose by ownerEmail: ${proposeED.ownerEmail} and renterEmail: $proposeED.renterEmail",
+                            it
+                        )
+                    )
+                }
+        }
+    }
+
     override suspend fun createPropose(proposeED: ProposeED): ProposeED {
         return suspendCancellableCoroutine { coroutine ->
             proposeCollection.document()
@@ -106,5 +128,12 @@ class ProposeService(
                     )
                 }
         }
+    }
+    private fun proposeToMap(proposeED: ProposeED): Map<String, Any?> {
+        return mapOf(
+            "ownerEmail" to proposeED.ownerEmail,
+            "renterEmail" to proposeED.renterEmail,
+            "status" to proposeED.status
+        )
     }
 }
