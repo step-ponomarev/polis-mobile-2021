@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">mita</string>
-    <string name="login_text">Sign in with google</string>
+    <string name="login_text">Sign in with Google</string>
     <string name="choose_next_step_text">Choose next step</string>
     <string name="find_apartment_text">Find an apartment</string>
     <string name="rent_apartment_text">Rent an apartment</string>
@@ -80,6 +80,7 @@
     <string name="age_advert_let">years</string>
     <string name="age_advert_god">years</string>
     <string name="age_advert_goda">years old</string>
+    <string name="reject">Reject</string>
 
 
     <string-array name="genders_filter">
