@@ -79,6 +79,7 @@
     <string name="age_advert_let">лет</string>
     <string name="age_advert_god">год</string>
     <string name="age_advert_goda">года</string>
+    <string name="reject">Отклонить</string>
 
 
     <string-array name="genders_filter">

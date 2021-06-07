@@ -21,6 +21,7 @@ import com.google.android.material.imageview.ShapeableImageView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.mail.polis.R
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
@@ -101,7 +102,9 @@ class FirstCreationFragment : Fragment() {
 
             try {
                 firstCreationViewModel.addUser(user, avatar.drawable.toBitmap())
-                findNavController().navigate(R.id.nav_graph__self_definition_fragment)
+                withContext(Dispatchers.Main) {
+                    findNavController().navigate(R.id.nav_graph__self_definition_fragment)
+                }
             } catch (e: NotificationKeeperException) {
                 NotificationCenter.showDefaultToast(
                     requireContext(),

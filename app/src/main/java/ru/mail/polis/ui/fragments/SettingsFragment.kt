@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.github.pinball83.maskededittext.MaskedEditText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -36,7 +37,7 @@ class SettingsFragment : Fragment() {
     private lateinit var changePhotoButton: Button
     private lateinit var nameEditText: EditText
     private lateinit var surnameEditText: EditText
-    private lateinit var phoneEditText: EditText
+    private lateinit var phoneEditText: MaskedEditText
     private lateinit var ageEditText: EditText
     private lateinit var avatar: ImageView
     private lateinit var apartmentButton: Button
@@ -83,7 +84,7 @@ class SettingsFragment : Fragment() {
             { userED ->
                 nameEditText.setText(userED.name)
                 surnameEditText.setText(userED.surname)
-                phoneEditText.setText(userED.phone)
+                phoneEditText.setMaskedText(userED.phone?.replace("[^0-9]".toRegex(), "")?.drop(1))
                 ageEditText.setText(userED.age.toString())
                 Glide.with(avatar).load(userED.photo).into(avatar)
                 currentPhotoUrl = userED.photo
@@ -128,9 +129,15 @@ class SettingsFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 settingsViewModel.updateUser(user, bitmap)
-                NotificationCenter.showDefaultToast(requireContext(), getString(R.string.toast_changes_are_saved))
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(R.string.toast_changes_are_saved)
+                )
             } catch (e: NotificationKeeperException) {
-                NotificationCenter.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(e.getResourceStringCode())
+                )
             }
         }
     }
@@ -139,7 +146,11 @@ class SettingsFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val exist = withContext(Dispatchers.IO) {
-                    settingsViewModel.checkApartmentExist(StorageUtils.getCurrentUserEmail(requireContext()))
+                    settingsViewModel.checkApartmentExist(
+                        StorageUtils.getCurrentUserEmail(
+                            requireContext()
+                        )
+                    )
                 }
 
                 if (exist) {
@@ -161,7 +172,10 @@ class SettingsFragment : Fragment() {
                     )
                 dialogFragment.show(parentFragmentManager, "Apartment editing")
             } catch (e: NotificationKeeperException) {
-                NotificationCenter.showDefaultToast(requireContext(), getString(e.getResourceStringCode()))
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(e.getResourceStringCode())
+                )
             }
         }
     }

@@ -1,6 +1,9 @@
 package ru.mail.polis.ui.fragments
 
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,16 +14,28 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import ru.mail.polis.R
+import ru.mail.polis.dao.propose.ProposeED
+import ru.mail.polis.dao.propose.ProposeStatus
 import ru.mail.polis.list.of.apartments.ApartmentView
+import ru.mail.polis.list.of.propose.ProposeView
+import ru.mail.polis.notification.NotificationCenter
+import ru.mail.polis.notification.NotificationKeeperException
+import ru.mail.polis.utils.StorageUtils
+import ru.mail.polis.viewModels.ShowOneApartmentViewModel
 
 class FragmentShowOneApartment : Fragment() {
 
     private lateinit var showPhoneButton: Button
     private lateinit var apartment: ApartmentView
+    private lateinit var propose: ProposeView
     private lateinit var userAvatar: ImageView
     private lateinit var apartmentOwnerName: TextView
     private lateinit var apartmentOwnerAge: TextView
@@ -30,8 +45,10 @@ class FragmentShowOneApartment : Fragment() {
     private lateinit var apartmentSquare: TextView
     private lateinit var apartmentCost: TextView
     private lateinit var photoContainer: LinearLayout
-    private lateinit var phoneText: TextView
-
+    private lateinit var phoneContainer: LinearLayout
+    private lateinit var rejectButton: Button
+    private lateinit var phoneButton: Button
+    private var viewModel = ShowOneApartmentViewModel()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,7 +60,11 @@ class FragmentShowOneApartment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val args: FragmentShowOneApartmentArgs by navArgs()
         apartment = args.apartment
+        propose = args.propose
+        phoneContainer = view.findViewById(R.id.fragment_show_one_apartment__ll_phone)
+        rejectButton = view.findViewById(R.id.fragment_show_one_apartment__reject)
         showPhoneButton = view.findViewById(R.id.fragment_show_one_apartment__btn_show_phone)
+        phoneButton = view.findViewById(R.id.fragment_show_one_apartment__phone)
         userAvatar = view.findViewById(R.id.component_person_header__avatar)
         apartmentOwnerName = view.findViewById(R.id.component_person_header__name)
         apartmentOwnerAge = view.findViewById(R.id.component_person_header__age)
@@ -54,7 +75,6 @@ class FragmentShowOneApartment : Fragment() {
         apartmentSquare = view.findViewById(R.id.component_proposed_apartment_item__square_text)
         apartmentCost = view.findViewById(R.id.component_proposed_apartment_item__cost_text)
         photoContainer = view.findViewById(R.id.component_proposed_apartment_item__photos_container)
-        phoneText = view.findViewById(R.id.fragment_show_one_apartment__phone)
 
         if (apartment.ownerAvatar != null) {
             Glide.with(view).load(apartment.ownerAvatar).into(userAvatar)
@@ -82,10 +102,67 @@ class FragmentShowOneApartment : Fragment() {
 
         photos.forEach(photoContainer::addView)
 
+        if (propose.status == ProposeStatus.ACCEPTED) {
+            phoneButton.text = apartment.phone
+            phoneContainer.visibility = View.VISIBLE
+            rejectButton.visibility = View.VISIBLE
+        } else {
+            showPhoneButton.visibility = View.VISIBLE
+            rejectButton.visibility = View.VISIBLE
+        }
+
+        phoneButton.setOnClickListener {
+            val number = Uri.parse("tel:" + apartment.phone)
+            val callIntent: Intent = Intent(Intent.ACTION_DIAL, number)
+
+            val packageManager: PackageManager = requireActivity().packageManager
+            val activities = packageManager.queryIntentActivities(callIntent, 0)
+            val isIntentSafe = activities.size > 0
+            if (isIntentSafe) {
+                startActivity(callIntent)
+            }
+        }
+
         showPhoneButton.setOnClickListener {
-            phoneText.text = apartment.phone
+            phoneButton.text = apartment.phone
+            GlobalScope.launch(Dispatchers.Main) {
+                try {
+                    viewModel.updateProposeED(
+                        ProposeED(
+                            apartment.email,
+                            StorageUtils.getCurrentUserEmail(requireContext()),
+                            ProposeStatus.ACCEPTED
+                        )
+                    )
+                } catch (e: NotificationKeeperException) {
+                    NotificationCenter.showDefaultToast(
+                        requireContext(),
+                        getString(e.getResourceStringCode())
+                    )
+                }
+            }
             it.visibility = View.INVISIBLE
-            phoneText.visibility = View.VISIBLE
+            phoneContainer.visibility = View.VISIBLE
+        }
+
+        rejectButton.setOnClickListener {
+            GlobalScope.launch(Dispatchers.Main) {
+                try {
+                    viewModel.updateProposeED(
+                        ProposeED(
+                            apartment.email,
+                            StorageUtils.getCurrentUserEmail(requireContext()),
+                            ProposeStatus.REJECTED
+                        )
+                    )
+                } catch (e: NotificationKeeperException) {
+                    NotificationCenter.showDefaultToast(
+                        requireContext(),
+                        getString(e.getResourceStringCode())
+                    )
+                }
+            }
+            findNavController().navigate(R.id.nav_graph__proposed_apartments_fragment)
         }
     }
 
