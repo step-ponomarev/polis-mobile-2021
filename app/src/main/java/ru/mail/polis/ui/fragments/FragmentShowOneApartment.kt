@@ -108,6 +108,7 @@ class FragmentShowOneApartment : Fragment() {
             rejectButton.visibility = View.VISIBLE
         } else {
             showPhoneButton.visibility = View.VISIBLE
+            rejectButton.visibility = View.VISIBLE
         }
 
         phoneButton.setOnClickListener {
