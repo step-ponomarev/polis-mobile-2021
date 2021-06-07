@@ -1,18 +1,21 @@
 package ru.mail.polis.helpers
 
-public fun getAgeString(age: Long): String {
+import android.content.Context
+import ru.mail.polis.R
+
+fun getAgeString(age: Long, context: Context): String {
     return when {
         age % 100 in 5..20 -> {
-            "$age лет"
+            "$age " + context.getString(R.string.age_advert_let)
         }
         age % 10 in 2..4 -> {
-            "$age года"
+            "$age " + context.getString(R.string.age_advert_goda)
         }
         age % 10 == 1L -> {
-            "$age год"
+            "$age " + context.getString(R.string.age_advert_god)
         }
         else -> {
-            "$age лет"
+            "$age " + context.getString(R.string.age_advert_let)
         }
     }
 }

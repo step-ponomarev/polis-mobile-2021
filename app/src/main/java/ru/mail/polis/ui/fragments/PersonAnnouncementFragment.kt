@@ -75,7 +75,7 @@ class PersonAnnouncementFragment : Fragment() {
         }
         tvName.text = personView.name
         if (personView.age != null) {
-            tvAge.text = getAgeString(personView.age!!)
+            tvAge.text = getAgeString(personView.age!!, requireContext())
         }
 
         val tags: List<ImageView> = personView.tags.map { tag ->
@@ -107,7 +107,7 @@ class PersonAnnouncementFragment : Fragment() {
 
         for (i in 0..3.coerceAtMost(personView.rooms.size - 1)) {
             cvRooms[i].visibility = View.VISIBLE
-            tvRooms[i].text = personView.rooms[i].label
+            tvRooms[i].text = getString(personView.rooms[i].stringId)
         }
         tvDescription.text = personView.description
 
@@ -129,7 +129,7 @@ class PersonAnnouncementFragment : Fragment() {
 
                 NotificationCenter.showDefaultToast(
                     requireContext(),
-                    "Вы предложили квартиру человеку с именем ${personView.name}"
+                    getString(R.string.text_you_offer_apartment_to) + personView.name
                 )
             } catch (e: NotificationKeeperException) {
                 NotificationCenter.showDefaultToast(
