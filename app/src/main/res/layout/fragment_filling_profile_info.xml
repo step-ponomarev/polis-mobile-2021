@@ -83,7 +83,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.548" />
 
-    <EditText
+    <com.github.pinball83.maskededittext.MaskedEditText
         android:id="@+id/fragment_filling_profile_info__phone_et"
         android:layout_width="291dp"
         android:layout_height="47dp"
@@ -96,7 +96,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.462" />
+        app:layout_constraintVertical_bias="0.462"
+        app:mask="8 (***) ***-**-**"
+        app:notMaskedSymbol="*" />
 
     <Spinner
         android:id="@+id/fragment_filling_profile_info__gender_sp"
