@@ -105,9 +105,9 @@ class FragmentShowOneApartment : Fragment() {
         if (propose.status == ProposeStatus.ACCEPTED) {
             phoneButton.text = apartment.phone
             phoneContainer.visibility = View.VISIBLE
+            rejectButton.visibility = View.VISIBLE
         } else {
             showPhoneButton.visibility = View.VISIBLE
-            rejectButton.visibility = View.VISIBLE
         }
 
         phoneButton.setOnClickListener {
@@ -141,7 +141,6 @@ class FragmentShowOneApartment : Fragment() {
                 }
             }
             it.visibility = View.INVISIBLE
-            rejectButton.visibility = View.INVISIBLE
             phoneContainer.visibility = View.VISIBLE
         }
 
