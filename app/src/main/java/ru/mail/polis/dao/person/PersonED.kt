@@ -8,8 +8,8 @@ class PersonED(
     var email: String? = null,
     var tags: List<Tags> = emptyList(),
     var metro: Metro? = null,
-    var moneyTo: Long = 0,
     var moneyFrom: Long = 0,
+    var moneyTo: Long = 0,
     var rooms: List<RoomCount> = emptyList(),
     var description: String? = null
 ) {
@@ -23,8 +23,8 @@ class PersonED(
         private var email: String? = null
         private var tags: List<Tags> = emptyList()
         private var metro: Metro? = null
-        private var moneyTo: Long = 0
         private var moneyFrom: Long = 0
+        private var moneyTo: Long = 0
         private var rooms: List<RoomCount> = emptyList()
         private var description: String? = null
 
