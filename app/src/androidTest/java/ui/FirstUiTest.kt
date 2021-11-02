@@ -1,37 +1,32 @@
 package ui
 
-import androidx.test.espresso.action.ViewActions.click
+import androidx.test.rule.ActivityTestRule
 import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
+import org.junit.Rule
 import org.junit.Test
+import ru.mail.polis.MainActivity
+import ui.screens.LoginScreen
 
-class FirstTest: TestCase() {
+class FirstUiTest : TestCase() {
+
+    @get:Rule
+    val activityTestRule = ActivityTestRule(MainActivity::class.java, true, false)
+
+
     @Test
-    fun shouldPassOnNoInternetScanTest() =
+    fun test() {
+//        onView(withId(R.layout.fragment_login)).perform(click())
 
-        base
-        beforeTest {
-            activityTestRule.launchActivity(null)
-            // some things with the state
-        }.afterTest {
-            // some things with the state
-        }.run {
-            step("Open Simple Screen") {
-                MainScreen {
-                    nextButton {
+        run {
+            step("Try to start this test") {
+                activityTestRule.launchActivity(null)
+                LoginScreen {
+                    loginButton {
                         isVisible()
                         click()
                     }
                 }
             }
-
-            step("Click button_1 and check button_2") {
-                SimpleScreen {
-                    button1 {
-                        click()
-                    }
-                    button2 {
-                        isVisible()
-                    }
-                }
-
+        }
+    }
 }
