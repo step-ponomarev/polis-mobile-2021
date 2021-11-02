@@ -5,7 +5,9 @@ import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
 import org.junit.Rule
 import org.junit.Test
 import ru.mail.polis.MainActivity
+import ui.screens.ListOfPeopleScreen
 import ui.screens.LoginScreen
+import ui.screens.SelfDefinitionScreen
 
 class FirstUiTest : TestCase() {
 
@@ -25,7 +27,20 @@ class FirstUiTest : TestCase() {
                         isVisible()
                         click()
                     }
+                    SelfDefinitionScreen {
+                        findAppartmentButton {
+                            isVisible()
+                        }
+                        rentApartmentButton {
+                            isVisible()
+                        }
+                    }
+                    ListOfPeopleScreen
                 }
+            }
+
+            step("Another Screen") {
+
             }
         }
     }
