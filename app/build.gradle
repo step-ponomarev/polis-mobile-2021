@@ -70,6 +70,7 @@ dependencies {
 
 
     implementation 'com.github.bumptech.glide:glide:4.12.0'
+    androidTestImplementation 'org.junit.jupiter:junit-jupiter'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -78,3 +79,9 @@ dependencies {
 
 apply plugin: 'com.google.gms.google-services'
 apply plugin: "kotlin-parcelize"
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
