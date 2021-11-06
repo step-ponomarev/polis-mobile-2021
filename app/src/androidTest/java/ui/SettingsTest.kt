@@ -12,6 +12,7 @@ import ui.screens.SettingsScreen
 
 class SettingsTest : TestCase() {
     //TODO чекнуть scenario и мб заюзать их
+    //TODO мб убрать тест данные в спец блок init
     @get:Rule
     val activityTestRule = ActivityTestRule(MainActivity::class.java, true, false)
 
