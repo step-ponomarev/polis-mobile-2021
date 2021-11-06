@@ -33,7 +33,6 @@ class SettingsTest : TestCase() {
     fun test() {
         before {
             activityTestRule.launchActivity(null)
-
         }.after {
             SettingsScreen {
                 changeUserInfo(defaultUserInfo)
@@ -74,7 +73,6 @@ class SettingsTest : TestCase() {
                     checkUserInfo(testUser)
                 }
             }
-
         }
     }
 }
