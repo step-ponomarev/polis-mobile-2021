@@ -77,4 +77,8 @@ object SettingsScreen : KScreen<SettingsScreen>() {
             hasText(user.age.toString())
         }
     }
+
+    val editPerson = KButton { withId(R.id.fragment_settings__edit_person) }
+
+    val advertButton = KButton { withId(R.id.nav_graph__list_of_people) }
 }
