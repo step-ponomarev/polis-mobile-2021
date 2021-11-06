@@ -8,6 +8,7 @@ import ru.mail.polis.MainActivity
 import ui.screens.ListOfPeopleScreen
 import ui.screens.LoginScreen
 import ui.screens.SelfDefinitionScreen
+import ui.screens.SettingsScreen
 
 class FirstUiTest : TestCase() {
 
@@ -16,9 +17,7 @@ class FirstUiTest : TestCase() {
 
 
     @Test
-    fun test() {
-//        onView(withId(R.layout.fragment_login)).perform(click())
-
+    fun editInfoInSettings() {
         run {
             step("Try to start this test") {
                 activityTestRule.launchActivity(null)
@@ -35,7 +34,18 @@ class FirstUiTest : TestCase() {
                             isVisible()
                         }
                     }
-                    ListOfPeopleScreen
+                    ListOfPeopleScreen {
+                        settingsButton {
+                            isVisible()
+                            click()
+                        }
+                    }
+                    SettingsScreen {
+                        editButton {
+                            isVisible()
+                            isClickable()
+                        }
+                    }
                 }
             }
 
