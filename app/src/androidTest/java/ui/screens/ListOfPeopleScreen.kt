@@ -12,5 +12,11 @@ object ListOfPeopleScreen: KScreen<ListOfPeopleScreen>() {
     val settingsButton =
         KButton { withId(R.id.nav_graph__settings_fragment) }
 
-
+    fun navigateToSettings() {
+        settingsButton {
+            isVisible()
+            isClickable()
+            click()
+        }
+    }
 }
