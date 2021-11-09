@@ -10,5 +10,13 @@ object LoginScreen: KScreen<LoginScreen>() {
     override val layoutId: Int? = R.layout.fragment_login
     override val viewClass: Class<*> = LoginFragment::class.java
 
-    val loginButton = KButton { withId(R.id.gmail_login_button) }
+    private val loginButton = KButton { withId(R.id.gmail_login_button) }
+
+    fun login() {
+        loginButton {
+            isVisible()
+            click()
+        }
+    }
+
 }

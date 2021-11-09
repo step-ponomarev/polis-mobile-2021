@@ -51,10 +51,7 @@ class AdvertTest : TestCase() {
         before {
             activityTestRule.launchActivity(null)
             LoginScreen {
-                loginButton {
-                    isVisible()
-                    click()
-                }
+                login()
             }
         }.after {
             ListOfPeopleScreen {
