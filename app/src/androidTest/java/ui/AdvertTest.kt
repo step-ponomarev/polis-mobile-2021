@@ -15,8 +15,6 @@ import ui.screens.SettingsScreen
 import kotlin.random.Random
 
 class AdvertTest : TestCase() {
-    //TODO Изменить поиск item в rv
-    //TODO Вынести пользователей (изменить архитектуру/логику)
     @get:Rule
     val activityTestRule = ActivityTestRule(MainActivity::class.java, true, false)
 
@@ -76,6 +74,15 @@ class AdvertTest : TestCase() {
                             personName.hasText(defaultUserInfo.name + " " + defaultUserInfo.surname)
                             personAge.hasText(defaultUserInfo.age.toString() + " лет")
                         }
+
+                        //Не работает
+//                        val item = childWith<ListOfPeopleScreen.peopleRecyclerItem> {
+//                            getViewMatcher().matches(
+//                                withText(defaultUserInfo.name + " " + defaultUserInfo.surname)
+//                            )
+//                        }
+//                        item.personName.hasText(defaultUserInfo.name + " " + defaultUserInfo.surname)
+//                        item.personAge.hasText(defaultUserInfo.age.toString() + " лет")
                     }
                 }
             }
@@ -96,6 +103,7 @@ class AdvertTest : TestCase() {
             step("Change advert info") {
                 AdvertEditingScreen {
                     changeAdvInfo(testAdvert)
+                    Thread.sleep(1000)
                     Espresso.pressBack()
                 }
             }
