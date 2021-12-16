@@ -14,6 +14,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.person.PersonED
+import ru.mail.polis.exceptions.InvalidCostRangeException
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
@@ -67,6 +68,7 @@ class AdvertCreationFragment : AdvertFragment() {
     }
 
     private fun onClickAddAdvert(view: View) {
+        try {
 
         val checkedChips = chipGroup.checkedChipIds
 
@@ -81,6 +83,10 @@ class AdvertCreationFragment : AdvertFragment() {
         val costFrom = costFromEditText.text.toString()
         val costTo = costToEditText.text.toString()
         val aboutMe = aboutMeEditText.text.toString()
+
+        if (costFrom.toInt() >= costTo.toInt()) {
+            throw InvalidCostRangeException("Первое число диапазона цен должно быть меньше второго")
+        }
 
         if (metro.isBlank() ||
             roomList.isEmpty() ||
@@ -114,6 +120,13 @@ class AdvertCreationFragment : AdvertFragment() {
                     getString(e.getResourceStringCode())
                 )
             }
+        }
+        }
+        catch (e: InvalidCostRangeException) {
+            NotificationCenter.showDefaultToast(
+                requireContext(),
+                e.message ?: return
+            )
         }
     }
 }
