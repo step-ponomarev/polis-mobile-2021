@@ -25,6 +25,7 @@ import kotlinx.coroutines.withContext
 import ru.mail.polis.R
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
+import ru.mail.polis.exceptions.InvalidPhoneNumberException
 import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.utils.StorageUtils
@@ -80,37 +81,48 @@ class FirstCreationFragment : Fragment() {
     }
 
     private fun onContinueButton(view: View) {
+        try {
 
-        if (!checkField()) {
-            NotificationCenter.showDefaultToast(
-                requireContext(),
-                getString(R.string.toast_fill_all_information_about_user)
-            )
-            return
-        }
-
-        GlobalScope.launch(Dispatchers.IO) {
-            val user = UserED(
-                email = StorageUtils.getCurrentUserEmail(requireContext()),
-                name = nameEditText.text.toString(),
-                surname = surnameEditText.text.toString(),
-                age = Integer.parseInt(ageEditText.text.toString()).toLong(),
-                phone = phoneEditText.text.toString(),
-                photo = null,
-                externalAccounts = emptyList()
-            )
-
-            try {
-                firstCreationViewModel.addUser(user, avatar.drawable.toBitmap())
-                withContext(Dispatchers.Main) {
-                    findNavController().navigate(R.id.nav_graph__self_definition_fragment)
-                }
-            } catch (e: NotificationKeeperException) {
+            if (!checkField()) {
                 NotificationCenter.showDefaultToast(
                     requireContext(),
-                    getString(R.string.error_dao)
+                    getString(R.string.toast_fill_all_information_about_user)
                 )
+                return
             }
+
+            if (phoneEditText.text.filter { c: Char -> c.isDigit() }.toString().length != 11) {
+                throw InvalidPhoneNumberException("Неверный формат номера телефона")
+            }
+
+            GlobalScope.launch(Dispatchers.IO) {
+                val user = UserED(
+                    email = StorageUtils.getCurrentUserEmail(requireContext()),
+                    name = nameEditText.text.toString(),
+                    surname = surnameEditText.text.toString(),
+                    age = Integer.parseInt(ageEditText.text.toString()).toLong(),
+                    phone = phoneEditText.text.toString(),
+                    photo = null,
+                    externalAccounts = emptyList()
+                )
+
+                try {
+                    firstCreationViewModel.addUser(user, avatar.drawable.toBitmap())
+                    withContext(Dispatchers.Main) {
+                        findNavController().navigate(R.id.nav_graph__self_definition_fragment)
+                    }
+                } catch (e: NotificationKeeperException) {
+                    NotificationCenter.showDefaultToast(
+                        requireContext(),
+                        getString(R.string.error_dao)
+                    )
+                }
+            }
+        } catch (e: InvalidPhoneNumberException) {
+            NotificationCenter.showDefaultToast(
+                requireContext(),
+                e.message ?: return
+            )
         }
     }
 

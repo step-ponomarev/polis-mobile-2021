@@ -81,6 +81,10 @@ class LoginFragment : Fragment() {
                 getString(e.getResourceStringCode())
             )
         } catch (e: Exception) {
+            NotificationCenter.showDefaultToast(
+                requireContext(),
+                getString(R.string.error_dao)
+            )
             Log.e("Auth error", e.message, e)
         }
     }
