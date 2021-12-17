@@ -85,6 +85,7 @@
                     android:layout_width="300dp"
                     android:layout_height="65dp"
                     android:layout_marginBottom="20dp"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZЙйЦцУуКкЕеНнГгШшЩщЗзХхЪъФфЫыВвАаПпРрОоЛлДдЖжЭэЯяЧчСсМмИиТтЬьБбЮю"
                     android:hint="@string/name_text"
                     android:inputType="text"
                     app:layout_constraintBottom_toTopOf="@id/fragment_settings__tv_surname"
@@ -110,6 +111,7 @@
                     android:layout_width="300dp"
                     android:layout_height="65dp"
                     android:layout_marginBottom="20dp"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZЙйЦцУуКкЕеНнГгШшЩщЗзХхЪъФфЫыВвАаПпРрОоЛлДдЖжЭэЯяЧчСсМмИиТтЬьБбЮю"
                     android:hint="@string/surname_text"
                     android:inputType="text"
                     app:layout_constraintBottom_toTopOf="@id/fragment_settings__tv_phone"
@@ -143,7 +145,7 @@
                     app:layout_constraintStart_toEndOf="@id/fragment_settings_guideline"
                     app:layout_constraintTop_toBottomOf="@id/fragment_settings__tv_phone"
                     app:mask="8 (***) ***-**-**"
-                    app:notMaskedSymbol="*"/>
+                    app:notMaskedSymbol="*" />
 
                 <TextView
                     android:id="@+id/fragment_settings__tv_age"
