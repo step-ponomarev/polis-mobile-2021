@@ -153,7 +153,7 @@ class PersonAnnouncementFragment : Fragment() {
             } catch (e: NotificationKeeperException) {
                 NotificationCenter.showDefaultToast(
                     requireContext(),
-                    getString(e.getResourceStringCode())
+                    "У вас не добавлена квартира"
                 )
             }
         }
