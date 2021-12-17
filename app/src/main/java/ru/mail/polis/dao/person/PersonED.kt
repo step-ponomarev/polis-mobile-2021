@@ -10,13 +10,15 @@ class PersonED(
     var metro: Metro? = null,
     var moneyFrom: Long = 0,
     var moneyTo: Long = 0,
+    var metresFrom: Long = 0,
+    var metresTo: Long = 0,
     var rooms: List<RoomCount> = emptyList(),
     var description: String? = null
 ) {
     fun isValid(): Boolean {
         return email != null &&
-            metro != null &&
-            description != null
+                metro != null &&
+                description != null
     }
 
     class Builder private constructor() {
@@ -25,6 +27,8 @@ class PersonED(
         private var metro: Metro? = null
         private var moneyFrom: Long = 0
         private var moneyTo: Long = 0
+        private var metresFrom: Long = 0
+        private var metresTo: Long = 0
         private var rooms: List<RoomCount> = emptyList()
         private var description: String? = null
 
@@ -50,6 +54,12 @@ class PersonED(
             return this
         }
 
+        fun metres(from: Long, to: Long): Builder {
+            this.metresFrom = from;
+            this.metresTo = to;
+            return  this
+        }
+
         fun metro(metro: Metro): Builder {
             this.metro = metro
             return this
@@ -72,6 +82,8 @@ class PersonED(
                 metro,
                 moneyFrom,
                 moneyTo,
+                metresFrom,
+                metresTo,
                 rooms,
                 description
             )
@@ -89,6 +101,8 @@ class PersonED(
         if (metro != other.metro) return false
         if (moneyTo != other.moneyTo) return false
         if (moneyFrom != other.moneyFrom) return false
+        if (metresTo != other.metresTo) return false
+        if (metresFrom != other.metresFrom) return false
         if (rooms != other.rooms) return false
         if (description != other.description) return false
 
@@ -101,6 +115,8 @@ class PersonED(
         result = 31 * result + (metro?.hashCode() ?: 0)
         result = 31 * result + moneyTo.hashCode()
         result = 31 * result + moneyFrom.hashCode()
+        result = 31 * result + metresTo.hashCode()
+        result = 31 * result + metresFrom.hashCode()
         result = 31 * result + rooms.hashCode()
         result = 31 * result + (description?.hashCode() ?: 0)
         return result

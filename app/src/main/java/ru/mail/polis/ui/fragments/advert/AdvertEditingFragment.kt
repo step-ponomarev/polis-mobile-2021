@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import ru.mail.polis.R
 import ru.mail.polis.dao.person.PersonED
 import ru.mail.polis.dao.users.UserED
+import ru.mail.polis.exceptions.InvalidRangeException
 import ru.mail.polis.metro.Metro
 import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
@@ -68,60 +69,81 @@ class AdvertEditingFragment : AdvertFragment() {
     }
 
     private fun onClickEditButton(view: View) {
+        try {
 
-        val checkedChips = chipGroup.checkedChipIds
+            val checkedChips = chipGroup.checkedChipIds
 
-        val roomList = mutableListOf<RoomCount>()
+            val roomList = mutableListOf<RoomCount>()
 
-        checkedChips.forEach { chipId ->
-            val selectedChip = chipGroup.findViewById<Chip>(chipId)
-            roomList.add(RoomCount.from(selectedChip.text.toString()))
-        }
-
-        val metro = spinner.selectedItem.toString()
-        val costFrom = costFromEditText.text.toString()
-        val costTo = costToEditText.text.toString()
-        val aboutMe = aboutMeEditText.text.toString()
-
-        if (metro.isBlank() ||
-            roomList.isEmpty() ||
-            costFrom.isBlank() ||
-            costTo.isBlank()
-        ) {
-            NotificationCenter.showDefaultToast(
-                requireContext(),
-                getString(R.string.toast_fill_all_advert_info)
-            )
-            return
-        }
-
-        val email = StorageUtils.getCurrentUserEmail(requireContext())
-        GlobalScope.launch(Dispatchers.Main) {
-
-            val user = viewModel.fetchUser(email)
-                ?: throw IllegalStateException("Null user by email: $email")
-
-            val person = PersonED.Builder.createBuilder()
-                .email(email)
-                .metro(Metro.from(metro))
-                .description(aboutMe)
-                .money(costFrom.toLong(), costTo.toLong())
-                .rooms(roomList)
-                .tags(tagsForPerson)
-                .build()
-
-            try {
-                viewModel.updatePerson(person)
-            } catch (e: NotificationKeeperException) {
-                NotificationCenter.showDefaultToast(
-                    requireContext(),
-                    getString(e.getResourceStringCode())
-                )
+            checkedChips.forEach { chipId ->
+                val selectedChip = chipGroup.findViewById<Chip>(chipId)
+                roomList.add(RoomCount.from(selectedChip.text.toString()))
             }
 
+            val metro = spinner.selectedItem.toString()
+            val costFrom = costFromEditText.text.toString()
+            val costTo = costToEditText.text.toString()
+            val metresFrom = metresFromEditText.text.toString()
+            val metresTo = metresToEditText.text.toString()
+            val aboutMe = aboutMeEditText.text.toString()
+
+
+            if (metro.isBlank() ||
+                roomList.isEmpty() ||
+                costFrom.isBlank() ||
+                costTo.isBlank() ||
+                metresFrom.isBlank() ||
+                metresTo.isBlank()
+            ) {
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(R.string.toast_fill_all_advert_info)
+                )
+                return
+            }
+
+            if (costFrom.toInt() >= costTo.toInt()) {
+                throw InvalidRangeException("Первое число диапазона цен должно быть меньше второго")
+            }
+
+            if (metresFrom.toInt() >= metresTo.toInt()) {
+                throw InvalidRangeException("Первое число диапазона цен должно быть меньше второго")
+            }
+
+            val email = StorageUtils.getCurrentUserEmail(requireContext())
+            GlobalScope.launch(Dispatchers.Main) {
+
+                val user = viewModel.fetchUser(email)
+                    ?: throw IllegalStateException("Null user by email: $email")
+
+                val person = PersonED.Builder.createBuilder()
+                    .email(email)
+                    .metro(Metro.from(metro))
+                    .description(aboutMe)
+                    .money(costFrom.toLong(), costTo.toLong())
+                    .metres(metresFrom.toLong(), metresTo.toLong())
+                    .rooms(roomList)
+                    .tags(tagsForPerson)
+                    .build()
+
+                try {
+                    viewModel.updatePerson(person)
+                } catch (e: NotificationKeeperException) {
+                    NotificationCenter.showDefaultToast(
+                        requireContext(),
+                        getString(e.getResourceStringCode())
+                    )
+                }
+
+                NotificationCenter.showDefaultToast(
+                    requireContext(),
+                    getString(R.string.toasts_user_changed_advert_info)
+                )
+            }
+        } catch (e: InvalidRangeException) {
             NotificationCenter.showDefaultToast(
                 requireContext(),
-                getString(R.string.toasts_user_changed_advert_info)
+                e.message ?: return
             )
         }
     }
@@ -155,6 +177,8 @@ class AdvertEditingFragment : AdvertFragment() {
 
         costFromEditText.setText(personED.moneyFrom.toString())
         costToEditText.setText(personED.moneyTo.toString())
+        metresFromEditText.setText(personED.metresFrom.toString())
+        metresToEditText.setText(personED.metresTo.toString())
         aboutMeEditText.setText(personED.description)
     }
 }

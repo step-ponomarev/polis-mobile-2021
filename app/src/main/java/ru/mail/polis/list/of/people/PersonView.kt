@@ -16,6 +16,8 @@ data class PersonView(
     var metro: Metro? = null,
     var moneyTo: Long = 0,
     var moneyFrom: Long = 0,
+    var metresTo: Long = 0,
+    var metresFrom: Long = 0,
     var rooms: List<RoomCount> = emptyList(),
     var description: String? = null
 ) : Parcelable {
@@ -28,6 +30,8 @@ data class PersonView(
         private var metro: Metro? = null
         private var moneyTo: Long = 0
         private var moneyFrom: Long = 0
+        private var metresTo: Long = 0
+        private var metresFrom: Long = 0
         private var rooms: List<RoomCount> = emptyList()
         private var description: String? = null
 
@@ -77,6 +81,16 @@ data class PersonView(
             return this
         }
 
+        fun metresTo(metresTo: Long): Builder {
+            this.metresTo = metresTo
+            return this
+        }
+
+        fun metresFrom(metresFrom: Long): Builder {
+            this.metresFrom = metresFrom
+            return this
+        }
+
         fun rooms(rooms: List<RoomCount>): Builder {
             this.rooms = rooms
             return this
@@ -97,6 +111,8 @@ data class PersonView(
                 metro,
                 moneyTo,
                 moneyFrom,
+                metresTo,
+                metresFrom,
                 rooms,
                 description
             )

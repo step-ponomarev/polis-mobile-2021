@@ -47,6 +47,7 @@
     <string name="surname">Surname</string>
     <string name="phone">Phone</string>
     <string name="money_default_value">Not indicated</string>
+    <string name="metres_default_value">Not indicated</string>
     <string name="toast_fill_all_information_about_apartment">Indicate all information about apartment</string>
     <string name="acceptably">Permissible</string>
     <string name="gender">Gender</string>
@@ -66,6 +67,7 @@
     </string-array>
 
     <string name="money">from %1$d to %2$d</string>
+    <string name="metres">from %1$d to %2$d</string>
     <string name="show_phone">Show phone</string>
     <string name="edit_apartment_text">Edit apartment</string>
     <string name="dialog_fragment_title_add_apartment">Add apartment</string>
@@ -86,6 +88,7 @@
     <string name="toast_there_are_no_advert_to_edit">You do not have advert to edit</string>
     <string name="toasts_user_changed_advert_info">You changed information about advert</string>
     <string name="toast_user_changed_apartment_info">You changed information about apartment</string>
+    <string name="metres_string">Метры</string>
 
 
     <string-array name="genders_filter">
