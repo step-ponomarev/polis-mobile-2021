@@ -107,7 +107,7 @@ class AdvertEditingFragment : AdvertFragment() {
             }
 
             if (metresFrom.toInt() >= metresTo.toInt()) {
-                throw InvalidRangeException("Первое число диапазона цен должно быть меньше второго")
+                throw InvalidRangeException("Первое число диапазона метров должно быть меньше второго")
             }
 
             val email = StorageUtils.getCurrentUserEmail(requireContext())
