@@ -62,8 +62,8 @@
     <string name="toast_apartment_already_proposed">You have already proposed apartment to this person</string>
     <string name="toast_no_apartments_yet">You have no available apartments</string>
     <string-array name="genders">
-        <item>Male</item>
         <item>Women</item>
+        <item>Male</item>
     </string-array>
 
     <string name="money">from %1$d to %2$d</string>

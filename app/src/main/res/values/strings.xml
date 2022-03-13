@@ -61,8 +61,8 @@
     <string name="toast_apartment_already_proposed">Вы уже предложили квартиру этому человеку</string>
     <string name="toast_no_apartments_yet">У вас нет доступных квартир</string>
     <string-array name="genders">
-        <item>Мужчина</item>
         <item>Женщина</item>
+        <item>Мужчина</item>
     </string-array>
 
     <string name="money">от %1$d до %2$d</string>
