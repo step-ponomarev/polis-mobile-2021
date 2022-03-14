@@ -17,4 +17,7 @@ interface IUserService {
 
     @Throws(DaoException::class)
     suspend fun isExist(email: String): Boolean
+
+    @Throws(DaoException::class)
+    suspend fun deleteUser(email: String)
 }

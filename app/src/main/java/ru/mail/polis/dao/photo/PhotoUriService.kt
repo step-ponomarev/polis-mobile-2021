@@ -34,4 +34,41 @@ class PhotoUriService : IPhotoUriService {
                 }
         }
     }
+
+    override suspend fun isExistImage(pathString: String): Boolean {
+        return suspendCancellableCoroutine { coroutine ->
+
+            val ref = storage.reference.child(pathString)
+                .downloadUrl
+                .addOnSuccessListener { task ->
+                    coroutine.resume(true)
+                }.addOnFailureListener {
+//                    coroutine.resumeWithException(
+//                        DaoException(
+//                            "Failure image fetching path: $pathString",
+//                            it
+//                        )
+//                    )
+                    coroutine.resume(false)
+                }
+        }
+    }
+
+    override suspend fun deleteImage(pathString: String) {
+        return suspendCancellableCoroutine { coroutine ->
+            storage.reference.child(pathString).delete()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        coroutine.resume(Unit)
+                    }
+                }.addOnFailureListener {
+                    coroutine.resumeWithException(
+                        DaoException(
+                            "Failure delete image : $pathString",
+                            it
+                        )
+                    )
+                }
+        }
+    }
 }

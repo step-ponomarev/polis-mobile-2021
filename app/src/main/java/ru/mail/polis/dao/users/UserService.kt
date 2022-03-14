@@ -117,6 +117,25 @@ class UserService : IUserService {
         }
     }
 
+    override suspend fun deleteUser(email: String) {
+        val personRef = userCollection.document(email)
+
+        return suspendCancellableCoroutine { coroutine ->
+            personRef.delete()
+                .addOnSuccessListener {
+                    coroutine.resume(Unit)
+                }
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        DaoException(
+                            "Failure deleting user with email: $email",
+                            it
+                        )
+                    )
+                }
+        }
+    }
+
     private fun userToMap(user: UserED): Map<String, Any?> {
         return mapOf(
             "email" to user.email,
