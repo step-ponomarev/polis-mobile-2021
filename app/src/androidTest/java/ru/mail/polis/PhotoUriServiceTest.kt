@@ -1,9 +1,10 @@
+package ru.mail.polis
+
 import android.graphics.BitmapFactory
 import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
-import ru.mail.polis.R
 import ru.mail.polis.converter.Converter
 import ru.mail.polis.dao.DaoException
 import ru.mail.polis.dao.photo.IPhotoUriService

@@ -1,3 +1,5 @@
+package ru.mail.polis
+
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test

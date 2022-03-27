@@ -1,3 +1,5 @@
+package ru.mail.polis
+
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
@@ -5,9 +7,7 @@ import ru.mail.polis.dao.propose.IProposeService
 import ru.mail.polis.dao.propose.ProposeED
 import ru.mail.polis.dao.propose.ProposeService
 import ru.mail.polis.dao.propose.ProposeStatus
-import ru.mail.polis.helpers.getAgeString
 import java.lang.IllegalStateException
-import kotlin.coroutines.coroutineContext
 
 class ProposeServiceTest {
     private val proposeService: IProposeService = ProposeService()
