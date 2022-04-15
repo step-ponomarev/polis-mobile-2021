@@ -94,6 +94,11 @@ class ProposeService(
                     if (it.documents.size == 1) {
                         it.documents[0].reference.update(proposeToMap(proposeED))
                         coroutine.resume(it.toObjects(ProposeED::class.java)[0])
+                    } else if (it.documents.size == 0) {
+                        coroutine.resumeWithException(
+                            DaoException(
+                                "Failed apdate propose by ownerEmail: ${proposeED.ownerEmail} and renterEmail: $proposeED.renterEmail", Exception())
+                        )
                     }
                 }
                 .addOnFailureListener {

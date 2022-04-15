@@ -1,5 +1,6 @@
 package ru.mail.polis
 
+import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Test
 import ru.mail.polis.utils.StorageUtils
@@ -18,6 +19,9 @@ class StorageUtilsTest {
 
         println(value)
         assert(email.compareTo(value ?: "") == 0)
+
+        //Junit 5 с ним траблы какие-то
+        resetStorage(appContext)
     }
 
     @Test
@@ -26,7 +30,10 @@ class StorageUtilsTest {
 
         val value = StorageUtils.getValue(appContext, StorageUtils.StorageKey.EMAIL)
 
+//        println(value)
         assert(value == null)
+
+        resetStorage(appContext)
     }
 
     @Test
@@ -43,6 +50,8 @@ class StorageUtilsTest {
         }
 
         assert(notSaved)
+
+        resetStorage(appContext)
     }
 
     @Test
@@ -54,14 +63,13 @@ class StorageUtilsTest {
         val value = StorageUtils.getCurrentUserEmail(appContext)
 
         assert(email.compareTo(value) == 0)
+
+        resetStorage(appContext)
     }
 
-//    @AfterEach
-//    fun resetStorage() {
-//        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-//
-//        StorageUtils.setValue(appContext, StorageUtils.StorageKey.EMAIL, null)
-//    }
+    private fun resetStorage(appContext: Context) {
+        StorageUtils.setValue(appContext, StorageUtils.StorageKey.EMAIL, null)
+    }
 
 
 }
