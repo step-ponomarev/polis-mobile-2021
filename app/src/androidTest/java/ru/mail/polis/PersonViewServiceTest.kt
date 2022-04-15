@@ -15,7 +15,7 @@ class PersonViewServiceTest {
     @Test
     fun personShouldBeAddedSuccessful() {
         runBlocking {
-            val person = createTestPerson()
+            val person = TestData.createTestPerson()
 
             val addedPerson = personService.addPerson(person)
             val gotPerson = personService.findByEmail(addedPerson.email!!)
@@ -30,7 +30,7 @@ class PersonViewServiceTest {
     @Test
     fun deletingShouldBeSuccessful() {
         runBlocking {
-            val person = createTestPerson()
+            val person = TestData.createTestPerson()
 
             val addedPerson = personService.addPerson(person)
             personService.deletePersonByEmail(addedPerson.email!!)
@@ -44,8 +44,8 @@ class PersonViewServiceTest {
     @Test
     fun updatingShouldBeSuccessful() {
         runBlocking {
-            val person = createTestPerson()
-            val updatedPerson = createUpdatedPerson(person)
+            val person = TestData.createTestPerson()
+            val updatedPerson = TestData.createUpdatedPerson(person)
 
             val addedPerson = personService.addPerson(person)
             personService.updatePerson(updatedPerson)
@@ -55,27 +55,5 @@ class PersonViewServiceTest {
 
             personService.deletePersonByEmail(addedPerson.email!!)
         }
-    }
-
-    private fun createTestPerson(): PersonED {
-        return PersonED.Builder.createBuilder()
-            .email("test@test.test")
-            .tags(listOf())
-            .metro(Metro.PARNASSUS)
-            .money(0L, 0L)
-            .rooms(listOf(RoomCount.ONE))
-            .description("test")
-            .build()
-    }
-
-    private fun createUpdatedPerson(oldPerson: PersonED): PersonED {
-        return PersonED.Builder.createBuilder()
-            .email(oldPerson.email!!)
-            .tags(oldPerson.tags!!)
-            .metro(oldPerson.metro!!)
-            .money(oldPerson.moneyFrom, oldPerson.moneyTo)
-            .rooms(oldPerson.rooms!!)
-            .description("")
-            .build()
     }
 }

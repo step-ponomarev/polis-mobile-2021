@@ -30,7 +30,6 @@ class StorageUtilsTest {
 
         val value = StorageUtils.getValue(appContext, StorageUtils.StorageKey.EMAIL)
 
-//        println(value)
         assert(value == null)
 
         resetStorage(appContext)

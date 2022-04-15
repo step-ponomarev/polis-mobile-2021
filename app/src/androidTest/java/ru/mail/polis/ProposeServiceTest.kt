@@ -17,7 +17,7 @@ class ProposeServiceTest {
     @Test
     fun createProposeTest() {
         runBlocking {
-            val propose = getPropose()
+            val propose = TestData.getPropose()
 
             proposeService.createPropose(propose)
 
@@ -36,8 +36,8 @@ class ProposeServiceTest {
     @Test
     fun updateProposeTest() {
         runBlocking {
-            val propose = getPropose()
-            val updatedPropose = getUpdatedPropose()
+            val propose = TestData.getPropose()
+            val updatedPropose = TestData.getUpdatedPropose()
 
             proposeService.createPropose(propose)
 
@@ -67,7 +67,7 @@ class ProposeServiceTest {
     @Test
     fun deleteProposeTest() {
         runBlocking {
-            val propose = getPropose()
+            val propose = TestData.getPropose()
 
             proposeService.createPropose(propose)
 
@@ -92,8 +92,8 @@ class ProposeServiceTest {
     @Test
     fun findRenterEmail() {
         runBlocking {
-            val propose = getPropose()
-            val oneRenterList = getTenProposesWithOneRenter()
+            val propose = TestData.getPropose()
+            val oneRenterList = TestData.getTenProposesWithOneRenter()
 
 
             oneRenterList.forEach {
@@ -124,8 +124,8 @@ class ProposeServiceTest {
     @Test
     fun findOwnerEmail() {
         runBlocking {
-            val propose = getPropose()
-            val oneRenterList = getTenProposesWithOneOwner()
+            val propose = TestData.getPropose()
+            val oneRenterList = TestData.getTenProposesWithOneOwner()
 
 
             oneRenterList.forEach {
@@ -156,7 +156,7 @@ class ProposeServiceTest {
     @Test
     fun checkProposeExistTest() {
         runBlocking {
-            val propose = getPropose()
+            val propose = TestData.getPropose()
 
             proposeService.createPropose(propose)
 
@@ -170,51 +170,5 @@ class ProposeServiceTest {
 
             Assert.assertFalse(isExist)
         }
-    }
-
-    private fun getTenProposesWithOneOwner(): List<ProposeED> {
-        val list = ArrayList<ProposeED>()
-
-        for (i in 1..10) {
-            list.add(
-                ProposeED(
-                    ownerEmail = testOwnerEmail,
-                    renterEmail = testRenterEmail + 1,
-                    status = ProposeStatus.PENDING
-                )
-            )
-        }
-
-        return list
-    }
-
-    private fun getTenProposesWithOneRenter(): List<ProposeED> {
-        val list = ArrayList<ProposeED>()
-
-        for (i in 1..10) {
-            list.add(
-                ProposeED(
-                    ownerEmail = testOwnerEmail + i,
-                    renterEmail = testRenterEmail,
-                    status = ProposeStatus.PENDING
-                )
-            )
-        }
-
-        return list
-    }
-
-    private fun getPropose(): ProposeED {
-        return ProposeED(
-            ownerEmail = testOwnerEmail,
-            renterEmail = testRenterEmail,
-            status = ProposeStatus.PENDING
-        )
-    }
-
-    private fun getUpdatedPropose(): ProposeED {
-        val updated = getPropose()
-        updated.status = ProposeStatus.ACCEPTED
-        return updated
     }
 }

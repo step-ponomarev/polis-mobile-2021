@@ -186,5 +186,22 @@ class TestData {
             }
             return personList
         }
+
+        fun getTenUsersList(): List<UserED> {
+            val userList = ArrayList<UserED>()
+            for (i in 1..10) {
+                userList.add(
+                    UserED(
+                        email = "testUserEmail@mail.ru" + i,
+                        name = "Ilya" + i,
+                        surname = "Tester" + i,
+                        phone = "8800553535",
+                        age = 21,
+                    )
+                )
+            }
+
+            return userList
+        }
     }
 }

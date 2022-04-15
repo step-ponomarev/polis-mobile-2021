@@ -4,7 +4,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
 import ru.mail.polis.dao.users.IUserService
-import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.dao.users.UserService
 
 class UserServiceTest {
@@ -14,7 +13,7 @@ class UserServiceTest {
     @Test
     fun addUserTest() {
         runBlocking {
-            val user = getUser()
+            val user = TestData.getUser()
 
             userService.addUser(user)
 
@@ -29,7 +28,7 @@ class UserServiceTest {
     @Test
     fun deleteUserTest() {
         runBlocking {
-            val user = getUser()
+            val user = TestData.getUser()
 
             userService.addUser(user)
 
@@ -48,8 +47,8 @@ class UserServiceTest {
     @Test
     fun updateUserTest() {
         runBlocking {
-            val user = getUser()
-            val updatedUser = getUpdatedUser()
+            val user = TestData.getUser()
+            val updatedUser = TestData.getUpdatedUser()
 
             val email = user.email!!
 
@@ -69,7 +68,7 @@ class UserServiceTest {
     @Test
     fun existUserTest() {
         runBlocking {
-            val user = getUser()
+            val user = TestData.getUser()
 
             userService.addUser(user)
 
@@ -82,7 +81,7 @@ class UserServiceTest {
     @Test
     fun findUserByEmailTest() {
         runBlocking {
-            val user = getUser()
+            val user = TestData.getUser()
             val email = user.email ?: return@runBlocking
 
             userService.addUser(user)
@@ -99,7 +98,7 @@ class UserServiceTest {
     @Test
     fun findUsersByEmail() {
         runBlocking {
-            val tenUsersList = getTenUsersList()
+            val tenUsersList = TestData.getTenUsersList()
 
             tenUsersList.forEach {
                 userService.addUser(it)
@@ -125,43 +124,4 @@ class UserServiceTest {
             }
         }
     }
-
-    private fun getTenUsersList(): List<UserED> {
-        val userList = ArrayList<UserED>()
-        for (i in 1..10) {
-            userList.add(
-                UserED(
-                    email = "testUserEmail@mail.ru" + i,
-                    name = "Ilya" + i,
-                    surname = "Tester" + i,
-                    phone = "8800553535",
-                    age = 21,
-                )
-            )
-        }
-
-        return userList
-    }
-
-    private fun getUser(): UserED {
-        return UserED(
-            email = "testUserEmail@mail.ru",
-            name = "Ilya",
-            surname = "Tester",
-            phone = "8800553535",
-            age = 21,
-        )
-    }
-
-    private fun getUpdatedUser(): UserED {
-        val user = getUser()
-
-        user.name = "Dima"
-        user.surname = "Sosister"
-        user.age = 22
-
-
-        return user
-    }
-
 }
