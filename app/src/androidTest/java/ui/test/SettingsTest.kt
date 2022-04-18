@@ -1,4 +1,4 @@
-package ui
+package ui.test
 
 import androidx.test.rule.ActivityTestRule
 import com.kaspersky.kaspresso.testcases.api.testcase.TestCase

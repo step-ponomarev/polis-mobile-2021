@@ -1,4 +1,4 @@
-package ui
+package ui.test
 
 import androidx.test.espresso.Espresso
 import androidx.test.rule.ActivityTestRule

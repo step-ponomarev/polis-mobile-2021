@@ -1,6 +1,8 @@
 package ru.mail.polis.ui.fragments
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -23,6 +25,7 @@ import ru.mail.polis.dao.users.UserService
 import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.utils.StorageUtils
+
 
 class LoginFragment : Fragment() {
     companion object {
@@ -60,6 +63,16 @@ class LoginFragment : Fragment() {
     }
 
     private fun onClickSignIn(view: View) {
+
+        if (!isConnectedToInternet()) {
+            NotificationCenter.showDefaultToast(
+                requireContext(),
+                getString(R.string.error_dao)
+            )
+
+            return
+        }
+
         loginForResult.launch(googleAuthentication.getSignInIntent())
     }
 
@@ -101,5 +114,19 @@ class LoginFragment : Fragment() {
                 NotificationKeeperException.NotificationType.DAO_ERROR
             )
         }
+    }
+
+    private fun isConnectedToInternet(): Boolean {
+
+        val cm = requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val activeNetwork = cm.getActiveNetworkInfo()
+
+        val isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting
+
+        return if (isConnected) {
+            if (activeNetwork!!.type == ConnectivityManager.TYPE_MOBILE) true else false
+        } else false
     }
 }
