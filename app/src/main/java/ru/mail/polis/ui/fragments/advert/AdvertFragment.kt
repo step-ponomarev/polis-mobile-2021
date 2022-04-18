@@ -29,6 +29,8 @@ abstract class AdvertFragment : Fragment() {
     protected lateinit var ageTextView: TextView
     protected lateinit var costFromEditText: EditText
     protected lateinit var costToEditText: EditText
+    protected lateinit var metresFromEditText: EditText
+    protected lateinit var metresToEditText: EditText
     protected lateinit var aboutMeEditText: EditText
     protected lateinit var llTags: LinearLayout
     protected var tagsForPerson: MutableList<Tags> = mutableListOf()
@@ -47,6 +49,8 @@ abstract class AdvertFragment : Fragment() {
         chipGroup = view.findViewById(R.id.component_rooms__chip_group)
         costFromEditText = view.findViewById(R.id.fragment_advert_creation__from_price_et)
         costToEditText = view.findViewById(R.id.fragment_advert_creation__to_price_et)
+        metresFromEditText = view.findViewById(R.id.fragment_advert_creation__from_metres_et)
+        metresToEditText= view.findViewById(R.id.fragment_advert_creation__to_metres_et)
         aboutMeEditText = view.findViewById(R.id.fragment_advert_creation__about_me_et)
         avatarImageView = view.findViewById(R.id.component_person_header__avatar)
         nameTextView = view.findViewById(R.id.component_person_header__name)

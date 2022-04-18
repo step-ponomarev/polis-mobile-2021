@@ -27,6 +27,7 @@ import kotlinx.coroutines.withContext
 import ru.mail.polis.R
 import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.decoder.DecoderFactory
+import ru.mail.polis.exceptions.InvalidPhoneNumberException
 import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
 import ru.mail.polis.utils.StorageUtils
@@ -104,42 +105,60 @@ class SettingsFragment : Fragment() {
     }
 
     private fun onClickEditUser(view: View) {
-
-        val photo: String? = if (currentPhotoUrl == null) {
-            null
-        } else {
-            currentPhotoUrl
-        }
-
-        val bitmap: Bitmap? = if (currentPhotoUrl == null) {
-            avatar.drawable.toBitmap()
-        } else {
-            null
-        }
-
-        val user = UserED(
-            email = StorageUtils.getCurrentUserEmail(requireContext()),
-            name = nameEditText.text.toString(),
-            surname = surnameEditText.text.toString(),
-            phone = phoneEditText.text.toString(),
-            age = Integer.parseInt(ageEditText.text.toString()).toLong(),
-            externalAccounts = emptyList(),
-            photo = photo
-        )
-
-        GlobalScope.launch(Dispatchers.Main) {
-            try {
-                settingsViewModel.updateUser(user, bitmap)
+        try {
+            if (!checkField()) {
                 NotificationCenter.showDefaultToast(
                     requireContext(),
-                    getString(R.string.toast_changes_are_saved)
+                    getString(R.string.toast_fill_all_information_about_user)
                 )
-            } catch (e: NotificationKeeperException) {
-                NotificationCenter.showDefaultToast(
-                    requireContext(),
-                    getString(e.getResourceStringCode())
-                )
+                return
             }
+
+            if (phoneEditText.text?.filter { c: Char -> c.isDigit() }.toString().length != 11) {
+                throw InvalidPhoneNumberException("Неверный формат номера телефона")
+            }
+
+            val photo: String? = if (currentPhotoUrl == null) {
+                null
+            } else {
+                currentPhotoUrl
+            }
+
+            val bitmap: Bitmap? = if (currentPhotoUrl == null) {
+                avatar.drawable.toBitmap()
+            } else {
+                null
+            }
+
+            val user = UserED(
+                email = StorageUtils.getCurrentUserEmail(requireContext()),
+                name = nameEditText.text.toString(),
+                surname = surnameEditText.text.toString(),
+                phone = phoneEditText.text.toString(),
+                age = Integer.parseInt(ageEditText.text.toString()).toLong(),
+                externalAccounts = emptyList(),
+                photo = photo
+            )
+
+            GlobalScope.launch(Dispatchers.Main) {
+                try {
+                    settingsViewModel.updateUser(user, bitmap)
+                    NotificationCenter.showDefaultToast(
+                        requireContext(),
+                        getString(R.string.toast_changes_are_saved)
+                    )
+                } catch (e: NotificationKeeperException) {
+                    NotificationCenter.showDefaultToast(
+                        requireContext(),
+                        getString(e.getResourceStringCode())
+                    )
+                }
+            }
+        } catch (e: InvalidPhoneNumberException) {
+            NotificationCenter.showDefaultToast(
+                requireContext(),
+                e.message ?: return
+            )
         }
     }
 
@@ -233,5 +252,15 @@ class SettingsFragment : Fragment() {
             avatar.setImageBitmap(bitmap)
             currentPhotoUrl = null
         }
+    }
+
+    private fun checkField(): Boolean {
+        if (nameEditText.text.toString().isEmpty() || surnameEditText.text.toString().isEmpty() ||
+            ageEditText.text.toString().isEmpty() || phoneEditText.text.toString().isEmpty()
+        ) {
+            return false
+        }
+
+        return true
     }
 }

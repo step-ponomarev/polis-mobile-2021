@@ -52,6 +52,7 @@ class PersonAnnouncementFragment : Fragment() {
         val ivBranchColor: ImageView =
             view.findViewById(R.id.fragment_person_announcement__metro_branch_color)
         val tvMoney: TextView = view.findViewById(R.id.fragment_person_announcement__tv_money)
+        val tvMetres: TextView = view.findViewById(R.id.fragment_person_announcement__tv_metres)
         val tagBottomLineDivider: View =
             view.findViewById(R.id.fragment_person_announcement__tag_line_divider)
         viewModel = ViewModelProvider(this).get(PersonAnnouncementViewModel::class.java)
@@ -97,6 +98,13 @@ class PersonAnnouncementFragment : Fragment() {
         } else {
             tvMoney.text =
                 view.context.getString(R.string.money, personView.moneyFrom, personView.moneyTo)
+        }
+
+        if (personView.metresFrom == 0L && personView.metresTo == 0L) {
+            tvMetres.setText(R.string.metres_default_value)
+        } else {
+            tvMetres.text =
+                view.context.getString(R.string.metres, personView.metresFrom, personView.metresTo)
         }
 
         personView.rooms.forEach { room ->
@@ -154,7 +162,7 @@ class PersonAnnouncementFragment : Fragment() {
             } catch (e: NotificationKeeperException) {
                 NotificationCenter.showDefaultToast(
                     requireContext(),
-                    getString(e.getResourceStringCode())
+                    "У вас не добавлена квартира"
                 )
             }
         }

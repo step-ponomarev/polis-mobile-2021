@@ -111,6 +111,8 @@ class ListOfPeopleFragment : Fragment() {
                 .tags(person.tags)
                 .moneyFrom(person.moneyFrom)
                 .moneyTo(person.moneyTo)
+                .metresFrom(person.metresFrom)
+                .metresTo(person.metresTo)
                 .rooms(person.rooms)
                 .description(person.description!!)
                 .metro(person.metro!!)

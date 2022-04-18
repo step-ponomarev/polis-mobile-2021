@@ -159,6 +159,8 @@ class PersonService private constructor() : IPersonService {
             "metro" to person.metro,
             "moneyFrom" to person.moneyFrom,
             "moneyTo" to person.moneyTo,
+            "metresFrom" to person.metresFrom,
+            "metresTo" to person.metresTo,
             "rooms" to person.rooms,
             "description" to person.description
         )

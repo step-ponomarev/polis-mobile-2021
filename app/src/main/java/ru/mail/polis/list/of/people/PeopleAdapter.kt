@@ -51,6 +51,7 @@ class PeopleAdapter(
         private val ivBranchColor: ImageView =
             itemView.findViewById(R.id.people_item__metro_branch_color)
         private val tvMoney: TextView = itemView.findViewById(R.id.people_item__tv_money)
+        private val tvMetres: TextView = itemView.findViewById(R.id.people_item__tv_metres)
         private val tagBottomLineDivider: View =
             itemView.findViewById(R.id.people_item__tag_line_divider)
 
@@ -91,6 +92,17 @@ class PeopleAdapter(
                         R.string.money,
                         personView.moneyFrom,
                         personView.moneyTo
+                    )
+            }
+
+            if (personView.metresFrom == 0L && personView.metresTo == 0L) {
+                tvMetres.setText(R.string.metres_default_value)
+            } else {
+                tvMetres.text =
+                    itemView.context.getString(
+                        R.string.money,
+                        personView.metresFrom,
+                        personView.metresTo
                     )
             }
 
