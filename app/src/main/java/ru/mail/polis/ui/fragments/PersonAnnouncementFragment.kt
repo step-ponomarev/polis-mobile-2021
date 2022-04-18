@@ -133,6 +133,15 @@ class PersonAnnouncementFragment : Fragment() {
                         "Advert with email ${personView.email} is not exist"
                     )
 
+                if (emailPerson.compareTo(StorageUtils.getCurrentUserEmail(requireContext())) == 0) {
+                    NotificationCenter.showDefaultToast(
+                        requireContext(),
+                        "Вы не можете предложить квартиру самому себе"
+                    )
+
+                    return@launch
+                }
+
                 viewModel.offerApartment(
                     StorageUtils.getCurrentUserEmail(requireContext()),
                     emailPerson
