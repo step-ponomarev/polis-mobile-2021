@@ -1,12 +1,19 @@
 package ui.screens
 
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import com.kaspersky.kaspresso.screens.KScreen
 import io.github.kakaocup.kakao.chipgroup.KChipGroup
 import io.github.kakaocup.kakao.edit.KEditText
 import io.github.kakaocup.kakao.spinner.KSpinner
 import io.github.kakaocup.kakao.spinner.KSpinnerItem
 import io.github.kakaocup.kakao.text.KButton
+import org.hamcrest.CoreMatchers.containsString
 import ru.mail.polis.R
+import ru.mail.polis.dao.apartments.ApartmentED
 import ru.mail.polis.ui.fragments.apartment.EditApartmentFragment
 
 object ApartmentEditingScreen : KScreen<ApartmentEditingScreen>() {
@@ -43,6 +50,49 @@ object ApartmentEditingScreen : KScreen<ApartmentEditingScreen>() {
 
         editButton {
             isVisible()
+        }
+    }
+
+    fun changeApartmentInfo(apartment: ApartmentED) {
+
+        val stationName = apartment.metro!!.stationName
+        val cost = apartment.apartmentCosts
+        val square = apartment.apartmentSquare
+        val rooms = apartment.roomCount!!.label
+
+        Espresso.onView(ViewMatchers.withId(R.id.component_apartment_info__spinner))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withText(stationName)).perform(ViewActions.click())
+
+        roomChipGroup {
+        }
+
+        costEditText {
+            replaceText(cost.toString())
+        }
+
+        squareEditText {
+            replaceText(square.toString())
+        }
+
+        editButton.click()
+    }
+
+    fun checkUserInfo(updatedApartment: ApartmentED) {
+
+        Espresso.onView(ViewMatchers.withId(R.id.component_apartment_info__spinner))
+            .check(matches(withSpinnerText(containsString(updatedApartment.metro!!.stationName))))
+
+        roomChipGroup {
+            isChipSelected(updatedApartment.roomCount!!.label)
+        }
+
+        costEditText {
+            hasText(updatedApartment.apartmentCosts.toString())
+        }
+
+        squareEditText {
+            hasText(updatedApartment.apartmentSquare.toString())
         }
     }
 }

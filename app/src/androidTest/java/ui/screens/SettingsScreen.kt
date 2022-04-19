@@ -1,11 +1,12 @@
 package ui.screens
 
+import androidx.test.espresso.action.ViewActions
 import com.kaspersky.kaspresso.screens.KScreen
 import io.github.kakaocup.kakao.edit.KEditText
 import io.github.kakaocup.kakao.text.KButton
 import ru.mail.polis.R
+import ru.mail.polis.dao.users.UserED
 import ru.mail.polis.ui.fragments.SettingsFragment
-import ui.data.User
 
 object SettingsScreen : KScreen<SettingsScreen>() {
     override val layoutId: Int? = R.layout.fragment_settings
@@ -24,6 +25,12 @@ object SettingsScreen : KScreen<SettingsScreen>() {
     private val listOfPeopleButton =
         KButton { withId(R.id.nav_graph__list_of_people) }
 
+
+
+    val advertButton = KButton { withId(R.id.fragment_settings__edit_person) }
+
+    val apartmentButton = KButton { withId(R.id.fragment_settings__edit_apartment) }
+
     fun navigateToListOfPeople() {
         listOfPeopleButton {
             isVisible()
@@ -31,15 +38,15 @@ object SettingsScreen : KScreen<SettingsScreen>() {
         }
     }
 
-    fun changeUserInfo(user: User) {
+    fun changeUserInfo(userED: UserED) {
         nameTextBox {
             isVisible()
-            replaceText(user.name)
+            replaceText(userED.name!!)
         }
 
         surnameTextBox {
             isVisible()
-            replaceText(user.surname)
+            replaceText(userED.surname!!)
         }
 //        phoneTextBox {
 //            isVisible()
@@ -47,7 +54,7 @@ object SettingsScreen : KScreen<SettingsScreen>() {
 //        }
         ageTextBox {
             isVisible()
-            replaceText(user.age.toString())
+            replaceText(userED.age.toString())
         }
 
         editButton {
@@ -56,15 +63,15 @@ object SettingsScreen : KScreen<SettingsScreen>() {
         }
     }
 
-    fun checkUserInfo(user: User) {
+    fun checkUserInfo(userED: UserED) {
         nameTextBox {
             isVisible()
-            hasText(user.name)
+            hasText(userED.name!!)
         }
 
         surnameTextBox {
             isVisible()
-            hasText(user.surname)
+            hasText(userED.surname!!)
         }
 
 //        phoneTextBox {
@@ -74,11 +81,134 @@ object SettingsScreen : KScreen<SettingsScreen>() {
 
         ageTextBox {
             isVisible()
-            hasText(user.age.toString())
+            hasText(userED.age.toString())
         }
     }
 
-    val editPerson = KButton { withId(R.id.fragment_settings__edit_person) }
+    fun isLoaded() {
+        nameTextBox {
+            isVisible()
+        }
 
-    val advertButton = KButton { withId(R.id.nav_graph__list_of_people) }
+        surnameTextBox {
+            isVisible()
+        }
+
+        phoneTextBox {
+            isVisible()
+        }
+
+        ageTextBox {
+            isVisible()
+        }
+    }
+
+    fun fillAllExceptName(userED: UserED) {
+        clearField()
+
+        surnameTextBox {
+            isVisible()
+            ViewActions.replaceText(userED.surname)
+        }
+//        phoneTextBox {
+//            isVisible()
+//            replaceText(user.phone)
+//        }
+        ageTextBox {
+            isVisible()
+            replaceText(userED.age.toString())
+        }
+    }
+
+    fun fillAllExceptSurname(userED: UserED) {
+        clearField()
+
+        nameTextBox {
+            isVisible()
+            ViewActions.replaceText(userED.name)
+        }
+//        phoneTextBox {
+//            isVisible()
+//            replaceText(user.phone)
+//        }
+        ageTextBox {
+            isVisible()
+            replaceText(userED.age.toString())
+        }
+    }
+
+    fun fillAllExceptPhone(userED: UserED) {
+        clearField()
+
+        nameTextBox {
+            isVisible()
+            ViewActions.replaceText(userED.name)
+        }
+
+        surnameTextBox {
+            isVisible()
+            ViewActions.replaceText(userED.surname)
+        }
+
+        ageTextBox {
+            isVisible()
+            replaceText(userED.age.toString())
+        }
+    }
+
+    fun fillAllExceptAge(userED: UserED) {
+        clearField()
+
+        nameTextBox {
+            isVisible()
+            ViewActions.replaceText(userED.name)
+        }
+
+        surnameTextBox {
+            isVisible()
+            ViewActions.replaceText(userED.surname)
+        }
+//        phoneTextBox {
+//            isVisible()
+//            replaceText(user.phone)
+//        }
+    }
+
+    fun clearField() {
+        nameTextBox {
+            clearText()
+        }
+
+        surnameTextBox {
+            clearText()
+
+        }
+//        phoneTextBox {
+//                        clearText()
+//        }
+        ageTextBox {
+            clearText()
+        }
+    }
+
+    fun clickEditButton() {
+        editButton {
+            isVisible()
+            click()
+        }
+    }
+
+    fun clickApartmentButton() {
+        apartmentButton {
+            isVisible()
+            click()
+        }
+    }
+
+    fun clickAdvertButton() {
+        advertButton {
+            isVisible()
+            click()
+        }
+    }
 }
