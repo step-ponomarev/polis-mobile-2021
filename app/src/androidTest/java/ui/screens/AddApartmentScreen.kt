@@ -84,4 +84,82 @@ object AddApartmentScreen : KScreen<AddApartmentScreen>() {
             click()
         }
     }
+
+    fun fillAllExceptNumberRooms(apartmentED: ApartmentED) {
+        clearFields()
+
+        val stationName = apartmentED.metro?.stationName ?: throw IllegalStateException()
+        val rooms = apartmentED.roomCount?.label ?: throw IllegalStateException()
+        val cost = apartmentED.apartmentCosts ?: throw IllegalStateException()
+        val metres = apartmentED.apartmentSquare ?: throw IllegalStateException()
+
+        onView(withId(R.id.component_apartment_info__spinner)).perform(click())
+        onView(withText(stationName)).perform(click())
+
+
+        costEditText {
+            replaceText(cost.toString())
+        }
+
+        squareEditText {
+            replaceText(metres.toString())
+        }
+    }
+
+    fun fillAllExceptCost(apartmentED: ApartmentED) {
+        clearFields()
+
+        val stationName = apartmentED.metro?.stationName ?: throw IllegalStateException()
+        val rooms = apartmentED.roomCount?.label ?: throw IllegalStateException()
+        val cost = apartmentED.apartmentCosts ?: throw IllegalStateException()
+        val metres = apartmentED.apartmentSquare ?: throw IllegalStateException()
+
+        onView(withId(R.id.component_apartment_info__spinner)).perform(click())
+        onView(withText(stationName)).perform(click())
+
+
+
+        roomChipGroup {
+            selectChip(rooms)
+
+            isChipSelected(rooms)
+        }
+
+        squareEditText {
+            replaceText(metres.toString())
+        }
+    }
+
+    fun fillAllExceptMetres(apartmentED: ApartmentED) {
+        clearFields()
+        val stationName = apartmentED.metro?.stationName ?: throw IllegalStateException()
+        val rooms = apartmentED.roomCount?.label ?: throw IllegalStateException()
+        val cost = apartmentED.apartmentCosts ?: throw IllegalStateException()
+        val metres = apartmentED.apartmentSquare ?: throw IllegalStateException()
+
+        onView(withId(R.id.component_apartment_info__spinner)).perform(click())
+        onView(withText(stationName)).perform(click())
+
+
+        roomChipGroup {
+            selectChip(rooms)
+
+            isChipSelected(rooms)
+        }
+
+        costEditText {
+            replaceText(cost.toString())
+        }
+    }
+
+    private fun clearFields() {
+        costEditText {
+            clearText()
+        }
+
+        squareEditText {
+            clearText()
+        }
+
+    }
 }
