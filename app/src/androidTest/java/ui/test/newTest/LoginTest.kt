@@ -18,7 +18,13 @@ import org.junit.Rule
 import org.junit.Test
 import ru.mail.polis.MainActivity
 import ru.mail.polis.R
+import ui.data.getTestApartment
+import ui.data.getTestPerson
+import ui.data.getTestUser
+import ui.screens.ListOfPeopleScreen
 import ui.screens.LoginScreen
+import ui.screens.SelfDefinitionScreen
+import ui.utils.ServiceUtils
 
 class LoginTest : TestCase() {
 
@@ -28,6 +34,10 @@ class LoginTest : TestCase() {
 
     private lateinit var decorView: View
     private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+    private val person = getTestPerson()
+    private val apartment = getTestApartment()
+    private val user = getTestUser()
+
     private val wifiManager: WifiManager =
         appContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
@@ -53,6 +63,77 @@ class LoginTest : TestCase() {
                 onView(withText(messageExpected))
                     .inRoot(withDecorView(not(decorView)))// Here we use decorView
                     .check(matches(isDisplayed()));
+            }
+        }
+    }
+
+    //TODO исправить в логин фрагменте, чтобы чекать, а то там мелькает другой экран
+    @Test
+    fun loginWithExistingAccountAndApartment() {
+        before {
+            val scenario = activityScenarioRule.scenario
+            activityScenarioRule.scenario.onActivity {
+                decorView = it.window.decorView;
+            }
+
+            ServiceUtils.createUser(user)
+            ServiceUtils.createApartment(apartment)
+        }.after {
+            ServiceUtils.deleteUser(user)
+            ServiceUtils.deleteApartment(apartment)
+        }.run {
+            LoginScreen {
+                login()
+            }
+
+            ListOfPeopleScreen {
+                isLoaded()
+            }
+        }
+    }
+
+    @Test
+    fun loginWithExistingAccountAndAdvert() {
+        before {
+            val scenario = activityScenarioRule.scenario
+            activityScenarioRule.scenario.onActivity {
+                decorView = it.window.decorView;
+            }
+
+            ServiceUtils.createUser(user)
+            ServiceUtils.createAdvert(person)
+        }.after {
+            ServiceUtils.deleteUser(user)
+            ServiceUtils.deletePerson(person)
+        }.run {
+            LoginScreen {
+                login()
+            }
+
+            ListOfPeopleScreen {
+                isLoaded()
+            }
+        }
+    }
+
+    @Test
+    fun loginWithExistingAccount() {
+        before {
+            val scenario = activityScenarioRule.scenario
+            activityScenarioRule.scenario.onActivity {
+                decorView = it.window.decorView;
+            }
+
+            ServiceUtils.createUser(user)
+        }.after {
+            ServiceUtils.deleteUser(user)
+        }.run {
+            LoginScreen {
+                login()
+            }
+
+            SelfDefinitionScreen {
+                isLoaded()
             }
         }
     }

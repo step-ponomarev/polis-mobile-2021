@@ -24,6 +24,19 @@ class ServiceUtils {
             }
         }
 
+        fun createApartment(apartmentED: ApartmentED) {
+            runBlocking {
+                apartmentService.addApartment(apartmentED)
+            }
+        }
+
+        fun createAdvert(personED: PersonED) {
+            runBlocking {
+                personService.addPerson(personED)
+            }
+        }
+
+
         fun deleteUser(userED: UserED) {
             runBlocking {
                 userService.deleteUser(userED.email!!)
