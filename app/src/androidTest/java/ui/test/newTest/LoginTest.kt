@@ -1,4 +1,4 @@
-package ui.test
+package ui.test.newTest
 
 import android.content.Context
 import android.net.wifi.WifiManager
@@ -20,11 +20,11 @@ import ru.mail.polis.MainActivity
 import ru.mail.polis.R
 import ui.screens.LoginScreen
 
-
 class LoginTest : TestCase() {
 
+    //ДБ паблик
     @get:Rule
-    private val activityTestRule = ActivityScenarioRule(MainActivity::class.java)
+    val activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
     private lateinit var decorView: View
     private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
@@ -34,9 +34,10 @@ class LoginTest : TestCase() {
     @Test
     fun loginWithDisabledInternetConnection() {
         before {
-            activityTestRule.scenario.onActivity {
+            val scenario = activityScenarioRule.scenario
+            activityScenarioRule.scenario.onActivity {
                 decorView = it.window.decorView;
-            };
+            }
 
             device.network.toggleWiFi(false)
         }.after {

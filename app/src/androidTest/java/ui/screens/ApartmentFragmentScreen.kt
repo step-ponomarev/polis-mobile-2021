@@ -15,4 +15,5 @@ object ApartmentFragmentScreen : KScreen<ApartmentFragmentScreen>() {
     val findCostEditText = KEditText { withId(R.id.component_apartment_info__set_cost_et) }
     val findSquareEditText =
         KEditText { withId(R.id.component_apartment_info__set_squared_metres_et) }
+
 }

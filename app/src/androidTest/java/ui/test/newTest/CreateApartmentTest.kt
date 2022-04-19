@@ -1,4 +1,4 @@
-package ui.test
+package ui.test.newTest
 
 import android.view.View
 import androidx.test.espresso.Espresso
