@@ -13,12 +13,16 @@ import org.junit.Rule
 import org.junit.Test
 import ru.mail.polis.MainActivity
 import ru.mail.polis.R
+import ui.data.getTestApartment
 import ui.data.getTestPerson
 import ui.data.getTestUser
 import ui.screens.AddAdvertScreen
+import ui.screens.AdvertDialogScreen
+import ui.screens.AdvertEditingScreen
 import ui.screens.ListOfPeopleScreen
 import ui.screens.LoginScreen
 import ui.screens.SelfDefinitionScreen
+import ui.screens.SettingsScreen
 import ui.utils.ServiceUtils
 
 class CreateAdvertTest : TestCase() {
@@ -29,6 +33,7 @@ class CreateAdvertTest : TestCase() {
     private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
     private val person = getTestPerson()
     private val testUser = getTestUser()
+    private val apartment = getTestApartment()
 
     @Test
     fun firstCreationAdvertWithAllFieldsAreFilled() {
@@ -175,6 +180,88 @@ class CreateAdvertTest : TestCase() {
                     checkRangeSquareToast()
 
                     Thread.sleep(3000)
+                }
+            }
+        }
+    }
+
+    @Test
+    fun createAdvertFromSettingsWhenApartmentIsExist() {
+        before {
+            activityTestRule.scenario.onActivity {
+                decorView = it.window.decorView;
+            }
+
+            //должен быть юзер, значить надо его добавить, после удалить
+            ServiceUtils.createUser(testUser)
+            ServiceUtils.createApartment(apartment)
+
+        }.after {
+            ServiceUtils.deleteUser(testUser)
+            ServiceUtils.deletePerson(person)
+            ServiceUtils.deleteApartment(apartment)
+        }.run {
+
+            step("Login") {
+                LoginScreen {
+                    login()
+                }
+            }
+
+            step("To main screen") {
+                ListOfPeopleScreen {
+                    isLoaded()
+
+                    navigateToSettings()
+                }
+            }
+
+            step("Click apartment button") {
+                SettingsScreen {
+                    isLoaded()
+
+                    clickAdvertButton()
+                }
+            }
+
+            step("Dialog to create must appear and choose create") {
+                AdvertDialogScreen {
+                    isLoaded()
+
+                    clickAdd()
+                }
+            }
+
+            step("Create apartment") {
+                AddAdvertScreen {
+                    isLoaded()
+
+                    fillAllFields(person)
+                    clickAddButton()
+                }
+            }
+
+            step("Navigate to main screen") {
+                ListOfPeopleScreen {
+                    isLoaded()
+
+                    navigateToSettings()
+                }
+            }
+
+            step("Click add apartment") {
+                SettingsScreen {
+                    isLoaded()
+
+                    clickAdvertButton()
+                }
+            }
+
+            step("Check that was added") {
+                AdvertEditingScreen {
+                    isLoaded()
+
+                    checkAdvertInfo(person)
                 }
             }
         }
