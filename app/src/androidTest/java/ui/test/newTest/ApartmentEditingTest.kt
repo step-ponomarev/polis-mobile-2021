@@ -33,7 +33,7 @@ class ApartmentEditingTest : TestCase() {
     private val testUser = getTestUser()
 
     @Test
-    fun firstCreationApartmentWithAllFieldsAreFilled() {
+    fun apartmentEditingWithAllFieldsAreFilled() {
         before {
             activityTestRule.scenario.onActivity {
                 decorView = it.window.decorView;
@@ -98,9 +98,67 @@ class ApartmentEditingTest : TestCase() {
         }
     }
 
+    @Test
+    fun checkToastWhenNotAllFieldsFilled() {
+        before {
+            activityTestRule.scenario.onActivity {
+                decorView = it.window.decorView;
+            }
+
+            //должен быть юзер, значить надо его добавить, после удалить
+            ServiceUtils.createUser(testUser)
+            ServiceUtils.createApartment(apartment)
+        }.after {
+            ServiceUtils.deleteUser(testUser)
+            ServiceUtils.deleteApartment(apartment)
+        }.run {
+
+            step("Login") {
+                LoginScreen {
+                    login()
+                }
+            }
+
+            step("Navigate to main screen") {
+                ListOfPeopleScreen {
+                    isLoaded()
+
+                    navigateToSettings()
+                }
+            }
+
+            step("In Setting choose change apartment") {
+                SettingsScreen {
+                    isLoaded()
+
+                    clickApartmentButton()
+                }
+            }
+
+            step("Change apartment with not all field are filled") {
+                ApartmentEditingScreen {
+                    isLoaded()
+
+                    //Chip group не трогаю
+
+                    //Чтобы подождать загрузку
+//                    Thread.sleep(3000)
+
+                    fillAllExceptCost(apartment)
+                    clickEditButton()
+                    checkFieldsToast()
+
+                    fillAllExceptMetres(apartment)
+                    clickEditButton()
+                    checkFieldsToast()
+                }
+            }
+        }
+    }
+
     private fun checkFieldsToast() {
         val messageExpected =
-            appContext.getString(R.string.toast_fill_all_information_about_user)
+            appContext.getString(R.string.toast_fill_all_information_about_apartment)
 
         checkToast(messageExpected)
     }
