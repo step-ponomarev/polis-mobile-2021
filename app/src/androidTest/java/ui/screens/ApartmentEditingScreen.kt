@@ -41,10 +41,12 @@ object ApartmentEditingScreen : KScreen<ApartmentEditingScreen>() {
         }
 
         costEditText {
+            hasAnyText()
             isVisible()
         }
-
+//hastext т.к подгружается
         squareEditText {
+            hasAnyText()
             isVisible()
         }
 
@@ -78,7 +80,7 @@ object ApartmentEditingScreen : KScreen<ApartmentEditingScreen>() {
         editButton.click()
     }
 
-    fun checkUserInfo(updatedApartment: ApartmentED) {
+    fun checkApartmentInfo(updatedApartment: ApartmentED) {
 
         Espresso.onView(ViewMatchers.withId(R.id.component_apartment_info__spinner))
             .check(matches(withSpinnerText(containsString(updatedApartment.metro!!.stationName))))
@@ -93,6 +95,73 @@ object ApartmentEditingScreen : KScreen<ApartmentEditingScreen>() {
 
         squareEditText {
             hasText(updatedApartment.apartmentSquare.toString())
+        }
+    }
+
+
+    fun fillAllExceptCost(apartmentED: ApartmentED) {
+        clearFields()
+
+        val stationName = apartmentED.metro?.stationName ?: throw IllegalStateException()
+        val rooms = apartmentED.roomCount?.label ?: throw IllegalStateException()
+        val cost = apartmentED.apartmentCosts ?: throw IllegalStateException()
+        val metres = apartmentED.apartmentSquare ?: throw IllegalStateException()
+
+        Espresso.onView(ViewMatchers.withId(R.id.component_apartment_info__spinner))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withText(stationName)).perform(ViewActions.click())
+
+
+
+        roomChipGroup {
+            selectChip(rooms)
+
+            isChipSelected(rooms)
+        }
+
+        squareEditText {
+            replaceText(metres.toString())
+        }
+    }
+
+    fun fillAllExceptMetres(apartmentED: ApartmentED) {
+        clearFields()
+        val stationName = apartmentED.metro?.stationName ?: throw IllegalStateException()
+        val rooms = apartmentED.roomCount?.label ?: throw IllegalStateException()
+        val cost = apartmentED.apartmentCosts ?: throw IllegalStateException()
+        val metres = apartmentED.apartmentSquare ?: throw IllegalStateException()
+
+        Espresso.onView(ViewMatchers.withId(R.id.component_apartment_info__spinner))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withText(stationName)).perform(ViewActions.click())
+
+
+        roomChipGroup {
+            selectChip(rooms)
+
+            isChipSelected(rooms)
+        }
+
+        costEditText {
+            replaceText(cost.toString())
+        }
+    }
+
+    private fun clearFields() {
+
+        costEditText {
+            clearText()
+        }
+
+        squareEditText {
+            clearText()
+        }
+    }
+
+    fun clickEditButton() {
+        editButton {
+            isVisible()
+            click()
         }
     }
 }

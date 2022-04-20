@@ -13,27 +13,28 @@ import org.junit.Rule
 import org.junit.Test
 import ru.mail.polis.MainActivity
 import ru.mail.polis.R
-import ui.data.getTestApartment
+import ui.data.getTestPerson
 import ui.data.getTestUser
-import ui.data.getUpdatedTestApartment
+import ui.data.getUpdatedTestPerson
+import ui.screens.AdvertEditingScreen
 import ui.screens.ApartmentEditingScreen
 import ui.screens.ListOfPeopleScreen
 import ui.screens.LoginScreen
 import ui.screens.SettingsScreen
 import ui.utils.ServiceUtils
 
-class ApartmentEditingTest : TestCase() {
+class AdvertEditingTest : TestCase() {
     @get:Rule
     val activityTestRule = ActivityScenarioRule(MainActivity::class.java)
 
     private lateinit var decorView: View
     private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-    private val apartment = getTestApartment()
-    private val updatedApartment = getUpdatedTestApartment()
+    private val person = getTestPerson()
+    private val updatedPerson = getUpdatedTestPerson()
     private val testUser = getTestUser()
 
     @Test
-    fun apartmentEditingWithAllFieldsAreFilled() {
+    fun advertEditingWithAllFieldsAreFilled() {
         before {
             activityTestRule.scenario.onActivity {
                 decorView = it.window.decorView;
@@ -41,10 +42,10 @@ class ApartmentEditingTest : TestCase() {
 
             //должен быть юзер, значить надо его добавить, после удалить
             ServiceUtils.createUser(testUser)
-            ServiceUtils.createApartment(apartment)
+            ServiceUtils.createAdvert(person)
         }.after {
             ServiceUtils.deleteUser(testUser)
-            ServiceUtils.deleteApartment(updatedApartment)
+            ServiceUtils.deletePerson(updatedPerson)
         }.run {
 
             step("Login") {
@@ -61,19 +62,19 @@ class ApartmentEditingTest : TestCase() {
                 }
             }
 
-            step("In Setting choose change apartment") {
+            step("In Setting choose change advert") {
                 SettingsScreen {
                     isLoaded()
 
-                    clickApartmentButton()
+                    clickAdvertButton()
                 }
             }
 
-            step("Change apartment") {
-                ApartmentEditingScreen {
+            step("Change advert") {
+                AdvertEditingScreen {
                     isLoaded()
 
-                    changeApartmentInfo(updatedApartment)
+                    changeAdvertInfo(updatedPerson)
                     checkSavedToast()
 
                     device.exploit.pressBack()
@@ -84,77 +85,77 @@ class ApartmentEditingTest : TestCase() {
                 SettingsScreen {
                     isLoaded()
 
-                    clickApartmentButton()
+                    clickAdvertButton()
                 }
             }
 
             step("Return to editing apartment and check that saved") {
-                ApartmentEditingScreen {
+                AdvertEditingScreen {
                     isLoaded()
 
-                    checkApartmentInfo(updatedApartment)
+                    checkAdvertInfo(updatedPerson)
                 }
             }
         }
     }
 
-    @Test
-    fun checkToastWhenNotAllFieldsFilled() {
-        before {
-            activityTestRule.scenario.onActivity {
-                decorView = it.window.decorView;
-            }
-
-            //должен быть юзер, значить надо его добавить, после удалить
-            ServiceUtils.createUser(testUser)
-            ServiceUtils.createApartment(apartment)
-        }.after {
-            ServiceUtils.deleteUser(testUser)
-            ServiceUtils.deleteApartment(apartment)
-        }.run {
-
-            step("Login") {
-                LoginScreen {
-                    login()
-                }
-            }
-
-            step("Navigate to main screen") {
-                ListOfPeopleScreen {
-                    isLoaded()
-
-                    navigateToSettings()
-                }
-            }
-
-            step("In Setting choose change apartment") {
-                SettingsScreen {
-                    isLoaded()
-
-                    clickApartmentButton()
-                }
-            }
-
-            step("Change apartment with not all field are filled") {
-                ApartmentEditingScreen {
-                    isLoaded()
-
-                    //Chip group не трогаю
-
-                    //Чтобы подождать загрузку
-//                    Thread.sleep(3000)
-
-                    fillAllExceptCost(apartment)
-                    clickEditButton()
-                    checkFieldsToast()
-
-                    fillAllExceptMetres(apartment)
-                    clickEditButton()
-                    checkFieldsToast()
-                }
-            }
-        }
-    }
+//    @Test
+//    fun checkToastWhenNotAllFieldsFilled() {
+//        before {
+//            activityTestRule.scenario.onActivity {
+//                decorView = it.window.decorView;
+//            }
+//
+//            //должен быть юзер, значить надо его добавить, после удалить
+//            ServiceUtils.createUser(testUser)
+//            ServiceUtils.createApartment(apartment)
+//        }.after {
+//            ServiceUtils.deleteUser(testUser)
+//            ServiceUtils.deleteApartment(apartment)
+//        }.run {
+//
+//            step("Login") {
+//                LoginScreen {
+//                    login()
+//                }
+//            }
+//
+//            step("Navigate to main screen") {
+//                ListOfPeopleScreen {
+//                    isLoaded()
+//
+//                    navigateToSettings()
+//                }
+//            }
+//
+//            step("In Setting choose change apartment") {
+//                SettingsScreen {
+//                    isLoaded()
+//
+//                    clickApartmentButton()
+//                }
+//            }
+//
+//            step("Change apartment with not all field are filled") {
+//                ApartmentEditingScreen {
+//                    isLoaded()
+//
+//                    //Chip group не трогаю
+//
+//                    //Чтобы подождать загрузку
+////                    Thread.sleep(3000)
+//
+//                    fillAllExceptCost(apartment)
+//                    clickEditButton()
+//                    checkFieldsToast()
+//
+//                    fillAllExceptMetres(apartment)
+//                    clickEditButton()
+//                    checkFieldsToast()
+//                }
+//            }
+//        }
+//    }
 
     private fun checkFieldsToast() {
         val messageExpected =
@@ -164,7 +165,7 @@ class ApartmentEditingTest : TestCase() {
     }
 
     private fun checkSavedToast() {
-        val messageExpected = appContext.getString(R.string.toast_user_changed_apartment_info)
+        val messageExpected = appContext.getString(R.string.toasts_user_changed_advert_info)
 
         checkToast(messageExpected)
     }

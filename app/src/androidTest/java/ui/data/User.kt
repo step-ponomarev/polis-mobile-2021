@@ -58,3 +58,14 @@ fun getTestPerson(): PersonED = PersonED(
     rooms = listOf(RoomCount.TWO, RoomCount.THREE),
     description = "I find apartment with two or three rooms, but dont hav money"
 )
+
+fun getUpdatedTestPerson(): PersonED = PersonED(
+    email = "filmnotification@gmail.com",
+    metro = Metro.ACADEMIC,
+    moneyFrom = 4000,
+    moneyTo = 19000,
+    metresFrom = 8,
+    metresTo = 17,
+    rooms = listOf(RoomCount.TWO, RoomCount.THREE),
+    description = "I find apartment with two or three rooms, but dont hav money"
+)
