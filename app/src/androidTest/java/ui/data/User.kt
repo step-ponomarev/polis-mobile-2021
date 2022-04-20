@@ -69,3 +69,22 @@ fun getUpdatedTestPerson(): PersonED = PersonED(
     rooms = listOf(RoomCount.TWO, RoomCount.THREE),
     description = "I find apartment with two or three rooms, but dont hav money"
 )
+
+fun getPersonToOfferApartment() : PersonED = PersonED(
+    email = "lol@gmail.com",
+    metro = Metro.ACADEMIC,
+    moneyFrom = 4000,
+    moneyTo = 19000,
+    metresFrom = 8,
+    metresTo = 17,
+    rooms = listOf(RoomCount.TWO, RoomCount.THREE),
+    description = "I find apartment with two or three rooms, but dont hav money"
+)
+
+fun getUserToOfferApartment(): UserED = UserED(
+    email = "lol@gmail.com",
+    name = "Ему",
+    surname = "Предалагать",
+    phone = "89023334422",
+    age = 25
+)
