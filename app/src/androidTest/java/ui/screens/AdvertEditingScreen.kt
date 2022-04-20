@@ -194,4 +194,141 @@ object AdvertEditingScreen : KScreen<AdvertEditingScreen>() {
 
         clickEditButton()
     }
+
+    fun clearFields() {
+
+        //cant clear
+        AddAdvertScreen.roomChipGroup {
+//            rooms.forEach {
+//                this.selectChip(it.label)
+//            }
+        }
+
+        AddAdvertScreen.squareFromEditText {
+            clearText()
+        }
+
+        AddAdvertScreen.squareToEditText {
+            clearText()
+        }
+
+        costFromEditText {
+            clearText()
+        }
+
+        costToEditText {
+            clearText()
+        }
+
+        aboutMeEditText {
+            clearText()
+        }
+    }
+
+    fun fillAllExceptNumberRooms(personED: PersonED) {
+        AddAdvertScreen.clearFields()
+
+        val rooms = personED.rooms
+        val metresFrom = personED.metresFrom
+        val metresTo = personED.metresTo
+        val moneyFrom = personED.moneyFrom
+        val moneyTo = personED.moneyTo
+        val description = personED.description
+        val stationName = personED.metro!!.stationName
+
+
+        Espresso.onView(ViewMatchers.withId(R.id.fragment_advert_creation__spinner))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withText(stationName)).perform(ViewActions.click())
+
+        AddAdvertScreen.squareFromEditText {
+            replaceText(metresFrom.toString())
+        }
+
+        AddAdvertScreen.squareToEditText {
+            replaceText(metresTo.toString())
+        }
+
+        costFromEditText {
+            replaceText(moneyFrom.toString())
+        }
+
+        costToEditText {
+            replaceText(moneyTo.toString())
+        }
+
+        aboutMeEditText {
+            replaceText(description!!)
+        }
+    }
+
+    fun fillAllExceptCost(personED: PersonED) {
+        AddAdvertScreen.clearFields()
+
+        val rooms = personED.rooms
+        val metresFrom = personED.metresFrom
+        val metresTo = personED.metresTo
+        val moneyFrom = personED.moneyFrom
+        val moneyTo = personED.moneyTo
+        val description = personED.description
+        val stationName = personED.metro!!.stationName
+
+
+        Espresso.onView(ViewMatchers.withId(R.id.fragment_advert_creation__spinner))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withText(stationName)).perform(ViewActions.click())
+
+        AddAdvertScreen.roomChipGroup {
+            rooms.forEach {
+                this.selectChip(it.label)
+            }
+        }
+
+        AddAdvertScreen.squareFromEditText {
+            replaceText(metresFrom.toString())
+        }
+
+        AddAdvertScreen.squareToEditText {
+            replaceText(metresTo.toString())
+        }
+
+        aboutMeEditText {
+            replaceText(description!!)
+        }
+    }
+
+    fun fillAllExceptMetres(personED: PersonED) {
+        AddAdvertScreen.clearFields()
+
+        val rooms = personED.rooms
+        val metresFrom = personED.metresFrom
+        val metresTo = personED.metresTo
+        val moneyFrom = personED.moneyFrom
+        val moneyTo = personED.moneyTo
+        val description = personED.description
+        val stationName = personED.metro!!.stationName
+
+
+        Espresso.onView(ViewMatchers.withId(R.id.fragment_advert_creation__spinner))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withText(stationName)).perform(ViewActions.click())
+
+        AddAdvertScreen.roomChipGroup {
+            rooms.forEach {
+                this.selectChip(it.label)
+            }
+        }
+
+        costFromEditText {
+            replaceText(moneyFrom.toString())
+        }
+
+        costToEditText {
+            replaceText(moneyTo.toString())
+        }
+
+        aboutMeEditText {
+            replaceText(description!!)
+        }
+    }
 }

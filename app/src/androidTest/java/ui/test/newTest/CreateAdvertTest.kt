@@ -166,11 +166,15 @@ class CreateAdvertTest : TestCase() {
 
                     fillAllFields(advertWithIncorrectCostRange)
                     clickAddButton()
-                    checkRangeToast()
+                    checkRangeCostToast()
+//Слипы,чтобы прошлый тоаст пропал
+                    Thread.sleep(3000)
 
                     fillAllFields(advertWithIncorrectSquareRange)
                     clickAddButton()
-                    checkRangeToast()
+                    checkRangeSquareToast()
+
+                    Thread.sleep(3000)
                 }
             }
         }
@@ -183,8 +187,14 @@ class CreateAdvertTest : TestCase() {
         checkToast(messageExpected)
     }
 
-    private fun checkRangeToast() {
+    private fun checkRangeCostToast() {
         val messageExpected = "Первое число диапазона цен должно быть меньше второго"
+
+        checkToast(messageExpected)
+    }
+
+    private fun checkRangeSquareToast() {
+        val messageExpected = "Первое число диапазона метров должно быть меньше второго"
 
         checkToast(messageExpected)
     }
