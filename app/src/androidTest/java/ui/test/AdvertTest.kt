@@ -44,84 +44,84 @@ class AdvertTest : TestCase() {
         costTo = Random(999).nextInt()
     )
 
-    @Test
-    fun test() {
-        before {
-            activityTestRule.launchActivity(null)
-            LoginScreen {
-                login()
-            }
-        }.after {
-            ListOfPeopleScreen {
-                navigateToSettings()
-                SettingsScreen {
-                    changeUserInfo(defaultUserInfo)
-                    editPerson.click()
-                    AdvertEditingScreen {
-                        changeAdvInfo(defaultAdvert)
-                    }
-                }
-            }
-        }.run {
-            step("Check start parameters in ad") {
-                ListOfPeopleScreen {
-                    peopleRecycler {
-                        // Мое объявление висит всегда вторым. Надо переделать через childWith, но я не понял как он работает
-                        childAt<ListOfPeopleScreen.peopleRecyclerItem>(1) {
-                            personName.hasText(defaultUserInfo.name + " " + defaultUserInfo.surname)
-                            personAge.hasText(defaultUserInfo.age.toString() + " лет")
-                        }
-
-                        //Не работает
-//                        val item = childWith<ListOfPeopleScreen.peopleRecyclerItem> {
-//                            getViewMatcher().matches(
-//                                withText(defaultUserInfo.name + " " + defaultUserInfo.surname)
-//                            )
+//    @Test
+//    fun test() {
+//        before {
+//            activityTestRule.launchActivity(null)
+//            LoginScreen {
+//                login()
+//            }
+//        }.after {
+//            ListOfPeopleScreen {
+//                navigateToSettings()
+//                SettingsScreen {
+//                    changeUserInfo(defaultUserInfo)
+//                    editPerson.click()
+//                    AdvertEditingScreen {
+//                        changeAdvInfo(defaultAdvert)
+//                    }
+//                }
+//            }
+//        }.run {
+//            step("Check start parameters in ad") {
+//                ListOfPeopleScreen {
+//                    peopleRecycler {
+//                        // Мое объявление висит всегда вторым. Надо переделать через childWith, но я не понял как он работает
+//                        childAt<ListOfPeopleScreen.peopleRecyclerItem>(1) {
+//                            personName.hasText(defaultUserInfo.name + " " + defaultUserInfo.surname)
+//                            personAge.hasText(defaultUserInfo.age.toString() + " лет")
 //                        }
-//                        item.personName.hasText(defaultUserInfo.name + " " + defaultUserInfo.surname)
-//                        item.personAge.hasText(defaultUserInfo.age.toString() + " лет")
-                    }
-                }
-            }
-
-            step("Navigate to settings") {
-                ListOfPeopleScreen {
-                    navigateToSettings()
-                }
-            }
-
-            step("Change user and click on \"Мое объявление\"") {
-                SettingsScreen {
-                    changeUserInfo(testUser)
-                    editPerson.click()
-                }
-            }
-
-            step("Change advert info") {
-                AdvertEditingScreen {
-                    changeAdvInfo(testAdvert)
-                    Thread.sleep(1000)
-                    Espresso.pressBack()
-                }
-            }
-
-            step("Navigate to settings") {
-                SettingsScreen {
-                    advertButton.click()
-                }
-            }
-
-            step("Check end parameters in ad") {
-                ListOfPeopleScreen {
-                    peopleRecycler {
-                        // Аналогично тому, что сверху
-                        childAt<ListOfPeopleScreen.peopleRecyclerItem>(1) {
-                            personName.hasText(testUser.name + " " + testUser.surname)
-                            personAge.hasText(testUser.age.toString() + " лет")
-                        }
-                    }
-                }
-            }
-        }
-    }
+//
+//                        //Не работает
+////                        val item = childWith<ListOfPeopleScreen.peopleRecyclerItem> {
+////                            getViewMatcher().matches(
+////                                withText(defaultUserInfo.name + " " + defaultUserInfo.surname)
+////                            )
+////                        }
+////                        item.personName.hasText(defaultUserInfo.name + " " + defaultUserInfo.surname)
+////                        item.personAge.hasText(defaultUserInfo.age.toString() + " лет")
+//                    }
+//                }
+//            }
+//
+//            step("Navigate to settings") {
+//                ListOfPeopleScreen {
+//                    navigateToSettings()
+//                }
+//            }
+//
+//            step("Change user and click on \"Мое объявление\"") {
+//                SettingsScreen {
+//                    changeUserInfo(testUser)
+//                    editPerson.click()
+//                }
+//            }
+//
+//            step("Change advert info") {
+//                AdvertEditingScreen {
+//                    changeAdvInfo(testAdvert)
+//                    Thread.sleep(1000)
+//                    Espresso.pressBack()
+//                }
+//            }
+//
+//            step("Navigate to settings") {
+//                SettingsScreen {
+//                    advertButton.click()
+//                }
+//            }
+//
+//            step("Check end parameters in ad") {
+//                ListOfPeopleScreen {
+//                    peopleRecycler {
+//                        // Аналогично тому, что сверху
+//                        childAt<ListOfPeopleScreen.peopleRecyclerItem>(1) {
+//                            personName.hasText(testUser.name + " " + testUser.surname)
+//                            personAge.hasText(testUser.age.toString() + " лет")
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 }

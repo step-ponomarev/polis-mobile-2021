@@ -20,10 +20,15 @@ import ru.mail.polis.R
 import ru.mail.polis.auth.AuthenticationService
 import ru.mail.polis.auth.GoogleSingInUtils
 import ru.mail.polis.dao.DaoException
+import ru.mail.polis.dao.apartments.ApartmentService
+import ru.mail.polis.dao.apartments.IApartmentService
+import ru.mail.polis.dao.person.IPersonService
+import ru.mail.polis.dao.person.PersonService
 import ru.mail.polis.dao.users.IUserService
 import ru.mail.polis.dao.users.UserService
 import ru.mail.polis.notification.NotificationCenter
 import ru.mail.polis.notification.NotificationKeeperException
+import ru.mail.polis.utils.NetworkUtils
 import ru.mail.polis.utils.StorageUtils
 
 
@@ -41,6 +46,8 @@ class LoginFragment : Fragment() {
     private lateinit var singInButton: View
 
     private val userService: IUserService = UserService()
+    private val apartmentService: IApartmentService = ApartmentService.getInstance()
+    private val personService: IPersonService = PersonService.getInstance()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -64,7 +71,7 @@ class LoginFragment : Fragment() {
 
     private fun onClickSignIn(view: View) {
 
-        if (!isConnectedToInternet()) {
+        if (!NetworkUtils.isConnected(requireContext())) {
             NotificationCenter.showDefaultToast(
                 requireContext(),
                 getString(R.string.error_dao)
@@ -83,7 +90,11 @@ class LoginFragment : Fragment() {
 
             GlobalScope.launch(Dispatchers.Main) {
                 if (checkIfUserExist(email)) {
-                    findNavController().navigate(R.id.nav_graph__self_definition_fragment)
+                    if (checkAdvertExist(email) || checkAdvertExist(email)) {
+                        findNavController().navigate(R.id.nav_graph__list_of_people)
+                    } else {
+                        findNavController().navigate(R.id.nav_graph__self_definition_fragment)
+                    }
                 } else {
                     findNavController().navigate(R.id.nav_graph__filling_profile_info)
                 }
@@ -116,17 +127,31 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun isConnectedToInternet(): Boolean {
+    private suspend fun checkApartmentExist(email: String): Boolean {
+        try {
+            return withContext(Dispatchers.IO) {
+                apartmentService.isExist(email)
+            }
+        }
+        catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failed checking user existence by email: $email",
+                NotificationKeeperException.NotificationType.DAO_ERROR
+            )
+        }
+    }
 
-        val cm = requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        val activeNetwork = cm.getActiveNetworkInfo()
-
-        val isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting
-
-        return if (isConnected) {
-            if (activeNetwork!!.type == ConnectivityManager.TYPE_MOBILE) true else false
-        } else false
+    private suspend fun checkAdvertExist(email: String): Boolean {
+        try {
+            return withContext(Dispatchers.IO) {
+                personService.isExist(email)
+            }
+        }
+        catch (e: DaoException) {
+            throw NotificationKeeperException(
+                "Failed checking user existence by email: $email",
+                NotificationKeeperException.NotificationType.DAO_ERROR
+            )
+        }
     }
 }
