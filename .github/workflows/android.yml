@@ -24,7 +24,7 @@ jobs:
       
   # Running Test Cases
   tests:
-    needs: build
+#    needs: build
     name: Running Tests Cases
     runs-on: ubuntu-latest
 
