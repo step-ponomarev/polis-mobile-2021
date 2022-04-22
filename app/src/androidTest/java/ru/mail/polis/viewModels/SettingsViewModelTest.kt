@@ -1,5 +1,6 @@
 package ru.mail.polis.viewModels
 
+import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.runBlocking
@@ -38,7 +39,7 @@ class SettingsViewModelTest {
 
             assertTrue(findUserByEmail?.equals(user) ?: false)
 
-            settingsViewModel.updateUser(updatedUser, TestData.getBitMap())
+            settingsViewModel.updateUser(updatedUser, TestData.getBitMap(InstrumentationRegistry.getInstrumentation().targetContext))
 
             findUserByEmail = userService.findUserByEmail(updatedUser.email!!)
 
@@ -54,7 +55,7 @@ class SettingsViewModelTest {
             val user = TestData.getUser()
 
             try {
-                settingsViewModel.updateUser(user, TestData.getBitMap())
+                settingsViewModel.updateUser(user, TestData.getBitMap(InstrumentationRegistry.getInstrumentation().targetContext))
             } catch (e: Exception) {
                 assertTrue(e is NotificationKeeperException)
             }

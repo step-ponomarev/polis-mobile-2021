@@ -1,19 +1,17 @@
-package ru.mail.polis.decoder
+package ru.mail.polis.unit.decoder
 
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase.assertTrue
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
 import ru.mail.polis.TestData
+import ru.mail.polis.decoder.UriDecoder
 
 class DecoderTest {
     private val uri = "text://somefile"
     private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-    private val testBitmap = TestData.getBitMap()
+    private val testBitmap = TestData.getBitMap(appContext)
 
 
     @Test

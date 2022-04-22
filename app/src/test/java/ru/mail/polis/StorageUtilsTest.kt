@@ -3,16 +3,19 @@ package ru.mail.polis
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import ru.mail.polis.utils.StorageUtils
 
-class StorageUtilsTest {
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = intArrayOf(27))
+class StorageUtilsTest: BaseTest() {
 
     private val email: String = "ilya-sachuk@mail.ru"
 
     @Test
     fun checkThatDataSaved() {
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-
         StorageUtils.setValue(appContext, StorageUtils.StorageKey.EMAIL, email)
 
         val value = StorageUtils.getValue(appContext, StorageUtils.StorageKey.EMAIL)
@@ -26,8 +29,6 @@ class StorageUtilsTest {
 
     @Test
     fun checkWhenDataWasntAdded() {
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-
         val value = StorageUtils.getValue(appContext, StorageUtils.StorageKey.EMAIL)
 
         assert(value == null)
@@ -37,8 +38,6 @@ class StorageUtilsTest {
 
     @Test
     fun checkThatEmailDontSave() {
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-
         var notSaved = false;
 
         try {
@@ -55,8 +54,6 @@ class StorageUtilsTest {
 
     @Test
     fun checkThatEmailSaved() {
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-
         StorageUtils.setValue(appContext, StorageUtils.StorageKey.EMAIL, email)
 
         val value = StorageUtils.getCurrentUserEmail(appContext)

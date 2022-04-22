@@ -1,5 +1,6 @@
 package ru.mail.polis
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.test.platform.app.InstrumentationRegistry
@@ -13,7 +14,6 @@ import ru.mail.polis.room.RoomCount
 
 class TestData {
     companion object {
-        private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val testOwnerEmail = "testOwnerPropose@mail.ru"
         val testRenterEmail = "testRenterPropose@mail.ru"
 
@@ -38,7 +38,7 @@ class TestData {
             return user
         }
 
-        fun getBitMap(): Bitmap = BitmapFactory.decodeResource(
+        fun getBitMap(appContext: Context): Bitmap = BitmapFactory.decodeResource(
             appContext.getResources(),
             R.drawable.picture
         );

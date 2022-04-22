@@ -1,12 +1,11 @@
-package ru.mail.polis
+package ru.mail.polis.unit
 
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
+import ru.mail.polis.TestData
 import ru.mail.polis.dao.propose.IProposeService
-import ru.mail.polis.dao.propose.ProposeED
 import ru.mail.polis.dao.propose.ProposeService
-import ru.mail.polis.dao.propose.ProposeStatus
 import java.lang.IllegalStateException
 
 class ProposeServiceTest {

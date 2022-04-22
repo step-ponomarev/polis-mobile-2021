@@ -2,10 +2,15 @@ package ru.mail.polis
 
 import junit.framework.TestCase.assertFalse
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import ru.mail.polis.metro.Metro
 import java.lang.IllegalArgumentException
 
-class MetroTest {
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = intArrayOf(27))
+class MetroTest: BaseTest() {
     private val metroName = "Девяткино"
     private val colorConst = R.color.metro_red
     private val incorrectName = "Девяткина"

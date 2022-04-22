@@ -1,8 +1,10 @@
 package ru.mail.polis.dao.apartments
 
 import android.util.Log
+import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.core.FirestoreClient
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -79,6 +81,9 @@ class ApartmentService private constructor() : IApartmentService {
 
     @Throws(DaoException::class)
     override suspend fun addApartment(apartment: ApartmentED): ApartmentED {
+        println(FirebaseApp.getInstance())
+        println(Firebase.firestore.firestoreSettings.isPersistenceEnabled)
+        println(Firebase.firestore.app.options)
         return suspendCancellableCoroutine { coroutine ->
             apartmentCollection.document(apartment.email!!)
                 .set(apartment)

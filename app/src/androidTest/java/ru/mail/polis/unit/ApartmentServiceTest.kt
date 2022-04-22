@@ -1,13 +1,11 @@
-package ru.mail.polis
+package ru.mail.polis.unit
 
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
-import ru.mail.polis.dao.apartments.ApartmentED
+import ru.mail.polis.TestData
 import ru.mail.polis.dao.apartments.ApartmentService
 import ru.mail.polis.dao.apartments.IApartmentService
-import ru.mail.polis.metro.Metro
-import ru.mail.polis.room.RoomCount
 
 class ApartmentServiceTest {
     private val apartmentService: IApartmentService = ApartmentService.getInstance()

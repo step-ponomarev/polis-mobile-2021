@@ -3,9 +3,14 @@ package ru.mail.polis
 import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase.assertFalse
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import ru.mail.polis.tags.Tags
 
-class TagsTest {
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = intArrayOf(27))
+class TagsTest: BaseTest() {
     @Test
     fun test() {
         val from = Tags.from(R.drawable.ic_paw)

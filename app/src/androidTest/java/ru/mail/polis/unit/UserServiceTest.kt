@@ -1,8 +1,9 @@
-package ru.mail.polis
+package ru.mail.polis.unit
 
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
+import ru.mail.polis.TestData
 import ru.mail.polis.dao.users.IUserService
 import ru.mail.polis.dao.users.UserService
 
