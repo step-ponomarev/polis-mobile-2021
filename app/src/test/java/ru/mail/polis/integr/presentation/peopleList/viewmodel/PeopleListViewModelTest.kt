@@ -44,9 +44,9 @@ class PeopleListViewModelTest {
 
     private lateinit var getPeopleListUseCase: GetMovieListUseCase
 
-    private lateinit var bookmarkMovieUseCase: BookmarkMovieUseCase
+    private lateinit var offerPeopleUseCase: BookmarkMovieUseCase
 
-    private lateinit var unBookmarkMovieUseCase: UnBookmarkMovieUseCase
+    private lateinit var deleteOfferPeopleUseCase: UnBookmarkMovieUseCase
 
     private lateinit var peopleListViewModel: PeopleListViewModel
 
@@ -70,9 +70,9 @@ class PeopleListViewModelTest {
     private fun setUpUseCases() {
         getPeopleListUseCase =
             GetMovieListUseCase(peopleRepository, threadExecutor, postExecutionThread)
-        bookmarkMovieUseCase =
+        offerPeopleUseCase =
             BookmarkMovieUseCase(peopleRepository, threadExecutor, postExecutionThread)
-        unBookmarkMovieUseCase =
+        deleteOfferPeopleUseCase =
             UnBookmarkMovieUseCase(peopleRepository, threadExecutor, postExecutionThread)
     }
 
@@ -80,8 +80,8 @@ class PeopleListViewModelTest {
         peopleListViewModel = PeopleListViewModel(
             peopleMapper,
             getPeopleListUseCase,
-            bookmarkMovieUseCase,
-            unBookmarkMovieUseCase
+            offerPeopleUseCase,
+            deleteOfferPeopleUseCase
         )
         peopleListViewModel.stateObservable.observeForever(stateObserver)
     }
@@ -135,9 +135,9 @@ class PeopleListViewModelTest {
         // Arrange
         val listOfPeople = PresentationPeopleFactory.generateListOfPeople(10)
 
-        val peopleToOffer = listOfPeople[0] // taking first movie and making it to as Bookmarked.
+        val peopleToOffer = listOfPeople[0]
         peopleToOffer.isAdded = true
-        val movieView = peopleMapper.mapToView(peopleToOffer) // mapping to movieView
+        val movieView = peopleMapper.mapToView(peopleToOffer)
 
         stubGetPeople(Single.just(listOfPeople))
         stubOfferPeople(peopleToOffer.id!!, Completable.error(TestingException()))
@@ -154,9 +154,9 @@ class PeopleListViewModelTest {
         // Arrange
         val listOfPeople = PresentationPeopleFactory.generateListOfPeople(10)
 
-        val peopleToOffer = listOfPeople[0] // taking first movie and making it to as Bookmarked.
+        val peopleToOffer = listOfPeople[0]
         peopleToOffer.isAdded = true
-        val movieView = peopleMapper.mapToView(peopleToOffer) // mapping to movieView
+        val movieView = peopleMapper.mapToView(peopleToOffer)
 
         stubGetPeople(Single.just(listOfPeople))
         stubOfferPeople(peopleToOffer.id!!, Completable.complete())
@@ -173,9 +173,9 @@ class PeopleListViewModelTest {
         // Arrange
         val listOfPeople = PresentationPeopleFactory.generateListOfPeople(10)
 
-        val peopleToOffer = listOfPeople[0] // taking first movie and making it to as UnBookmark.
+        val peopleToOffer = listOfPeople[0] //
         peopleToOffer.isAdded = false
-        val movieView = peopleMapper.mapToView(peopleToOffer) // mapping to movieView
+        val movieView = peopleMapper.mapToView(peopleToOffer)
 
         stubGetPeople(Single.just(listOfPeople))
         stubUnOfferPeople(peopleToOffer.id!!, Completable.error(TestingException()))
@@ -192,9 +192,9 @@ class PeopleListViewModelTest {
         // Arrange
         val listOfPeople = PresentationPeopleFactory.generateListOfPeople(10)
 
-        val peopleToOffer = listOfPeople[0] // taking first movie and making it to as UnBookmark.
+        val peopleToOffer = listOfPeople[0]
         peopleToOffer.isAdded = false
-        val movieView = peopleMapper.mapToView(peopleToOffer) // mapping to movieView
+        val movieView = peopleMapper.mapToView(peopleToOffer)
 
         stubGetPeople(Single.just(listOfPeople))
         stubUnOfferPeople(peopleToOffer.id!!, Completable.complete())
@@ -303,12 +303,12 @@ class PeopleListViewModelTest {
     }
 
     private fun stubOfferPeople(movieId: Long, completable: Completable) {
-        `when`(bookmarkMovieUseCase.buildUseCaseObservable(movieId))
+        `when`(offerPeopleUseCase.buildUseCaseObservable(movieId))
             .thenReturn(completable)
     }
 
     private fun stubUnOfferPeople(movieId: Long, completable: Completable) {
-        `when`(unBookmarkMovieUseCase.buildUseCaseObservable(movieId))
+        `when`(deleteOfferPeopleUseCase.buildUseCaseObservable(movieId))
             .thenReturn(completable)
     }
 
