@@ -1,4 +1,4 @@
-package ru.mail.polis
+package ru.mail.polis.unit
 
 import junit.framework.TestCase.assertFalse
 import org.junit.Test

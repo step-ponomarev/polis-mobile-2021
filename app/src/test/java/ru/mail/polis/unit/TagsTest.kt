@@ -1,11 +1,11 @@
-package ru.mail.polis
+package ru.mail.polis.unit
 
-import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase.assertFalse
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import ru.mail.polis.R
 import ru.mail.polis.tags.Tags
 
 @RunWith(RobolectricTestRunner::class)

@@ -1,7 +1,6 @@
-package ru.mail.polis
+package ru.mail.polis.unit
 
 import android.content.Context
-import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner

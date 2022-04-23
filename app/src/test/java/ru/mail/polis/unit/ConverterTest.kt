@@ -1,7 +1,6 @@
-package ru.mail.polis
+package ru.mail.polis.unit
 
 import android.graphics.BitmapFactory
-import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
