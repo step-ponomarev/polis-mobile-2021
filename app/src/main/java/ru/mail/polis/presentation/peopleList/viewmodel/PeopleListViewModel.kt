@@ -69,7 +69,7 @@ class PeopleListViewModel constructor(
         getMovieListUseCase.execute(singleObserver)
     }
 
-    fun fetchNewAddedPeopleList() {
+    fun fetchPeopleYouOfferedPeopleList() {
         state = PeopleState.Loading
         val singleObserver = object : DisposableSingleObserver<List<People>>() {
             override fun onSuccess(t: List<People>) {

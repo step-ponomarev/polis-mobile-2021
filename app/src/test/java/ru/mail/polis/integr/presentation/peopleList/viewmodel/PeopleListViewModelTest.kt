@@ -251,12 +251,12 @@ class PeopleListViewModelTest {
     }
 
     @Test
-    fun fetchNewAddedPeopleListAndReturnEmpty() {
+    fun fetchPeopleYouOfferedListAndReturnEmpty() {
         // Arrange
         stubGetPeople(Single.just(listOf()))
 
         // Act
-        peopleListViewModel.fetchNewAddedPeopleList()
+        peopleListViewModel.fetchPeopleYouOfferedPeopleList()
 
         // Assert
         verify(stateObserver).onChanged(PeopleState.Loading)
@@ -264,12 +264,12 @@ class PeopleListViewModelTest {
     }
 
     @Test
-    fun fetchNewAddedPeopleListAndReturnError() {
+    fun fetchPeopleYouOfferedListAndReturnError() {
         // Arrange
         stubGetPeople(Single.error(TestingException(TestingException.GENERIC_EXCEPTION_MESSAGE)))
 
         // Act
-        peopleListViewModel.fetchNewAddedPeopleList()
+        peopleListViewModel.fetchPeopleYouOfferedPeopleList()
 
         // Assert
         verify(stateObserver).onChanged(PeopleState.Loading)
@@ -277,7 +277,7 @@ class PeopleListViewModelTest {
     }
 
     @Test
-    fun fetchNewAddedPeopleListAndReturnData() {
+    fun fetchNPeopleYouOfferedAndReturnData() {
         // Arrange
         val listOfPeople = PresentationPeopleFactory.generateListOfPeople(10)
         val listOfViews = mutableListOf<PeopleView>()
@@ -287,7 +287,7 @@ class PeopleListViewModelTest {
         stubGetPeople(Single.just(listOfPeople))
 
         // Act
-        peopleListViewModel.fetchNewAddedPeopleList()
+        peopleListViewModel.fetchPeopleYouOfferedPeopleList()
 
         // Assert
         verify(stateObserver).onChanged(PeopleState.Loading)
