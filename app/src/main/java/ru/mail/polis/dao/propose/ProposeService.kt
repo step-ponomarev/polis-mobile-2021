@@ -94,6 +94,11 @@ class ProposeService(
                     if (it.documents.size == 1) {
                         it.documents[0].reference.update(proposeToMap(proposeED))
                         coroutine.resume(it.toObjects(ProposeED::class.java)[0])
+                    } else if (it.documents.size == 0) {
+                        coroutine.resumeWithException(
+                            DaoException(
+                                "Failed apdate propose by ownerEmail: ${proposeED.ownerEmail} and renterEmail: $proposeED.renterEmail", Exception())
+                        )
                     }
                 }
                 .addOnFailureListener {
@@ -129,6 +134,56 @@ class ProposeService(
                 }
         }
     }
+
+    override suspend fun deletePropose(proposeED: ProposeED) {
+
+        val proposeRef = getProposeRef(proposeED)
+
+        val document = proposeCollection.document(proposeRef)
+
+        return suspendCancellableCoroutine { coroutine ->
+            document
+                .delete()
+                .addOnSuccessListener {
+                    Log.i(
+                        this::class.java.name,
+                        "Successful deleting propose: $proposeED"
+                    )
+
+                    coroutine.resume(Unit)
+                }
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        DaoException(
+                            "Failure deleting propose: $proposeED",
+                            it
+                        )
+                    )
+                }
+        }
+    }
+
+    private suspend fun getProposeRef(proposeED: ProposeED): String {
+        return suspendCancellableCoroutine { coroutine ->
+            proposeCollection
+                .whereEqualTo("ownerEmail", proposeED.ownerEmail)
+                .whereEqualTo("renterEmail", proposeED.renterEmail)
+                .whereEqualTo("status", proposeED.status)
+                .get()
+                .addOnSuccessListener {
+                    coroutine.resume(it.documents[0].reference.id)
+                }
+                .addOnFailureListener {
+                    coroutine.resumeWithException(
+                        DaoException(
+                            "Failure getting propose ref: $proposeED",
+                            it
+                        )
+                    )
+                }
+        }
+    }
+
     private fun proposeToMap(proposeED: ProposeED): Map<String, Any?> {
         return mapOf(
             "ownerEmail" to proposeED.ownerEmail,

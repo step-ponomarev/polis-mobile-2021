@@ -1,11 +1,11 @@
+package ru.mail.polis.unit
+
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
-import ru.mail.polis.dao.apartments.ApartmentED
+import ru.mail.polis.TestData
 import ru.mail.polis.dao.apartments.ApartmentService
 import ru.mail.polis.dao.apartments.IApartmentService
-import ru.mail.polis.metro.Metro
-import ru.mail.polis.room.RoomCount
 
 class ApartmentServiceTest {
     private val apartmentService: IApartmentService = ApartmentService.getInstance()
@@ -13,7 +13,7 @@ class ApartmentServiceTest {
     @Test
     fun apartmentShouldBeAddedSuccessful() {
         runBlocking {
-            val apartment = createTestApartment()
+            val apartment = TestData.createTestApartment()
 
             val addedPerson = apartmentService.addApartment(apartment)
             val gotPerson = apartmentService.findByEmail(addedPerson.email!!)
@@ -28,7 +28,7 @@ class ApartmentServiceTest {
     @Test
     fun deletingShouldBeSuccessful() {
         runBlocking {
-            val apartment = createTestApartment()
+            val apartment = TestData.createTestApartment()
 
             val addedPerson = apartmentService.addApartment(apartment)
             apartmentService.deleteApartmentByEmail(addedPerson.email!!)
@@ -42,8 +42,8 @@ class ApartmentServiceTest {
     @Test
     fun updatingShouldBeSuccessful() {
         runBlocking {
-            val apartment = createTestApartment()
-            val updatedApartment = createUpdatedApartment(apartment)
+            val apartment = TestData.createTestApartment()
+            val updatedApartment = TestData.createUpdatedApartment(apartment)
 
             val addedApartment = apartmentService.addApartment(apartment)
             apartmentService.updateApartment(updatedApartment)
@@ -53,27 +53,5 @@ class ApartmentServiceTest {
 
             apartmentService.deleteApartmentByEmail(addedApartment.email!!)
         }
-    }
-
-    private fun createTestApartment(): ApartmentED {
-        return ApartmentED.Builder.createBuilder()
-            .email("test@test.test")
-            .metro(Metro.DEVYATKINO)
-            .roomCount(RoomCount.FIVE_MORE)
-            .apartmentSquare(200L)
-            .apartmentCosts(300)
-            .photosUrls(listOf("test"))
-            .build()
-    }
-
-    private fun createUpdatedApartment(oldApartment: ApartmentED): ApartmentED {
-        return ApartmentED.Builder.createBuilder()
-            .email(oldApartment.email!!)
-            .metro(oldApartment.metro!!)
-            .roomCount(oldApartment.roomCount!!)
-            .apartmentSquare(oldApartment.apartmentSquare!!)
-            .apartmentCosts(oldApartment.apartmentCosts!!)
-            .photosUrls(oldApartment.photosUrls)
-            .build()
     }
 }

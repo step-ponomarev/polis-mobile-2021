@@ -19,7 +19,7 @@ class StorageUtils private constructor() {
                 ?: throw IllegalStateException("Email of current user is not exist")
         }
 
-        fun setValue(ctx: Context, key: StorageKey, value: String) {
+        fun setValue(ctx: Context, key: StorageKey, value: String?) {
             ctx.getSharedPreferences(
                 COMMON_SECTION,
                 Context.MODE_PRIVATE

@@ -124,7 +124,7 @@ class SettingsFragment : Fragment() {
                 currentPhotoUrl
             }
 
-            val bitmap: Bitmap? = if (currentPhotoUrl == null) {
+            val bitmap: Bitmap? = if (currentPhotoUrl != null) {
                 avatar.drawable.toBitmap()
             } else {
                 null
